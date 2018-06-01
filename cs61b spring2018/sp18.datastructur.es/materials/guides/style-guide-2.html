@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/guides/style-guide by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:22:00 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Style Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../assets/css/lab.css">
+    
+
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../assets/js/script.js"></script>
+    <script src="../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Style Guide</header><div class="due-date">Author: Alan Yao</div><ul id="markdown-toc">
+  <li><a href="#whitespace" id="markdown-toc-whitespace">Whitespace</a></li>
+  <li><a href="#indentation" id="markdown-toc-indentation">Indentation</a></li>
+  <li><a href="#braces" id="markdown-toc-braces">Braces</a></li>
+  <li><a href="#comments" id="markdown-toc-comments">Comments</a></li>
+  <li><a href="#names" id="markdown-toc-names">Names</a></li>
+  <li><a href="#imports" id="markdown-toc-imports">Imports</a></li>
+  <li><a href="#assorted-java-style-conventions" id="markdown-toc-assorted-java-style-conventions">Assorted Java Style Conventions</a></li>
+  <li><a href="#avoiding-error-prone-constructs" id="markdown-toc-avoiding-error-prone-constructs">Avoiding Error-Prone Constructs</a></li>
+  <li><a href="#limits" id="markdown-toc-limits">Limits</a></li>
+</ul>
+
+<p>A note on this style guide: It is probably easier to get to know these rules by running the automated style checker. (More instructions on how to run the automated style checker will be given in the future.)</p>
+
+<h2 id="whitespace">Whitespace</h2>
+
+<ol>
+  <li>
+    <p>Each file must end with a newline sequence.</p>
+  </li>
+  <li>
+    <p>Files may not contain horizontal tab characters.  Use blanks only for indentation.</p>
+  </li>
+  <li>
+    <p>No line may contain trailing blanks.</p>
+  </li>
+  <li>Do NOT put whitespace:</li>
+  <li>Around the “&lt;” and “&gt;” within a generic type designation 
+(“List<Integer>", not "List <Integer>", or "List&lt; Integer &gt;").</Integer></Integer></li>
+  <li>After the prefix operators “!”, “–”, “++”, unary “-“, or unary “+”.</li>
+  <li>Before the tokens “;” or the suffix operators “–” and “++”.</li>
+  <li>After “(“ or before “)”.</li>
+  <li>
+    <p>After “.”</p>
+  </li>
+  <li>DO put whitespace:</li>
+  <li>After “;”, “,”, or type casts (e.g., “(String) x”, not “(String)x”).</li>
+  <li>Around binary operators (e.g., “*”, “+”) and comparison operators.</li>
+  <li>Around assignment operators (e.g., “=”, “+=”).</li>
+  <li>Around “?” and “:” in the ternary conditional operator (“x&gt;0 ? x : -x”).</li>
+  <li>
+    <p>Around the keywords “assert”, “catch”, “do”, “else”, “finally”, “for”, “if”, “return”, “synchronized”, “try”, and “while”.</p>
+  </li>
+  <li>
+    <p>In general, break (insert newlines in) lines before an operator, as in</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ... + 20 * X 
+     + Y;
+</code></pre></div>    </div>
+  </li>
+  <li>Do not separate a method name from the “(“ in a method call with blanks. However, you may separate them with a newline followed by blanks (for indentation) on long lines.</li>
+</ol>
+
+<h2 id="indentation">Indentation</h2>
+
+<ol>
+  <li>
+    <p>The basic indentation step is 4 spaces.</p>
+  </li>
+  <li>
+    <p>Indent code by the basic indentation step for each block level (blocks are generally enclosed in “{“ and “}”), as in</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> if (x &gt; 0) {
+     r = -x;
+ } else {
+     r = x;
+ }
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Indent ‘case’ labels an indent past their enclosing ‘switch’, as in</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> switch (op) {
+     case '+':
+         addOpnds(x, y);
+         break;
+     default:
+         ERROR();
+ }
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Indent continued lines by the basic indentation step.</p>
+  </li>
+</ol>
+
+<h2 id="braces">Braces</h2>
+
+<ol>
+  <li>
+    <p>Use { } braces around the statements of all ‘if’, ‘while’, ‘do’, and
+‘for’ statements.</p>
+  </li>
+  <li>
+    <p>Place a “}” brace on the same line as a following “else”, “finally”, 
+or “catch”, as in</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> if (x &gt; 0) {
+     y = -x;
+ } else {
+     y = x;
+ }
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Put the “{“ that opens a block at the end of a line.  Generally, it goes
+  at the end of the “if”, “for”, “while”, “switch”, “do”, method header, or
+  class header that contains it.  If line length forces it to the
+  next line, do not indent it, and put it alone on the line.</p>
+  </li>
+</ol>
+
+<h2 id="comments">Comments</h2>
+
+<ol>
+  <li>
+    <p>Methods should have javadoc comments explaining the behavior, parameters (using @param tags or otherwise), and return type.</p>
+  </li>
+  <li>
+    <p>Methods that return non-void values must describe them in their Javadoc
+comment either with a “@return” tag or in a phrase in running text that
+contains the word “return”, “returning”, or “returns”.</p>
+  </li>
+  <li>
+    <p>Each Javadoc comment must start with a properly formed sentence, starting
+with a capital letter and ending with a period.</p>
+  </li>
+</ol>
+
+<h2 id="names">Names</h2>
+
+<ol>
+  <li>
+    <p>Names of static final constants must be in all capitals (e.g., RED,
+DEFAULT_NAME).</p>
+  </li>
+  <li>
+    <p>Names of parameters, local variables, and methods must start with a
+lower-case letter, or consist of a single, upper-case letter.</p>
+  </li>
+  <li>
+    <p>Names of types (classes), including type parameters, must start with
+a capital letter.</p>
+  </li>
+  <li>
+    <p>Names of packages must start with a lower-case letter.</p>
+  </li>
+  <li>
+    <p>Names of instance variables and non-final class (static) variables must
+start with either a lower-case letter or “_”.</p>
+  </li>
+</ol>
+
+<h2 id="imports">Imports</h2>
+
+<ol>
+  <li>
+    <p>Do not use ‘import PACKAGE.<em>’, unless the package is java.lang.Math,
+java.lang.Double, or org.junit.Assert.  ‘import static CLASS.</em>’ is OK.</p>
+  </li>
+  <li>
+    <p>Do not import the same class or static member twice.</p>
+  </li>
+  <li>
+    <p>Do not import classes or members that you do not use.</p>
+  </li>
+</ol>
+
+<h2 id="assorted-java-style-conventions">Assorted Java Style Conventions</h2>
+
+<ol>
+  <li>
+    <p>Write array types with the “[]” after the element-type name, not after
+the declarator.  Write “String[] names”, not “String names[]”.</p>
+  </li>
+  <li>Write any modifiers for methods, classes, or fields in the following order:
+    <ol>
+      <li>public, protected, or private.</li>
+      <li>abstract or static.</li>
+      <li>final, transient, or volatile.</li>
+      <li>synchronized.</li>
+      <li>native.</li>
+      <li>strictfp.</li>
+    </ol>
+  </li>
+  <li>Do not explicitly modify methods, fields, or classes where the modification
+is redundant:
+    <ol>
+      <li>Do not label methods in interfaces or annotations as “public” 
+or “abstract”.</li>
+      <li>Do not label fields in interfaces or annotations as “static”, “public”,
+or “final”.</li>
+      <li>Do not label methods in final classes as “final”.</li>
+      <li>Do not label nested interfaces “static”.</li>
+    </ol>
+  </li>
+  <li>
+    <p>Do not use empty blocks (‘{ }’ with only whitespace or comments inside)
+for control statements.  There is one exception: a catch block may consist
+solely of comments having the form</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /* Ignore EXCEPTIONNAME. */
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Avoid “magic numbers” in code by giving them symbolic names, as in</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public static final MAX_SIZE = 100;
+</code></pre></div>    </div>
+
+    <p>Exceptions are the numerals -10 through 10, 0.5, -0.5, 0.25, -0.25.</p>
+  </li>
+  <li>
+    <p>Do not try to catch the exceptions Exception, RuntimeError, or Error.</p>
+  </li>
+  <li>
+    <p>Write “b” rather than “b == true” and “!b” rather than “b == false”.</p>
+  </li>
+  <li>
+    <p>Replace</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> if (condition) {
+     return true;
+ } else {
+     return false;
+ } with just
+
+ return condition;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Only static final fields of classes may be public.  Other fields must be
+private or protected.</p>
+  </li>
+  <li>
+    <p>Classes that have only static methods and fields must not have a public
+(or defaulted) constructor.</p>
+  </li>
+  <li>Classes that have only private constructors must be declared “final”.</li>
+</ol>
+
+<h2 id="avoiding-error-prone-constructs">Avoiding Error-Prone Constructs</h2>
+
+<ol>
+  <li>
+    <p>If a class overrides “equals”, it must also override “hashCode”.</p>
+  </li>
+  <li>
+    <p>Local variables and parameters must not shadow field names.  The preferred
+way to handle, e.g., getter/setter methods that simply control a field
+is to prefix the field name with “_”, as in</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public double getWidth() {
+     return _width;
+ }
+
+ public void setWidth(double width) {
+     _width = width;
+ }
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Do not use nested assignments, such as “if ((x = next()) != null) …”. Although this can be useful in C, it is almost never necessary in Java.</p>
+  </li>
+  <li>
+    <p>Include a “default” case in every “switch” statement.</p>
+  </li>
+  <li>
+    <p>End every arm of a “switch” statement either with a “break” statement
+or a comment of the form</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> /* fall through */
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Do not compare String literals with “==”.  Write</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> if (x.equals("something")) and not
+
+ if (x == "something")
+</code></pre></div>    </div>
+
+    <p>There are cases where you really want to use “==”, but you are unlikely to
+encounter them in this class.</p>
+  </li>
+</ol>
+
+<h2 id="limits">Limits</h2>
+
+<ol>
+  <li>
+    <p>No file may be longer than 2000 lines.</p>
+  </li>
+  <li>
+    <p>No line may be longer than 100 characters.</p>
+  </li>
+  <li>
+    <p>No method may be longer than 80 lines.</p>
+  </li>
+  <li>
+    <p>No method may have more than 8 parameters.</p>
+  </li>
+  <li>
+    <p>Every file must contain exactly one outer class (nested classes are OK).</p>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/guides/style-guide by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:22:00 GMT -->
+</html>

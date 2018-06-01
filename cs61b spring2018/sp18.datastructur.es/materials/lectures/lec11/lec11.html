@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec11/lec11 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Libraries Study Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Libraries Study Guide</header><div class="due-date">Author: Kartik Kapur</div><ul id="markdown-toc">
+  <li><a href="#lecture-code" id="markdown-toc-lecture-code">Lecture Code</a></li>
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#exercises" id="markdown-toc-exercises">Exercises</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="lecture-code">Lecture Code</h2>
+
+<p>Code from this lecture available at</p>
+
+<p><a href="https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/inheritance4">https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/inheritance4</a>.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Abstract Data Types</strong> Previously, we went over interfaces which, in a traditional sense
+(disregarding default methods which will be defined a bit lower), requires
+certain methods to be implemented in a class if it is said a type of that
+interface. Abstract Data Types follow this philosophy, and are defined to be
+some sort of Object that is defined by some set of operations rather than
+the implementation of these operations.</p>
+
+<p><strong>Interfaces</strong> There are 2 types of inheritance that we have gone over in
+previous lectures:</p>
+<ul>
+  <li>Interface inheritance: What (the class can do).</li>
+  <li>Implementation inheritance: How (the class does it).</li>
+</ul>
+
+<p><strong>Default Methods</strong> The way we have dealt with interfaces, there is no content
+in them. We only define a certain set of operations that need to be
+fulfilled by anything that implements the interface. However, we can create
+<code class="highlighter-rouge">default</code> methods that take the following form:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>default void methodName(){...}
+</code></pre></div></div>
+
+<p>Normal interface methods have no body and only state what needs to be defined.
+Default methods on the other hand provide how a method by providing a method
+body.</p>
+
+<p>Here are some bullet points about interfaces</p>
+<ul>
+  <li>variables can exist in interfaces but they are public static final.</li>
+  <li>classes can extend more than 1 interface.</li>
+  <li>methods are public unless stated otherwise</li>
+  <li>interfaces cannot be instantiated.</li>
+</ul>
+
+<p><strong>Abstract Classes</strong> Abstract classes can be thought of as a hybrid of a normal
+class and an interface. Abstract classes are like interfaces in that they cannot
+be instantiated. All methods in an Abstract class are like normal methods in
+classes unless they have word <code class="highlighter-rouge">abstract</code> in front of them. If that is the
+case then they are treated like normal methods in interfaces and do not need to
+have a body and can instead have an implementation in whatever class extends them.
+ A very important difference between abstract classes and interfaces
+is that a class can only extend one abstract class but can implement more
+than one interface.</p>
+
+<p><strong>Packages</strong> A namespace is a region that can be used to organize code. Packages
+are a specific type of namespace that is used to organize classes and interfaces.
+To use a class from a different package use the  following syntax:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package_name.classname.subclassname a = new package_name.classname.subclassname();
+</code></pre></div></div>
+
+<p>To make your life easier while typing out code, you can simply import the
+class following the syntax below:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import package_name.classname.subclassname;
+</code></pre></div></div>
+
+<p>Replace the subclassname with a * if you want to important everything from
+the class.</p>
+
+<h2 id="exercises">Exercises</h2>
+
+<h3 id="c-level">C level</h3>
+<ol>
+  <li>If an abstract class extends an abstract class, would it need to have function
+definitions for the abstract methods in the parent class? Similarly would
+an interface that implements another interface have to implement the non default
+methods in the parent interface.</li>
+  <li>Can an abstract class be the subclass of a normal class?</li>
+  <li>If you don’t specify the package a class is in, is it  part of a package?
+If so, which package?</li>
+</ol>
+
+<h3 id="b-level">B level</h3>
+<ol>
+  <li>
+    <p>Would the following compile</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public class Tree(){
+   public int bark(){...}
+ }
+ public interface Dog{
+   default int bark(){...}
+ }
+ public class Mutant extends Tree implements Dog{...}
+</code></pre></div>    </div>
+
+    <p>If so, which bark method would be called?</p>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec11/lec11 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:19 GMT -->
+</html>

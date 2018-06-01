@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec9/lec9 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Inheritance 2 Lecture Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Inheritance 2 Lecture Guide</header><div class="due-date">Author: Kartik Kapur</div><ul id="markdown-toc">
+  <li><a href="#lecture-code" id="markdown-toc-lecture-code">Lecture Code</a></li>
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#exercises" id="markdown-toc-exercises">Exercises</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C Level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="lecture-code">Lecture Code</h2>
+
+<p>Code from this lecture available at</p>
+
+<p><a href="https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/Inheritance2">https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/Inheritance2</a>.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>The Interface and implements.</strong> Earlier we went classes and interfaces and we
+realized that when writing classes, we can sometimes write a lot of redundant
+code. This leads us to Inheritance, the idea that some object does not need to
+redefine all of its qualities of its parent. We can inherit from both interfaces
+and classes and the syntax is slightly different. For classes to inherit the
+qualities of an interface the syntax is as follows (where SLList is a class
+and List61B is an interface):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SLList&lt;Blorp&gt; implements List61B&lt;Blorp&gt;
+</code></pre></div></div>
+
+<p>Similarly, the way for a class to implement the qualities of another class
+the syntax is as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Class_Name extends Class_Name
+</code></pre></div></div>
+
+<p><strong>Usage of Inheritance.</strong> Say we wanted to make a special type of <code class="highlighter-rouge">SLList</code>
+called <code class="highlighter-rouge">RotatingSLList</code>. <code class="highlighter-rouge">RotatingSLList</code> should be able to do everyhthing that
+SLList can; however, it should also be able to rotate to the right. How can we
+do this? Well this is just an application of Inheritance! Doing the following
+will allow for RotatingSLList to have all the qualities of SLList as well
+as its own method <code class="highlighter-rouge">rotateRight</code>.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class RotatingSLList&lt;Blorp&gt; extends SLList&lt;Blorp&gt;{
+  public void rotateRight() {...}
+}
+</code></pre></div></div>
+
+<p><strong>What is Inherited?</strong> We have a powerful tool in Inheritance now; however, we
+will define a few rules. For now, we will say that we can inherit:</p>
+<ul>
+  <li>instance and static variables</li>
+  <li>all methods</li>
+  <li>all nested classes
+This changes a little bit with the introduction of private variables but
+don’t worry about that right now. The one item that is not inherited is a
+class’s constructor.</li>
+</ul>
+
+<p><strong>The Special Case of the Constructor?</strong> Even though constructor’s are not
+inherited, we still use them. We can call the constructor explicitly by using
+the keyword <code class="highlighter-rouge">super()</code>. At the start of every constructor, there
+is already an implicit call to its super class`s constructor. As a result</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public VengefulSLList() {
+  deletedItems = new SLList&lt;Item&gt;();
+}
+</code></pre></div></div>
+
+<p>is equivalent to</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public VengefulSLList() {
+  super();
+  deletedItems = new SLList&lt;Item&gt;();
+}
+</code></pre></div></div>
+
+<p>However, constructor`s with arguments are not implicitly called. This means
+that.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public VengefulSLList() {
+    super(x);
+    deletedItems = new SLList&lt;Item&gt;();
+  }
+</code></pre></div></div>
+
+<p>is not equivalent to</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public VengefulSLList() {
+    deletedItems = new SLList&lt;Item&gt;();
+  }
+</code></pre></div></div>
+
+<p>This is because only the empty argument <code class="highlighter-rouge">super()</code> is called.</p>
+
+<p><strong>Is A.</strong>  When a class inherits from another, we know that it must have all
+the qualities of it. This means that <code class="highlighter-rouge">VengefulSLList</code> is a <code class="highlighter-rouge">SLList</code> because
+it has all the qualities of an <code class="highlighter-rouge">SLList</code>- it just has a few additional ones too.</p>
+
+<p>Every single class is a descendent on the Object class, meaning they are all
+Objects.</p>
+
+<p><strong>Abstraction</strong> As you’ll learn later in this class, programs can get a tad
+confusing when they are really large. A way to make programs easier to handle
+is to use abstraction. Basically abstraction is hiding components of programs
+that people do not need to see. The user of the hidden methods should be able
+to use them without knowing how they work.</p>
+
+<p>An intuitive way to realize the motivation of abstraction is to look at yourself.
+You are a human (unless some robot is looking at this in which case I am sorry
+for offending you) and humans can eat food and convert it to energy. You do not
+need to know how you convert food to energy you just know that it works. In this
+case think of your conversion of food to energy as a method and the input is food
+and the output is energy.</p>
+
+<p><strong>Casting</strong> In Java, every object has a static type (defined at compile-time)
+and a dynamic type (defined at run-time). Our code may rely on the fact that
+some variable may be a more specific type than the static type. For example if
+we had the below definitions:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Poodle frank  = new Poodle("Frank", 5);
+Poodle frankJr = new Poodle("Frank Jr.", 15);
+</code></pre></div></div>
+
+<p>This statement would be valid</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dog largerDog = maxDog(frank, frankJr);
+</code></pre></div></div>
+
+<p>But this one would not be</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Poodle largerPoodle = maxDog(frank, frankJr);
+</code></pre></div></div>
+
+<p>The reason the former statement is valid is because the compilers knows for a fact
+that anything that is returned from a <code class="highlighter-rouge">maxDog</code> function call is a <code class="highlighter-rouge">Dog</code>. However,
+in the latter case, the compiler does not know for a fact that the return
+value of <code class="highlighter-rouge">maxDog</code> would result in a <code class="highlighter-rouge">Poodle</code> even though both <code class="highlighter-rouge">Dog</code> arguments
+are <code class="highlighter-rouge">Poodle</code>s.</p>
+
+<p>Instead of being happy with just having a generic <code class="highlighter-rouge">Dog</code>, we can be a bit risky
+and use a technique called casting. Casting allows us to force the static
+type of a variable, basically tricking the compiler into letting us force
+the static type of am expression. To make <code class="highlighter-rouge">largerPoodle</code> into a static type
+<code class="highlighter-rouge">Poodle</code> we will use the following:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Poodle largerPoodle = (Poodle) maxDog(frank, frankJr);
+</code></pre></div></div>
+
+<p>Note that we are not changing the actual dynamic type of maxDog- we are just
+telling the compiler what is coming out of maxDog will be a <code class="highlighter-rouge">Poodle</code>. This means
+that any reference to <code class="highlighter-rouge">largerPoodle</code> will have a static type of <code class="highlighter-rouge">Poodle</code>
+associated with it.</p>
+
+<p>Casting, while powerful is also quite dangerous. You need to ensure that what
+you are casting to can and will actually happen. There are a few rules
+that can be used:</p>
+
+<ul>
+  <li>
+    <p>You can always cast up (to a more generic version of a class) without
+fear of ruining anything because we know the more specific version is a version
+of the generic class. For example you can always cast a Poodle to a Dog because
+all Poodles are Dog’s.</p>
+  </li>
+  <li>
+    <p>You can also cast down (to a more specific version of a class) with caution as
+you need to make sure that, during runtime, nothing
+is passed in that violates your cast. For example, sometimes Dog’s are Poodle’s
+but not always.</p>
+  </li>
+  <li>
+    <p>Finally, you cannot ever cast to a class that is above or below the class being
+cast. For an example, you cannot cast a Dog to a Monkey because a Monkey is not
+in the direct lineage of a Dog- it is a child of animal so a bit more distant.</p>
+  </li>
+</ul>
+
+<h2 id="exercises">Exercises</h2>
+
+<h3 id="c-level">C Level</h3>
+
+<ol>
+  <li>
+    <p>Do the problems from <a href="https://docs.google.com/presentation/d/15Ac0Xrd1sVA5_YSqPe6HdvD7DIhX2t4R6O-eQ3W6VBQ/edit#slide=id.g4f54a83fc15915b9538">lecture</a></p>
+  </li>
+  <li>
+    <p>Is it possible for an interface to extend a class? Provide an argument
+as to why or why not.</p>
+  </li>
+  <li>
+    <p>What are the differences between inheritance through classes and interfaces?
+Is there a particular time when you would want to use one over the other?</p>
+  </li>
+</ol>
+
+<h3 id="b-level">B level</h3>
+<ol>
+  <li>
+    <p>Say there is a class <code class="highlighter-rouge">Poodle</code> that inherits from <code class="highlighter-rouge">Dog</code>.
+ The Dog class looks like this</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public class Dog{
+     int weight;
+     public Dog(int weight_in_pounds) {
+       weight = weight_in_pounds;
+     }
+   }
+</code></pre></div>    </div>
+
+    <p>And the Poodle class looks like this.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public class Poodle extends Dog{
+   public Poodle() {}
+ }
+</code></pre></div>    </div>
+
+    <p>Is this valid? If so explain why Poodle is a Dog if Dog has no constructor with
+ no argument. If it is not valid then explain how we can make it valid.</p>
+  </li>
+  <li>
+    <p>The <code class="highlighter-rouge">Monkey</code> class is a subclass of the <code class="highlighter-rouge">Animal</code> class and the <code class="highlighter-rouge">Dog</code> class
+is a subclass of the <code class="highlighter-rouge">Animal</code> class. However a Dog is not a Monkey
+nor is a Monkey a Dog. What will happen for the following code? Assume that
+the constructors are all formatted properly.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Monkey jimmy = new Monkey("Jimmy");
+ Dog limmy = (Dog) jimmy;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>How about for this code?</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Monkey orangutan = new Monkey("fruitful");
+ Dog mangotan = (Dog)(Animal) orangutan;
+</code></pre></div>    </div>
+
+    <p>Provide brief explanation as to why you believe your answers to be correct.</p>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec9/lec9 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:18 GMT -->
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<!--==============================================================================
+	           "GitHub HTML5 Pandoc Template" v1.2 — by Tristano Ajmone           
+	==============================================================================
+	(c) Tristano Ajmone, 2017, MIT License (MIT). Project's home repository:
+
+	- https://github.com/tajmone/pandoc-goodies
+
+	This template reuses source code taken from the following projects:
+
+	- GitHub Markdown CSS: © Sindre Sorhus, MIT License (MIT):
+	  https://github.com/sindresorhus/github-markdown-css
+
+	- Primer CSS: © 2016 GitHub Inc., MIT License (MIT):
+	  http://primercss.io/
+	==============================================================================-->
+<html>
+
+<!-- Mirrored from www.eecs70.org/static/notes/n4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:38:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Stable Marriage</title>
+<style type="text/css">@font-face{font-family:octicons-link;src:url(data:font/woff;charset=utf-8;base64,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) format('woff')}.markdown-body{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;color:#24292e;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";font-size:16px;line-height:1.5;word-wrap:break-word;box-sizing:border-box;min-width:200px;max-width:980px;margin:0 auto;padding:45px}.markdown-body .octicon{display:inline-block;fill:currentColor;vertical-align:text-bottom}.markdown-body a{background-color:transparent;-webkit-text-decoration-skip:objects;color:#0366d6;text-decoration:none}.markdown-body a:active,.markdown-body a:hover{outline-width:0}.markdown-body h1{margin:.67em 0}.markdown-body img{border-style:none}.markdown-body svg:not(:root){overflow:hidden}.markdown-body code,.markdown-body kbd,.markdown-body pre{font-family:monospace,monospace}.markdown-body input{font:inherit;margin:0;overflow:visible;font-family:inherit;font-size:inherit;line-height:inherit}.markdown-body [type=checkbox]{box-sizing:border-box;padding:0}.markdown-body *{box-sizing:border-box}.markdown-body a:hover{text-decoration:underline}.markdown-body strong{font-weight:600}.markdown-body hr{box-sizing:content-box;overflow:hidden;background:0 0;border-bottom:1px solid #dfe2e5}.markdown-body hr::before{display:table;content:""}.markdown-body hr::after{display:table;clear:both;content:""}.markdown-body table{border-spacing:0;border-collapse:collapse;display:block;width:100%;overflow:auto}.markdown-body td,.markdown-body th{padding:0}.markdown-body blockquote{margin:0}.markdown-body ol ol,.markdown-body ul ol{list-style-type:lower-roman}.markdown-body ol ol ol,.markdown-body ol ul ol,.markdown-body ul ol ol,.markdown-body ul ul ol{list-style-type:lower-alpha}.markdown-body dd{margin-left:0}.markdown-body code{font-family:SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace}.markdown-body pre{font:12px SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace;word-wrap:normal}.markdown-body .pl-0{padding-left:0!important}.markdown-body .pl-1{padding-left:4px!important}.markdown-body .pl-2{padding-left:8px!important}.markdown-body .pl-3{padding-left:16px!important}.markdown-body .pl-4{padding-left:24px!important}.markdown-body .pl-5{padding-left:32px!important}.markdown-body .pl-6{padding-left:40px!important}.markdown-body::before{display:table;content:""}.markdown-body::after{display:table;clear:both;content:""}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:0}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e1e4e8;border:0}.markdown-body blockquote{padding:0 1em;color:#6a737d;border-left:.25em solid #dfe2e5}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body kbd{font-size:11px;box-shadow:inset 0 -1px 0 #959da5}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#1b1f23;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1{padding-bottom:.3em;font-size:2em;border-bottom:1px solid #eaecef}.markdown-body h2{padding-bottom:.3em;font-size:1.5em;border-bottom:1px solid #eaecef}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#6a737d}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:600}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table th{font-weight:600}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #dfe2e5}.markdown-body table tr{background-color:#fff;border-top:1px solid #c6cbd1}.markdown-body table tr:nth-child(2n){background-color:#f6f8fa}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body code{padding:.2em 0;margin:0;font-size:85%;background-color:rgba(27,31,35,.05);border-radius:3px}.markdown-body code::after,.markdown-body code::before{letter-spacing:-.2em;content:"\00a0"}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:0 0;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f6f8fa;border-radius:3px}.markdown-body pre code{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code::after,.markdown-body pre code::before{content:normal}.markdown-body .full-commit .btn-outline:not(:disabled):hover{color:#005cc5;border-color:#005cc5}.markdown-body kbd{display:inline-block;padding:3px 5px;font:11px SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace;line-height:10px;color:#444d56;vertical-align:middle;background-color:#fcfcfc;border:1px solid #c6cbd1;border-bottom-color:#959da5;border-radius:3px;box-shadow:inset 0 -1px 0 #959da5}.markdown-body :checked+.radio-label{position:relative;z-index:1;border-color:#0366d6}.markdown-body .task-list-item{list-style-type:none}.markdown-body .task-list-item+.task-list-item{margin-top:3px}.markdown-body .task-list-item input{margin:0 .2em .25em -1.6em;vertical-align:middle}.markdown-body hr{border-bottom-color:#eee}.flash{position:relative;padding:16px;color:#246;background-color:#e2eef9;border:1px solid #bac6d3;border-radius:3px}.flash p:last-child{margin-bottom:0}.flash-messages{margin-bottom:24px}.flash-warn{color:#4c4a42;background-color:#fff9ea;border-color:#dfd8c2}.flash-error{color:#911;background-color:#fcdede;border-color:#d2b2b2}.flash-success{color:#22662c;background-color:#e2f9e5;border-color:#bad3be}.flash-plain{color:#4c4a42;background-color:#f5f5f5;border-color:#c1c1c1}.figure{text-align:center;}</style>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {equationNumbers: {autoNumber: "AMS"}}
+    });
+  </script>
+  <script src="../../../cdn.mathjax.org/mathjax/latest/MathJax2ba6.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  
+</head>
+<body>
+<article class="markdown-body">
+<header>
+<h1 class="title">Stable Marriage</h1>
+</header>
+<nav id="TOC">
+<ul>
+<li><a href="#scn:intro">The Stable Marriage Problem</a></li>
+<li><a href="#scn:alg">The Stable Marriage Algorithm</a></li>
+<li><a href="#scn:residency">The Residency Match</a></li>
+<li><a href="#scn:properties">Properties of the Stable Marriage Algorithm</a><ul>
+<li><a href="#sscn:stability">Stability</a></li>
+<li><a href="#sscn:analysis">Analysis</a></li>
+</ul></li>
+<li><a href="#scn:optimality">Optimality</a></li>
+<li><a href="#further-reading-optional">Further Reading (Optional)</a></li>
+</ul>
+</nav>
+<h1 id="scn:intro">The Stable Marriage Problem</h1>
+<p>In the previous note, we discussed the powerful proof technique of induction. In this note, we apply induction to analyze the solution to an important problem known as the <em>Stable Marriage Problem</em>, which we now introduce.</p>
+<p>Suppose you run a dating agency, and your task is to match up <span class="math inline">\(n\)</span> men and <span class="math inline">\(n\)</span> women. Each man has an ordered <span><em>preference list</em></span> of the <span class="math inline">\(n\)</span> women, and each woman has a similar list of the <span class="math inline">\(n\)</span> men. For example, consider the case of <span class="math inline">\(n=3\)</span>, i.e. three men Alex, Bob, and Charles, and three women Anita, Bridget, and Christine, with the following preference lists (lists are ordered from most favorable to least favorable):</p>
+<p><span class="math display">\[
+\begin{array}{|c|c|}
+\hline
+\text{Men} &amp; \text{Women} \\
+\hline
+\text{Alex} &amp; \text{Anita} &gt; \text{Bridget} &gt; \text{Christine} \\
+\text{Bob} &amp; \text{Bridget} &gt; \text{Anita} &gt; \text{Christine} \\
+\text{Charles} &amp; \text{Anita} &gt; \text{Bridget} &gt; \text{Christine} \\
+\hline
+\end{array} \qquad
+\begin{array}{|c|c|}
+\hline
+\text{Women} &amp; \text{Men} \\
+\hline
+\text{Anita} &amp; \text{Bob} &gt; \text{Alex} &gt; \text{Charles} \\
+\text{Bridget} &amp; \text{Alex} &gt; \text{Bob} &gt; \text{Charles} \\
+\text{Christine} &amp; \text{Alex} &gt; \text{Bob} &gt; \text{Charles} \\
+\hline
+\end{array}
+\]</span></p>
+<p>What you would like to do as head of the dating agency is to pair up each man with a woman. For example, two possible pairings are:</p>
+<ul>
+<li><span class="math inline">\(\{(\text{Alex}, \text{Anita}), (\text{Bob}, \text{Bridget}), (\text{Charles}, \text{Christine})\}\)</span> and</li>
+<li><span class="math inline">\(\{(\text{Alex}, \text{Bridget}), (\text{Bob}, \text{Christine}), (\text{Charles}, \text{Anita})\}\)</span>.</li>
+</ul>
+<p>However, you don’t want just any old pairing! In order for your dating firm to be successful, you wish the pairing to make “everyone happy”, in that nobody can realistically hope to benefit by switching partners. Can you do this efficiently?</p>
+<p>It turns out that there is indeed an algorithm to achieve this; moreover, it’s remarkably simple, fast, and widely-used. It’s called the <em>Stable Marriage algorithm</em> (a.k.a. the Gale-Shapley algorithm), and we present it now.</p>
+<h1 id="scn:alg">The Stable Marriage Algorithm</h1>
+<p><span><strong>Every Morning:</strong></span> Each man proposes to the most preferred woman on his list who has not yet rejected him.</p>
+<p><span><strong>Every Afternoon:</strong></span> Each woman collects all the proposals she received in the morning; to the man she likes best, she responds “maybe, come back tomorrow” (she now has him <span><em>on a string</em></span>), and to the others, she says “never”.</p>
+<p><span><strong>Every Evening:</strong></span> Each rejected man crosses off the woman who rejected him from his list.</p>
+<p>The above loop is repeated each successive day until each woman has a man on a string; on this day, each woman marries the man she has on a string.</p>
+<p>Let’s digest the algorithm by running it on our example above. The following table shows which men propose to which women on the given day (the men in bold are “on a string”):</p>
+<p><span class="math display">\[
+\begin{array}{|c|c|c|}
+\hline
+\text{Days} &amp; \text{Women} &amp; \text{Proposals} \\
+\hline
+ &amp; \text{Anita} &amp; \textbf{Alex}, \text{Charles} \\
+1 &amp; \text{Bridget} &amp; \textbf{Bob} \\
+ &amp; \text{Christine} &amp; -- \\
+\hline
+ &amp; \text{Anita} &amp; \textbf{Alex} \\
+2 &amp; \text{Bridget} &amp; \textbf{Bob}, \text{Charles} \\
+ &amp; \text{Christine} &amp; -- \\
+\hline
+ &amp; \text{Anita} &amp; \textbf{Alex} \\
+3 &amp; \text{Bridget} &amp; \textbf{Bob} \\
+ &amp; \text{Christine} &amp; \textbf{Charles} \\
+\hline
+\end{array}
+\]</span></p>
+<p>Thus, the algorithm outputs the stable pairing: <span class="math inline">\(\{(\text{Alex}, \text{Anita}), (\text{Bob}, \text{Bridget}), (\text{Charles}, \text{Christine})\}\)</span>.</p>
+<p>Before analyzing the algorithm’s properties further, let’s take a moment to ask one of the first questions you should always ask when confronted with a new concept: Why study stable marriage in the first place? What makes it and its solution so interesting? For this, we discuss the very real impact of the Gale-Shapley algorithm on the <em>residency match</em> program.</p>
+<h1 id="scn:residency">The Residency Match</h1>
+<p>Perhaps the most well-known application of the Stable Marriage Algorithm is the residency match program, which pairs medical school graduates and residency slots (internships) at teaching hospitals. Graduates and hospitals submit their ordered preference lists, and the stable pairing produced by a computer matches students with residency programs.</p>
+<p>The road to the residency match program was long and twisted. Medical residency programs were first introduced about a century ago. Since interns offered a source of cheap labor for hospitals, soon the number of residency slots exceeded the number of medical graduates, resulting in fierce competition. Hospitals tried to outdo each other by making their residency offers earlier and earlier. By the mid-40s, offers for residency were being made by the beginning of junior year of medical school, and some hospitals were contemplating even earlier offers — to sophomores! The American Medical Association finally stepped in and prohibited medical schools from releasing student transcripts and reference letters until their senior year. This sparked a new problem, with hospitals now making “short fuse&quot; offers to make sure that if their offer was rejected they could still find alternate interns to fill the slot. Once again the competition between hospitals led to an unacceptable situation, with students being given only a few hours to decide whether they would accept an offer.</p>
+<p>Finally, in the early 1950’s, this unsustainable situation led to the centralized system called the National Residency Matching Program (N.R.M.P.) in which the hospitals ranked the residents and the residents ranked the hospitals. The N.R.M.P. then produced a pairing between the applicants and the hospitals, though at first this pairing was not stable. It was not until 1952 that the N.R.M.P. switched to the Stable Marriage Algorithm, resulting in a stable pairing.</p>
+<p>Finally, if the above still hasn’t convinced you of the worth of this algorithm, consider this: In 2012, Lloyd Shapley and Alvin Roth won the Nobel Prize in Economic Sciences by extending the Stable Marriage Algorithm<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>! (The moral of the story? Computer science pays off.)</p>
+<h1 id="scn:properties">Properties of the Stable Marriage Algorithm</h1>
+<p>There are two properties we wish to show about the stable marriage algorithm: First, that it doesn’t run forever, i.e. it halts, and second, that it outputs a “good” pairing. The former is easy to show; let us do it now.</p>
+<p><span id="l:halts" class="pandoc-numbering-text l"><strong>Lemma 1</strong></span></p>
+<p><em>The stable marriage algorithm halts.</em></p>
+<p><em>Proof</em>. The argument is simple: On each day that the algorithm does not halt, at least one man must eliminate some woman from his list (otherwise the halting condition for the algorithm would be invoked). Since each list has <span class="math inline">\(n\)</span> elements, and there are <span class="math inline">\(n\)</span> lists, this means that the algorithm must terminate in at most <span class="math inline">\(n^2\)</span> days. <span class="math inline">\(\square\)</span></p>
+<p>Next, we’d like to show that the algorithm finds a “good” pairing. Before we do so, let’s clarify what we mean by “good”.</p>
+<h2 id="sscn:stability">Stability</h2>
+<p>What properties should a good pairing have? Perhaps we’d like to maximize the number of first ranked choices? Alternatively, we could minimize the number of last ranked choices. Or maybe it would be ideal to minimize the sum of the ranks of the choices, which may be thought of as maximizing the average happiness.</p>
+<p>In this lecture we will focus on a very basic criterion: <em>stability</em>. A pairing is <strong>unstable</strong> if there is a man and a woman who prefer each other to their current partners. We will call such a pair a <span><em>rogue couple</em></span>. So a pairing of <span class="math inline">\(n\)</span> men and <span class="math inline">\(n\)</span> women is <strong>stable</strong> if it has no rogue couples. Let us now recall our example from earlier:</p>
+<p><span class="math display">\[
+\begin{array}{|c|c|}
+\hline
+\text{Men} &amp; \text{Women} \\
+\hline
+\text{Alex} &amp; \text{Anita} &gt; \text{Bridget} &gt; \text{Christine} \\
+\text{Bob} &amp; \text{Bridget} &gt; \text{Anita} &gt; \text{Christine} \\
+\text{Charles} &amp; \text{Anita} &gt; \text{Bridget} &gt; \text{Christine} \\
+\hline
+\end{array} \qquad
+\begin{array}{|c|c|}
+\hline
+\text{Women} &amp; \text{Men} \\
+\hline
+\text{Anita} &amp; \text{Bob} &gt; \text{Alex} &gt; \text{Charles} \\
+\text{Bridget} &amp; \text{Alex} &gt; \text{Bob} &gt; \text{Charles} \\
+\text{Christine} &amp; \text{Alex} &gt; \text{Bob} &gt; \text{Charles} \\
+\hline
+\end{array}
+\]</span></p>
+<blockquote>
+<p><em>Sanity check!</em> Consider the following pairing for the example above: <span class="math display">\[\{(\text{Alex}, \text{Christine}), (\text{Bob}, \text{Bridget}), (\text{Charles}, \text{Anita})\}.\]</span> Why is this pairing unstable? [<em>Hint</em>: Alex and Bridget are a rogue couple — why?]</p>
+</blockquote>
+<p>Here is a stable pairing for our example: <span class="math inline">\(\{(\text{Bob}, \text{Anita}), (\text{Alex}, \text{Bridget}), (\text{Charles}, \text{Christine})\}\)</span>. Why is <span class="math inline">\((\text{Alex}, \text{Anita})\)</span> <em>not</em> a rogue couple here? It’s certainly true that Alex would rather be with Anita than his current partner. Unfortunately for him, Anita would rather be with her current partner than with Alex. Note also that both Charles and Christine are paired with their <em>least</em> favorite choice in this matching. Nevertheless, it <em>is</em> a stable pairing, since none of their preferred choices would rather be with them.</p>
+<p>Before we discuss how to find a stable pairing, let us ask a more basic question: Do stable pairings always exist? Surely the answer is yes, since we could start with any pairing and make it more and more stable as follows: If there is a rogue couple, modify the current pairing so that they are together. Repeat. Surely this procedure must result in a stable pairing? Unfortunately this reasoning is not sound! Why? Although pairing up the rogue couple reduces the number of rogue couples by one, it may also <em>create new</em> rogue couples.</p>
+<p>Let’s further illustrate the fallacy of the reasoning above by applying it to a closely related scenario known as the <em>Roommates Problem</em>. In this problem, we have <span class="math inline">\(2n\)</span> people who must be paired up to be roommates (the difference being that unlike in stable marriage, a person can be paired with any of the other <span class="math inline">\(2n-1\)</span> people, i.e. there is no concept of <em>gender</em>). Now, suppose our approach of iteratively matching up rogue couples indeed <em>did</em> work. Since this approach does not exploit the existence of different genders, we can apply it to the roommates problem. Thus, we conclude there must always exist a stable pairing for roommates. Wouldn’t you be surprised then to read the following counterexample, which gives an instance of the roommates problem which does <em>not</em> have a stable pairing!</p>
+<p><span class="math display">\[
+\begin{array}{|c|c|}
+\hline
+A &amp; B &gt; C &gt; D \\
+\hline
+B &amp; C &gt; A &gt; D \\
+\hline
+C &amp; A &gt; B &gt; D \\
+\hline
+D &amp; -- \\
+\hline
+\end{array}
+\]</span></p>
+<p>We claim that in this instance, there always exists a rogue couple for any pairing. For example, the pairing <span class="math inline">\(\{(A,B), (C,D)\}\)</span> contains the rogue couple <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span>. How about <span class="math inline">\(\{(B,C), (A,D)\}\)</span>? This pairing is unstable because now <span class="math inline">\(A\)</span> and <span class="math inline">\(C\)</span> are a rogue couple.</p>
+<blockquote>
+<p><em>Sanity check!</em> Verify that in this example there is <em>no</em> stable pairing!</p>
+</blockquote>
+<p>We conclude that any proof that there always exists a stable pairing in the stable marriage problem <em>must</em> use the fact that there are two genders in an essential way. In the next section we give such a proof, and a nifty one at that: We prove that there must exist a stable pairing because the stable marriage algorithm always outputs one!</p>
+<h2 id="sscn:analysis">Analysis</h2>
+<p>We now prove that the stable marriage algorithm always outputs a stable pairing. Why should this be the case? Consider the following intuitive observation:</p>
+<p><span id="obs:worsebetter" class="pandoc-numbering-text obs"><strong>Observation 1</strong></span></p>
+<p><em>Each man begins in the algorithm with his first choice being a possibility; as the algorithm proceeds, however, his best available option can only get <em>worse</em> over time. In contrast, women’s options can only get <em>better</em> with time.</em></p>
+<p>Thus, as the algorithm progresses, each man’s options get worse, while each woman’s improves; at some point, the men and the women must “meet” in the middle, and intuitively such a pairing should be stable.</p>
+<p>Let us formalize this intuition beginning with a formal statement of <a href="#obs:worsebetter">Observation 1</a> via the following lemma.</p>
+<p><span id="l:improve" class="pandoc-numbering-text l"><strong>Lemma 2</strong> <em>(Improvement Lemma)</em></span></p>
+<p><em>If man <span class="math inline">\(M\)</span> proposes to woman <span class="math inline">\(W\)</span> on the <span class="math inline">\(k\)</span>th day, then on every subsequent day <span class="math inline">\(W\)</span> has someone on a string whom she likes at least as much as <span class="math inline">\(M\)</span>.</em></p>
+<p><em>Proof</em>. We proceed by induction on the day <span class="math inline">\(j\)</span>, such that <span class="math inline">\(j\geq k\)</span>.</p>
+<p><em>Base Case <span class="math inline">\((j=k)\)</span></em>: On day <span class="math inline">\(k\)</span>, two cases are possible: (1) Either <span class="math inline">\(W\)</span> has nobody on a string, in which case she says “maybe” to <span class="math inline">\(M\)</span>, or (2) she has another man <span class="math inline">\(M&#39;\)</span> on a string, in which case, she says “maybe” to <span class="math inline">\(M\)</span> only if she prefers <span class="math inline">\(M\)</span> to <span class="math inline">\(M&#39;\)</span>. In either case, on day <span class="math inline">\(k\)</span>, <span class="math inline">\(W\)</span> has someone on a string who she likes at least as much as <span class="math inline">\(M\)</span>.</p>
+<p><em>Inductive Hypothesis</em>: Suppose the claim is true for <span class="math inline">\(j\geq k\)</span>.</p>
+<p><em>Inductive Step</em>: We prove the claim for day <span class="math inline">\(j+1\)</span>. By the Induction Hypothesis, on day <span class="math inline">\(j\)</span>, <span class="math inline">\(W\)</span> had a man <span class="math inline">\(M&#39;\)</span> on a string which she likes at least as much as <span class="math inline">\(M\)</span>. On day <span class="math inline">\(j+1\)</span>, two cases are possible: (1) Either nobody proposes to <span class="math inline">\(W\)</span>, in which case <span class="math inline">\(W\)</span> keeps <span class="math inline">\(M&#39;\)</span> on a string, or (2) a man <span class="math inline">\(M&#39;&#39;\)</span> proposes to <span class="math inline">\(W\)</span>, in which case, she says maybe to <span class="math inline">\(M&#39;&#39;\)</span> only if she prefers <span class="math inline">\(M&#39;&#39;\)</span> to <span class="math inline">\(M&#39;\)</span>. In either case, <span class="math inline">\(W\)</span> has someone on a string who she likes at least as much as <span class="math inline">\(M\)</span>. <span class="math inline">\(\square\)</span></p>
+<h4 id="detour-the-well-ordering-princple">Detour: The Well-Ordering Princple</h4>
+<p>Let’s take a moment to consider an alternate proof of <a href="#l:improve">Lemma 2</a>; in the process, we’ll uncover a fundamental principle which is equivalent to induction.</p>
+<p><em>Alternative Proof of <a href="#l:improve">Lemma 2</a></em>. As in our original proof, the claim certainly holds on day <span class="math inline">\(j=k\)</span>. Suppose now, for sake of contradiction, that the <span class="math inline">\(j\)</span>th day for <span class="math inline">\(j &gt; k\)</span> is the first counterexample where <span class="math inline">\(W\)</span> has either nobody or some <span class="math inline">\(M^\ast\)</span> inferior to <span class="math inline">\(M\)</span> on a string. On day <span class="math inline">\(j - 1\)</span>, she has <span class="math inline">\(M&#39;\)</span> on a string and likes <span class="math inline">\(M&#39;\)</span> at least much as <span class="math inline">\(M\)</span>. According to the algorithm, <span class="math inline">\(M&#39;\)</span> still proposes to <span class="math inline">\(W\)</span> on the <span class="math inline">\(j\)</span>th day since she said “maybe” the previous day. So <span class="math inline">\(W\)</span> has the choice of at least one man on the <span class="math inline">\(j\)</span>th day; moreover, her best choice is at least as good as <span class="math inline">\(M&#39;\)</span>, and according to the algorithm she will choose him over <span class="math inline">\(M^\ast\)</span>. This contradicts our initial assumption. <span class="math inline">\(\square\)</span></p>
+<p>What proof technique did we use to prove this lemma? Is it contradiction? Or some other beast entirely? It turns out that this <em>also</em> a proof by induction! Why? Well, we began by establishing the base case of <span class="math inline">\(j=k\)</span>. Next, instead of proving that for all <span class="math inline">\(j\)</span>, <span class="math inline">\(P(j){\implies}P(j+1)\)</span>, we showed that the <em>negation</em> of this statement is false, i.e. that “there exists <span class="math inline">\(j\)</span> such that <span class="math inline">\(\neg(P(j){\implies}P(j+1))\)</span>” does not hold; thus, by the principle of the excluded middle, it must indeed hold that for all <span class="math inline">\(j\)</span>, <span class="math inline">\(P(j){\implies}P(j+1)\)</span>!</p>
+<blockquote>
+<p><em>Sanity check!</em> Ensure you understand why these two proofs are equivalent.</p>
+</blockquote>
+<p>Let us now be a bit more careful — what exactly allowed us to take this alternate approach? The answer lies in a very special property of the natural numbers known as the <em>Well-Ordering Principle</em>. This principle intuitively says that any set of natural numbers contains a “smallest” element. Formally:</p>
+<p><span id="definition:1" class="pandoc-numbering-text definition"><strong>Definition 1</strong> <em>(Well-Ordering Principle)</em></span></p>
+<p><em>If <span class="math inline">\(S \subseteq {\mathbb{N}}\)</span> and <span class="math inline">\(S \neq \varnothing\)</span>, then <span class="math inline">\(S\)</span> has a smallest element.</em></p>
+<blockquote>
+<p><em>Sanity check!</em> Consider the set <span class="math inline">\(S = \{5,2,11,7,8\} \subset {\mathbb{N}}\)</span>. Verify that the well-ordering principle holds for <span class="math inline">\(S\)</span>.</p>
+</blockquote>
+<p>Where did we use the well-ordering principle in our proof? In the line “Suppose …that the <span class="math inline">\(j\)</span>th day for <span class="math inline">\(j &gt; k\)</span> is the first counterexample…” — specifically, if the natural numbers did not obey this principle, then the notion of a <em>first</em> counterexample would be nonsense! Note also that induction relies on this principle: The statement “for all <span class="math inline">\(j\)</span>, <span class="math inline">\(P(j){\implies}P(j+1)\)</span>” only makes sense if there is a well-defined order imposed on the natural numbers (i.e. that <span class="math inline">\(3\)</span> comes before <span class="math inline">\(4\)</span>, and <span class="math inline">\(4\)</span> comes before <span class="math inline">\(5\)</span>, etc…). That the natural numbers obey this principle may be a fact you have long taken for granted; but there do exist sets of numbers which do <em>not</em> satisfy this property! In this sense, the natural numbers are indeed quite special.</p>
+<blockquote>
+<p>Sanity check! Do the integers satisfy the well-ordering principle? Can you think of a set of numbers you are familiar with which <em>doesn’t</em> satisfy this principle? [<em>Hint</em>: This set is as “real” as it gets.]</p>
+</blockquote>
+<h4 id="returning-to-our-analysis-of-the-stable-marriage-algorithm">Returning to Our Analysis of the Stable Marriage Algorithm</h4>
+<p>Returning to our analysis, we now prove that when the algorithm terminates, all <span class="math inline">\(2n\)</span> people are paired up. Before reading the proof, see if you can convince yourself that this is true. The proof is remarkably short and elegant, and critically uses the Improvement Lemma.</p>
+<p><span id="l:pairing" class="pandoc-numbering-text l"><strong>Lemma 3</strong></span></p>
+<p><em>The stable marriage algorithm terminates with a pairing.</em></p>
+<p><em>Proof</em>. We proceed by contradiction. Suppose that there is a man <span class="math inline">\(M\)</span> who is left unpaired when the algorithm terminates. He must have proposed to all <span class="math inline">\(n\)</span> of the women on his list. By the Improvement Lemma, each of these <span class="math inline">\(n\)</span> women has had someone on a string since <span class="math inline">\(M\)</span> proposed to her. Thus, when the algorithm terminates, <span class="math inline">\(n\)</span> women have <span class="math inline">\(n\)</span> men on a string not including <span class="math inline">\(M\)</span>. So there must be at least <span class="math inline">\(n+1\)</span> men. But this is a contradiction, since there are only <span class="math inline">\(n\)</span> men. <span class="math inline">\(\square\)</span></p>
+<p>Now, before we prove that the output of the algorithm is a <em>stable</em> pairing, let us first do a sample run-through of the stable marriage algorithm. We will use the preference lists given earlier, which are duplicated here for convenience:</p>
+<p><span class="math display">\[
+\begin{array}{|c|c|}
+\hline
+\text{Men} &amp; \text{Women} \\
+\hline
+\text{Alex} &amp; \text{Anita} &gt; \text{Bridget} &gt; \text{Christine} \\
+\text{Bob} &amp; \text{Bridget} &gt; \text{Anita} &gt; \text{Christine} \\
+\text{Charles} &amp; \text{Anita} &gt; \text{Bridget} &gt; \text{Christine} \\
+\hline
+\end{array} \qquad
+\begin{array}{|c|c|}
+\hline
+\text{Women} &amp; \text{Men} \\
+\hline
+\text{Anita} &amp; \text{Bob} &gt; \text{Alex} &gt; \text{Charles} \\
+\text{Bridget} &amp; \text{Alex} &gt; \text{Bob} &gt; \text{Charles} \\
+\text{Christine} &amp; \text{Alex} &gt; \text{Bob} &gt; \text{Charles} \\
+\hline
+\end{array}
+\]</span></p>
+<p>The following table shows which men propose to which women on the given day (the bold men are the ones who were told “maybe”):</p>
+<p><span class="math display">\[
+\begin{array}{|c|c|c|}
+\hline
+\text{Days} &amp; \text{Women} &amp; \text{Proposals} \\
+\hline
+  &amp; A &amp; \textbf{1}, 3 \\
+1 &amp; B &amp; \textbf{2} \\
+  &amp; C &amp; -- \\
+\hline
+  &amp; A &amp; \textbf{1} \\
+2 &amp; B &amp; \textbf{2}, 3 \\
+  &amp; C &amp; -- \\
+\hline
+  &amp; A &amp; \textbf{1} \\
+3 &amp; B &amp; \textbf{2} \\
+  &amp; C &amp; \textbf{3} \\
+\hline
+\end{array}
+\]</span></p>
+<p>Thus, the stable pairing which the algorithm outputs is: <span class="math inline">\(\{(1,A), (2,B), (3,C)\}\)</span>.</p>
+<p><span id="thm:stable" class="pandoc-numbering-text thm"><strong>Theorem 1</strong></span></p>
+<p><em>The pairing produced by the algorithm is always stable.</em></p>
+<p>We give a direct proof that no man <span class="math inline">\(M\)</span> can be involved in a rogue couple. Consider any couple <span class="math inline">\((M,W)\)</span> in the pairing and suppose that <span class="math inline">\(M\)</span> prefers some woman <span class="math inline">\(W^\ast\)</span> to <span class="math inline">\(W\)</span>. We will argue that <span class="math inline">\(W^\ast\)</span> prefers her partner to <span class="math inline">\(M\)</span>, so that <span class="math inline">\((M,W^\ast)\)</span> cannot be a rogue couple. Since <span class="math inline">\(W^\ast\)</span> occurs before <span class="math inline">\(W\)</span> in <span class="math inline">\(M\)</span>’s list, he must have proposed to her before he proposed to <span class="math inline">\(W\)</span>. Therefore, according to the algorithm, <span class="math inline">\(W^\ast\)</span> must have rejected him for somebody she prefers. By the <a href="#l:improve">Improvement Lemma</a>, <span class="math inline">\(W^\ast\)</span> likes her final partner at least as much, and therefore prefers him to <span class="math inline">\(M\)</span>. Thus no man <span class="math inline">\(M\)</span> can be involved in a rogue couple, and the pairing is stable. <span class="math inline">\(\square\)</span></p>
+<h1 id="scn:optimality">Optimality</h1>
+<p>In <a href="#sscn:analysis">Analysis</a>, we showed that the stable marriage algorithm always outputs a stable pairing. But is this so impressive? Will your dating service really be successful outputting matches which are just “good enough”? Of course not! To offer the best dating service around, you require some notion of <em>optimality</em> in the solutions you obtain.</p>
+<p>Consider, for example, the case of <span class="math inline">\(4\)</span> men and <span class="math inline">\(4\)</span> women with the following preference lists (for simplicity, we use numbers and letters below to label the men and women):</p>
+<p><span class="math display">\[\begin{array}{|c|c|}
+\hline
+\text{Men} &amp; \text{Women} \\
+\hline
+   1 &amp; A &gt; B &gt; C &gt; D \\
+\hline
+   2 &amp; A &gt; D &gt; C &gt; B \\
+\hline
+   3 &amp; A &gt; C &gt; B &gt; D \\
+\hline
+   4 &amp; A &gt; B &gt; C &gt; D \\
+\hline
+\end{array} \qquad
+\begin{array}{|c|c|}
+\hline
+\text{Women} &amp; \text{Men} \\
+\hline
+   A &amp; 1 &gt; 3 &gt; 2 &gt; 4 \\
+\hline
+   B &amp; 4 &gt; 3 &gt; 2 &gt; 1 \\
+\hline
+   C &amp; 2 &gt; 3 &gt; 1 &gt; 4 \\
+\hline
+   D &amp; 3 &gt; 4 &gt; 2 &gt; 1 \\
+\hline
+\end{array}\]</span></p>
+<p>For these lists, there are exactly two stable pairings: <span class="math inline">\(S = \{(1,A), (2,D), (3,C), (4,B)\}\)</span> and <span class="math inline">\(T = \{(1,A), (2,C), (3,D), (4,B)\}\)</span>. The fact that there are <em>two</em> stable pairings raises the question: What is the best possible partner for each person? For example, let us consider man <span class="math inline">\(2\)</span>. The trivial best partner for <span class="math inline">\(2\)</span> is his first choice, woman <span class="math inline">\(A\)</span>; unfortunately, <span class="math inline">\(A\)</span> is just not a realistic possibility for him, as pairing him with <span class="math inline">\(A\)</span> would not be stable, since he is so low on her preference list. Indeed, there is no stable pairing in which <span class="math inline">\(2\)</span> is paired with <span class="math inline">\(A\)</span>. Examining the two stable pairings, we find that the best possible realistic outcome for man <span class="math inline">\(2\)</span> is to be matched to woman <span class="math inline">\(D\)</span>. This demonstrates that the notion of “best partner” can be a bit fuzzy if we are not careful.</p>
+<p>So, let us be careful; inspired by the discussion above, here is a rigorous definition of optimality.</p>
+<p><span id="definition:2" class="pandoc-numbering-text definition"><strong>Definition 2</strong> <em>(Optimal Woman for a Man)</em></span></p>
+<p><em>Among all stable pairings, who is the most preferred woman a man can be paired up with? This woman is the optimal woman for this man.</em></p>
+<p>In other words, the optimal woman is the best that a man can do in a pairing, given that the pairing is <span>stable</span>.</p>
+<blockquote>
+<p><em>Sanity check!</em> Who are the optimal women for each man <span class="math inline">\(1\)</span>, <span class="math inline">\(2\)</span>, <span class="math inline">\(3\)</span>, and <span class="math inline">\(4\)</span> in our example above? [<em>Hint</em>: The optimal woman for man <span class="math inline">\(2\)</span>, as discussed above, is <span class="math inline">\(D\)</span>.]</p>
+</blockquote>
+<p>By definition, the best that each man can hope for is to be paired with his optimal woman. But can all men achieve this optimality <span><em>simultaneously</em></span>? In other words, is there a stable pairing such that each man is paired with his optimal woman? If such a pairing exists, we will call it a <span><em>male optimal</em></span> pairing. Turning to the example above, <span class="math inline">\(S\)</span> is a male optimal pairing since <span class="math inline">\(A\)</span> is <span class="math inline">\(1\)</span>’s optimal woman, <span class="math inline">\(D\)</span> is <span class="math inline">\(2\)</span>’s optimal woman, <span class="math inline">\(C\)</span> is <span class="math inline">\(3\)</span>’s optimal woman, and <span class="math inline">\(B\)</span> is <span class="math inline">\(4\)</span>’s optimal woman. Similarly, we can define a female optimal pairing, which is the pairing in which each woman is paired with her optimal man.</p>
+<blockquote>
+<p><em>Sanity check!</em> Check that <span class="math inline">\(T\)</span> is a female optimal pairing.</p>
+</blockquote>
+<p>We can also go in the opposite direction and define the <span><em>pessimal</em></span> woman for a man to be the lowest ranked woman whom he is ever paired with in some stable pairing. This leads naturally to the notion of a <span><em>male pessimal</em></span> pairing — can you define it, and also a female pessimal pairing?</p>
+<p>Now, we get to the heart of the matter: Who is better off in the Stable Marriage Algorithm — men or women?</p>
+<p><span id="thm:maleopt" class="pandoc-numbering-text thm"><strong>Theorem 2</strong></span></p>
+<p><em>The pairing output by the Stable Marriage algorithm is male optimal.</em></p>
+<p><em>Proof</em>. Suppose for sake of contradiction that the pairing is <span><em>not</em></span> male optimal. Then, there exists a day on which some man was rejected by his optimal woman; let day <span class="math inline">\(k\)</span> be the first such day. On this day, suppose <span class="math inline">\(M\)</span> was rejected by <span class="math inline">\(W^*\)</span> (his optimal mate) in favor of <span class="math inline">\(M^*\)</span>. By definition of optimal woman, there must be exist a stable pairing <span class="math inline">\(T\)</span> in which <span class="math inline">\(M\)</span> and <span class="math inline">\(W^*\)</span> are paired together. Suppose <span class="math inline">\(T\)</span> looks like this: <span class="math inline">\(\{\ldots,(M,W^*),\ldots,(M^*,W&#39;),\ldots\}\)</span>. We will argue that <span class="math inline">\((M^*,W^*)\)</span> is a rogue couple in <span class="math inline">\(T\)</span>, thus contradicting stability.</p>
+<p>First, it is clear that <span class="math inline">\(W^*\)</span> prefers <span class="math inline">\(M^*\)</span> to <span class="math inline">\(M\)</span>, since she rejected <span class="math inline">\(M\)</span> in favor of <span class="math inline">\(M^*\)</span> during the execution of the stable marriage algorithm. Moreover, since day <span class="math inline">\(k\)</span> was the first day when some man got rejected by his optimal woman, on day <span class="math inline">\(k\)</span> <span class="math inline">\(M^*\)</span> had not yet been rejected by his optimal woman. Since he proposed to <span class="math inline">\(W^*\)</span> on the <span class="math inline">\(k\)</span>-th day, this implies that <span class="math inline">\(M^*\)</span> likes <span class="math inline">\(W^*\)</span> at least as much as his optimal woman. So by the definition of optimal woman, <span class="math inline">\(M^*\)</span> prefers <span class="math inline">\(W^*\)</span> to his partner <span class="math inline">\(W&#39;\)</span> in the stable matching <span class="math inline">\(T\)</span>. Therefore, <span class="math inline">\((M^*,W^*)\)</span> form a rogue couple in <span class="math inline">\(T\)</span>, and so <span class="math inline">\(T\)</span> is not stable. Thus, we have a contradiction, implying the pairing is male optimal. <span class="math inline">\(\square\)</span></p>
+<p>What proof techniques did we use to prove <a href="#thm:maleopt">Theorem 2</a>? Again, it is a proof by induction, structured as an application of the well-ordering principle.</p>
+<blockquote>
+<p><em>Sanity check!</em> Where did we use the well-ordering principle in the proof of <a href="#thm:maleopt">Theorem 2</a>?</p>
+</blockquote>
+<blockquote>
+<p><em>Exercise.</em> Can you rewrite the proof of <a href="#thm:maleopt">Theorem 2</a> as a regular induction proof? [<em>Hint</em>: The proof is really showing by induction on <span class="math inline">\(k\)</span> the following statement: For every <span class="math inline">\(k\)</span>, no man gets rejected by his optimal woman on the <span class="math inline">\(k\)</span>th day.]</p>
+</blockquote>
+<p>We conclude that men fare very well by following this algorithm. How about the women? The following theorem confirms the sad truth:</p>
+<p><span id="thm:femalepes" class="pandoc-numbering-text thm"><strong>Theorem 3</strong></span></p>
+<p><em>If a pairing is male optimal, then it is also female pessimal.</em></p>
+<p><em>Proof</em>. We proceed by contradiction. Let <span class="math inline">\(T = \{\ldots, (M, W), \ldots\}\)</span> be the male optimal pairing (which we know is output by the algorithm by <a href="#thm:maleopt">Theorem 2</a>. Suppose for the sake of contradiction that there exists a stable pairing <span class="math inline">\(S = \{\ldots, (M^\ast, W), \ldots, (M, W&#39;), \ldots\}\)</span> such that <span class="math inline">\(M^\ast\)</span> is lower on <span class="math inline">\(W\)</span>’s list than <span class="math inline">\(M\)</span> (i.e., <span class="math inline">\(M\)</span> is not her pessimal man). We will argue that <span class="math inline">\(S\)</span> cannot be stable by showing that <span class="math inline">\((M,W)\)</span> is a rogue couple in <span class="math inline">\(S\)</span>. By assumption, <span class="math inline">\(W\)</span> prefers <span class="math inline">\(M\)</span> to <span class="math inline">\(M^\ast\)</span> since <span class="math inline">\(M^\ast\)</span> is lower on her list. And <span class="math inline">\(M\)</span> prefers <span class="math inline">\(W\)</span> to his partner <span class="math inline">\(W&#39;\)</span> in <span class="math inline">\(S\)</span> because <span class="math inline">\(W\)</span> is his partner in the male optimal pairing <span class="math inline">\(T\)</span>. Contradiction. Therefore, the male optimal pairing is female pessimal. <span class="math inline">\(\square\)</span></p>
+<p>In light of these findings, what does the stable marriage algorithm teach us? When it comes to relationships, it pays to make the first move!</p>
+<p>Let us close with some final comments about the National Residency Matching Program. Until recently the stable marriage algorithm was run with the hospitals doing the proposing, and so the pairings produced were hospital optimal. In the nineties, the roles were reversed so that the medical students were proposing to the hospitals. More recently, there were other improvements made to the algorithm which the N.R.M.P. used. For example, the pairing takes into account preferences for married students for positions at the same or nearby hospitals.</p>
+<h1 id="further-reading-optional">Further Reading (Optional)</h1>
+<p>Though it was in use 10 years earlier, the propose-and-reject algorithm was first properly analyzed by Gale and Shapley, in a famous paper dating back to 1962 that still stands as one of the great achievements in the analysis of algorithms. The full reference is:</p>
+<p>D. Gale and L.S. Shapley, “College Admissions and the Stability of Marriage”, <span><em>American Mathematical Monthly</em></span> <span><strong>69</strong></span> (1962), pp. 9–14.</p>
+<p>Stable marriage and its numerous variants remains an active topic of research in computer science. Although it is by now 25 years old, the following very readable book covers many of the interesting developments since Gale and Shapley’s algorithm:</p>
+<p>D. Gusfield and R.W. Irving, <span><em>The Stable Marriage Problem: Structure and Algorithms</em></span>, MIT Press, 1989.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>See <a href="http://www.nobelprize.org/nobel_prizes/economic-sciences/laureates/2012/popular-economicsciences2012.pdf">this link</a> for details.<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
+</article>
+</body>
+
+<!-- Mirrored from www.eecs70.org/static/notes/n4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:38:25 GMT -->
+</html>

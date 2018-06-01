@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/lab/lab13/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:38:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+Lab 13: Final Review | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Lab 13: Final Review
+
+        
+        <ul class="inline-block list-inline">
+          <li><a href="lab13.zip" class="label label-outline">lab13.zip</a></li>
+        </ul>
+        
+      </h1>
+    </header>
+    
+
+<p><i>Due at 11:59pm on Friday, 04/27/2018.</i></p>
+
+
+<h2 id='starter-files'>Starter Files</h2>
+
+
+<p>Download <a href="lab13.zip">lab13.zip</a>.
+Inside the archive, you will find starter files for the questions in this lab,
+  along with a copy of the <a href="ok.zip">Ok</a> autograder.</p>
+
+
+<h2 id='submission'>Submission</h2>
+
+<p>By the end of this lab, you should have submitted the lab with
+<code>python3 ok --submit</code>. You may submit more than once before the
+deadline; only the final submission will be graded.
+Check that you have successfully submitted your code on
+<a href="https://okpy.org/">okpy.org</a>.</p>
+
+<ul>
+  <li>To receive credit for this lab, you must complete Questions 1-3 in
+  <a href="lab13.py">lab13.py</a> and <a href="lab13.scm">lab13.scm</a> and submit through OK.</li>
+  <li>Question 4-8 are considered <strong>extra practice</strong>.
+  They can be found in the <a href="lab13_extra.py">lab13_extra.py</a> and
+  <a href="lab13_extra.scm">lab13_extra.scm</a> files. It is recommended that you complete
+  them on your own time.</li>
+</ul>
+
+
+
+    
+<h1 id="required-questions">Required Questions</h1>
+
+
+
+<h2 id="scheme">Scheme</h2>
+
+<p>For a quick refresher on Scheme, see <a href="../lab09/index.html">Lab 09</a>.</p>
+
+<blockquote><p>This question is to be done in <code>lab13.scm</code>.</p></blockquote>
+
+<h3 class="question" id="q1">Q1: Compose All</h3>
+
+<p>Implement <code>compose&#x2d;all</code>, which takes a list of one-argument functions and
+returns a one-argument function that applies each function in that list in turn
+to its argument. For example, if <code>func</code> is the result of calling <code>compose&#x2d;all</code>
+on a list of functions <code>(f g h)</code>, then <code>(func x)</code> should be equivalent to the
+result of calling <code>(h (g (f x)))</code>.</p>
+
+<pre><code>scm&gt; (define (square x) (* x x))
+square
+scm&gt; (define (add&#x2d;one x) (+ x 1))
+add&#x2d;one
+scm&gt; (define (double x) (* x 2))
+double
+scm&gt; (define composed (compose&#x2d;all (list double square add&#x2d;one)))
+composed
+scm&gt; (composed 1)
+5
+scm&gt; (composed 2)
+17</code></pre>
+
+
+
+<pre><code>(define (compose&#x2d;all funcs)
+<div class="alt solution-1">  'YOUR-CODE-HERE
+  nil
+</div><div class="solution solution-1">&#x20;&#x20;&#x28;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x20;&#x28;&#x78;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x28;&#x69;&#x66;&#x20;&#x28;&#x6e;&#x75;&#x6c;&#x6c;&#x3f;&#x20;&#x66;&#x75;&#x6e;&#x63;&#x73;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x78;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x28;&#x63;&#x6f;&#x6d;&#x70;&#x6f;&#x73;&#x65;&#x2d;&#x61;&#x6c;&#x6c;&#x20;&#x28;&#x63;&#x64;&#x72;&#x20;&#x66;&#x75;&#x6e;&#x63;&#x73;&#x29;&#x29;&#x20;&#x28;&#x28;&#x63;&#x61;&#x72;&#x20;&#x66;&#x75;&#x6e;&#x63;&#x73;&#x29;&#x20;&#x78;&#x29;&#x29;&#x29;&#x29;</div>)</code></pre>
+
+
+        <button id='solution-1' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q compose-all</code></pre>
+
+
+<h2 id="tail-recursion">Tail Recursion</h2>
+
+<p>For a quick refresher on tail recursion, see <a href="../../disc/disc08.pdf#page=5">Discussion 8</a>.</p>
+
+<blockquote><p>This question is to be done in <code>lab13.scm</code>.</p></blockquote>
+
+<h3 class="question" id="q2">Q2: Replicate</h3>
+
+<p>Write a tail-recursive function that returns a list with <code>x</code> repeated <code>n</code>
+times.</p>
+
+<pre><code>scm&gt; (tail&#x2d;replicate 3 10)
+(3 3 3 3 3 3 3 3 3 3)
+scm&gt; (tail&#x2d;replicate 5 0)
+()
+scm&gt; (tail&#x2d;replicate 100 5)
+(100 100 100 100 100)</code></pre>
+
+
+
+<pre><code>(define (tail&#x2d;replicate x n)
+<div class="alt solution-2">  'YOUR-CODE-HERE
+</div><div class="solution solution-2">&#x20;&#x20;&#x28;&#x64;&#x65;&#x66;&#x69;&#x6e;&#x65;&#x20;&#x28;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x20;&#x6e;&#x20;&#x73;&#x6f;&#x2d;&#x66;&#x61;&#x72;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x28;&#x69;&#x66;&#x20;&#x28;&#x3d;&#x20;&#x6e;&#x20;&#x30;&#x29;&#x20;&#x73;&#x6f;&#x2d;&#x66;&#x61;&#x72;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x20;&#x28;&#x2d;&#x20;&#x6e;&#x20;&#x31;&#x29;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x78;&#x20;&#x73;&#x6f;&#x2d;&#x66;&#x61;&#x72;&#x29;&#x29;&#x29;&#x29;&#xa;&#x20;&#x20;&#x28;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x20;&#x6e;&#x20;&#x27;&#x28;&#x29;&#x29;</div>)</code></pre>
+
+
+        <button id='solution-2' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q tail-replicate</code></pre>
+
+
+<h2 id="generators">Generators</h2>
+
+<p>For a quick refresher on generators, see <a href="../lab11/index.html">Lab 11</a>.</p>
+
+<blockquote><p>This question is to be done in <code>lab13.py</code>.</p></blockquote>
+
+<h3 class="question" id="q3">Q3: Generate Permutations</h3>
+
+<p>Given a list of unique elements, a <em>permutation</em> of the list is a
+reordering of the elements. For example, <code>[2, 1, 3]</code>, <code>[1, 3, 2]</code>, and
+<code>[3, 2, 1]</code> are all permutations of the list <code>[1, 2, 3]</code>.</p>
+
+<p>Implement <code>permutations</code>, a generator function that takes in a <code>lst</code> and
+outputs all permutations of <code>lst</code>, each as a list (see doctest for an example).
+The order in which you generate permutations is irrelevant.</p>
+
+<blockquote><p><strong>Hint:</strong> If you had the permutations of <code>lst</code> minus one element, how could
+you use that to generate the permutations of the full <code>lst</code>?</p></blockquote>
+
+<!-- -->
+
+<blockquote><p>Note that in the provided code, the <code>return</code> statement acts like a
+<code>raise StopIteration</code>. The point of this is so that the returned generator
+doesn't enter the rest of the body on any calls to <code>next</code> after the first if
+the input list is empty. Note that this <code>return</code> statement does not affect the
+fact that the function will still return a generator object because the body
+contains <code>yield</code> statements.</p></blockquote>
+
+
+
+<pre><code>def permutations(lst):
+    &quot;&quot;&quot;Generates all permutations of sequence LST. Each permutation is a
+    list of the elements in LST in a different order.
+
+    The order of the permutations does not matter.
+
+    &gt;&gt;&gt; sorted(permutations([1, 2, 3]))
+    [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
+    &gt;&gt;&gt; type(permutations([1, 2, 3]))
+    &lt;class &#x27;generator&#x27;&gt;
+    &gt;&gt;&gt; sorted(permutations((10, 20, 30)))
+    [[10, 20, 30], [10, 30, 20], [20, 10, 30], [20, 30, 10], [30, 10, 20], [30, 20, 10]]
+    &gt;&gt;&gt; sorted(permutations(&quot;ab&quot;))
+    [[&#x27;a&#x27;, &#x27;b&#x27;], [&#x27;b&#x27;, &#x27;a&#x27;]]
+    &quot;&quot;&quot;
+    if not lst:
+        yield []
+        return
+<div class="alt solution-3">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-3">&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x70;&#x65;&#x72;&#x6d;&#x20;&#x69;&#x6e;&#x20;&#x70;&#x65;&#x72;&#x6d;&#x75;&#x74;&#x61;&#x74;&#x69;&#x6f;&#x6e;&#x73;&#x28;&#x6c;&#x73;&#x74;&#x5b;&#x31;&#x3a;&#x5d;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x69;&#x20;&#x69;&#x6e;&#x20;&#x72;&#x61;&#x6e;&#x67;&#x65;&#x28;&#x6c;&#x65;&#x6e;&#x28;&#x6c;&#x73;&#x74;&#x29;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#x20;&#x70;&#x65;&#x72;&#x6d;&#x5b;&#x3a;&#x69;&#x5d;&#x20;&#x2b;&#x20;&#x5b;&#x6c;&#x73;&#x74;&#x5b;&#x30;&#x5d;&#x5d;&#x20;&#x2b;&#x20;&#x70;&#x65;&#x72;&#x6d;&#x5b;&#x69;&#x3a;&#x5d;</div></code></pre>
+
+
+        <button id='solution-3' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q permutations</code></pre>
+
+
+<h1 id="optional-questions">Optional Questions</h1>
+
+
+
+<h2 id="streams">Streams</h2>
+
+<p>For a quick refresher on streams, see <a href="../../disc/disc09.pdf#page=5">Discussion 9</a>.</p>
+
+<blockquote><p>This question is to be done in <code>lab13_extra.scm</code>.</p></blockquote>
+
+<h3 class="question" id="q4">Q4: Run-Length Encoding</h3>
+
+<p>Run-length encoding is a very simple data compression technique,
+whereby runs of data are compressed and stored as a single value. A
+<em>run</em> is defined to be a contiguous sequence of the same number. For
+example, in the (finite) sequence</p>
+
+<pre><code>1, 1, 1, 1, 1, 6, 6, 6, 6, 2, 5, 5, 5</code></pre>
+
+<p>there are four runs: one each of 1, 6, 2, and 5. We can represent the
+same sequence as a sequence of two-element lists:</p>
+
+<pre><code>(1 5), (6 4), (2 1), (5 3)</code></pre>
+
+<p>Notice that the first element of each list is the number in a run, and the
+second element is the number of of times that number appears in the run.</p>
+
+<p>We will extend this idea to streams. Write a function called <code>rle</code> that takes
+in a stream of data, and returns a corresponding stream of two-element lists,
+which represents the run-length encoded version of the stream. You do not have
+to consider compressing infinite runs.</p>
+
+<pre><code>scm&gt; (define s (cons&#x2d;stream 1 (cons&#x2d;stream 1 (cons&#x2d;stream 2 nil))))
+s
+scm&gt; (define encoding (rle s))
+encoding
+scm&gt; (car encoding)  ; Run of number 1 of length 2
+(1 2)
+scm&gt; (car (cdr&#x2d;stream encoding))  ; Run of number 2 of length 1
+(2 1)
+scm&gt; (stream&#x2d;to&#x2d;list (rle (list&#x2d;to&#x2d;stream &#x27;(1 1 2 2 2 3))))  ; See functions at bottom of lab13.scm
+((1 2) (2 3) (3 1))</code></pre>
+
+
+
+<pre><code>(define (rle s)
+<div class="alt solution-4">  'YOUR-CODE-HERE
+</div><div class="solution solution-4">&#x20;&#x20;&#x28;&#x64;&#x65;&#x66;&#x69;&#x6e;&#x65;&#x20;&#x28;&#x74;&#x72;&#x61;&#x63;&#x6b;&#x2d;&#x72;&#x75;&#x6e;&#x20;&#x65;&#x6c;&#x65;&#x6d;&#x20;&#x73;&#x74;&#x20;&#x6c;&#x65;&#x6e;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x64;&#x20;&#x28;&#x28;&#x6e;&#x75;&#x6c;&#x6c;&#x3f;&#x20;&#x73;&#x74;&#x29;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x2d;&#x73;&#x74;&#x72;&#x65;&#x61;&#x6d;&#x20;&#x28;&#x6c;&#x69;&#x73;&#x74;&#x20;&#x65;&#x6c;&#x65;&#x6d;&#x20;&#x6c;&#x65;&#x6e;&#x29;&#x20;&#x6e;&#x69;&#x6c;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x28;&#x3d;&#x20;&#x65;&#x6c;&#x65;&#x6d;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x73;&#x74;&#x29;&#x29;&#x20;&#x28;&#x74;&#x72;&#x61;&#x63;&#x6b;&#x2d;&#x72;&#x75;&#x6e;&#x20;&#x65;&#x6c;&#x65;&#x6d;&#x20;&#x28;&#x63;&#x64;&#x72;&#x2d;&#x73;&#x74;&#x72;&#x65;&#x61;&#x6d;&#x20;&#x73;&#x74;&#x29;&#x20;&#x28;&#x2b;&#x20;&#x6c;&#x65;&#x6e;&#x20;&#x31;&#x29;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x65;&#x6c;&#x73;&#x65;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x2d;&#x73;&#x74;&#x72;&#x65;&#x61;&#x6d;&#x20;&#x28;&#x6c;&#x69;&#x73;&#x74;&#x20;&#x65;&#x6c;&#x65;&#x6d;&#x20;&#x6c;&#x65;&#x6e;&#x29;&#x20;&#x28;&#x72;&#x6c;&#x65;&#x20;&#x73;&#x74;&#x29;&#x29;&#x29;&#x29;&#xa;&#x20;&#x20;&#x29;&#xa;&#x20;&#x20;&#x28;&#x69;&#x66;&#x20;&#x28;&#x6e;&#x75;&#x6c;&#x6c;&#x3f;&#x20;&#x73;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x6e;&#x69;&#x6c;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x74;&#x72;&#x61;&#x63;&#x6b;&#x2d;&#x72;&#x75;&#x6e;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x73;&#x29;&#x20;&#x28;&#x63;&#x64;&#x72;&#x2d;&#x73;&#x74;&#x72;&#x65;&#x61;&#x6d;&#x20;&#x73;&#x29;&#x20;&#x31;&#x29;&#x29;</div>)</code></pre>
+
+
+        <button id='solution-4' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q rle</code></pre>
+
+
+<h2 id="more-tail-recursion">More Tail Recursion</h2>
+
+
+<blockquote><p>This question is to be done in <code>lab13_extra.scm</code>.</p></blockquote>
+
+<h3 class="question" id="q5">Q5: Insert</h3>
+
+<p>Write a tail-recursive function that inserts a number <code>n</code> into a non-empty
+sorted list of numbers, <code>s</code>.</p>
+
+<blockquote><p><em>Hint:</em> Use the built-in Scheme function <code>append</code> to concatenate two lists
+together.</p>
+
+<pre><code>scm&gt; (append &#x27;(1 2) &#x27;(3 4))
+(1 2 3 4)
+scm&gt; (append &#x27;(2 4 6) &#x27;())
+(2 4 6)
+scm&gt; (append &#x27;() &#x27;(5 3 1))
+(5 3 1)</code></pre></blockquote>
+
+<pre><code>scm&gt; (insert 1 &#x27;(2))
+(1 2)
+scm&gt; (insert 5 &#x27;(2 4 6 8))
+(2 4 5 6 8)
+scm&gt; (insert 1000 &#x27;(1 2 3 4 5 6))
+(1 2 3 4 5 6 1000)</code></pre>
+
+
+
+<pre><code>(define (insert n s)
+<div class="alt solution-5">  'YOUR-CODE-HERE
+</div><div class="solution solution-5">&#x20;&#x20;&#x28;&#x64;&#x65;&#x66;&#x69;&#x6e;&#x65;&#x20;&#x28;&#x69;&#x6e;&#x73;&#x65;&#x72;&#x74;&#x2d;&#x68;&#x65;&#x6c;&#x70;&#x20;&#x73;&#x20;&#x73;&#x6f;&#x2d;&#x66;&#x61;&#x72;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x64;&#x20;&#x28;&#x28;&#x6e;&#x75;&#x6c;&#x6c;&#x3f;&#x20;&#x73;&#x29;&#x20;&#x28;&#x61;&#x70;&#x70;&#x65;&#x6e;&#x64;&#x20;&#x73;&#x6f;&#x2d;&#x66;&#x61;&#x72;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x6e;&#x20;&#x73;&#x29;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x28;&#x3c;&#x20;&#x6e;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x73;&#x29;&#x29;&#x20;&#x28;&#x61;&#x70;&#x70;&#x65;&#x6e;&#x64;&#x20;&#x73;&#x6f;&#x2d;&#x66;&#x61;&#x72;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x6e;&#x20;&#x73;&#x29;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x65;&#x6c;&#x73;&#x65;&#x20;&#x28;&#x69;&#x6e;&#x73;&#x65;&#x72;&#x74;&#x2d;&#x68;&#x65;&#x6c;&#x70;&#x20;&#x28;&#x63;&#x64;&#x72;&#x20;&#x73;&#x29;&#x20;&#x28;&#x61;&#x70;&#x70;&#x65;&#x6e;&#x64;&#x20;&#x73;&#x6f;&#x2d;&#x66;&#x61;&#x72;&#x20;&#x28;&#x6c;&#x69;&#x73;&#x74;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x73;&#x29;&#x29;&#x29;&#x29;&#x29;&#x29;&#x29;&#xa;&#x20;&#x20;&#x28;&#x69;&#x6e;&#x73;&#x65;&#x72;&#x74;&#x2d;&#x68;&#x65;&#x6c;&#x70;&#x20;&#x73;&#x20;&#x6e;&#x69;&#x6c;&#x29;</div>)</code></pre>
+
+
+        <button id='solution-5' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q insert</code></pre>
+
+<blockquote><p>The Ok tests for this problem don't check whether your solution is
+tail-recursive! In order to check your understanding, you can run some manual
+tests with large input such as the following to ensure that your function use a
+constant number of frames:</p>
+
+<pre><code>scm&gt; (define big&#x2d;list (tail&#x2d;replicate 3 1000))
+big&#x2d;list
+scm&gt; (define result (insert 4 big&#x2d;list))
+result
+scm&gt; (define expected (append big&#x2d;list (list 4)))
+expected
+scm&gt; (equal? result expected)
+True</code></pre></blockquote>
+
+
+<h2 id="more-scheme">More Scheme</h2>
+
+
+<blockquote><p>These questions are to be done in <code>lab13_extra.scm</code>.</p></blockquote>
+
+<h3 class="question" id="q6">Q6: Deep Map</h3>
+
+<p>Write the function <code>deep&#x2d;map</code>, which takes a function <code>fn</code> and a nested list
+<code>s</code>. A nested list is a list where each element is either a number or a list
+(e.g. <code>(1 (2) 3)</code> where <code>1</code>, <code>(2)</code>, and <code>3</code> are the elements). It returns a list
+with identical structure to <code>s</code>, but replacing each non-list element by the
+result of applying <code>fn</code> on it, even for elements within sub-lists. For example:</p>
+
+<pre><code>scm&gt; (define (double x) (* 2 x))
+double
+scm&gt; (deep&#x2d;map double &#x27;(2 (3 4)))
+(4 (6 8))</code></pre>
+
+<p>Assume that the input has no dotted (malformed) lists.</p>
+
+<blockquote><p><em>Hint</em>: You can use the function <code>list?</code>, which checks if a value
+is a list.</p></blockquote>
+
+
+
+<pre><code>(define (deep&#x2d;map fn s)
+<div class="alt solution-6">  'YOUR-CODE-HERE
+  nil
+</div><div class="solution solution-6">&#x20;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x64;&#x20;&#x28;&#x28;&#x6e;&#x75;&#x6c;&#x6c;&#x3f;&#x20;&#x73;&#x29;&#x20;&#x73;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x28;&#x6c;&#x69;&#x73;&#x74;&#x3f;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x73;&#x29;&#x29;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x28;&#x64;&#x65;&#x65;&#x70;&#x2d;&#x6d;&#x61;&#x70;&#x20;&#x66;&#x6e;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x73;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x64;&#x65;&#x65;&#x70;&#x2d;&#x6d;&#x61;&#x70;&#x20;&#x66;&#x6e;&#x20;&#x28;&#x63;&#x64;&#x72;&#x20;&#x73;&#x29;&#x29;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x65;&#x6c;&#x73;&#x65;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x28;&#x66;&#x6e;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x73;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x64;&#x65;&#x65;&#x70;&#x2d;&#x6d;&#x61;&#x70;&#x20;&#x66;&#x6e;&#x20;&#x28;&#x63;&#x64;&#x72;&#x20;&#x73;&#x29;&#x29;&#x29;&#x29;&#x29;</div>)</code></pre>
+
+
+        <button id='solution-6' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q deep-map</code></pre>
+<h3 class="question" id="q7">Q7: Tally</h3>
+
+<p>Implement <code>tally</code>, which takes a list of <code>names</code> and returns a
+list of pairs, one pair for each unique name in <code>names</code>. Each pair should
+contain a name and the number of times that the name appeared in <code>names</code>. Each
+name should appear only once in the output, and the names should be ordered by
+when they first appear in <code>names</code>.</p>
+
+<p><em>Hint</em>: Use the <code>eq?</code> procedure to test if two names are the same.</p>
+
+<pre><code>scm&gt; (tally &#x27;(james jen jemin john))
+((james . 1) (jen . 1) (jemin . 1) (john . 1))
+scm&gt; (tally &#x27;(billy billy bob billy bob billy bob))
+((billy . 4) (bob . 3))
+scm&gt; (tally &#x27;())
+()</code></pre>
+
+
+
+<pre><code>(define (tally names)
+<div class="alt solution-7">  'YOUR-CODE-HERE
+  nil
+</div><div class="solution solution-7">&#x20;&#x20;&#x28;&#x6d;&#x61;&#x70;&#x20;&#x28;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x20;&#x28;&#x6e;&#x61;&#x6d;&#x65;&#x29;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x6e;&#x61;&#x6d;&#x65;&#x20;&#x28;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x6e;&#x61;&#x6d;&#x65;&#x20;&#x6e;&#x61;&#x6d;&#x65;&#x73;&#x29;&#x29;&#x29;&#x20;&#x28;&#x75;&#x6e;&#x69;&#x71;&#x75;&#x65;&#x20;&#x6e;&#x61;&#x6d;&#x65;&#x73;&#x29;&#x29;</div>)</code></pre>
+
+
+        <button id='solution-7' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p><em>Hint</em>: If you find the procedure getting too complicated,
+you may want to try implementing the <code>count</code> and <code>unique</code> helper procedures to use in
+your solution. You may also want to use <code>map</code> and <code>filter</code> in your solution.</p>
+
+
+
+<pre><code>; Implementing and using these helper procedures is optional. You are allowed
+; to delete them.
+(define (unique s)
+<div class="alt solution-8">  'YOUR-CODE-HERE
+  nil
+</div><div class="solution solution-8">&#x20;&#x20;&#x28;&#x69;&#x66;&#x20;&#x28;&#x6e;&#x75;&#x6c;&#x6c;&#x3f;&#x20;&#x73;&#x29;&#x20;&#x6e;&#x69;&#x6c;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x73;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x75;&#x6e;&#x69;&#x71;&#x75;&#x65;&#x20;&#x28;&#x66;&#x69;&#x6c;&#x74;&#x65;&#x72;&#x20;&#x28;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x20;&#x28;&#x78;&#x29;&#x20;&#x28;&#x6e;&#x6f;&#x74;&#x20;&#x28;&#x65;&#x71;&#x3f;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x73;&#x29;&#x20;&#x78;&#x29;&#x29;&#x29;&#x20;&#x28;&#x63;&#x64;&#x72;&#x20;&#x73;&#x29;&#x29;&#x29;&#x29;&#x29;</div>)
+
+(define (count name s)
+<div class="alt solution-8">  'YOUR-CODE-HERE
+  nil
+</div><div class="solution solution-8">&#x20;&#x20;&#x28;&#x69;&#x66;&#x20;&#x28;&#x6e;&#x75;&#x6c;&#x6c;&#x3f;&#x20;&#x73;&#x29;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x2b;&#x20;&#x28;&#x69;&#x66;&#x20;&#x28;&#x65;&#x71;&#x3f;&#x20;&#x6e;&#x61;&#x6d;&#x65;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x73;&#x29;&#x29;&#x20;&#x31;&#x20;&#x30;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x6e;&#x61;&#x6d;&#x65;&#x20;&#x28;&#x63;&#x64;&#x72;&#x20;&#x73;&#x29;&#x29;&#x29;&#x29;</div>)</code></pre>
+
+
+        <button id='solution-8' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q tally</code></pre>
+
+
+<h2 id="more-generators">More Generators</h2>
+
+
+<blockquote><p>This question is to be done in <code>lab13_extra.py</code>.</p></blockquote>
+
+<h3 class="question" id="q8">Q8: Generators generator</h3>
+
+<p>Write the generator function <code>make_generators_generator</code>, which takes a
+zero-argument generator function <code>g</code> and returns a generator that yields
+generators.  For each element <code>e</code> yielded by the generator object returned by
+calling <code>g</code>, a new generator object is yielded that will generate items 1
+through <code>e</code> yielded by the generator returned by <code>g</code>.</p>
+
+
+
+<pre><code>def make_generators_generator(g):
+    &quot;&quot;&quot;Generates all the &quot;sub&quot;&#x2d;generators of the generator returned by
+    the generator function g.
+
+    &gt;&gt;&gt; def ints_to(n):
+    ...     for i in range(1, n + 1):
+    ...          yield i
+    ...
+    &gt;&gt;&gt; def ints_to_5():
+    ...     for item in ints_to(5):
+    ...         yield item
+    ...
+    &gt;&gt;&gt; for gen in make_generators_generator(ints_to_5):
+    ...     print(&quot;Next Generator:&quot;)
+    ...     for item in gen:
+    ...         print(item)
+    ...
+    Next Generator:
+    1
+    Next Generator:
+    1
+    2
+    Next Generator:
+    1
+    2
+    3
+    Next Generator:
+    1
+    2
+    3
+    4
+    Next Generator:
+    1
+    2
+    3
+    4
+    5
+    &quot;&quot;&quot;
+<div class="alt solution-9">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-9">&#x20;&#x20;&#x20;&#x20;&#x64;&#x65;&#x66;&#x20;&#x67;&#x65;&#x6e;&#x28;&#x69;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x69;&#x74;&#x65;&#x6d;&#x20;&#x69;&#x6e;&#x20;&#x67;&#x28;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x69;&#x20;&#x3c;&#x3d;&#x20;&#x30;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#x20;&#x69;&#x74;&#x65;&#x6d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x20;&#x2d;&#x3d;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x69;&#x20;&#x3d;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x69;&#x74;&#x65;&#x6d;&#x20;&#x69;&#x6e;&#x20;&#x67;&#x28;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#x20;&#x67;&#x65;&#x6e;&#x28;&#x69;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x20;&#x2b;&#x3d;&#x20;&#x31;</div></code></pre>
+
+
+        <button id='solution-9' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q make_generators_generator</code></pre>
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#required-questions">Required Questions</a></li>
+  <ul>
+    <li><a href="#scheme">Scheme</a></li>
+    <ul>
+      <li><a href="#q1">Q1: Compose All</a></li>
+    </ul>
+    <li><a href="#tail-recursion">Tail Recursion</a></li>
+    <ul>
+      <li><a href="#q2">Q2: Replicate</a></li>
+    </ul>
+    <li><a href="#generators">Generators</a></li>
+    <ul>
+      <li><a href="#q3">Q3: Generate Permutations</a></li>
+    </ul>
+  </ul>
+  <li><a href="#optional-questions">Optional Questions</a></li>
+  <ul>
+    <li><a href="#streams">Streams</a></li>
+    <ul>
+      <li><a href="#q4">Q4: Run-Length Encoding</a></li>
+    </ul>
+    <li><a href="#more-tail-recursion">More Tail Recursion</a></li>
+    <ul>
+      <li><a href="#q5">Q5: Insert</a></li>
+    </ul>
+    <li><a href="#more-scheme">More Scheme</a></li>
+    <ul>
+      <li><a href="#q6">Q6: Deep Map</a></li>
+      <li><a href="#q7">Q7: Tally</a></li>
+    </ul>
+    <li><a href="#more-generators">More Generators</a></li>
+    <ul>
+      <li><a href="#q8">Q8: Generators generator</a></li>
+    </ul>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+
+<script type="text/javascript" src="../../assets/js/config.js"></script>
+<script>
+  $(function() {
+    var staging_domains = ['staging.cs61a.org', 'solutions.cs61a.org', 'localhost', '127.0.0.1'];
+    var host = window.location.hostname;
+    var staging = staging_domains.indexOf(host) != -1;
+    staging = staging || (host.endsWith('.pullrequests.cs61a.org') && !host.startsWith('last-build.'));
+
+    var after_due_date = new Date("04/28/2018") < new Date();
+    var before_end_date = new Date() <= new Date(endDate);
+    var release_solutions = (staging || after_due_date) && before_end_date;
+
+    if (release_solutions) {
+      $('.toggle').css('display', 'inline-block');
+      $('.toggle').click(function() {
+        var solution_id = $(this).attr('id');
+        $('div.' + solution_id).slideToggle(600);
+      });
+    }
+  });
+</script>
+
+
+  </body>
+
+<!-- Mirrored from cs61a.org/lab/lab13/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:38:39 GMT -->
+</html>

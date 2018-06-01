@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/hw/hw07/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:38 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+<link rel="stylesheet" type="text/css" href="../../assets/css/hw.css">
+
+
+    <title>
+Homework 7 | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Homework 7
+
+        
+        <ul class="inline-block list-inline">
+          <li><a href="hw07.zip" class="label label-outline">hw07.zip</a></li>
+        </ul>
+        
+      </h1>
+    </header>
+    
+<p><em>Due by 11:59pm on Tuesday, 3/13</em></p>
+
+
+
+
+<h2>Instructions</h2>
+
+<p>Download <a href="hw07.zip">hw07.zip</a>.</p>
+
+<p><strong>Submission:</strong> When you are done, submit with
+<code>python3 ok --submit</code>.
+You may submit more than once before the deadline; only the final submission
+will be scored. Check that you have successfully submitted your code on
+<a href="https://okpy.org/">okpy.org</a>.
+See <a href="../../lab/lab00/index.html#submit-the-assignment">Lab 0</a>
+for more instructions on submitting assignments.</p>
+
+<p><strong>Using Ok:</strong> If you have any questions about using Ok, please
+refer to <a href="../../articles/using-ok.html">this guide.</a>
+
+
+  <p><strong>Readings:</strong> You might find the following references
+  useful:</p>
+  <ul>
+  <li><a href="http://composingprograms.com/pages/25-object-oriented-programming.html">Section 2.5</a></li>
+  <li><a href="http://composingprograms.com/pages/27-object-abstraction.html">Section 2.7.1</a></li>
+  <li><a href="http://composingprograms.com/pages/29-recursive-objects.html">Section 2.9.1</a></li>
+</ul>
+
+
+
+
+    
+<h3 class="question" id="q1">Q1: Digits</h3>
+
+<p>Implement <code>digits</code>, which returns a linked list containing the digits of a
+non-negative integer <code>n</code>.</p>
+
+<pre><code>def digits(n):
+    &quot;&quot;&quot;Return the digits of n as a linked list.
+
+    &gt;&gt;&gt; digits(0) is Link.empty
+    True
+    &gt;&gt;&gt; digits(543)
+    Link(5, Link(4, Link(3)))
+    &quot;&quot;&quot;
+    s = Link.empty
+    while n &gt; 0:
+        n, last = n // 10, n % 10
+        "*** YOUR CODE HERE ***"
+    return s</code></pre>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q digits</code></pre>
+
+
+
+<h3 class="question" id="q2">Q2: Miss Manners</h3>
+
+<p>Create a class called <code>MissManners</code> that promotes politeness among our
+objects. A <code>MissManners</code> object takes another object on construction.
+It has one method, called <code>ask</code>.  It responds by calling methods on the
+object it contains, but only if the caller said please first.</p>
+
+<p>We can also compose multiple instances of <code>MissManners</code> objects upon
+each other (see <code>double_fussy</code> in doctests). A multilevel <code>MissManners</code> object
+must be politely requested to ask its own <code>MissManners</code> object. This continues
+until we reach the bottom level <code>MissManners</code> object.</p>
+
+<blockquote><p><em>Hint</em>: Use <code>getattr</code> <a href="https://docs.python.org/3/library/functions.html#getattr">(Python
+docs)</a> and
+<code>hasattr</code> <a href="https://docs.python.org/3/library/functions.html#hasattr">(Python
+docs)</a> to
+access methods using strings. You may want to search online for some
+examples of their usage.</p>
+
+<p><em>Hint</em>: Your implementation will need to use the <code>*args</code> notation that
+allows functions to take a flexible number of arguments.
+If you need a refresher, take a look at your implementation of
+<code>make_averaged</code> in the Hog project.</p></blockquote>
+
+<pre><code>class MissManners:
+    &quot;&quot;&quot;A container class that only forwards messages that say please.
+
+    &gt;&gt;&gt; v = VendingMachine(&#x27;teaspoon&#x27;, 10)
+    &gt;&gt;&gt; v.restock(2)
+    &#x27;Current teaspoon stock: 2&#x27;
+
+    &gt;&gt;&gt; m = MissManners(v)
+    &gt;&gt;&gt; m.ask(&#x27;vend&#x27;)
+    &#x27;You must learn to say please first.&#x27;
+    &gt;&gt;&gt; m.ask(&#x27;please vend&#x27;)
+    &#x27;You must deposit $10 more.&#x27;
+    &gt;&gt;&gt; m.ask(&#x27;please deposit&#x27;, 20)
+    &#x27;Current balance: $20&#x27;
+    &gt;&gt;&gt; m.ask(&#x27;now will you vend?&#x27;)
+    &#x27;You must learn to say please first.&#x27;
+    &gt;&gt;&gt; m.ask(&#x27;please hand over a teaspoon&#x27;)
+    &#x27;Thanks for asking, but I know not how to hand over a teaspoon.&#x27;
+    &gt;&gt;&gt; m.ask(&#x27;please vend&#x27;)
+    &#x27;Here is your teaspoon and $10 change.&#x27;
+
+    &gt;&gt;&gt; double_fussy = MissManners(m) # Composed MissManners objects
+    &gt;&gt;&gt; double_fussy.ask(&#x27;deposit&#x27;, 10)
+    &#x27;You must learn to say please first.&#x27;
+    &gt;&gt;&gt; double_fussy.ask(&#x27;please deposit&#x27;, 10)
+    &#x27;Thanks for asking, but I know not how to deposit.&#x27;
+    &gt;&gt;&gt; double_fussy.ask(&#x27;please please deposit&#x27;, 10)
+    &#x27;Thanks for asking, but I know not how to please deposit.&#x27;
+    &gt;&gt;&gt; double_fussy.ask(&#x27;please ask&#x27;, &#x27;please deposit&#x27;, 10)
+    &#x27;Current balance: $10&#x27;
+    &quot;&quot;&quot;
+    def __init__(self, obj):
+        self.obj = obj
+
+    def ask(self, message, *args):
+        magic_word = &#x27;please &#x27;
+        if not message.startswith(magic_word):
+            return &#x27;You must learn to say please first.&#x27;
+        "*** YOUR CODE HERE ***"
+</code></pre>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q MissManners</code></pre>
+
+
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#q1">Q1: Digits</a></li>
+  <li><a href="#q2">Q2: Miss Manners</a></li>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+
+<!-- Mirrored from cs61a.org/hw/hw07/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:38 GMT -->
+</html>

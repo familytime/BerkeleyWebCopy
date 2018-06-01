@@ -1,0 +1,25 @@
+HTTrack3.49-1+htsswf+htsjava launched on Wed, 16 May 2018 19:17:05 at https://sp18.datastructur.es +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(winhttrack -qwC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2A25000%f#f -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2014], %s -->" -%l "en, *" https://sp18.datastructur.es -O1 "C:\Users\yzkti\Desktop\cs61a spring2018" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+19:17:51	Error: 	"Not Found" (404) at link https://sp18.datastructur.es/assets/images/josh4.png (from https://sp18.datastructur.es/)
+19:21:04	Error: 	"Not Found" (404) at link https://sp18.datastructur.es/piazza.com/berkeley/spring2018/cs61b (from https://sp18.datastructur.es/about.html)
+19:21:04	Error: 	"Not Found" (404) at link https://sp18.datastructur.es/materials/lab/lab1b (from https://sp18.datastructur.es/about.html)
+19:21:04	Error: 	"Not Found" (404) at link https://sp18.datastructur.es/materials/guides/style61b.txt (from https://sp18.datastructur.es/resources.html)
+19:22:00	Error: 	"Not Found" (404) at link https://sp18.datastructur.es/materials/lectures/lec20/"http://algs4.cs.princeton.edu/15uf/WeightedQuickUnionPathCompressionUF.java.html (from https://sp18.datastructur.es/materials/lectures/lec20/lec20)
+19:22:00	Error: 	"Not Found" (404) at link https://sp18.datastructur.es/materials/lectures/lec27/this xkcd (from https://sp18.datastructur.es/materials/lectures/lec27/lec27)
+19:22:00	Error: 	"Not Found" (404) at link https://sp18.datastructur.es/materials/lectures/lec28/this xkcd (from https://sp18.datastructur.es/materials/lectures/lec28/lec28)
+19:22:00	Error: 	"Not Found" (404) at link https://sp18.datastructur.es/materials/lectures/lec29/Fall 2013 final (from https://sp18.datastructur.es/materials/lectures/lec29/lec29)
+19:22:00	Error: 	"Not Found" (404) at link https://sp18.datastructur.es/materials/lectures/lec30/thisgraph for an example of one for which the MST is a SPT (from https://sp18.datastructur.es/materials/lectures/lec30/lec30)
+19:22:00	Error: 	"Not Found" (404) at link https://sp18.datastructur.es/materials/lectures/lec30/Sharks and Minnows (from https://sp18.datastructur.es/materials/lectures/lec30/lec30)
+19:22:22	Error: 	"Not Found" (404) at link https://sp18.datastructur.es/materials/proj/proj3/www.openstreetmap.org/copyright (from https://sp18.datastructur.es/materials/proj/proj3/proj3)
+19:22:49	Error: 	"Not Found" (404) at link https://sp18.datastructur.es/materials/proj/proj3/root.png (from https://sp18.datastructur.es/materials/proj/proj3/FileDisplayDemo.html)
+19:22:50	Error: 	"Not Found" (404) at link https://sp18.datastructur.es/materials/proj/proj3/doc/resources/fonts/dejavu.css (from https://sp18.datastructur.es/materials/proj/proj3/doc/stylesheet.css)
+19:22:51	Error: 	"Not Found" (404) at link https://sp18.datastructur.es/materials/proj/proj3/doc/index-files/index-0.html (from https://sp18.datastructur.es/materials/proj/proj3/doc/index-files/index-1.html)
+
+HTTrack Website Copier/3.49-1 mirror complete in 6 minutes 0 seconds : 632 links scanned, 617 files written (41891671 bytes overall) [39174045 bytes received at 108816 bytes/sec], 4435019 bytes transferred using HTTP compression in 235 files, ratio 29%, 35.5 requests per connection
+(14 errors, 0 warnings, 0 messages)

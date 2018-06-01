@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec32/lec32 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Sorting I (Basic Sorts) | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Sorting I (Basic Sorts)</header><div class="due-date">Author: Josh Hug</div><ul id="markdown-toc">
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#recommended-problems" id="markdown-toc-recommended-problems">Recommended Problems</a>    <ul>
+      <li><a href="#b-level" id="markdown-toc-b-level">B level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Inversions.</strong> The number of pairs of elements in a sequence that are out of
+order. An array with no inversions is ordered.</p>
+
+<p><strong>Selection sort.</strong> One way to sort is by selection: Repeatedly identifying the
+most extreme element and moving it to the end of the unsorted section of the
+array. The naive implementation of such an algorithm is in place.</p>
+
+<p><strong>Naive Heapsort.</strong> A variant of selection sort is to use a heap based PQ to
+sort the items. To do this, insert all items into a MaxPQ and then remove them
+one by one. The first such item removed is placed at the end of the array, the
+next item right before the end, and so forth until that last item deleted is
+placed in position 0 of the array. Each insertion and deletion takes O(log N)
+time, and there are N insertions and deletions, resulting in a O(N log N)
+runtime. With some more work, we can show that heapsort is θ(N log N) in the
+worst case. This naive version of heapsort uses θ(N) for the PQ. Creation of the
+MaxPQ requires O(N) memory. It is also possible to use a MinPQ instead.</p>
+
+<p><strong>In place heapsort.</strong> When sorting an array, we can avoid the θ(N) memory cost
+by treating the array itself as a heap. To do this, we first heapify the array
+using bottom-up heap construction (taking θ(N) time). We then repeatedly delete
+the max item, swapping it with the last item in the heap. Over time, the heap
+shrinks from N items to 0 items, and the sorted list from 0 items to N items.
+The resulting version is also θ(N log N).</p>
+
+<p><strong>Mergesort.</strong> We can sort by merging, as discussed in an earlier lecture.
+Mergesort is θ(N log N) and uses θ(N) memory.</p>
+
+<p><strong>Insertion Sort.</strong> For each item, insert into the output sequence in the
+appropriate place. Naive solution involves creation of a separate data
+structure. The memory efficient version of this algorithm swaps items one-by-one
+towards the left until they land in the right place. The invariant for this type
+of insertion sort is that every item to the left of position i is in sorted
+order, and everything to the right has not yet been examined. Every swap fixes
+exactly one inversion.</p>
+
+<p><strong>Insertion Sort Runtime.</strong> In the best case, insertion sort takes θ(N) time. In
+the worst case, θ(N^2) time. More generally, runtime is no worse than the number
+of inversions.</p>
+
+<p><strong>Shell’s Sort (extra slides).</strong> Not covered on exam. Idea is to compare items
+that are a distance h apart from each other, starting from large h and reducing
+down to h=1. The last step where h=1 ensures that the array is sorted (since h=1
+is just insertion sort). The earlier steps help speed things up by making long
+distance moves, fixing many inversions at once. Theoretical analysis of Shell’s
+sort is highly technical and has surprising results.</p>
+
+<h2 id="recommended-problems">Recommended Problems</h2>
+
+<h3 id="b-level">B level</h3>
+
+<ol>
+  <li>
+    <p>Give a best and worst case input for insertion sort.</p>
+  </li>
+  <li>
+    <p>Which sort do you expect to run more quickly on a reversed array, selection
+sort or insertion sort?</p>
+  </li>
+</ol>
+
+<p>See sorting comparisons (lec30) guide for more questions that involve all of our
+sorting algorithms.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec32/lec32 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:43 GMT -->
+</html>

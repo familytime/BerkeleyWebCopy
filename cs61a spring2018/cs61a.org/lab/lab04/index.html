@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/lab/lab04/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+Lab 4: Lists and Data Abstraction | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Lab 4: Lists and Data Abstraction
+
+        
+        <ul class="inline-block list-inline">
+          <li><a href="lab04.zip" class="label label-outline">lab04.zip</a></li>
+        </ul>
+        
+      </h1>
+    </header>
+    
+
+<p><i>Due at 11:59pm on Friday, 02/16/2018.</i></p>
+
+
+<h2 id='starter-files'>Starter Files</h2>
+
+
+<p>Download <a href="lab04.zip">lab04.zip</a>.
+Inside the archive, you will find starter files for the questions in this lab,
+  along with a copy of the <a href="ok.zip">Ok</a> autograder.</p>
+
+
+<h2 id='submission'>Submission</h2>
+
+<p>By the end of this lab, you should have submitted the lab with
+<code>python3 ok --submit</code>. You may submit more than once before the
+deadline; only the final submission will be graded.
+Check that you have successfully submitted your code on
+<a href="https://okpy.org/">okpy.org</a>.</p>
+
+<ul>
+  <li>To receive credit for this lab, you must complete Questions 1-6
+  in <a href="lab04.py">lab04.py</a> and submit through OK.</li>
+  <li>Questions 7-15 are <strong>optional</strong>. It can be found in the
+  <a href="lab04_extra.py">lab04_extra.py</a> file. It is recommended that you complete
+  these problems on your own time.</li>
+</ul>
+
+
+
+    
+<h1 id="topics">Topics</h1>
+
+
+<p>Consult this section if you need a refresher on the material for this lab. It's
+okay to skip directly to <a href="#required-questions">the questions</a> and refer back
+here should you get stuck.</p>
+
+
+<h2 id="lists">Lists</h2>
+
+
+<p>Lists are Python data structures that can store multiple values. Each value
+can be any type and can even be another list! A list is written as a commma
+separated list of expressions within square brackets:</p>
+
+<pre><code>&gt;&gt;&gt; list_of_nums = [1, 2, 3, 4]
+&gt;&gt;&gt; list_of_bools = [True, True, False, False]
+&gt;&gt;&gt; nested_lists = [1, [2, 3], [4, [5]]]</code></pre>
+
+<p>Each element in a list is assigned an index. Lists are <em>zero-indexed</em>, meaning
+their indices start at <code>0</code> and increase in sequential order. To retrieve an element
+from a list, use list indexing:</p>
+
+<pre><code>&gt;&gt;&gt; lst = [6, 5, 4, 3, 2, 1]
+&gt;&gt;&gt; lst[0]
+6
+&gt;&gt;&gt; lst[3]
+3</code></pre>
+
+<p>Often times we need to know how long a list is when we're working with it. To find
+the length of a list, call the function <code>len</code> on it:</p>
+
+<pre><code>&gt;&gt;&gt; len([])
+0
+&gt;&gt;&gt; len([2, 4, 6, 8, 10])
+5</code></pre>
+
+<blockquote><p><strong>Tip:</strong> Recall that empty lists, <code>[]</code>, are false-y values. Therefore, you
+can use an if statement like the following if you only want to do operations on
+non-empty lists:</p>
+
+<pre><code>if lst:
+    # Do stuff with the elements of list</code></pre>
+
+<p>This is equivalent to:</p>
+
+<pre><code>if len(lst) &gt; 0:
+    # Do stuff</code></pre></blockquote>
+
+<p>You can also create a copy of some portion of the list using list slicing. To slice
+a list, use this syntax: <code>lst[&lt;start index&gt;:&lt;end index&gt;]</code>. This expression
+evaluates to a new list containing the elements of <code>lst</code> starting at and including
+the element at <code>&lt;start index&gt;</code> up to but not including the element at <code>end index</code>.</p>
+
+<pre><code>&gt;&gt;&gt; lst = [True, False, True, True, False]
+&gt;&gt;&gt; lst[1:4]
+[False, True, True]
+&gt;&gt;&gt; lst[:3]  # Start index defaults to 0
+[True, False, True]
+&gt;&gt;&gt; lst[3:]  # End index defaults to len(lst) + 1
+[True, False]
+&gt;&gt;&gt; lst[:]  # Creates a copy of the whole list
+[True, False, True, True, False]</code></pre>
+
+
+<h3 id="list-comprehensions">List Comprehensions</h3>
+
+
+<p>List comprehensions are a compact and powerful way of creating new lists
+out of sequences. The general syntax for a list comprehension is the following:</p>
+
+<pre><code>[&lt;expression&gt; for &lt;element&gt; in &lt;sequence&gt; if &lt;conditional&gt;]</code></pre>
+
+<p>The syntax is designed to read like English: <em>"Compute the expression for each
+element in the sequence if the conditional is true."</em></p>
+
+<p>Let's see it in action:</p>
+
+<pre><code>&gt;&gt;&gt; [i**2 for i in [1, 2, 3, 4] if i % 2 == 0]
+[4, 16]</code></pre>
+
+<p>Here, for each element <code>i</code> in <code>[1, 2, 3, 4]</code> that satisfies <code>i % 2 == 0</code>, we
+evaluate the expression <code>i**2</code> and insert the resulting value into a new list.
+In other words, this list comprehension will create a new list that contains
+the square of each of the even elements of the original list.</p>
+
+<p>If we were to write this using a for statement, it would look like this:</p>
+
+<pre><code>&gt;&gt;&gt; lst = []
+&gt;&gt;&gt; for i in [1, 2, 3, 4]:
+...     if i % 2 == 0:
+...         lst += [i**2]
+&gt;&gt;&gt; lst
+[4, 16]</code></pre>
+
+<blockquote><p><strong>Note:</strong> The <code>if</code> clause in a list comprehension is optional.
+For example, you can just say:</p>
+
+<pre><code>&gt;&gt;&gt; [i**2 for i in [1, 2, 3, 4]]
+[1, 4, 9, 16]</code></pre></blockquote>
+
+
+<h2 id="data-abstraction">Data Abstraction</h2>
+
+
+<p>Data abstraction is a powerful concept in computer science that
+allows programmers to treat code as objects -- for example,
+car objects, chair objects, people objects, etc. That way,
+programmers don't have to worry about <em>how</em> code is
+implemented -- they just have to know <em>what</em> it does.</p>
+
+<p>Data abstraction mimics how we think about the world. When you want to
+drive a car, you don't need to know how the
+engine was built or what kind of material the tires are made of.
+You just have to know how to turn the wheel and press the gas pedal.</p>
+
+<p>An abstract data type consists of two types of functions:</p>
+
+<ul>
+  <li><strong>Constructors</strong>: functions that build the abstract data type.</li>
+  <li><strong>Selectors</strong>: functions that retrieve information from the data type.</li>
+</ul>
+
+<p>Programmers design ADTs to abstract away how information is stored and
+calculated such that the end user does <em>not</em> need to know how constructors and
+selectors are implemented. The nature of <em>abstract</em> data types allows
+whoever uses them to assume that the functions have been written correctly and
+work as described.</p>
+
+
+<h1 id="required-questions">Required Questions</h1>
+
+
+
+<h2 id="lists-practice">Lists Practice</h2>
+
+
+<h3 class="question" id="q1">Q1: List Indexing</h3>
+
+<blockquote><p>Use Ok to test your knowledge with the following "List Indexing"
+questions:</p>
+
+<pre><code>python3 ok &#x2d;q indexing &#x2d;u</code></pre></blockquote>
+
+<p>For each of the following lists, what is the list indexing expression that evaluates to
+<code>7</code>? For example, if <code>x = [7]</code>, then the answer would be <code>x[0]</code>. You can use the
+interpreter or Python Tutor to experiment with your answers.</p>
+
+<pre><code>&gt;&gt;&gt; x = [1, 3, [5, 7], 9]
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x78;&#x5b;&#x32;&#x5d;&#x5b;&#x31;&#x5d;</div>
+&gt;&gt;&gt; x = [[7]]
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x78;&#x5b;&#x30;&#x5d;&#x5b;&#x30;&#x5d;</div>
+&gt;&gt;&gt; x = [3, 2, 1, [9, 8, 7]]
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x78;&#x5b;&#x33;&#x5d;&#x5b;&#x32;&#x5d;</div>
+&gt;&gt;&gt; x = [[3, [5, 7], 9]]
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x78;&#x5b;&#x30;&#x5d;&#x5b;&#x31;&#x5d;&#x5b;&#x31;&#x5d;</div></code></pre>
+        <button id='prompt-1' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>What would Python display? If you get stuck, try it out in the Python interpreter!</p>
+
+<pre><code>&gt;&gt;&gt; lst = [3, 2, 7, [84, 83, 82]]
+&gt;&gt;&gt; lst[4]
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x45;&#x72;&#x72;&#x6f;&#x72;</div>
+&gt;&gt;&gt; lst[3][0]
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x38;&#x34;</div></code></pre>
+        <button id='prompt-2' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<h3 class="question" id="q2">Q2: WWPD: Lists?</h3>
+
+<p>What would Python display? Try to figure it out before
+you type it into the interpreter!</p>
+
+<blockquote><p>Use Ok to test your knowledge with the following "What Would Python Display?"
+questions:</p>
+
+<pre><code>python3 ok &#x2d;q lists &#x2d;u</code></pre></blockquote>
+
+<pre><code>&gt;&gt;&gt; [x*x for x in range(5)]
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x5b;&#x30;&#x2c;&#x20;&#x31;&#x2c;&#x20;&#x34;&#x2c;&#x20;&#x39;&#x2c;&#x20;&#x31;&#x36;&#x5d;</div>
+&gt;&gt;&gt; [n for n in range(10) if n % 2 == 0]
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x5b;&#x30;&#x2c;&#x20;&#x32;&#x2c;&#x20;&#x34;&#x2c;&#x20;&#x36;&#x2c;&#x20;&#x38;&#x5d;</div>
+&gt;&gt;&gt; ones = [1 for i in [&quot;hi&quot;, &quot;bye&quot;, &quot;you&quot;]]
+&gt;&gt;&gt; ones + [str(i) for i in [6, 3, 8, 4]]
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x5b;&#x31;&#x2c;&#x20;&#x31;&#x2c;&#x20;&#x31;&#x2c;&#x20;&#x27;&#x36;&#x27;&#x2c;&#x20;&#x27;&#x33;&#x27;&#x2c;&#x20;&#x27;&#x38;&#x27;&#x2c;&#x20;&#x27;&#x34;&#x27;&#x5d;</div>
+&gt;&gt;&gt; [i+5 for i in [n for n in range(1,4)]]
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x5b;&#x36;&#x2c;&#x20;&#x37;&#x2c;&#x20;&#x38;&#x5d;</div></code></pre>
+        <button id='prompt-3' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<pre><code>&gt;&gt;&gt; [i**2 for i in range(10) if i &lt; 3]
+<div class="alt prompt-4">______</div><div class="solution prompt-4">&#x5b;&#x30;&#x2c;&#x20;&#x31;&#x2c;&#x20;&#x34;&#x5d;</div>
+&gt;&gt;&gt; lst = [&#x27;hi&#x27; for i in [1, 2, 3]]
+&gt;&gt;&gt; print(lst)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">&#x5b;&#x27;&#x68;&#x69;&#x27;&#x2c;&#x20;&#x27;&#x68;&#x69;&#x27;&#x2c;&#x20;&#x27;&#x68;&#x69;&#x27;&#x5d;</div>
+&gt;&gt;&gt; lst + [i for i in [&#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;]]
+<div class="alt prompt-4">______</div><div class="solution prompt-4">&#x5b;&#x27;&#x68;&#x69;&#x27;&#x2c;&#x20;&#x27;&#x68;&#x69;&#x27;&#x2c;&#x20;&#x27;&#x68;&#x69;&#x27;&#x2c;&#x20;&#x27;&#x31;&#x27;&#x2c;&#x20;&#x27;&#x32;&#x27;&#x2c;&#x20;&#x27;&#x33;&#x27;&#x5d;</div></code></pre>
+        <button id='prompt-4' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<h3 class="question" id="q3">Q3: If This Not That</h3>
+
+<p>Define <code>if_this_not_that</code>, which takes a list of integers <code>i_list</code> and an
+integer <code>this</code>. For each element in <code>i_list</code>, if the element is larger than
+<code>this</code>, then print the element. Otherwise, print <code>&quot;that&quot;</code>.</p>
+
+
+
+<pre><code>def if_this_not_that(i_list, this):
+    &quot;&quot;&quot;Define a function which takes a list of integers `i_list` and an integer
+    `this`. For each element in `i_list`, print the element if it is larger
+    than `this`; otherwise, print the word &quot;that&quot;.
+
+    &gt;&gt;&gt; original_list = [1, 2, 3, 4, 5]
+    &gt;&gt;&gt; if_this_not_that(original_list, 3)
+    that
+    that
+    that
+    4
+    5
+    &quot;&quot;&quot;
+<div class="alt solution-1">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-1">&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x65;&#x6c;&#x65;&#x6d;&#x20;&#x69;&#x6e;&#x20;&#x69;&#x5f;&#x6c;&#x69;&#x73;&#x74;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x65;&#x6c;&#x65;&#x6d;&#x20;&#x3c;&#x3d;&#x20;&#x74;&#x68;&#x69;&#x73;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x70;&#x72;&#x69;&#x6e;&#x74;&#x28;&#x22;&#x74;&#x68;&#x61;&#x74;&#x22;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x70;&#x72;&#x69;&#x6e;&#x74;&#x28;&#x65;&#x6c;&#x65;&#x6d;&#x29;&#xa;&#xa;&#x23;&#x20;&#x4c;&#x69;&#x73;&#x74;&#x20;&#x63;&#x6f;&#x6d;&#x70;&#x72;&#x65;&#x68;&#x65;&#x6e;&#x73;&#x69;&#x6f;&#x6e;&#x20;&#x76;&#x65;&#x72;&#x73;&#x69;&#x6f;&#x6e;&#xa;&#x64;&#x65;&#x66;&#x20;&#x69;&#x66;&#x5f;&#x74;&#x68;&#x69;&#x73;&#x5f;&#x6e;&#x6f;&#x74;&#x5f;&#x74;&#x68;&#x61;&#x74;&#x28;&#x69;&#x5f;&#x6c;&#x69;&#x73;&#x74;&#x2c;&#x20;&#x74;&#x68;&#x69;&#x73;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x5b;&#x70;&#x72;&#x69;&#x6e;&#x74;&#x28;&#x69;&#x29;&#x20;&#x69;&#x66;&#x20;&#x69;&#x20;&#x3e;&#x20;&#x74;&#x68;&#x69;&#x73;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x20;&#x70;&#x72;&#x69;&#x6e;&#x74;&#x28;&#x27;&#x74;&#x68;&#x61;&#x74;&#x27;&#x29;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x69;&#x20;&#x69;&#x6e;&#x20;&#x69;&#x5f;&#x6c;&#x69;&#x73;&#x74;&#x5d;&#xa;</div></code></pre>
+
+
+        <button id='solution-1' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q if_this_not_that</code></pre>
+
+
+<h2 id="city-data-abstraction">City Data Abstraction</h2>
+
+
+<p>Say we have an abstract data type for cities. A city object will hold the
+city's name, and its latitude and longitude.</p>
+
+<p>Our ADT has one <strong>constructor</strong>:</p>
+
+<ul>
+  <li><code>make_city(name, lat, lon)</code>: Creates a city object with the given name, latitude,
+  and longitude.</li>
+</ul>
+
+<p>We also have the following <strong>selectors</strong> in order to get the information for each city:</p>
+
+<ul>
+  <li><code>get_name(city)</code>: Returns the city's name</li>
+  <li><code>get_lat(city)</code>: Returns the city's latitude</li>
+  <li><code>get_lon(city)</code>: Returns the city's longitude</li>
+</ul>
+
+<p>Here is how we would use the constructor and selectors to create city objects and
+extract their information:</p>
+
+<pre><code>&gt;&gt;&gt; berkeley = make_city(&#x27;Berkeley&#x27;, 122, 37)
+&gt;&gt;&gt; get_name(berkeley)
+&#x27;Berkeley&#x27;
+&gt;&gt;&gt; get_lat(berkeley)
+122
+&gt;&gt;&gt; new_york = make_city(&#x27;New York City&#x27;, 74, 40)
+&gt;&gt;&gt; get_lon(new_york)
+40</code></pre>
+
+<p>Notice that we don't need to know how these functions were implemented. We are
+assuming that someone else has defined them for us and that we can use them as
+described to create and access city objects.</p>
+
+<h3 class="question" id="q4">Q4: Distance</h3>
+
+<p>We will now implement the function <code>distance</code>, which computes the
+distance between two city objects. Recall that the distance between two
+coordinate pairs <code>(x1, y1)</code> and <code>(x2, y2)</code> can be found by calculating
+the <code>sqrt</code> of <code>(x1 &#x2d; x2)**2 + (y1 &#x2d; y2)**2</code>. We have already imported
+<code>sqrt</code> for your convenience. Use the latitude and longitude of a city as
+its coordinates; you'll need to use the selectors to access this info!</p>
+
+
+
+<pre><code>from math import sqrt
+def distance(city1, city2):
+    &quot;&quot;&quot;
+    &gt;&gt;&gt; city1 = make_city(&#x27;city1&#x27;, 0, 1)
+    &gt;&gt;&gt; city2 = make_city(&#x27;city2&#x27;, 0, 2)
+    &gt;&gt;&gt; distance(city1, city2)
+    1.0
+    &gt;&gt;&gt; city3 = make_city(&#x27;city3&#x27;, 6.5, 12)
+    &gt;&gt;&gt; city4 = make_city(&#x27;city4&#x27;, 2.5, 15)
+    &gt;&gt;&gt; distance(city3, city4)
+    5.0
+    &quot;&quot;&quot;
+<div class="alt solution-2">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-2">&#x20;&#x20;&#x20;&#x20;&#x6c;&#x61;&#x74;&#x5f;&#x31;&#x2c;&#x20;&#x6c;&#x6f;&#x6e;&#x5f;&#x31;&#x20;&#x3d;&#x20;&#x67;&#x65;&#x74;&#x5f;&#x6c;&#x61;&#x74;&#x28;&#x63;&#x69;&#x74;&#x79;&#x31;&#x29;&#x2c;&#x20;&#x67;&#x65;&#x74;&#x5f;&#x6c;&#x6f;&#x6e;&#x28;&#x63;&#x69;&#x74;&#x79;&#x31;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x6c;&#x61;&#x74;&#x5f;&#x32;&#x2c;&#x20;&#x6c;&#x6f;&#x6e;&#x5f;&#x32;&#x20;&#x3d;&#x20;&#x67;&#x65;&#x74;&#x5f;&#x6c;&#x61;&#x74;&#x28;&#x63;&#x69;&#x74;&#x79;&#x32;&#x29;&#x2c;&#x20;&#x67;&#x65;&#x74;&#x5f;&#x6c;&#x6f;&#x6e;&#x28;&#x63;&#x69;&#x74;&#x79;&#x32;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x73;&#x71;&#x72;&#x74;&#x28;&#x28;&#x6c;&#x61;&#x74;&#x5f;&#x31;&#x20;&#x2d;&#x20;&#x6c;&#x61;&#x74;&#x5f;&#x32;&#x29;&#x2a;&#x2a;&#x32;&#x20;&#x2b;&#x20;&#x28;&#x6c;&#x6f;&#x6e;&#x5f;&#x31;&#x20;&#x2d;&#x20;&#x6c;&#x6f;&#x6e;&#x5f;&#x32;&#x29;&#x2a;&#x2a;&#x32;&#x29;</div></code></pre>
+
+
+        <button id='solution-2' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q distance</code></pre>
+
+<h3 class="question" id="q5">Q5: Closer city</h3>
+
+<p>Next, implement <code>closer_city</code>, a function that takes a latitude,
+longitude, and two cities, and returns the name of the city that is
+relatively closer to the provided latitude and longitude.</p>
+
+<p>You may only use the selectors and constructors introduced above and the
+<code>distance</code> function you just defined for this question.</p>
+
+<p>All of the selector and constructor functions can be found in <code>utils.py</code>, if you
+are curious how they are implemented. However, the point of data abstraction,
+as we've said, is that we do not need to know how an abstract data type is
+implemented, but rather just how we can interact with and use the data type.</p>
+
+<blockquote><p><strong>Hint</strong>: Try using your city constructor to make a temporary city!</p></blockquote>
+
+
+
+<pre><code>def closer_city(lat, lon, city1, city2):
+    &quot;&quot;&quot;
+    Returns the name of either city1 or city2, whichever is closest to
+    coordinate (lat, lon).
+
+    &gt;&gt;&gt; berkeley = make_city(&#x27;Berkeley&#x27;, 37.87, 112.26)
+    &gt;&gt;&gt; stanford = make_city(&#x27;Stanford&#x27;, 34.05, 118.25)
+    &gt;&gt;&gt; closer_city(38.33, 121.44, berkeley, stanford)
+    &#x27;Stanford&#x27;
+    &gt;&gt;&gt; bucharest = make_city(&#x27;Bucharest&#x27;, 44.43, 26.10)
+    &gt;&gt;&gt; vienna = make_city(&#x27;Vienna&#x27;, 48.20, 16.37)
+    &gt;&gt;&gt; closer_city(41.29, 174.78, bucharest, vienna)
+    &#x27;Bucharest&#x27;
+    &quot;&quot;&quot;
+<div class="alt solution-3">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-3">&#x20;&#x20;&#x20;&#x20;&#x6e;&#x65;&#x77;&#x5f;&#x63;&#x69;&#x74;&#x79;&#x20;&#x3d;&#x20;&#x6d;&#x61;&#x6b;&#x65;&#x5f;&#x63;&#x69;&#x74;&#x79;&#x28;&#x27;&#x61;&#x72;&#x62;&#x27;&#x2c;&#x20;&#x6c;&#x61;&#x74;&#x2c;&#x20;&#x6c;&#x6f;&#x6e;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x64;&#x69;&#x73;&#x74;&#x31;&#x20;&#x3d;&#x20;&#x64;&#x69;&#x73;&#x74;&#x61;&#x6e;&#x63;&#x65;&#x28;&#x63;&#x69;&#x74;&#x79;&#x31;&#x2c;&#x20;&#x6e;&#x65;&#x77;&#x5f;&#x63;&#x69;&#x74;&#x79;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x64;&#x69;&#x73;&#x74;&#x32;&#x20;&#x3d;&#x20;&#x64;&#x69;&#x73;&#x74;&#x61;&#x6e;&#x63;&#x65;&#x28;&#x63;&#x69;&#x74;&#x79;&#x32;&#x2c;&#x20;&#x6e;&#x65;&#x77;&#x5f;&#x63;&#x69;&#x74;&#x79;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x64;&#x69;&#x73;&#x74;&#x31;&#x20;&#x3c;&#x20;&#x64;&#x69;&#x73;&#x74;&#x32;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x67;&#x65;&#x74;&#x5f;&#x6e;&#x61;&#x6d;&#x65;&#x28;&#x63;&#x69;&#x74;&#x79;&#x31;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x67;&#x65;&#x74;&#x5f;&#x6e;&#x61;&#x6d;&#x65;&#x28;&#x63;&#x69;&#x74;&#x79;&#x32;&#x29;</div></code></pre>
+
+
+        <button id='solution-3' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q closer_city</code></pre>
+
+<h3 class="question" id="q6">Q6: Don't violate the abstraction barrier!</h3>
+
+<p>When writing functions that use an ADT, we should use the constructor(s) and
+selectors whenever possible instead of assuming the ADT's implementation.
+Relying on a data abstraction's underlying implementation is known as
+<em>violating the abstraction barrier</em>, and we never want to do this!</p>
+
+<p>It's possible that you passed the doctests for <code>distance</code> and <code>closer_city</code>
+even if you violated the abstraction barrier. To check whether or not you
+did so, uncomment the following lines in your <code>lab04.py</code> file:</p>
+
+<pre><code># make_city = lambda name, lat, lon: [lon, [lat], name]
+# get_name = lambda city: city[2]
+# get_lat = lambda city: city[1][0]
+# get_lon = lambda city: city[0]</code></pre>
+
+<p>These statements change the implementation of the city ADT. The nature of the
+abstraction barrier guarantees that changing the implementation of an ADT
+shouldn't affect the functionality of any programs that use that ADT, as long
+as the constructors and selectors were used properly.</p>
+
+<p>Now, rerun your tests for <code>distance</code> and <code>closer_city</code> <em>without changing any of
+your code</em>:</p>
+
+<pre><code>python3 ok &#x2d;q distance
+python3 ok &#x2d;q closer_city</code></pre>
+
+<p>If you've followed the rules and used the constructor and selectors when you
+should've, the doctests should still pass!</p>
+
+<p>If you passed the Ok tests before uncommenting those lines but not afterward,
+the fix is simple!  Just replace any code that violates the abstraction
+barrier, i.e. creating a city with a new list object or indexing into a city,
+with the appropriate constructor or selector.</p>
+
+<p>Make sure that your functions pass the tests with both the first and the second
+implementations of the City ADT and that you understand why they should work for
+both before moving on.</p>
+
+
+<h1 id="optional-questions">Optional Questions</h1>
+
+
+
+<h2 id="more-lists-practice">More Lists Practice</h2>
+
+
+<h3 class="question" id="q7">Q7: Flatten</h3>
+
+<p>Write a function <code>flatten</code> that takes a (possibly deep) list and "flattens" it.
+For example:</p>
+
+<pre><code>&gt;&gt;&gt; lst = [1, [[2], 3], 4, [5, 6]]
+&gt;&gt;&gt; flatten(lst)
+[1, 2, 3, 4, 5, 6]</code></pre>
+
+<p><em>Hint</em>: you can check if something is a list by using the built-in
+<code>type</code> function. For example,</p>
+
+<pre><code>&gt;&gt;&gt; type(3) == list
+False
+&gt;&gt;&gt; type([1, 2, 3]) == list
+True</code></pre>
+
+
+
+<pre><code>def flatten(lst):
+    &quot;&quot;&quot;Returns a flattened version of lst.
+
+    &gt;&gt;&gt; flatten([1, 2, 3])     # normal list
+    [1, 2, 3]
+    &gt;&gt;&gt; x = [1, [2, 3], 4]      # deep list
+    &gt;&gt;&gt; flatten(x)
+    [1, 2, 3, 4]
+    &gt;&gt;&gt; x = [[1, [1, 1]], 1, [1, 1]] # deep list
+    &gt;&gt;&gt; flatten(x)
+    [1, 1, 1, 1, 1, 1]
+    &quot;&quot;&quot;
+<div class="alt solution-4">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-4">&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6e;&#x6f;&#x74;&#x20;&#x6c;&#x73;&#x74;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x5b;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x69;&#x66;&#x20;&#x74;&#x79;&#x70;&#x65;&#x28;&#x6c;&#x73;&#x74;&#x5b;&#x30;&#x5d;&#x29;&#x20;&#x3d;&#x3d;&#x20;&#x6c;&#x69;&#x73;&#x74;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x66;&#x6c;&#x61;&#x74;&#x74;&#x65;&#x6e;&#x28;&#x6c;&#x73;&#x74;&#x5b;&#x30;&#x5d;&#x29;&#x20;&#x2b;&#x20;&#x66;&#x6c;&#x61;&#x74;&#x74;&#x65;&#x6e;&#x28;&#x6c;&#x73;&#x74;&#x5b;&#x31;&#x3a;&#x5d;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x5b;&#x6c;&#x73;&#x74;&#x5b;&#x30;&#x5d;&#x5d;&#x20;&#x2b;&#x20;&#x66;&#x6c;&#x61;&#x74;&#x74;&#x65;&#x6e;&#x28;&#x6c;&#x73;&#x74;&#x5b;&#x31;&#x3a;&#x5d;&#x29;</div></code></pre>
+
+
+        <button id='solution-4' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q flatten</code></pre>
+
+<h3 class="question" id="q8">Q8: Merge</h3>
+
+<p>Write a function <code>merge</code> that takes 2 <em>sorted</em> lists <code>lst1</code> and <code>lst2</code>,
+and returns a new list that contains all the elements in the two lists
+in sorted order.</p>
+
+
+
+<pre><code>def merge(lst1, lst2):
+    &quot;&quot;&quot;Merges two sorted lists.
+
+    &gt;&gt;&gt; merge([1, 3, 5], [2, 4, 6])
+    [1, 2, 3, 4, 5, 6]
+    &gt;&gt;&gt; merge([], [2, 4, 6])
+    [2, 4, 6]
+    &gt;&gt;&gt; merge([1, 2, 3], [])
+    [1, 2, 3]
+    &gt;&gt;&gt; merge([5, 7], [2, 4, 6])
+    [2, 4, 5, 6, 7]
+    &quot;&quot;&quot;
+<div class="alt solution-5">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-5">&#x20;&#x20;&#x20;&#x20;&#x23;&#x20;&#x72;&#x65;&#x63;&#x75;&#x72;&#x73;&#x69;&#x76;&#x65;&#xa;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6e;&#x6f;&#x74;&#x20;&#x6c;&#x73;&#x74;&#x31;&#x20;&#x6f;&#x72;&#x20;&#x6e;&#x6f;&#x74;&#x20;&#x6c;&#x73;&#x74;&#x32;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x6c;&#x73;&#x74;&#x31;&#x20;&#x2b;&#x20;&#x6c;&#x73;&#x74;&#x32;&#xa;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x69;&#x66;&#x20;&#x6c;&#x73;&#x74;&#x31;&#x5b;&#x30;&#x5d;&#x20;&#x3c;&#x20;&#x6c;&#x73;&#x74;&#x32;&#x5b;&#x30;&#x5d;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x5b;&#x6c;&#x73;&#x74;&#x31;&#x5b;&#x30;&#x5d;&#x5d;&#x20;&#x2b;&#x20;&#x6d;&#x65;&#x72;&#x67;&#x65;&#x28;&#x6c;&#x73;&#x74;&#x31;&#x5b;&#x31;&#x3a;&#x5d;&#x2c;&#x20;&#x6c;&#x73;&#x74;&#x32;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x5b;&#x6c;&#x73;&#x74;&#x32;&#x5b;&#x30;&#x5d;&#x5d;&#x20;&#x2b;&#x20;&#x6d;&#x65;&#x72;&#x67;&#x65;&#x28;&#x6c;&#x73;&#x74;&#x31;&#x2c;&#x20;&#x6c;&#x73;&#x74;&#x32;&#x5b;&#x31;&#x3a;&#x5d;&#x29;&#xa;&#xa;&#x23;&#x20;&#x49;&#x74;&#x65;&#x72;&#x61;&#x74;&#x69;&#x76;&#x65;&#x20;&#x73;&#x6f;&#x6c;&#x75;&#x74;&#x69;&#x6f;&#x6e;&#x20;&#xa;&#x64;&#x65;&#x66;&#x20;&#x6d;&#x65;&#x72;&#x67;&#x65;&#x5f;&#x69;&#x74;&#x65;&#x72;&#x28;&#x6c;&#x73;&#x74;&#x31;&#x2c;&#x20;&#x6c;&#x73;&#x74;&#x32;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x22;&#x22;&#x22;&#x4d;&#x65;&#x72;&#x67;&#x65;&#x73;&#x20;&#x74;&#x77;&#x6f;&#x20;&#x73;&#x6f;&#x72;&#x74;&#x65;&#x64;&#x20;&#x6c;&#x69;&#x73;&#x74;&#x73;&#x2e;&#xa;&#xa;&#x20;&#x20;&#x20;&#x20;&#x3e;&#x3e;&#x3e;&#x20;&#x6d;&#x65;&#x72;&#x67;&#x65;&#x5f;&#x69;&#x74;&#x65;&#x72;&#x28;&#x5b;&#x31;&#x2c;&#x20;&#x33;&#x2c;&#x20;&#x35;&#x5d;&#x2c;&#x20;&#x5b;&#x32;&#x2c;&#x20;&#x34;&#x2c;&#x20;&#x36;&#x5d;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x5b;&#x31;&#x2c;&#x20;&#x32;&#x2c;&#x20;&#x33;&#x2c;&#x20;&#x34;&#x2c;&#x20;&#x35;&#x2c;&#x20;&#x36;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x3e;&#x3e;&#x3e;&#x20;&#x6d;&#x65;&#x72;&#x67;&#x65;&#x5f;&#x69;&#x74;&#x65;&#x72;&#x28;&#x5b;&#x5d;&#x2c;&#x20;&#x5b;&#x32;&#x2c;&#x20;&#x34;&#x2c;&#x20;&#x36;&#x5d;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x5b;&#x32;&#x2c;&#x20;&#x34;&#x2c;&#x20;&#x36;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x3e;&#x3e;&#x3e;&#x20;&#x6d;&#x65;&#x72;&#x67;&#x65;&#x5f;&#x69;&#x74;&#x65;&#x72;&#x28;&#x5b;&#x31;&#x2c;&#x20;&#x32;&#x2c;&#x20;&#x33;&#x5d;&#x2c;&#x20;&#x5b;&#x5d;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x5b;&#x31;&#x2c;&#x20;&#x32;&#x2c;&#x20;&#x33;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x3e;&#x3e;&#x3e;&#x20;&#x6d;&#x65;&#x72;&#x67;&#x65;&#x5f;&#x69;&#x74;&#x65;&#x72;&#x28;&#x5b;&#x35;&#x2c;&#x20;&#x37;&#x5d;&#x2c;&#x20;&#x5b;&#x32;&#x2c;&#x20;&#x34;&#x2c;&#x20;&#x36;&#x5d;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x5b;&#x32;&#x2c;&#x20;&#x34;&#x2c;&#x20;&#x35;&#x2c;&#x20;&#x36;&#x2c;&#x20;&#x37;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x22;&#x22;&#x22;&#xa;&#x20;&#x20;&#x20;&#x20;&#x6e;&#x65;&#x77;&#x20;&#x3d;&#x20;&#x5b;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x77;&#x68;&#x69;&#x6c;&#x65;&#x20;&#x6c;&#x73;&#x74;&#x31;&#x20;&#x61;&#x6e;&#x64;&#x20;&#x6c;&#x73;&#x74;&#x32;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6c;&#x73;&#x74;&#x31;&#x5b;&#x30;&#x5d;&#x20;&#x3c;&#x20;&#x6c;&#x73;&#x74;&#x32;&#x5b;&#x30;&#x5d;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x6e;&#x65;&#x77;&#x20;&#x2b;&#x3d;&#x20;&#x5b;&#x6c;&#x73;&#x74;&#x31;&#x5b;&#x30;&#x5d;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x6c;&#x73;&#x74;&#x31;&#x20;&#x3d;&#x20;&#x6c;&#x73;&#x74;&#x31;&#x5b;&#x31;&#x3a;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x6e;&#x65;&#x77;&#x20;&#x2b;&#x3d;&#x20;&#x5b;&#x6c;&#x73;&#x74;&#x32;&#x5b;&#x30;&#x5d;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x6c;&#x73;&#x74;&#x32;&#x20;&#x3d;&#x20;&#x6c;&#x73;&#x74;&#x32;&#x5b;&#x31;&#x3a;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6c;&#x73;&#x74;&#x31;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x6e;&#x65;&#x77;&#x20;&#x2b;&#x20;&#x6c;&#x73;&#x74;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x6e;&#x65;&#x77;&#x20;&#x2b;&#x20;&#x6c;&#x73;&#x74;&#x32;</div></code></pre>
+
+
+        <button id='solution-5' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q merge</code></pre>
+
+
+<h2 id="connect-n">Connect N</h2>
+
+
+<p>By the end of this section, you will have implemented your own Connect N game
+(most commonly Connect 4).  As you might already know, Connect N is a
+two-player game where the players take turns dropping a piece from the top of a
+column in a grid. The piece ends at the last empty spot in this column - that
+is, as close to the bottom as possible. A player can only put pieces in columns
+with open spaces.</p>
+
+<p>The winner is the first player who gets N of their pieces next to each other -
+either horizontally, vertically or diagonally. The game ends at this point, or
+as soon as the board is full.</p>
+
+<p>Here's an example of Connect 4 gameplay:</p>
+
+<p><img class="img-responsive center-block" src="assets/connect_4.gif" alt="connect-four"></p>
+
+
+<h2 id="building-connect-n">Building Connect N</h2>
+
+
+<p>Let's build the combat field for players <code>&#x27;X&#x27;</code> and <code>&#x27;O&#x27;</code>.</p>
+
+<p>In this lab, we will represent the playing board as a list of lists. We call
+such a list two-dimensional because we can visualize it as a rectangle. For
+instance, this list:</p>
+
+<pre><code>`[[&#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;], [&#x27;O&#x27;, &#x27;O&#x27;, &#x27;O&#x27;, &#x27;X&#x27;], [&#x27;X&#x27;, &#x27;X&#x27;, &#x27;X&#x27;, &#x27;O&#x27;]]`</code></pre>
+
+<p>would represent the following board:</p>
+
+<pre><code>&#x2d; &#x2d; &#x2d; &#x2d;
+O O O X
+X X X O</code></pre>
+
+<p>What does the number of nested lists represent? What about the number of
+elements in each nested list?  When you have made up your mind, you are ready
+to build the board!</p>
+
+<p><strong>Notice that just like lists are zero-indexed, our board is zero-indexed.</strong>
+This means that the columns and rows in the above board would be numbered like
+this:</p>
+
+<pre><code>0  &#x2d; &#x2d; &#x2d; &#x2d;
+1  O O O X
+2  X X X O
+   0 1 2 3</code></pre>
+
+<h3 class="question" id="q9">Q9: Creating an empty board</h3>
+
+<p>We are going to use data abstraction as we build our game, so let's start by
+making the constructors. We will represent an empty spot by the string <code>&#x27;&#x2d;&#x27;</code>.
+In <code>lab04_extra.py</code>, fill out the <em>constructors</em>.</p>
+
+<p>First, implement the function <code>create_row</code>, which returns one empty row in
+our board according to our abstraction (i.e., a row is one list).</p>
+
+<p>This function should consist of a one-line return statement.</p>
+
+<blockquote><p><em>Hint</em>: You can create a list in one line using a list comprehension.</p></blockquote>
+
+
+
+<pre><code>def create_row(size):
+    &quot;&quot;&quot;Returns a single, empty row with the given size. Each empty spot is
+    represented by the string &#x27;&#x2d;&#x27;.
+
+    &gt;&gt;&gt; create_row(5)
+    [&#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;]
+    &quot;&quot;&quot;
+<div class="alt solution-6">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-6">&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x5b;&#x22;&#x2d;&#x22;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x69;&#x20;&#x69;&#x6e;&#x20;&#x72;&#x61;&#x6e;&#x67;&#x65;&#x28;&#x73;&#x69;&#x7a;&#x65;&#x29;&#x5d;</div></code></pre>
+
+
+        <button id='solution-6' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q create_row</code></pre>
+
+<p>Then, use <code>create_row</code> to implement <code>create_board</code>, which returns a board with
+the specified dimensions.</p>
+
+<p>This function should consist of a one-line return statement.</p>
+
+
+
+<pre><code>def create_board(rows, columns):
+    &quot;&quot;&quot;Returns a board with the given dimensions.
+
+    &gt;&gt;&gt; create_board(3, 5)
+    [[&#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;], [&#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;], [&#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;, &#x27;&#x2d;&#x27;]]
+    &quot;&quot;&quot;
+<div class="alt solution-7">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-7">&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x5b;&#x63;&#x72;&#x65;&#x61;&#x74;&#x65;&#x5f;&#x72;&#x6f;&#x77;&#x28;&#x63;&#x6f;&#x6c;&#x75;&#x6d;&#x6e;&#x73;&#x29;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x69;&#x20;&#x69;&#x6e;&#x20;&#x72;&#x61;&#x6e;&#x67;&#x65;&#x28;&#x72;&#x6f;&#x77;&#x73;&#x29;&#x5d;</div></code></pre>
+
+
+        <button id='solution-7' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q create_board</code></pre>
+
+<h3 class="question" id="q10">Q10: Updating the board</h3>
+
+<p>Over the course of a game, the board will change and we will need to keep our
+representation of the board up-to-date. To do so, we will be creating a new
+board that represents the new state of the game every time a piece is played.
+Implement <code>replace_elem</code>, which takes a list, an index, and an element to be
+placed at that index in the returned <strong>new list</strong>.</p>
+
+<p>This function should consist of a one-line return statement.</p>
+
+
+
+<pre><code>def replace_elem(lst, index, elem):
+    &quot;&quot;&quot;Create and return a new list whose elements are the same as those in
+    LST except at index INDEX, which should contain element ELEM instead.
+
+    &gt;&gt;&gt; old = [1, 2, 3, 4, 5, 6, 7]
+    &gt;&gt;&gt; new = replace_elem(old, 2, 8)
+    &gt;&gt;&gt; new
+    [1, 2, 8, 4, 5, 6, 7]
+    &gt;&gt;&gt; new is old   # check that replace_elem outputs a new list
+    False
+    &quot;&quot;&quot;
+    assert index &gt;= 0 and index &lt; len(lst), &#x27;Index is out of bounds&#x27;
+<div class="alt solution-8">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-8">&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x6c;&#x73;&#x74;&#x5b;&#x3a;&#x69;&#x6e;&#x64;&#x65;&#x78;&#x5d;&#x20;&#x2b;&#x20;&#x5b;&#x65;&#x6c;&#x65;&#x6d;&#x5d;&#x20;&#x2b;&#x20;&#x6c;&#x73;&#x74;&#x5b;&#x28;&#x69;&#x6e;&#x64;&#x65;&#x78;&#x20;&#x2b;&#x20;&#x31;&#x29;&#x3a;&#x5d;</div></code></pre>
+
+
+        <button id='solution-8' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q replace_elem</code></pre>
+
+<h3 class="question" id="q11">Q11: Manipulating pieces</h3>
+
+<p>Now that we have the board ready, let's make our selectors! First, we need a
+way to find out which piece (<code>&#x27;&#x2d;&#x27;</code>, <code>&#x27;X&#x27;</code> or <code>&#x27;O&#x27;</code>) is at a given position.
+Implement <code>get_piece</code> so it does this.</p>
+
+<blockquote><p><em>Note</em>: Because <code>get_piece</code> is a <em>selector</em>, it is allowed to break through
+the data abstraction barrier. This means that it is aware that the board is
+implemented as a list and can use list operations to update it. This allows
+us to abstract away the inner implementation for all of the other functions
+that both the programmer and other users will use.</p></blockquote>
+
+<p>This function should consist of a one-line return statement.</p>
+
+
+
+<pre><code>def get_piece(board, row, column):
+    &quot;&quot;&quot;Returns the piece at location (row, column) in the board.
+
+    &gt;&gt;&gt; rows, columns = 2, 2
+    &gt;&gt;&gt; board = create_board(rows, columns)
+    &gt;&gt;&gt; board = put_piece(board, rows, 0, &#x27;X&#x27;)[1] # Puts piece &quot;X&quot; in column 0 of board and updates board
+    &gt;&gt;&gt; board = put_piece(board, rows, 0, &#x27;O&#x27;)[1] # Puts piece &quot;O&quot; in column 0 of board and updates board
+    &gt;&gt;&gt; get_piece(board, 1, 0)
+    &#x27;X&#x27;
+    &gt;&gt;&gt; get_piece(board, 1, 1)
+    &#x27;&#x2d;&#x27;
+    &quot;&quot;&quot;
+<div class="alt solution-9">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-9">&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x62;&#x6f;&#x61;&#x72;&#x64;&#x5b;&#x72;&#x6f;&#x77;&#x5d;&#x5b;&#x63;&#x6f;&#x6c;&#x75;&#x6d;&#x6e;&#x5d;</div></code></pre>
+
+
+        <button id='solution-9' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Right now, all spots in our board are empty, so the output of <code>get_piece</code> won't
+be very interesting - and neither will the game. Let's change that! Go ahead
+and implement <code>put_piece</code>, which places the given <code>player</code>'s piece in the given
+<code>column</code>. <code>put_piece</code> should return a 2-element tuple that contains (<code>&lt;row
+index&gt;</code>, <code>&lt;new board&gt;</code>). The first element is the index of the row the piece ends
+up in, or -1 if the column is already full. The second element is the new board
+after the piece has been placed. If the column was full then just return the
+original <code>board</code>.</p>
+
+<p>Assume that the given column is on the board. Remember that you can get pieces
+in the board by using <code>get_piece</code>. The argument <code>max_rows</code> may be helpful in
+determining which rows you should check for an empty slot to put the piece in.</p>
+
+<blockquote><p><em>Hint</em>: You will probably need to use the <code>replace_elem</code> function you wrote
+above <em>twice</em> to create the new board.</p></blockquote>
+
+
+
+<pre><code>def put_piece(board, max_rows, column, player):
+    &quot;&quot;&quot;Puts PLAYER&#x27;s piece in the bottommost empty spot in the given column of
+    the board. Returns a tuple of two elements:
+
+        1. The index of the row the piece ends up in, or &#x2d;1 if the column
+           is full.
+        2. The new board
+
+    &gt;&gt;&gt; rows, columns = 2, 2
+    &gt;&gt;&gt; board = create_board(rows, columns)
+    &gt;&gt;&gt; row, new_board = put_piece(board, rows, 0, &#x27;X&#x27;)
+    &gt;&gt;&gt; row
+    1
+    &gt;&gt;&gt; row, new_board = put_piece(new_board, rows, 0, &#x27;O&#x27;)
+    &gt;&gt;&gt; row
+    0
+    &gt;&gt;&gt; row, new_board = put_piece(new_board, rows, 0, &#x27;X&#x27;)
+    &gt;&gt;&gt; row
+    &#x2d;1
+    &quot;&quot;&quot;
+<div class="alt solution-10">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-10">&#x20;&#x20;&#x20;&#x20;&#x63;&#x75;&#x72;&#x72;&#x5f;&#x72;&#x6f;&#x77;&#x5f;&#x69;&#x6e;&#x64;&#x65;&#x78;&#x20;&#x3d;&#x20;&#x6d;&#x61;&#x78;&#x5f;&#x72;&#x6f;&#x77;&#x73;&#x20;&#x2d;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x77;&#x68;&#x69;&#x6c;&#x65;&#x20;&#x63;&#x75;&#x72;&#x72;&#x5f;&#x72;&#x6f;&#x77;&#x5f;&#x69;&#x6e;&#x64;&#x65;&#x78;&#x20;&#x3e;&#x3d;&#x20;&#x30;&#x20;&#x61;&#x6e;&#x64;&#x20;&#x67;&#x65;&#x74;&#x5f;&#x70;&#x69;&#x65;&#x63;&#x65;&#x28;&#x62;&#x6f;&#x61;&#x72;&#x64;&#x2c;&#x20;&#x63;&#x75;&#x72;&#x72;&#x5f;&#x72;&#x6f;&#x77;&#x5f;&#x69;&#x6e;&#x64;&#x65;&#x78;&#x2c;&#x20;&#x63;&#x6f;&#x6c;&#x75;&#x6d;&#x6e;&#x29;&#x20;&#x21;&#x3d;&#x20;&#x22;&#x2d;&#x22;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x63;&#x75;&#x72;&#x72;&#x5f;&#x72;&#x6f;&#x77;&#x5f;&#x69;&#x6e;&#x64;&#x65;&#x78;&#x20;&#x2d;&#x3d;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x63;&#x75;&#x72;&#x72;&#x5f;&#x72;&#x6f;&#x77;&#x5f;&#x69;&#x6e;&#x64;&#x65;&#x78;&#x20;&#x3e;&#x3d;&#x20;&#x30;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x6e;&#x65;&#x77;&#x5f;&#x72;&#x6f;&#x77;&#x20;&#x3d;&#x20;&#x72;&#x65;&#x70;&#x6c;&#x61;&#x63;&#x65;&#x5f;&#x65;&#x6c;&#x65;&#x6d;&#x28;&#x62;&#x6f;&#x61;&#x72;&#x64;&#x5b;&#x63;&#x75;&#x72;&#x72;&#x5f;&#x72;&#x6f;&#x77;&#x5f;&#x69;&#x6e;&#x64;&#x65;&#x78;&#x5d;&#x2c;&#x20;&#x63;&#x6f;&#x6c;&#x75;&#x6d;&#x6e;&#x2c;&#x20;&#x70;&#x6c;&#x61;&#x79;&#x65;&#x72;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x6e;&#x65;&#x77;&#x5f;&#x62;&#x6f;&#x61;&#x72;&#x64;&#x20;&#x3d;&#x20;&#x72;&#x65;&#x70;&#x6c;&#x61;&#x63;&#x65;&#x5f;&#x65;&#x6c;&#x65;&#x6d;&#x28;&#x62;&#x6f;&#x61;&#x72;&#x64;&#x2c;&#x20;&#x63;&#x75;&#x72;&#x72;&#x5f;&#x72;&#x6f;&#x77;&#x5f;&#x69;&#x6e;&#x64;&#x65;&#x78;&#x2c;&#x20;&#x6e;&#x65;&#x77;&#x5f;&#x72;&#x6f;&#x77;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x62;&#x6f;&#x61;&#x72;&#x64;&#x20;&#x3d;&#x20;&#x6e;&#x65;&#x77;&#x5f;&#x62;&#x6f;&#x61;&#x72;&#x64;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x63;&#x75;&#x72;&#x72;&#x5f;&#x72;&#x6f;&#x77;&#x5f;&#x69;&#x6e;&#x64;&#x65;&#x78;&#x2c;&#x20;&#x62;&#x6f;&#x61;&#x72;&#x64;</div></code></pre>
+
+
+        <button id='solution-10' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<blockquote><p>You must complete both functions in order to test them. Tests for <code>get_piece</code>
+will not pass unless you've implemented <code>put_piece</code> correctly.</p></blockquote>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q get_piece
+python3 ok -q put_piece</code></pre>
+
+
+<h2 id="you-are-now-crossing-the-abstraction-barrier">You are now crossing the abstraction barrier!!!</h2>
+
+
+<p>You have now implemented the <em>constructor</em> and <em>selectors</em> as well as ways to
+modify the attributes of your abstract data type, the board. From now on, you
+should never need to treat the board as if it were a list. Instead, trust your
+abstraction barrier and use the functions you have written so far.</p>
+
+<h3 class="question" id="q12">Q12: Making a move</h3>
+
+<p>Let's first write a function for players to make a move in the game. This is
+different from the <code>put_piece</code> function above in that <code>put_piece</code> assumes that
+the player gives a valid column number.  <code>make_move</code> should only place the
+piece on the board if the given column is actually on the board. It returns a
+2-element tuple (row index, board).</p>
+
+<p>If the move is valid, put a piece in the column and return the index of the row
+the piece ends up in (do you have a function that will help you do this?) as
+well as the new board. If the move is invalid, <code>make_move</code> should return -1 and
+the original board, unchanged.</p>
+
+<p>The arguments <code>max_rows</code> and <code>max_cols</code> describe the dimensions of the board
+and may be useful in determining whether or not a move is valid.</p>
+
+
+
+<pre><code>def make_move(board, max_rows, max_cols, col, player):
+    &quot;&quot;&quot;Put player&#x27;s piece in column COL of the board, if it is a valid move.
+    Return a tuple of two values:
+
+        1. If the move is valid, make_move returns the index of the row the
+           piece is placed in. Otherwise, it returns &#x2d;1.
+        2. The updated board
+
+    &gt;&gt;&gt; rows, columns = 2, 2
+    &gt;&gt;&gt; board = create_board(rows, columns)
+    &gt;&gt;&gt; row, board = make_move(board, rows, columns, 0, &#x27;X&#x27;)
+    &gt;&gt;&gt; row
+    1
+    &gt;&gt;&gt; get_piece(board, 1, 0)
+    &#x27;X&#x27;
+    &gt;&gt;&gt; row, board = make_move(board, rows, columns, 0, &#x27;O&#x27;)
+    &gt;&gt;&gt; row
+    0
+    &gt;&gt;&gt; row, board = make_move(board, rows, columns, 0, &#x27;X&#x27;)
+    &gt;&gt;&gt; row
+    &#x2d;1
+    &gt;&gt;&gt; row, board = make_move(board, rows, columns, &#x2d;4, &#x27;0&#x27;)
+    &gt;&gt;&gt; row
+    &#x2d;1
+    &quot;&quot;&quot;
+<div class="alt solution-11">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-11">&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x63;&#x6f;&#x6c;&#x20;&#x3c;&#x20;&#x30;&#x20;&#x6f;&#x72;&#x20;&#x63;&#x6f;&#x6c;&#x20;&#x3e;&#x3d;&#x20;&#x6d;&#x61;&#x78;&#x5f;&#x63;&#x6f;&#x6c;&#x73;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x2d;&#x31;&#x2c;&#x20;&#x62;&#x6f;&#x61;&#x72;&#x64;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x70;&#x75;&#x74;&#x5f;&#x70;&#x69;&#x65;&#x63;&#x65;&#x28;&#x62;&#x6f;&#x61;&#x72;&#x64;&#x2c;&#x20;&#x6d;&#x61;&#x78;&#x5f;&#x72;&#x6f;&#x77;&#x73;&#x2c;&#x20;&#x63;&#x6f;&#x6c;&#x2c;&#x20;&#x70;&#x6c;&#x61;&#x79;&#x65;&#x72;&#x29;</div></code></pre>
+
+
+        <button id='solution-11' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q make_move</code></pre>
+
+<h3 class="question" id="q13">Q13: Printing and viewing the board</h3>
+
+<p>Wouldn't it be great if we could actually see the board and the pieces on it?
+Let's now write a function to help us do that.</p>
+
+<p>The function <code>print_board</code> takes in a board (as defined by our abstraction) and
+the dimensions of the board, and it prints out the current state of the board.</p>
+
+<p>We would like our board to look good, and for this, strings do a better job
+than lists. Thus, we would like the row <code>[&#x27;X&#x27;, &#x27;X&#x27;, &#x27;O&#x27;, &#x27;&#x2d;&#x27;]</code> to be printed as
+<code>&#x27;X X O &#x2d;&#x27;</code> where the pieces are separated by a single blank space. Remember
+that you can concatenate strings with the <code>+</code> operator, e.g. <code>&#x27;hel&#x27; + &#x27;lo&#x27; =
+&#x27;hello&#x27;</code>.</p>
+
+<p>Remember that we're still on the other side of the abstraction barrier, and
+<em>you must implement this function as if we didn't know the board is a list of
+lists</em>.  This is called respecting the data abstraction barrier. Specifically,
+to get information about <code>board</code>, you should use the selectors you've
+implemented instead of indexing into it.</p>
+
+<blockquote><p><em>Hint</em>: You might find that you're failing doctests that seem to match your
+output. Chances are that you have an extra space character at the end of your
+rows in your board. A function that might come in handy is <code>strip()</code>, which
+removes leading and trailing whitespace from a string. For example:</p>
+
+<pre><code>&gt;&gt;&gt; s = &#x27;   hello &#x27;
+&gt;&gt;&gt; s.strip()
+&#x27;hello&#x27;</code></pre></blockquote>
+
+
+
+<pre><code>def print_board(board, max_rows, max_cols):
+    &quot;&quot;&quot;Prints the board. Row 0 is at the top, and column 0 at the far left.
+
+    &gt;&gt;&gt; rows, columns = 2, 2
+    &gt;&gt;&gt; board = create_board(rows, columns)
+    &gt;&gt;&gt; print_board(board, rows, columns)
+    &#x2d; &#x2d;
+    &#x2d; &#x2d;
+    &gt;&gt;&gt; new_board = make_move(board, rows, columns, 0, &#x27;X&#x27;)[1]
+    &gt;&gt;&gt; print_board(new_board, rows, columns)
+    &#x2d; &#x2d;
+    X &#x2d;
+    &quot;&quot;&quot;
+<div class="alt solution-12">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-12">&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x72;&#x6f;&#x77;&#x20;&#x69;&#x6e;&#x20;&#x72;&#x61;&#x6e;&#x67;&#x65;&#x28;&#x6d;&#x61;&#x78;&#x5f;&#x72;&#x6f;&#x77;&#x73;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x6f;&#x77;&#x5f;&#x73;&#x74;&#x72;&#x20;&#x3d;&#x20;&#x27;&#x27;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x63;&#x6f;&#x6c;&#x20;&#x69;&#x6e;&#x20;&#x72;&#x61;&#x6e;&#x67;&#x65;&#x28;&#x6d;&#x61;&#x78;&#x5f;&#x63;&#x6f;&#x6c;&#x73;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x70;&#x69;&#x65;&#x63;&#x65;&#x20;&#x3d;&#x20;&#x67;&#x65;&#x74;&#x5f;&#x70;&#x69;&#x65;&#x63;&#x65;&#x28;&#x62;&#x6f;&#x61;&#x72;&#x64;&#x2c;&#x20;&#x72;&#x6f;&#x77;&#x2c;&#x20;&#x63;&#x6f;&#x6c;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x6f;&#x77;&#x5f;&#x73;&#x74;&#x72;&#x20;&#x2b;&#x3d;&#x20;&#x70;&#x69;&#x65;&#x63;&#x65;&#x20;&#x2b;&#x20;&#x22;&#x20;&#x22;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x70;&#x72;&#x69;&#x6e;&#x74;&#x28;&#x72;&#x6f;&#x77;&#x5f;&#x73;&#x74;&#x72;&#x2e;&#x73;&#x74;&#x72;&#x69;&#x70;&#x28;&#x29;&#x29;</div></code></pre>
+
+
+        <button id='solution-12' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q print_board</code></pre>
+
+<p>Now we can actually play the game! To try it out, run the following command in
+the terminal from your <code>lab04</code> directory:</p>
+
+<pre><code>$ python3 &#x2d;i lab04_extra.py
+&gt;&gt;&gt; start_game()</code></pre>
+
+<h3 class="question" id="q14">Q14: Checking for victory</h3>
+
+<p>Fun, right? At long as you don't care about winning... The last thing we need
+for our Connect N game to be fully functioning is the ability to detect a win.</p>
+
+<p>First, let's implement two helper functions <code>check_win_row</code> and <code>check_win_col</code>
+that check for horizontal and vertical wins <em>for the given player</em>.</p>
+
+<p>Since we check for wins after each turn, and only the player who made the most
+recent move can have a win, <code>check_win_row</code> and <code>check_win_col</code> should only
+check for a win for the player that is passed as an argument. Also remember
+that <code>num_connect</code> tells you how many adjacent pieces are needed for a win. The
+arguments <code>max_rows</code> and <code>max_cols</code> describe the dimensions of the game board.</p>
+
+<p>As in <code>print_board</code>, use the data abstractions you just built.</p>
+
+
+
+<pre><code>def check_win_row(board, max_rows, max_cols, num_connect, row, player):
+    &quot;&quot;&quot; Returns True if the given player has a horizontal win
+    in the given row, and otherwise False.
+
+    &gt;&gt;&gt; rows, columns, num_connect = 4, 4, 2
+    &gt;&gt;&gt; board = create_board(rows, columns)
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 0, &#x27;X&#x27;)[1]
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 0, &#x27;O&#x27;)[1]
+    &gt;&gt;&gt; check_win_row(board, rows, columns, num_connect, 3, &#x27;O&#x27;)
+    False
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 2, &#x27;X&#x27;)[1]
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 0, &#x27;O&#x27;)[1]
+    &gt;&gt;&gt; check_win_row(board, rows, columns, num_connect, 3, &#x27;X&#x27;)
+    False
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 1, &#x27;X&#x27;)[1]
+    &gt;&gt;&gt; check_win_row(board, rows, columns, num_connect, 3, &#x27;X&#x27;)
+    True
+    &gt;&gt;&gt; check_win_row(board, rows, columns, 4, 3, &#x27;X&#x27;)    # A win depends on the value of num_connect
+    False
+    &gt;&gt;&gt; check_win_row(board, rows, columns, num_connect, 3, &#x27;O&#x27;)   # We only detect wins for the given player
+    False
+    &quot;&quot;&quot;
+<div class="alt solution-13">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-13">&#x20;&#x20;&#x20;&#x20;&#x61;&#x64;&#x6a;&#x61;&#x63;&#x65;&#x6e;&#x74;&#x20;&#x3d;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x63;&#x6f;&#x6c;&#x20;&#x69;&#x6e;&#x20;&#x72;&#x61;&#x6e;&#x67;&#x65;&#x28;&#x6d;&#x61;&#x78;&#x5f;&#x63;&#x6f;&#x6c;&#x73;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x70;&#x69;&#x65;&#x63;&#x65;&#x20;&#x3d;&#x20;&#x67;&#x65;&#x74;&#x5f;&#x70;&#x69;&#x65;&#x63;&#x65;&#x28;&#x62;&#x6f;&#x61;&#x72;&#x64;&#x2c;&#x20;&#x72;&#x6f;&#x77;&#x2c;&#x20;&#x63;&#x6f;&#x6c;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x70;&#x69;&#x65;&#x63;&#x65;&#x20;&#x3d;&#x3d;&#x20;&#x70;&#x6c;&#x61;&#x79;&#x65;&#x72;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x61;&#x64;&#x6a;&#x61;&#x63;&#x65;&#x6e;&#x74;&#x20;&#x2b;&#x3d;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x61;&#x64;&#x6a;&#x61;&#x63;&#x65;&#x6e;&#x74;&#x20;&#x3d;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x61;&#x64;&#x6a;&#x61;&#x63;&#x65;&#x6e;&#x74;&#x20;&#x3e;&#x3d;&#x20;&#x6e;&#x75;&#x6d;&#x5f;&#x63;&#x6f;&#x6e;&#x6e;&#x65;&#x63;&#x74;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x54;&#x72;&#x75;&#x65;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x46;&#x61;&#x6c;&#x73;&#x65;</div></code></pre>
+
+
+        <button id='solution-13' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q check_win_row</code></pre>
+
+
+
+<pre><code>def check_win_column(board, max_rows, max_cols, num_connect, col, player):
+    &quot;&quot;&quot; Returns True if the given player has a vertical win in the given column,
+    and otherwise False.
+
+    &gt;&gt;&gt; rows, columns, num_connect = 5, 5, 2
+    &gt;&gt;&gt; board = create_board(rows, columns)
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 0, &#x27;X&#x27;)[1]
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 1, &#x27;O&#x27;)[1]
+    &gt;&gt;&gt; check_win_column(board, rows, columns, num_connect, 0, &#x27;X&#x27;)
+    False
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 1, &#x27;X&#x27;)[1]
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 1, &#x27;O&#x27;)[1]
+    &gt;&gt;&gt; check_win_column(board, rows, columns, num_connect, 1, &#x27;O&#x27;)
+    False
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 2, &#x27;X&#x27;)[1]
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 1, &#x27;O&#x27;)[1]
+    &gt;&gt;&gt; check_win_column(board, rows, columns, num_connect, 1, &#x27;O&#x27;)
+    True
+    &gt;&gt;&gt; check_win_column(board, rows, columns, 4, 1, &#x27;O&#x27;)
+    False
+    &gt;&gt;&gt; check_win_column(board, rows, columns, num_connect, 1, &#x27;X&#x27;)
+    False
+    &quot;&quot;&quot;
+<div class="alt solution-14">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-14">&#x20;&#x20;&#x20;&#x20;&#x61;&#x64;&#x6a;&#x61;&#x63;&#x65;&#x6e;&#x74;&#x20;&#x3d;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x72;&#x6f;&#x77;&#x20;&#x69;&#x6e;&#x20;&#x72;&#x61;&#x6e;&#x67;&#x65;&#x28;&#x6d;&#x61;&#x78;&#x5f;&#x72;&#x6f;&#x77;&#x73;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x70;&#x69;&#x65;&#x63;&#x65;&#x20;&#x3d;&#x20;&#x67;&#x65;&#x74;&#x5f;&#x70;&#x69;&#x65;&#x63;&#x65;&#x28;&#x62;&#x6f;&#x61;&#x72;&#x64;&#x2c;&#x20;&#x72;&#x6f;&#x77;&#x2c;&#x20;&#x63;&#x6f;&#x6c;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x70;&#x69;&#x65;&#x63;&#x65;&#x20;&#x3d;&#x3d;&#x20;&#x70;&#x6c;&#x61;&#x79;&#x65;&#x72;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x61;&#x64;&#x6a;&#x61;&#x63;&#x65;&#x6e;&#x74;&#x20;&#x2b;&#x3d;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x61;&#x64;&#x6a;&#x61;&#x63;&#x65;&#x6e;&#x74;&#x20;&#x3d;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x61;&#x64;&#x6a;&#x61;&#x63;&#x65;&#x6e;&#x74;&#x20;&#x3e;&#x3d;&#x20;&#x6e;&#x75;&#x6d;&#x5f;&#x63;&#x6f;&#x6e;&#x6e;&#x65;&#x63;&#x74;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x54;&#x72;&#x75;&#x65;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x46;&#x61;&#x6c;&#x73;&#x65;</div></code></pre>
+
+
+        <button id='solution-14' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q check_win_column</code></pre>
+
+<h3 class="question" id="q15">Q15: Winning!</h3>
+
+<p>Finally, let's implement a way to check for any wins. Implement <code>check_win</code> so
+that it returns <code>True</code> if there is a win in any direction -  that is,
+horizontally, vertically or diagonally.</p>
+
+<p>You should use the functions you just wrote, <code>check_win_row</code> and
+<code>check_win_column</code>, along with the provided function <code>check_win_diagonal(board,
+max_rows, max_cols, num_connect, row, col, player)</code>, which returns <code>True</code> if
+the given player has a diagonal win passing the spot (row, column) and <code>False</code>
+otherwise.</p>
+
+
+
+<pre><code>def check_win(board, max_rows, max_cols, num_connect, row, col, player):
+    &quot;&quot;&quot;Returns True if the given player has any kind of win after placing a
+    piece at (row, col), and False otherwise.
+
+    &gt;&gt;&gt; rows, columns, num_connect = 2, 2, 2
+    &gt;&gt;&gt; board = create_board(rows, columns)
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 0, &#x27;X&#x27;)[1]
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 1, &#x27;O&#x27;)[1]
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 0, &#x27;X&#x27;)[1]
+    &gt;&gt;&gt; check_win(board, rows, columns, num_connect, 0, 0, &#x27;O&#x27;)
+    False
+    &gt;&gt;&gt; check_win(board, rows, columns, num_connect, 0, 0, &#x27;X&#x27;)
+    True
+
+    &gt;&gt;&gt; board = create_board(rows, columns)
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 0, &#x27;X&#x27;)[1]
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 0, &#x27;O&#x27;)[1]
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 1, &#x27;X&#x27;)[1]
+    &gt;&gt;&gt; check_win(board, rows, columns, num_connect, 1, 0, &#x27;X&#x27;)
+    True
+    &gt;&gt;&gt; check_win(board, rows, columns, num_connect, 0, 0, &#x27;X&#x27;)
+    False
+
+    &gt;&gt;&gt; board = create_board(rows, columns)
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 0, &#x27;X&#x27;)[1]
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 1, &#x27;O&#x27;)[1]
+    &gt;&gt;&gt; board = make_move(board, rows, columns, 1, &#x27;X&#x27;)[1]
+    &gt;&gt;&gt; check_win(board, rows, columns, num_connect, 0, 0, &#x27;X&#x27;)
+    False
+    &gt;&gt;&gt; check_win(board, rows, columns, num_connect, 1, 0, &#x27;X&#x27;)
+    True
+    &quot;&quot;&quot;
+    diagonal_win = check_win_diagonal(board, max_rows, max_cols, num_connect,
+                                      row, col, player)
+<div class="alt solution-15">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-15">&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x63;&#x68;&#x65;&#x63;&#x6b;&#x5f;&#x77;&#x69;&#x6e;&#x5f;&#x72;&#x6f;&#x77;&#x28;&#x62;&#x6f;&#x61;&#x72;&#x64;&#x2c;&#x20;&#x6d;&#x61;&#x78;&#x5f;&#x72;&#x6f;&#x77;&#x73;&#x2c;&#x20;&#x6d;&#x61;&#x78;&#x5f;&#x63;&#x6f;&#x6c;&#x73;&#x2c;&#x20;&#x6e;&#x75;&#x6d;&#x5f;&#x63;&#x6f;&#x6e;&#x6e;&#x65;&#x63;&#x74;&#x2c;&#x20;&#x72;&#x6f;&#x77;&#x2c;&#x20;&#x70;&#x6c;&#x61;&#x79;&#x65;&#x72;&#x29;&#x20;&#x6f;&#x72;&#x20;&#x5c;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x63;&#x68;&#x65;&#x63;&#x6b;&#x5f;&#x77;&#x69;&#x6e;&#x5f;&#x63;&#x6f;&#x6c;&#x75;&#x6d;&#x6e;&#x28;&#x62;&#x6f;&#x61;&#x72;&#x64;&#x2c;&#x20;&#x6d;&#x61;&#x78;&#x5f;&#x72;&#x6f;&#x77;&#x73;&#x2c;&#x20;&#x6d;&#x61;&#x78;&#x5f;&#x63;&#x6f;&#x6c;&#x73;&#x2c;&#x20;&#x6e;&#x75;&#x6d;&#x5f;&#x63;&#x6f;&#x6e;&#x6e;&#x65;&#x63;&#x74;&#x2c;&#x20;&#x63;&#x6f;&#x6c;&#x2c;&#x20;&#x70;&#x6c;&#x61;&#x79;&#x65;&#x72;&#x29;&#x20;&#x6f;&#x72;&#x20;&#x5c;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x64;&#x69;&#x61;&#x67;&#x6f;&#x6e;&#x61;&#x6c;&#x5f;&#x77;&#x69;&#x6e;</div></code></pre>
+
+
+        <button id='solution-15' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q check_win</code></pre>
+
+<p>Congratulations, you just built your own Connect N game! Don't you think the
+person next to you would be down for a game? As before, run the game by running
+the following command in your terminal:</p>
+
+<pre><code>$ python3 &#x2d;i lab04.py
+&gt;&gt;&gt; start_game()</code></pre>
+
+<p>We implemented the <code>play</code> function for you, but if you are curious, you should
+take a look at it.  As you will see, thanks to the layers of data abstraction,
+the <code>play</code> function is actually very simple.  Notice how we use your
+<code>make_move</code>, <code>print_board</code>, and <code>check_win</code> to play the game without even
+knowing how the board and pieces are implemented.</p>
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#topics">Topics</a></li>
+  <ul>
+    <li><a href="#lists">Lists</a></li>
+    <ul>
+      <li><a href="#list-comprehensions">List Comprehensions</a></li>
+    </ul>
+    <li><a href="#data-abstraction">Data Abstraction</a></li>
+  </ul>
+  <li><a href="#required-questions">Required Questions</a></li>
+  <ul>
+    <li><a href="#lists-practice">Lists Practice</a></li>
+    <ul>
+      <li><a href="#q1">Q1: List Indexing</a></li>
+      <li><a href="#q2">Q2: WWPD: Lists?</a></li>
+      <li><a href="#q3">Q3: If This Not That</a></li>
+    </ul>
+    <li><a href="#city-data-abstraction">City Data Abstraction</a></li>
+    <ul>
+      <li><a href="#q4">Q4: Distance</a></li>
+      <li><a href="#q5">Q5: Closer city</a></li>
+      <li><a href="#q6">Q6: Don't violate the abstraction barrier!</a></li>
+    </ul>
+  </ul>
+  <li><a href="#optional-questions">Optional Questions</a></li>
+  <ul>
+    <li><a href="#more-lists-practice">More Lists Practice</a></li>
+    <ul>
+      <li><a href="#q7">Q7: Flatten</a></li>
+      <li><a href="#q8">Q8: Merge</a></li>
+    </ul>
+    <li><a href="#connect-n">Connect N</a></li>
+    <li><a href="#building-connect-n">Building Connect N</a></li>
+    <ul>
+      <li><a href="#q9">Q9: Creating an empty board</a></li>
+      <li><a href="#q10">Q10: Updating the board</a></li>
+      <li><a href="#q11">Q11: Manipulating pieces</a></li>
+    </ul>
+    <li><a href="#you-are-now-crossing-the-abstraction-barrier">You are now crossing the abstraction barrier!!!</a></li>
+    <ul>
+      <li><a href="#q12">Q12: Making a move</a></li>
+      <li><a href="#q13">Q13: Printing and viewing the board</a></li>
+      <li><a href="#q14">Q14: Checking for victory</a></li>
+      <li><a href="#q15">Q15: Winning!</a></li>
+    </ul>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+
+<script type="text/javascript" src="../../assets/js/config.js"></script>
+<script>
+  $(function() {
+    var staging_domains = ['staging.cs61a.org', 'solutions.cs61a.org', 'localhost', '127.0.0.1'];
+    var host = window.location.hostname;
+    var staging = staging_domains.indexOf(host) != -1;
+    staging = staging || (host.endsWith('.pullrequests.cs61a.org') && !host.startsWith('last-build.'));
+
+    var after_due_date = new Date("02/17/2018") < new Date();
+    var before_end_date = new Date() <= new Date(endDate);
+    var release_solutions = (staging || after_due_date) && before_end_date;
+
+    if (release_solutions) {
+      $('.toggle').css('display', 'inline-block');
+      $('.toggle').click(function() {
+        var solution_id = $(this).attr('id');
+        $('div.' + solution_id).slideToggle(600);
+      });
+    }
+  });
+</script>
+
+
+  </body>
+
+<!-- Mirrored from cs61a.org/lab/lab04/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:05 GMT -->
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab1setup/windows by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:22:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lab 1 Setup: Windows | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lab 1 Setup: Windows</header><ul id="markdown-toc">
+  <li><a href="#a-install-java" id="markdown-toc-a-install-java">A. Install Java</a></li>
+  <li><a href="#b-everything-else" id="markdown-toc-b-everything-else">B. Everything Else</a></li>
+</ul>
+
+<p>A video walkthrough for this guide is available at <a href="https://youtu.be/xEO4SOjmUOw">https://youtu.be/xEO4SOjmUOw</a>. The guide has been reorganized a bit since I made this video (bleh), but all the steps are the same.</p>
+
+<h2 id="a-install-java">A. Install Java</h2>
+
+<ol>
+  <li>The first thing to do is install the Java 9 SDK. Head over to the
+<a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">Oracle</a>
+website, and click the “Download” button for the JDK, annotated with purple
+arrows in the image below:
+<img src="img/java_download.png" alt="Oracle Website" /></li>
+  <li>On the following page, find the download section entitled “Java SE
+Development Kit 9.0.1” (or a higher version number, if this is out of date) and
+agree to the license. Then proceed to download the binary file for your
+operating system.
+<img src="img/java_agreement.png" alt="Java Agreement" /></li>
+  <li>Run the install file and follow the prompts to install Java onto your
+computer. It’s OK to select all of the default options. This may take several
+minutes, and it may seem to pause for a long time before completing.
+For me (Josh), it got stuck at the last 5% for at least three minutes before
+finally completing.</li>
+</ol>
+
+<h2 id="b-everything-else">B. Everything Else</h2>
+
+<ol>
+  <li>
+    <p>Before you start, you should have installed Java as described in <a href="lab1setup-2.html">lab 1 setup</a>.</p>
+  </li>
+  <li>
+    <p><a href="https://www.python.org/downloads/">Install Python 3</a>. We might not end up using Python
+in this course, but it’s handy to have just in case. The Python installer
+will ask if you want to add Python to your system’s path. You should say yes.
+<img src="img/python_path.png" alt="python_path" /></p>
+  </li>
+  <li>Install git. Head to
+<a href="http://git-scm.com/download/">http://git-scm.com/download/</a> and download the Git for Windows 
+installer. When you run the installer, you’ll be faced with many options. Unlike everything else,
+we do <strong>not recommend</strong> the default options. Instead, you should choose the options listed below.
+<img src="img/git_download.png" alt="Git Download" />
+    <ol>
+      <li>
+        <p>Checking <code class="highlighter-rouge">Windows Explorer integration</code> will let you do git things upon
+ right-clicking a file or folder, more specifically, run Git Bash and the Git
+ GUI respectively. This is not required, but might be handy.
+ <img src="img/git_install1.png" alt="Git Installation 1" /></p>
+      </li>
+      <li>
+        <p>Next we’ll select a default Git Bash. Unless you’ve used vim before, we strongly
+ recommend using nano instead.
+ <img src="img/git_nano.png" alt="Git Installation 2" /></p>
+      </li>
+      <li>
+        <p>Git Bash is a bash shell with built-in git support and lets you use some
+ MinGW/Linux tools. If you already know what bash is and have a preferred terminal,
+ you’re welcome to use that instead. Using Git from Git Bash is
+ the recommended option.
+ <img src="img/git_install2.png" alt="Git Installation 2" /></p>
+      </li>
+      <li>
+        <p>Windows and Unix based systems use different things to denote line
+ endings in files. Use the recommended option (the first one) to avoid
+ seemingly mysterious bugs down the road.
+ <img src="img/git_install3.png" alt="Git Installation 3" /></p>
+      </li>
+      <li>
+        <p>This option lets you pick between two different “terminal emulators.”
+ This will deeply affect the aesthetics of your working environment, and IMO
+ MinTTY is much better. Our official directions assume you choose MinTTY, so if you
+ pick the other option, you’re on your own. One word of warning: 
+ if you want to run python in interactive mode using git bash, you need to either run it
+ as <code class="highlighter-rouge">winpty python</code> or <code class="highlighter-rouge">python -i</code> instead of just typing <code class="highlighter-rouge">python</code>.
+ <img src="img/git_install4.png" alt="Git Installation 4" /></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>Lastly, we’ll set up some environment variables. Environment variables are variables
+available to the operating system. For example, whenever you try to run a program from the
+terminal, Windows will check the environment variable named <code class="highlighter-rouge">PATH</code>, then will look at all
+folders listed in that variable for the program name, and if it finds that program in any
+of those places, it’ll run the program. The two environment variables we’ll set are 
+<code class="highlighter-rouge">PATH</code> and <code class="highlighter-rouge">JAVA_HOME</code>.
+ 1. Let’s start by seeing why we need to do this. Open up
+ a git bash terminal (using the start menu) and you should see something like this pop up:
+ <img src="img/git_bash.png" alt="Git Bash" />
+ This prompt is awaiting our command. If we enter the command <code class="highlighter-rouge">javac</code>, we should get “command not found”,
+ as shown below:
+ <img src="img/git_bash_javac_not_found.png" alt="javac not found" />
+ If javac actually works, then somehow javac is already in your path and you’re done with Windows setup, so you can
+ close this page.</p>
+
+    <p>2. Let’s view the current value of our <code class="highlighter-rouge">PATH</code> command line variable. To do this, enter the
+ command <code class="highlighter-rouge">echo $PATH</code>. You should see something like the picture below. This is a colon separated
+ list of everywhere Windows looks for programs when we try to run them. For example, when we typed
+ <code class="highlighter-rouge">javac</code>, it first looked in <code class="highlighter-rouge">/c/Users/hug/bin</code>, then it looked in <code class="highlighter-rouge">/mingw64/bin</code>, then <code class="highlighter-rouge">/usr/local/bin</code>,
+ all the way until it got to <code class="highlighter-rouge">/usr/bin/core_perl</code>. Since it was unable to find Java in any of these
+ locations, it tells us it was unable to find javac.</p>
+
+    <p><img src="img/git_bash_echo_path.png" alt="echo path" />
+ 3. To fix this, we need to add the location of javac to our path. We’ll do this by first defining
+ a variable called <code class="highlighter-rouge">JAVA_HOME</code>, then including a reference to <code class="highlighter-rouge">JAVA_HOME</code> in our <code class="highlighter-rouge">PATH</code>. We’ll see what we mean
+ by this in the following steps.</p>
+
+    <p>4. Use Cortana (a.k.a. Windows search) in the bottom left corner of your desktop to search for “environment”.
+ An option should pop up as shown below called “Edit the system environment variables”. If you’re using
+ an older version of Windows this will look slightly different: [<a href="img/windows7_search.png">Windows 7 picture</a>] [<a href="img/windows8_search.png">Windows 8 picture</a>]</p>
+
+    <p><img src="img/windows10_search.png" alt="windows10 search" />
+ 5. This should bring up something that looks like the picture below, with an “Environment Variables” button
+ you should press.</p>
+
+    <p><img src="img/sys_props.png" alt="System Properties" />
+ 6. After pressing “Environment Variables”, you should be given a list of environment variables. The picture below is
+ for Windows 10, but Windows 7 and 8 should look similar. Click the “New” button:</p>
+
+    <p><img src="img/new_var_windows.png" alt="New Variable" />
+ 7. Under “Variable name”, enter “JAVA_HOME” with an underscore. Under “Variable value”, enter the path where
+ you installed the java JDK. On my computer, this is: “C:\Program Files\Java\jdk-9.0.1”. It is important that the directory
+ name contains jdk and not jre (jre does not include javac!). You should end up with something like:</p>
+
+    <p><img src="img/java_home_windows.png" alt="JAVA Home" />
+ 8. Now scroll down to the existing Path variable in the list. Click on it, then click edit.</p>
+
+    <p><img src="img/windows10_edit_path.png" alt="New variable" />
+ 9. You’ll see all the directories in the path listed. If you’re on an older version of Windows, it’ll be on one big ugly line. 
+ In Windows 10, however, it’ll look nice, as shown below. On Windows 10, click “New”, and enter exactly <code class="highlighter-rouge">%JAVA_HOME%\bin</code> in the new box. On older versions, add <code class="highlighter-rouge">%JAVA_HOME%\bin;</code> with a semicolon to the beginning of the line. This tells Windows to look in the subfolder of <code class="highlighter-rouge">bin</code> under <code class="highlighter-rouge">JAVA_HOME</code> any time you try to run any programs. Click OK.</p>
+
+    <p><img src="img/windows10_after_adding_java_home.png" alt="After adding JAVA_HOME" />
+ 10. Close all terminal windows. Open a new Git Bash terminal window, and try <code class="highlighter-rouge">javac</code> again. This time it should work. If it does not, try printing out your path (using what we did in step 2) above, and confirming that your environment variable was properly set. If you’re still having trouble, post to Piazza.</p>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab1setup/windows by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:22:22 GMT -->
+</html>

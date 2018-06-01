@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec25/lec25 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Trees Study Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Trees Study Guide</header><div class="due-date">Author: Josh Hug</div><ul id="markdown-toc">
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#recommended-problems" id="markdown-toc-recommended-problems">Recommended Problems</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B level</a></li>
+      <li><a href="#a-level" id="markdown-toc-a-level">A level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="overview">Overview</h2>
+<p><strong>Traversals.</strong> When we iterate over a tree, we call this a “tree traversal”.</p>
+
+<p><strong>Depth First Traversals.</strong> We have three depth first traversals: Pre-order,
+in-order and post-order. In a pre-order traversal, we visit a node, then
+traverse its children. In an in-order traversal, we traverse the left child,
+visit a node, then traverse the right child. In a post-order traversal, we
+traverse both children before visiting. These are very natural to implement
+recursively. Pre-order and post-order generalize naturally to trees with
+arbtirary numbers of children. In-order only makes sense for binary trees.</p>
+
+<p><strong>Level Order Traversal.</strong> A level-order traversal visits every item at level 0,
+then level 1, then level 2, and so forth. One typical implementation for a level
+order traversal is an iterative-deepening strategy.</p>
+
+<p><strong>Visitor Pattern.</strong> To avoid rewriting tree traversal code for every single
+task, we can create traversal methods that take a function as an argument
+(wrapped up inside a Java object, as required by Java syntax).</p>
+
+<p><strong>Asymptotics of Traversals.</strong> Our depth-first traversals take linear time.
+Iterative deepening takes between N time and N^2 time. These facts are much less
+important than their derivations, which you should try to understand!</p>
+
+<p><strong>Range Finding and Pruning.</strong> Given a BST of items, we might be interested in
+finding all items that are greater than or equal to A but less than or equal to
+B. One approach would be to use the visitor pattern with any of our traversals,
+but this takes linear time at best. We can instead ignore searching subtrees
+that couldn’t possible contain the items of interest. For example if we are
+searching for items between 76 and 561, and we are currently at a node with
+label 76, we should not search the left subtree. We call this process <em>pruning</em>
+the search. With this technique, the runtime to complete the range finding
+process is $\Theta(R + \log N)$, where R is the number of matches. Range finding
+is the equivalent of finding all items on a line that are between two points.</p>
+
+<p><strong>The 2D Range Finding Problem.</strong> Suppose we have data that is ordered in two
+dimensions, e.g. the locations of Planets in space. Suppose further that we want
+to do the two dimensional analogue of our 1D range finding above: Specifically,
+we want to find everything on the plane that is inside a rectangle
+<a href="https://docs.google.com/presentation/d/1IuaQdudnf3zR3ZyBwM1mjxkb5lTgmqDPlcX1K_yh7BA/edit#slide=id.g11f3cf3f77_0_150">example</a>.
+If we build a simple BST of objects ordered only on the X or Y position of each
+object, we cannot possibly prune the tree using the idea from above.</p>
+
+<p><strong>Quadtrees.</strong> To support pruning in 2 dimensions, we simply create a tree where
+each node has four children, corresponding to items to the upper left, upper
+right, bottom right, and bottom left, which we refer to as NW, NE, SE, and SW.
+Given such a structure, we can naturally extend our pruning algorithm.</p>
+
+<h2 id="recommended-problems">Recommended Problems</h2>
+
+<h3 id="c-level">C level</h3>
+
+<ol>
+  <li><a href="http://inst.eecs.berkeley.edu/~cs61b/fa14/ta-materials/discussion7.pdf">Question 1</a> from the Fall 2014 discussion worksheet.</li>
+</ol>
+
+<h3 id="b-level">B level</h3>
+
+<ol>
+  <li><a href="https://d1b10bmlvqabco.cloudfront.net/attach/hx9h4t96ea8qv/h32s1vxe6mb5o0/i7vkubmrxjn0/fa14_mt2.pdf">Question 4</a> from the Fall 2014 midterm.</li>
+</ol>
+
+<h3 id="a-level">A level</h3>
+
+<ol>
+  <li>
+    <p><a href="http://datastructur.es/sp15/materials/guerrilla/guerrilla2.pdf">Question 7</a> from the guerrilla section worksheet #2 from Spring 2015.</p>
+  </li>
+  <li>
+    <p>Prove that the runtime of range finding in a BST using pruning is
+$\Theta(R + \log N)$. Hint: Count the number of nodes that are examined if
+$R \lt \log N$.</p>
+  </li>
+  <li>
+    <p>For 2D range finding, why can’t we just build a BST ordered on some function
+of the X and Y coordinates and use the 1D range finding algorithm?</p>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec25/lec25 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:25 GMT -->
+</html>

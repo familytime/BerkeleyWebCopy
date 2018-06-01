@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab5/lab5 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lab 5: Getting Started on Project 2 | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lab 5: Getting Started on Project 2</header><ul id="markdown-toc">
+  <li><a href="#pre-lab" id="markdown-toc-pre-lab">Pre-lab</a></li>
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#part-i-meet-the-tile-rendering-engine" id="markdown-toc-part-i-meet-the-tile-rendering-engine">Part I: Meet the Tile Rendering Engine</a>    <ul>
+      <li><a href="#boring-world" id="markdown-toc-boring-world">Boring World</a></li>
+      <li><a href="#random-world" id="markdown-toc-random-world">Random World</a></li>
+    </ul>
+  </li>
+  <li><a href="#part-ii-use-the-tile-rendering-engine" id="markdown-toc-part-ii-use-the-tile-rendering-engine">Part II: Use the Tile Rendering Engine</a>    <ul>
+      <li><a href="#hex-world-intro" id="markdown-toc-hex-world-intro">Hex World Intro</a></li>
+      <li><a href="#drawing-a-single-hexagon" id="markdown-toc-drawing-a-single-hexagon">Drawing A Single Hexagon</a></li>
+      <li><a href="#drawing-a-tesselation-of-hexagons" id="markdown-toc-drawing-a-tesselation-of-hexagons">Drawing A Tesselation of Hexagons</a></li>
+    </ul>
+  </li>
+  <li><a href="#submission" id="markdown-toc-submission">Submission</a></li>
+  <li><a href="#moving-on-to-project-2" id="markdown-toc-moving-on-to-project-2">Moving on to Project 2</a></li>
+</ul>
+
+<p>Please report any errors directly to Josh: hug@cs.berkeley.edu</p>
+
+<p>When you import, make sure to import at the proj2 directory level, otherwise there will be dumb package issues. If you import properly it should look like <a href="https://imgur.com/a/eD8uP">this</a>.</p>
+
+<h2 id="pre-lab">Pre-lab</h2>
+
+<p>Some steps to complete before getting started on this lab:</p>
+
+<ul>
+  <li>
+    <p>As usual, use <code class="highlighter-rouge">git pull skeleton master</code>. This should download
+the proj2 skeleton files, which include the files you need for
+labs 5 and 6.</p>
+  </li>
+  <li>
+    <p>Watch the project 2 getting started video <a href="https://youtu.be/zgdNWICEb_M">at this link</a>.</p>
+  </li>
+  <li>
+    <p>Read the
+<a href="http://datastructur.es/sp18/materials/guides/partnerships2.html">project 2</a>
+partnerships guide.</p>
+  </li>
+  <li>
+    <p>Optionally, read over the <a href="../../proj/proj2/proj2-2.html">project 2 spec</a>.</p>
+  </li>
+  <li>Understand that project 2 will be a marathon and not a sprint.</li>
+  <li>Form your project 2 team
+    <ul>
+      <li><a href="https://goo.gl/forms/leK3zBvORk4n9rrC3">Partner Form</a></li>
+      <li><a href="https://goo.gl/forms/F0bGlCBmdhkwNZBs2">Solo Form</a> for if you really want to work alone, but this is not recommended</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>In this lab, you will learn some basic techniques and tools that will be helpful for
+project 2. You should ideally work on this lab 
+with your project 2 partner (if applicable), though it’s OK to work alone, particularly
+if you don’t have a partner yet.</p>
+
+<p>We recommend that you form a partnership with someone of similar programming skill. 
+You’ll get more out of working with someone at your speed. Project 2 will be open ended
+so you’ll be able to adapt the difficulty of your project to your personal skill.</p>
+
+<p>If you have not found a partner by the end of the lab, let your lab TA know and
+they will have you fill out a <a href="https://docs.google.com/forms/d/e/1FAIpQLSeAfI6NsY-DF3Cbp0OSvPoTt0YKphNX-RoiWPbWGPu0AX3uRg/viewform?usp=sf_link">partner matching form</a>.</p>
+
+<h2 id="part-i-meet-the-tile-rendering-engine">Part I: Meet the Tile Rendering Engine</h2>
+
+<h4 id="boring-world">Boring World</h4>
+
+<p>Import the proj2 skeleton files into IntelliJ using File-&gt;New-&gt;Project From Existing Sources. <strong>Make sure you
+Select the folder called proj2! Not the folder called lab5.</strong> After importing, your IntelliJ should look something like
+the following (you may need to click the right pointing arrows to expand and see the contents of the <code class="highlighter-rouge">byog.Core</code>,
+<code class="highlighter-rouge">byog.lab5</code>, etc. packages).</p>
+
+<p><img src="img/intellij_import.png" alt="intellij import" /></p>
+
+<p>Open up the <code class="highlighter-rouge">BoringWorldDemo</code> file. Try running it and you should see a window appear that looks like the following:</p>
+
+<p><img src="img/boringWorld.png" alt="boring world" /></p>
+
+<p>This world consists of empty space, except for the rectangular block near the bottom middle. The code
+to generate this world consists of three main parts:</p>
+<ul>
+  <li>Initializing the tile rendering engine.</li>
+  <li>Generating a two dimensional <code class="highlighter-rouge">TETile[][]</code> array.</li>
+  <li>Using the tile rendering engine to display the <code class="highlighter-rouge">TETile[][]</code> array.</li>
+</ul>
+
+<p>The API for the tile rendering engine is simple. After creating a <code class="highlighter-rouge">TERenderer</code> object, you simply need to
+call the <code class="highlighter-rouge">initialize</code> method, specifying the width and height of your world, where the width and height
+is given in terms of the number of tiles. Each tile is 16 pixels by 16 pixels, so for example, if we called
+<code class="highlighter-rouge">ter.initialize(10, 20)</code>, we’d end up with a world that is 10 tiles and 20 tiles tall, or equivalently 160
+pixels wide and 320 pixels tall. For this lab, you don’t need to think about pixels, though you’ll eventually
+need to when you start building the user interface for your game (discussed in the next lab).</p>
+
+<p><code class="highlighter-rouge">TETile</code> objects are also quite simple. You can either build them from scratch using the <code class="highlighter-rouge">TETile</code> constructor
+(see <code class="highlighter-rouge">TETile.java</code>), or you can choose from a palette of pregenerated tiles in the file <code class="highlighter-rouge">Tileset.java</code>. For example,
+the code from BoringWorldDemo.java below generates a 2D array of tiles and fills them with the pregenerated
+tile given by <code class="highlighter-rouge">Tileset.NOTHING</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">TETile</span><span class="o">[][]</span> <span class="n">world</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TETile</span><span class="o">[</span><span class="n">WIDTH</span><span class="o">][</span><span class="n">HEIGHT</span><span class="o">];</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">WIDTH</span><span class="o">;</span> <span class="n">x</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">HEIGHT</span><span class="o">;</span> <span class="n">y</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">world</span><span class="o">[</span><span class="n">x</span><span class="o">][</span><span class="n">y</span><span class="o">]</span> <span class="o">=</span> <span class="n">Tileset</span><span class="o">.</span><span class="na">NOTHING</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Of course, we can overwrite existing tiles. For example, the code below from BoringWorld.java
+creates a 14 x 4 tile region made up of the pregenerated tile <code class="highlighter-rouge">Tileset.WALL</code> and writes it over
+some of the <code class="highlighter-rouge">NOTHING</code> tiles created by the loop code shown immediately above.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">20</span><span class="o">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">35</span><span class="o">;</span> <span class="n">x</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">y</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">world</span><span class="o">[</span><span class="n">x</span><span class="o">][</span><span class="n">y</span><span class="o">]</span> <span class="o">=</span> <span class="n">Tileset</span><span class="o">.</span><span class="na">WALL</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The last step in rendering is to simply call <code class="highlighter-rouge">ter.renderFrame(world)</code>. Changes made to the tiles array will
+not appear on the screen until you call the <code class="highlighter-rouge">renderFrame</code> method.</p>
+
+<p>Try changing the tile specified to something else in the <code class="highlighter-rouge">Tileset</code> class other than <code class="highlighter-rouge">WALL</code> and see what happens. Also
+experiment with changing the constants in the loop and see how the world changes.</p>
+
+<p><em>Note: Tiles themselves are immutable! You cannot do something like <code class="highlighter-rouge">world[x][y].character = 'X'</code>.</em></p>
+
+<h4 id="random-world">Random World</h4>
+
+<p>Now open up <code class="highlighter-rouge">RandomWorldDemo.java</code>. Try running it and you should see something like this:</p>
+
+<p><img src="img/randomWorld.png" alt="random world" /></p>
+
+<p>This world is sheer chaos – walls and flowers everywhere! If you look at the <code class="highlighter-rouge">RandomWorldDemo.java</code> file, you’ll 
+see that we’re doing a few new things:</p>
+<ul>
+  <li>We create and use an object of type <code class="highlighter-rouge">Random</code> that is a “<a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator">pseudorandom number generator</a>”.</li>
+  <li>We use a new type of conditional called a switch statement.</li>
+  <li>We have delegated work to functions instead of doing everything in main.</li>
+</ul>
+
+<p>A random number generator does exactly what its name suggests, it produces an infinite stream of numbers that appear to be randomly ordered. The <code class="highlighter-rouge">Random</code> class provides the ability to produce <em>pseudorandom</em> numbers for us in Java.  For example, the following code generates and prints 3 random integers:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Random</span> <span class="n">r</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p>We call <code class="highlighter-rouge">Random</code> a <em>pseudorandom</em> number generator because it isn’t truly random. Underneath the hood, it uses cool math to take the previously generated number and calculate the next number. We won’t go into the details of this math, but see wikipedia if you’re curious. Importantly, the sequence generated is deterministic, and the way we get different sequences is by choosing what is called a “seed”. If you start up a pseudorandom generator with a particular seed, you are guaranteed to get the exact sequence of random values.</p>
+
+<p>In the above code snippet, the seed is the input to the <code class="highlighter-rouge">Random</code> constructor, so 1000 in this case. Having control over the seed is pretty useful since it allows us to indirectly control the output of the random number generator. If we provide the same seed to the constructor, we will get the same sequence values. For example, the code below prints 4 random numbers, then prints the SAME 4 random numbers again. Since the seed is different than the previous code snippet, the 4 numbers will be different than the 3 numbers printed above.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Random</span> <span class="n">r</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="o">(</span><span class="mi">82731</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="n">r</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="o">(</span><span class="mi">82731</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p>In the case a seed is not provided by the user/programmer, i.e. <code class="highlighter-rouge">Random r = new Random()</code>, random number generators select a seed using some value that changes frequently and produces a lot of unique values, such as the current time and date. Seeds can be generated in all sorts of other stranger ways, such as <a href="https://www.popularmechanics.com/technology/security/news/a28921/lava-lamp-security-cloudflare/">using a wall full of lava lamps</a>.</p>
+
+<p>For now, <code class="highlighter-rouge">RandomWorldDemo</code> uses a hard coded seed, namely 2873123, so it will always generate the exact same
+random world. You can change the seed if you want to see other random worlds, though given how
+chaotic the world is, it probably won’t be very interesting.</p>
+
+<p>The second new thing is the <code class="highlighter-rouge">switch</code> statement. We won’t discuss exactly how this works in lab, but
+it’s a very handy way to avoid really long sequences of if-else statements. See <a href="https://docs.oracle.com/javase/tutorial/java/nutsandbolts/switch.html">the official Java tutorial</a> for more.</p>
+
+<p>The final and most important thing is that rather than doing everything in <code class="highlighter-rouge">main</code>, <strong>our code delegates work
+to functions with clearly defined behavior</strong>. This is critically important for your project 2 experience! You’re
+going to want to constantly identify small subtasks that can be solved with clearly defined methods. Furthermore,
+your methods should form a hierarchy of abstractions! We’ll see how this can be useful in the final part of this lab.</p>
+
+<h2 id="part-ii-use-the-tile-rendering-engine">Part II: Use the Tile Rendering Engine</h2>
+
+<h4 id="hex-world-intro">Hex World Intro</h4>
+
+<p>Above, we’ve seen how we can draw a world and generate randomness. In the remainder of this lab, we’ll 
+work our way towards strategically leveraging randomness and hierarchical abstraction to generate an interesting
+world: The ultimate goal is to create a random terrain generator that will
+build hexagon based worlds (similar to the board game <a href="https://www.google.com/search?q=settlers+of+catan&amp;source=lnms&amp;tbm=isch&amp;sa=X&amp;ved=0ahUKEwiquNjwy5rZAhUFYawKHRnjBM8Q_AUICygC&amp;biw=1700&amp;bih=640">Settlers of Catan</a>, if you’ve heard of it).
+As an example, the world below contains fields of grass, fields of flowers, deserts, forests,
+and mountains. 
+<img src="img/exampleWorld.png" alt="example world" /></p>
+
+<p>In the actual project 2, you’ll be generating random worlds as well, although in
+the project, they will be indoor spaces instead of open landscapes. While this
+lab task does not directly apply to the project, it will familiarize you with important
+libraries including our Tile Rendering engine, and also help you think about how you can take
+complex drawing tasks and break them into simpler pieces.</p>
+
+<p>Your world should be able to support differently sized hexagons. The picture above is of size-3 hexagons,
+and below we see a world consisting of size-2 and size-4 hexagons, respectively.</p>
+
+<p><img src="img/exampleWorldSideLength2.png" alt="example world size 2" /></p>
+
+<p><img src="img/exampleWorldSideLength4.png" alt="example world size 4" /></p>
+
+<h4 id="drawing-a-single-hexagon">Drawing A Single Hexagon</h4>
+
+<p>Start by trying to create a method <code class="highlighter-rouge">addHexagon</code> that adds a hexagon of side length s to a given position in the world 
+This is surprisingly tricky! There are many many ways of doing this, but however you do it, <strong>the most important thing is to break the task down into smaller pieces.</strong> This will probably involve creating helper methods. Example hexagons of size 2, 3, 4, and 5
+are shown below. Note that your hexagon should always have a “middle” that is two rows thick, no matter how large the size (ie. the widest part consists of two rows of equal length).  This is important so that the hexagons tesselate nicely.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     aa        aaa         aaaa             aaaaa
+    aaaa      aaaaa       aaaaaa           aaaaaaa
+    aaaa     aaaaaaa     aaaaaaaa         aaaaaaaaa
+     aa      aaaaaaa    aaaaaaaaaa       aaaaaaaaaaa
+              aaaaa     aaaaaaaaaa      aaaaaaaaaaaaa
+               aaa       aaaaaaaa       aaaaaaaaaaaaa
+                          aaaaaa         aaaaaaaaaaa
+                           aaaa           aaaaaaaaa
+                                           aaaaaaa
+                                            aaaaa
+</code></pre></div></div>
+
+<p>These helper methods might involve drawing tasks, or they might involve calculating useful quantities.</p>
+
+<p>In my case, I created two simple private helper methods to compute certain key quantities, and wrote JUnit tests 
+to verify that they worked properly. I did not write any helper methods that performed drawing subtasks, but in
+retrospect, I probably should have.</p>
+
+<p>To verify that my <code class="highlighter-rouge">addHexagon</code> method worked, I simply wrote a short main method and verified that things looked OK.  Unfortunately,
+writing a <code class="highlighter-rouge">JUnit</code> test to verify that you’ve properly drawn a hexagon is just as hard as drawing the hexagon itself,
+so you won’t be able to built confidence in your <code class="highlighter-rouge">addHexagon</code> method in a nice way like you can with simpler methods.</p>
+
+<p>Even deciding the <code class="highlighter-rouge">addHexagon</code> method signature is a non-trivial task! Highlight after this colon to see mine: <span class="whitetext">public static void addHexagon(TETile[][] world, Position p, int s, TETile t), where Position is a very simple class with two variables p.x and p.y and no methods. p specifies the lower left corner of the hexagon.</span></p>
+
+<p><em>Tip: If you want randomized colors for your hexagon tiles, e.g. so that not every flower is exactly the same, see the <code class="highlighter-rouge">TETile.colorVariant</code> method</em></p>
+
+<p>This task might EASILY take the entire lab and then some! It’s OK if you don’t finish. The point is to get you thinking. If you’d rather just have my version of the method, see <a href="drawhexagon.txt">link</a>. This file also lays out my thought process. It is very important that you try to approach your project 2 from a similar perspective of breaking tasks down into smaller tasks.</p>
+
+<h4 id="drawing-a-tesselation-of-hexagons">Drawing A Tesselation of Hexagons</h4>
+
+<p>Once you have code that can draw a single hexagon, you can try to tesselate them to form a world. Specifically, you should try to arrange them in the pattern shown below, consisting of 19 total hexagons.</p>
+
+<p><img src="img/exampleWorld.png" alt="example world" /></p>
+
+<p>As with drawing a single hexagon, there are a huge number of ways to do this. The most important part is to identify helper 
+methods that will be useful for the task!</p>
+
+<p>You should absolutely not try to do something like do everything in a nested for loop with no helper methods. 
+While it is technically possible to do this, <strong>you will melt your brain.</strong> In this project, it is <strong>absolutely vital</strong>
+that you avoid the temptation to always work at a “low level”. Without hierarchical abstraction, your <strong>mind will
+transform into a pile of goo</strong> under the weight of all the complexity.</p>
+
+<p>By writing very well defined, nicely commented helper methods, you also make it physically possible to get help
+from course staff. During office hours for this project, TAs will be limited to ten minutes per pair, and will not be 
+allowed to spend a long time getting to know the intricacies of your code. They are there for high level guidance,
+as well as help debugging when you’ve really exhausted all your options.</p>
+
+<p>Highlight after this line for spoilers about my abstractions and approach. Solution code is not provided on this website.</p>
+
+<p><span class="whitetext">First: I wrote a couple of methods that compute the bottom-left Position of a current hexagon’s neighbors. For example, I wrote topRightNeighbor, which computed the right thing to pass to addHexagon so that I could get my topRight neighbor. I did not write JUnit tests for this because I knew it’d be easy to visually test, though JUnit tests would have been fine. I then wrote bottomRight, and ended up with 3 whole hexagons out of the 19 I wanted.</span></p>
+
+<p><span class="whitetext">Second: I tried to figure out how I could use bottomRight and topRight in some clever way to get the whole grid, but was a bit stymied. I considered trying to use recursion in some way, but it didn’t feel like the right solution for symmetry reasons (too much weird backtracking). I then thought about whether I’d be stuck having to write six different neighbor methods, and decided that seemed excessive. All of this was done without any coding. If I’d have started coding all this, it would have been a huge waste of time.”</span></p>
+
+<p><span class="whitetext">Third: Stepping back, I decided to try to find the “nicest” way to try to lay out my hexagons and was ready to throw away my bottomRight and topRight methods entirely. Then the key AHA moment occurred when I noticed that the world consists of 5 columns of 3, 4, 5, 4, and 3 hexagons, respectively.</span></p>
+
+<p><span class="whitetext">Fourth: I wrote a method called drawRandomVerticalHexes that draws a column of N hexes, each one with a random biome.</span></p>
+
+<p><span class="whitetext">Fifth: I wrote a main method that is a little ugly, but basically calls drawRandomVerticalHexes five times, one for each of the five columns of the world, consisting of 3, 4, 5, 4, and 3 hexagons. To figure out the starting position for the “top” hex of each column, I used the topRightNeighbor or bottomRightNeighbor on the old top, as appropriate.</span></p>
+
+<p><span class="whitetext">Sixth: I added some code to allow for interactivity so you can press a single key to get a new random world and enjoyed playing around with it. But interactivity will have to wait until next week’s lab for you guys.</span></p>
+
+<h2 id="submission">Submission</h2>
+
+<p>EDIT: There will be nothing to submit for this lab. While this does mean the lab is optional, we highly recommend you complete it to the best of your ability before working on the project.</p>
+
+<h2 id="moving-on-to-project-2">Moving on to Project 2</h2>
+
+<p>In theory, this lab has taught you everything you need to know for project 2! The process of generating your world will be similar in many ways to drawing a hexagon world, though project 2 world generation will be considerably more complex. If you’re not sure how to get started, look at the questions in project2prep.txt. Feel free to discuss answers with TAs.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab5/lab5 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:21 GMT -->
+</html>

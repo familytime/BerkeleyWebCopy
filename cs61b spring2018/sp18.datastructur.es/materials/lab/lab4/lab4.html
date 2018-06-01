@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab4/lab4 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lab 4: Project 1A Peer Code Review | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lab 4: Project 1A Peer Code Review</header><ul id="markdown-toc">
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a>    <ul>
+      <li><a href="#arraydeque-overview" id="markdown-toc-arraydeque-overview">ArrayDeque Overview</a></li>
+      <li><a href="#arraydeque-peer-review" id="markdown-toc-arraydeque-peer-review">ArrayDeque Peer Review</a></li>
+      <li><a href="#linkedlistdeque-overview" id="markdown-toc-linkedlistdeque-overview">LinkedListDeque Overview</a></li>
+      <li><a href="#linkedlistdeque-peer-review" id="markdown-toc-linkedlistdeque-peer-review">LinkedListDeque Peer Review</a></li>
+    </ul>
+  </li>
+  <li><a href="#self-reflection-and-submission" id="markdown-toc-self-reflection-and-submission">Self Reflection and Submission</a></li>
+  <li><a href="#permanently-set-up-libraries-in-intellij" id="markdown-toc-permanently-set-up-libraries-in-intellij">Permanently Set Up Libraries in IntelliJ</a></li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+<p>In this lab, you will compare your solution to project 1A with 1 or 2 other students in your lab. On-time attendance is required this week. If you cannot attend your regular lab, you may attend another instead.</p>
+
+<h4 id="arraydeque-overview">ArrayDeque Overview</h4>
+
+<p>Your TA will start the lab by giving a brief overview of the staff solution to ArrayDeque.</p>
+
+<h4 id="arraydeque-peer-review">ArrayDeque Peer Review</h4>
+
+<p>Pair up with another student and compare solutions. Programmers in 61B vary widely in their level of experience and comfort with programming. Our goal here is to help each other get better. Please be nice, and don’t feel bad if your solution is less elegant or even downright ugly. I’ve certainly written incredibly ugly, inelegant code! Why here’s <a href="knaveos.html">a 1600 line monstrosity I wrote in 1997</a>, and a <a href="https://youtu.be/XgJUC0Le_Ew">video demo of it running</a> if you’re curious what it does. knaveos will not be on the midterm.</p>
+
+<p>Avoid the temptation to explain exactly how your implementation works to your partner. Instead focus your discussion on more specific questions. Some suggested questions are listed below:</p>
+
+<ol>
+  <li>What was the most annoying bug you had and how did you fix it? Did you use the debugger? Did you fix it by adding special cases? Did you do any change-and-pray (where you make a tiny change and hope the AG approves)?</li>
+  <li>Did you end up cutting anything out to make your code simpler? If so, what?</li>
+  <li>Do you have any special cases in your code?</li>
+  <li>Do you have any private helper methods?</li>
+  <li>Does your code repeat itself anywhere? Would private helper methods have helped?</li>
+</ol>
+
+<p>After discussion, fill out the first half of self_reflection.txt with your own self reflection.</p>
+
+<h4 id="linkedlistdeque-overview">LinkedListDeque Overview</h4>
+
+<p>Your TA will go over the LinkedListDeque solution.</p>
+
+<h4 id="linkedlistdeque-peer-review">LinkedListDeque Peer Review</h4>
+
+<p>Now, pair up again and discuss your LinkedListDeque solutions similar to before. Fill out your  self_reflection.txt. We recommend that you talk to a different person than you did for ArrayDeque, but it’s OK to stick with your partner for ArrayDeque.</p>
+
+<h2 id="self-reflection-and-submission">Self Reflection and Submission</h2>
+
+<p>Make sure you’ve completely filled out the self_reflection.txt document provided in the skeleton. Ask a TA to check your self_reflection.txt and give you the magic word to put in magic_word.txt. Push to Github and submit to Gradescope.</p>
+
+<h2 id="permanently-set-up-libraries-in-intellij">Permanently Set Up Libraries in IntelliJ</h2>
+<p>Never want to have to re-add your libraries again? Follow these instructions:</p>
+
+<p>Go to Project Structure; select SDKs in the sidebar. Select 9.0 (or whichever version you have).  In the Classpath tab,  click ‘+’ (add), then select the javalib jars from your library-sp18 folder in your repository.  Click OK.</p>
+
+<p>The javalib for 61B should now always be ready for any future project.</p>
+
+<p><img src="img/library_setup.png" alt="setup image" width="100%" /></p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab4/lab4 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:19 GMT -->
+</html>

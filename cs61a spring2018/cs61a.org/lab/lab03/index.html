@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/lab/lab03/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:35:55 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+Lab 3: Recursion and Midterm Review | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Lab 3: Recursion and Midterm Review
+
+        
+        <ul class="inline-block list-inline">
+          <li><a href="lab03.zip" class="label label-outline">lab03.zip</a></li>
+        </ul>
+        
+      </h1>
+    </header>
+    
+
+<p><i>Due at 11:59pm on Friday, 02/09/2018.</i></p>
+
+
+<h2 id='starter-files'>Starter Files</h2>
+
+
+<p>Download <a href="lab03.zip">lab03.zip</a>.
+Inside the archive, you will find starter files for the questions in this lab,
+  along with a copy of the <a href="ok.zip">Ok</a> autograder.</p>
+
+
+<h2 id='submission'>Submission</h2>
+
+<p>By the end of this lab, you should have submitted the lab with
+<code>python3 ok --submit</code>. You may submit more than once before the
+deadline; only the final submission will be graded.
+Check that you have successfully submitted your code on
+<a href="https://okpy.org/">okpy.org</a>.</p>
+
+<ul>
+  <li>Questions 1 and 2 must be completed in order to receive credit for this
+  lab. Starter code for these questions is in <a href="lab03.py">lab03.py</a>.</li>
+  <li>Questions 3 through 10 are for midterm review and are <strong>optional</strong>. <em>It is recommended
+  that you complete these problems on your own time.</em> Starter code for these questions
+  is in the <a href="lab03_extra.py">lab03_extra.py</a> file.</li>
+</ul>
+
+<blockquote><p><strong>Note:</strong> In order to help you prepare for the midterm, we've provided the
+solutions to the problems in this lab assignment. You may consult them if you
+get stuck or to check your answers, but please try to solve them on your own
+first. You must still submit the required questions by Friday night if you want
+to receive credit for this lab assignment.</p></blockquote>
+
+
+
+    
+<h1 id="topics">Topics</h1>
+
+
+<p>Consult this section if you need a refresher on the material for this lab. It's
+okay to skip directly to <a href="#required-questions">the questions</a> and refer back
+here should you get stuck.</p>
+
+
+<h2 id="recursion">Recursion</h2>
+
+
+<p>A recursive function is a function that calls itself in its body,
+either directly or indirectly. Recursive functions have three important
+components:</p>
+
+<ol>
+  <li>Base case(s), the simplest possible form of the problem you're trying to solve.</li>
+  <li>Recursive case(s), where the function calls itself with a <em>simpler
+  argument</em> as part of the computation.</li>
+  <li>Using the recursive calls to solve the full problem.</li>
+</ol>
+
+<p>Let's look at the canonical example, <code>factorial</code>:</p>
+
+<pre><code>def factorial(n):
+    if n == 0:
+        return 1
+    return n * factorial(n &#x2d; 1)</code></pre>
+
+<p>We know by its definition that 0! is 1. So we choose <code>n == 0</code> as our base case.
+The recursive step also follows from the definition of factorial, i.e., <code>n</code>! =
+<code>n</code> * (<code>n</code>-1)!.</p>
+
+<p>The next few questions in lab will have you writing recursive
+functions.  Here are some general tips:</p>
+
+<ul>
+  <li>Consider how you can solve the current problem using the solution to
+  a simpler version of the problem. Remember to <em>trust the recursion</em>:
+  assume that your solution to the simpler problem works correctly
+  without worrying about how.</li>
+  <li>Think about what the answer would be in the simplest possible
+  case(s). These will be your base cases - the stopping points for your
+  recursive calls. Make sure to consider the possibility that you're
+  missing base cases (this is a common way recursive solutions fail).</li>
+  <li>It may help to write the iterative version first.</li>
+</ul>
+
+<!-- <table class='table table-bordered'>
+
+<pre><code>&lt;tr&gt;
+    &lt;th&gt;Function Type:&lt;/th&gt;
+    &lt;th&gt;Recusive&lt;/th&gt;
+    &lt;th&gt;Iterative&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;Function&lt;/td&gt;
+    &lt;td&gt;&lt;pre&gt; def factorial(n):
+    if n == 0:
+        return 1
+    return n * factorial(n &#x2d; 1)&lt;pre&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;pre&gt; def factorial(n):
+    total = 1
+    while n &gt; 0:
+        total *= n
+        n &#x2d;= 1
+    return total
+    &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;Ends calculations&lt;/td&gt;
+    &lt;td&gt;When it hits the base case&lt;/td&gt;
+    &lt;td&gt;When n !&gt; 0, it will end.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;Means of traversal&lt;/td&gt;
+    &lt;td&gt;&lt;code&gt;factorial(&lt;strong&gt;n &#x2d; 1&lt;/strong&gt;&lt;/code&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;code&gt;&lt;strong&gt;n &#x2d;= 1&lt;/strong&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt; 
+&lt;/tr&gt;</code></pre>
+
+</table> -->
+
+
+<h1 id="required-questions">Required Questions</h1>
+
+
+<h3 class="question" id="q1">Q1: GCD</h3>
+
+<p>The greatest common divisor of two positive integers <code>a</code> and <code>b</code> is the
+largest integer which evenly divides both numbers (with no remainder).
+Euclid, a Greek mathematician in 300 B.C., realized that the greatest
+common divisor of <code>a</code> and <code>b</code> is one of the following:</p>
+
+<ul>
+  <li>the smaller value if it evenly divides the larger value, or</li>
+  <li>the greatest common divisor of the smaller value and the remainder of
+  the larger value divided by the smaller value</li>
+</ul>
+
+<p>In other words, if <code>a</code> is greater than <code>b</code> and <code>a</code> is not divisible by
+<code>b</code>, then</p>
+
+<pre><code>gcd(a, b) = gcd(b, a % b)</code></pre>
+
+<p>Write the <code>gcd</code> function recursively using Euclid's algorithm.</p>
+
+
+
+<pre><code>def gcd(a, b):
+    &quot;&quot;&quot;Returns the greatest common divisor of a and b.
+    Should be implemented using recursion.
+
+    &gt;&gt;&gt; gcd(34, 19)
+    1
+    &gt;&gt;&gt; gcd(39, 91)
+    13
+    &gt;&gt;&gt; gcd(20, 30)
+    10
+    &gt;&gt;&gt; gcd(40, 40)
+    40
+    &quot;&quot;&quot;
+<div class="alt solution-1">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-1">&#x20;&#x20;&#x20;&#x20;&#x61;&#x2c;&#x20;&#x62;&#x20;&#x3d;&#x20;&#x6d;&#x61;&#x78;&#x28;&#x61;&#x2c;&#x20;&#x62;&#x29;&#x2c;&#x20;&#x6d;&#x69;&#x6e;&#x28;&#x61;&#x2c;&#x20;&#x62;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x61;&#x20;&#x25;&#x20;&#x62;&#x20;&#x3d;&#x3d;&#x20;&#x30;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x62;&#xa;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x67;&#x63;&#x64;&#x28;&#x62;&#x2c;&#x20;&#x61;&#x20;&#x25;&#x20;&#x62;&#x29;&#xa;&#xa;&#x23;&#x20;&#x49;&#x74;&#x65;&#x72;&#x61;&#x74;&#x69;&#x76;&#x65;&#x20;&#x73;&#x6f;&#x6c;&#x75;&#x74;&#x69;&#x6f;&#x6e;&#x2c;&#x20;&#x69;&#x66;&#x20;&#x79;&#x6f;&#x75;&#x27;&#x72;&#x65;&#x20;&#x63;&#x75;&#x72;&#x69;&#x6f;&#x75;&#x73;&#xa;&#x64;&#x65;&#x66;&#x20;&#x67;&#x63;&#x64;&#x5f;&#x69;&#x74;&#x65;&#x72;&#x28;&#x61;&#x2c;&#x20;&#x62;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x22;&#x22;&#x22;&#x52;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x73;&#x20;&#x74;&#x68;&#x65;&#x20;&#x67;&#x72;&#x65;&#x61;&#x74;&#x65;&#x73;&#x74;&#x20;&#x63;&#x6f;&#x6d;&#x6d;&#x6f;&#x6e;&#x20;&#x64;&#x69;&#x76;&#x69;&#x73;&#x6f;&#x72;&#x20;&#x6f;&#x66;&#x20;&#x61;&#x20;&#x61;&#x6e;&#x64;&#x20;&#x62;&#x2c;&#x20;&#x75;&#x73;&#x69;&#x6e;&#x67;&#x20;&#x69;&#x74;&#x65;&#x72;&#x61;&#x74;&#x69;&#x6f;&#x6e;&#x2e;&#xa;&#xa;&#x20;&#x20;&#x20;&#x20;&#x3e;&#x3e;&#x3e;&#x20;&#x67;&#x63;&#x64;&#x5f;&#x69;&#x74;&#x65;&#x72;&#x28;&#x33;&#x34;&#x2c;&#x20;&#x31;&#x39;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x3e;&#x3e;&#x3e;&#x20;&#x67;&#x63;&#x64;&#x5f;&#x69;&#x74;&#x65;&#x72;&#x28;&#x33;&#x39;&#x2c;&#x20;&#x39;&#x31;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x31;&#x33;&#xa;&#x20;&#x20;&#x20;&#x20;&#x3e;&#x3e;&#x3e;&#x20;&#x67;&#x63;&#x64;&#x5f;&#x69;&#x74;&#x65;&#x72;&#x28;&#x32;&#x30;&#x2c;&#x20;&#x33;&#x30;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x31;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x3e;&#x3e;&#x3e;&#x20;&#x67;&#x63;&#x64;&#x5f;&#x69;&#x74;&#x65;&#x72;&#x28;&#x34;&#x30;&#x2c;&#x20;&#x34;&#x30;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x34;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x22;&#x22;&#x22;&#xa;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x61;&#x20;&#x3c;&#x20;&#x62;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x67;&#x63;&#x64;&#x5f;&#x69;&#x74;&#x65;&#x72;&#x28;&#x62;&#x2c;&#x20;&#x61;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x77;&#x68;&#x69;&#x6c;&#x65;&#x20;&#x61;&#x20;&#x3e;&#x20;&#x62;&#x20;&#x61;&#x6e;&#x64;&#x20;&#x6e;&#x6f;&#x74;&#x20;&#x61;&#x20;&#x25;&#x20;&#x62;&#x20;&#x3d;&#x3d;&#x20;&#x30;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x61;&#x2c;&#x20;&#x62;&#x20;&#x3d;&#x20;&#x62;&#x2c;&#x20;&#x61;&#x20;&#x25;&#x20;&#x62;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x62;</div></code></pre>
+
+
+        <button id='solution-1' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q gcd</code></pre>
+
+<h3 class="question" id="q2">Q2: Hailstone</h3>
+
+<p>For the <code>hailstone</code> function from <a href="../../hw/hw01/index.html#q5">homework 1</a>, you pick a positive
+integer <code>n</code> as the start. If <code>n</code> is even, divide it by 2. If <code>n</code> is odd,
+multiply it by 3 and add 1. Repeat this process until <code>n</code> is 1.  Write a
+recursive version of hailstone that prints out the values of the sequence and
+returns the number of steps.</p>
+
+
+
+<pre><code>def hailstone(n):
+    &quot;&quot;&quot;Print out the hailstone sequence starting at n, and return the
+    number of elements in the sequence.
+
+    &gt;&gt;&gt; a = hailstone(10)
+    10
+    5
+    16
+    8
+    4
+    2
+    1
+    &gt;&gt;&gt; a
+    7
+    &quot;&quot;&quot;
+<div class="alt solution-2">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-2">&#x20;&#x20;&#x20;&#x20;&#x70;&#x72;&#x69;&#x6e;&#x74;&#x28;&#x6e;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6e;&#x20;&#x3d;&#x3d;&#x20;&#x31;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x69;&#x66;&#x20;&#x6e;&#x20;&#x25;&#x20;&#x32;&#x20;&#x3d;&#x3d;&#x20;&#x30;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x31;&#x20;&#x2b;&#x20;&#x68;&#x61;&#x69;&#x6c;&#x73;&#x74;&#x6f;&#x6e;&#x65;&#x28;&#x6e;&#x20;&#x2f;&#x2f;&#x20;&#x32;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x31;&#x20;&#x2b;&#x20;&#x68;&#x61;&#x69;&#x6c;&#x73;&#x74;&#x6f;&#x6e;&#x65;&#x28;&#x33;&#x20;&#x2a;&#x20;&#x6e;&#x20;&#x2b;&#x20;&#x31;&#x29;&#xa;&#xa;&#x23;&#x20;&#x41;&#x6c;&#x74;&#x65;&#x72;&#x6e;&#x61;&#x74;&#x65;&#x20;&#x73;&#x6f;&#x6c;&#x75;&#x74;&#x69;&#x6f;&#x6e;&#x20;&#x77;&#x69;&#x74;&#x68;&#x20;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x20;&#x66;&#x75;&#x6e;&#x63;&#x74;&#x69;&#x6f;&#x6e;&#xa;&#x64;&#x65;&#x66;&#x20;&#x68;&#x61;&#x69;&#x6c;&#x73;&#x74;&#x6f;&#x6e;&#x65;&#x32;&#x28;&#x6e;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x64;&#x65;&#x66;&#x20;&#x68;&#x61;&#x69;&#x6c;&#x5f;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x28;&#x6e;&#x2c;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x29;&#x3a;&#xa;&#x9;&#x70;&#x72;&#x69;&#x6e;&#x74;&#x28;&#x6e;&#x29;&#xa;&#x9;&#x69;&#x66;&#x20;&#x6e;&#x20;&#x3d;&#x3d;&#x20;&#x31;&#x3a;&#xa;&#x9;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#xa;&#x9;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x9;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6e;&#x20;&#x25;&#x20;&#x32;&#x20;&#x3d;&#x3d;&#x20;&#x30;&#x3a;&#xa;&#x9;&#x9;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x68;&#x61;&#x69;&#x6c;&#x5f;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x28;&#x6e;&#x20;&#x2f;&#x2f;&#x20;&#x32;&#x2c;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x2b;&#x20;&#x31;&#x29;&#xa;&#x9;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x9;&#x9;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x68;&#x61;&#x69;&#x6c;&#x5f;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x28;&#x33;&#x20;&#x2a;&#x20;&#x6e;&#x20;&#x2b;&#x20;&#x31;&#x2c;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x2b;&#x20;&#x31;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x68;&#x61;&#x69;&#x6c;&#x5f;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x28;&#x6e;&#x2c;&#x20;&#x31;&#x29;</div></code></pre>
+
+
+        <button id='solution-2' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q hailstone</code></pre>
+
+
+<h1 id="midterm-review">Midterm Review</h1>
+
+
+<p><strong>Note</strong>: The following questions are in <a href="lab03_extra.py">lab03_extra.py</a>.</p>
+
+
+<h2 id="functions">Functions</h2>
+
+
+<h3 class="question" id="q3">Q3: WWPD: Call Expressions</h3>
+
+<blockquote><p>Use Ok to test your knowledge with the following "What Would Python Display?"
+questions:</p>
+
+<pre><code>python3 ok &#x2d;q call_expressions &#x2d;u</code></pre>
+
+<p>For all WWPD questions, type <code>Function</code> if you believe the answer
+is <code>&lt;function...&gt;</code>, > <code>Error</code> if it errors, and <code>Nothing</code> if nothing is displayed.</p></blockquote>
+
+<pre><code>&gt;&gt;&gt; from operator import add
+&gt;&gt;&gt; def double(x):
+...     return x + x
+...
+&gt;&gt;&gt; def square(y):
+...     return y * y
+...
+&gt;&gt;&gt; def f(z):
+...     add(square(double(z)), 1)
+...
+&gt;&gt;&gt; f(4)
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x23;&#x20;&#x66;&#x28;&#x34;&#x29;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x73;&#x20;&#x4e;&#x6f;&#x6e;&#x65;&#x2c;&#x20;&#x77;&#x68;&#x69;&#x63;&#x68;&#x20;&#x69;&#x73;&#x20;&#x61;&#x20;&#x73;&#x70;&#x65;&#x63;&#x69;&#x61;&#x6c;&#x20;&#x76;&#x61;&#x6c;&#x75;&#x65;&#x20;&#x74;&#x68;&#x61;&#x74;&#x20;&#x74;&#x68;&#x65;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x70;&#x72;&#x65;&#x74;&#x65;&#x72;&#x20;&#x68;&#x69;&#x64;&#x65;&#x73;&#x20;&#x75;&#x6e;&#x6c;&#x65;&#x73;&#x73;&#x20;&#x65;&#x78;&#x70;&#x6c;&#x69;&#x63;&#x69;&#x74;&#x6c;&#x79;&#x20;&#x70;&#x72;&#x69;&#x6e;&#x74;&#x65;&#x64;</div></code></pre>
+        <button id='prompt-1' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<pre><code>&gt;&gt;&gt; def foo(x, y):
+...     print(&quot;x or y&quot;)
+...     return x or y
+...
+&gt;&gt;&gt; a = foo
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x23;&#x20;&#x57;&#x65;&#x20;&#x61;&#x72;&#x65;&#x6e;&#x27;&#x74;&#x20;&#x63;&#x61;&#x6c;&#x6c;&#x69;&#x6e;&#x67;&#x20;&#x66;&#x6f;&#x6f;&#x20;&#x68;&#x65;&#x72;&#x65;&#x3b;&#x20;&#x77;&#x65;&#x20;&#x61;&#x72;&#x65;&#x20;&#x6a;&#x75;&#x73;&#x74;&#x20;&#x62;&#x69;&#x6e;&#x64;&#x69;&#x6e;&#x67;&#x20;&#x74;&#x68;&#x65;&#x20;&#x76;&#x61;&#x72;&#x69;&#x61;&#x62;&#x6c;&#x65;&#x20;&#x61;&#x20;&#x69;&#x6e;&#x20;&#x74;&#x68;&#x65;&#x20;&#x67;&#x6c;&#x6f;&#x62;&#x61;&#x6c;&#x20;&#x66;&#x72;&#x61;&#x6d;&#x65;&#x20;&#x74;&#x6f;&#x20;&#x74;&#x68;&#x65;&#x20;&#x66;&#x75;&#x6e;&#x63;&#x74;&#x69;&#x6f;&#x6e;&#x20;&#x6f;&#x62;&#x6a;&#x65;&#x63;&#x74;&#x20;&#x66;&#x6f;&#x6f;</div>
+&gt;&gt;&gt; b = foo()
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x54;&#x79;&#x70;&#x65;&#x45;&#x72;&#x72;&#x6f;&#x72;&#x3a;&#x20;&#x66;&#x6f;&#x6f;&#x28;&#x29;&#x20;&#x6d;&#x69;&#x73;&#x73;&#x69;&#x6e;&#x67;&#x20;&#x32;&#x20;&#x72;&#x65;&#x71;&#x75;&#x69;&#x72;&#x65;&#x64;&#x20;&#x70;&#x6f;&#x73;&#x69;&#x74;&#x69;&#x6f;&#x6e;&#x61;&#x6c;&#x20;&#x61;&#x72;&#x67;&#x75;&#x6d;&#x65;&#x6e;&#x74;&#x73;&#x3a;&#x20;&#x27;&#x78;&#x27;&#x20;&#x61;&#x6e;&#x64;&#x20;&#x27;&#x79;&#x27;</div>
+&gt;&gt;&gt; c = a(print(&quot;x&quot;), print(&quot;y&quot;))
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x78;&#xa;&#x79;&#xa;&#x78;&#x20;&#x6f;&#x72;&#x20;&#x79;</div>
+&gt;&gt;&gt; print(c)
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x4e;&#x6f;&#x6e;&#x65;</div></code></pre>
+        <button id='prompt-2' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<pre><code>&gt;&gt;&gt; def welcome():
+...     print(&#x27;welcome to&#x27;)
+...     return &#x27;hello&#x27;
+...
+&gt;&gt;&gt; def cs61a():
+...     print(&#x27;cs61a&#x27;)
+...     return &#x27;world&#x27;
+...
+&gt;&gt;&gt; print(welcome(), cs61a())
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x77;&#x65;&#x6c;&#x63;&#x6f;&#x6d;&#x65;&#x20;&#x74;&#x6f;&#xa;&#x63;&#x73;&#x36;&#x31;&#x61;&#xa;&#x68;&#x65;&#x6c;&#x6c;&#x6f;&#x20;&#x77;&#x6f;&#x72;&#x6c;&#x64;</div></code></pre>
+        <button id='prompt-3' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+
+<h2 id="higher-order-functions">Higher Order Functions</h2>
+
+
+<h3 class="question" id="q4">Q4: I Heard You Liked Functions...</h3>
+
+<p>Define a function <code>cycle</code> that takes in three functions <code>f1</code>, <code>f2</code>,
+<code>f3</code>, as arguments. <code>cycle</code> will return another function that should
+take in an integer argument <code>n</code> and return another function.  That
+final function should take in an argument <code>x</code> and cycle through
+applying <code>f1</code>, <code>f2</code>, and <code>f3</code> to <code>x</code>, depending on what <code>n</code>
+was. Here's what the final function should do to <code>x</code> for a few
+values of <code>n</code>:</p>
+
+<ul>
+  <li><code>n = 0</code>, return <code>x</code></li>
+  <li><code>n = 1</code>, apply <code>f1</code> to <code>x</code>, or return <code>f1(x)</code></li>
+  <li><code>n = 2</code>, apply <code>f1</code> to <code>x</code> and then <code>f2</code> to the result of that, or
+  return <code>f2(f1(x))</code></li>
+  <li><code>n = 3</code>, apply <code>f1</code> to <code>x</code>, <code>f2</code> to the result of applying <code>f1</code>,
+  and then <code>f3</code> to the result of applying <code>f2</code>, or <code>f3(f2(f1(x)))</code></li>
+  <li><code>n = 4</code>, start the cycle again applying <code>f1</code>, then <code>f2</code>, then <code>f3</code>,
+  then <code>f1</code> again, or <code>f1(f3(f2(f1(x))))</code></li>
+  <li>And so forth.</li>
+</ul>
+
+<p><em>Hint</em>: most of the work goes inside the most nested function.</p>
+
+
+
+<pre><code>def cycle(f1, f2, f3):
+    &quot;&quot;&quot;Returns a function that is itself a higher&#x2d;order function.
+
+    &gt;&gt;&gt; def add1(x):
+    ...     return x + 1
+    &gt;&gt;&gt; def times2(x):
+    ...     return x * 2
+    &gt;&gt;&gt; def add3(x):
+    ...     return x + 3
+    &gt;&gt;&gt; my_cycle = cycle(add1, times2, add3)
+    &gt;&gt;&gt; identity = my_cycle(0)
+    &gt;&gt;&gt; identity(5)
+    5
+    &gt;&gt;&gt; add_one_then_double = my_cycle(2)
+    &gt;&gt;&gt; add_one_then_double(1)
+    4
+    &gt;&gt;&gt; do_all_functions = my_cycle(3)
+    &gt;&gt;&gt; do_all_functions(2)
+    9
+    &gt;&gt;&gt; do_more_than_a_cycle = my_cycle(4)
+    &gt;&gt;&gt; do_more_than_a_cycle(2)
+    10
+    &gt;&gt;&gt; do_two_cycles = my_cycle(6)
+    &gt;&gt;&gt; do_two_cycles(1)
+    19
+    &quot;&quot;&quot;
+<div class="alt solution-3">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-3">&#x20;&#x20;&#x20;&#x20;&#x64;&#x65;&#x66;&#x20;&#x72;&#x65;&#x74;&#x5f;&#x66;&#x6e;&#x28;&#x6e;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x64;&#x65;&#x66;&#x20;&#x72;&#x65;&#x74;&#x28;&#x78;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x20;&#x3d;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x77;&#x68;&#x69;&#x6c;&#x65;&#x20;&#x69;&#x20;&#x3c;&#x20;&#x6e;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x69;&#x20;&#x25;&#x20;&#x33;&#x20;&#x3d;&#x3d;&#x20;&#x30;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x78;&#x20;&#x3d;&#x20;&#x66;&#x31;&#x28;&#x78;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x69;&#x66;&#x20;&#x69;&#x20;&#x25;&#x20;&#x33;&#x20;&#x3d;&#x3d;&#x20;&#x31;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x78;&#x20;&#x3d;&#x20;&#x66;&#x32;&#x28;&#x78;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x78;&#x20;&#x3d;&#x20;&#x66;&#x33;&#x28;&#x78;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x20;&#x2b;&#x3d;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x78;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x72;&#x65;&#x74;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x72;&#x65;&#x74;&#x5f;&#x66;&#x6e;</div></code></pre>
+
+
+        <button id='solution-3' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q cycle</code></pre>
+
+
+<h2 id="lambda-expressions">Lambda expressions</h2>
+
+
+<h3 class="question" id="q5">Q5: Palindrome</h3>
+
+<p>A number is considered a palindrome if it reads the same forwards
+and backwards. Fill in the blanks '<strong></strong>_' to help determine if
+a number is a palindrome. In the spirit of exam style questions, please
+do not edit any parts of the function other than the blanks.</p>
+
+
+
+<pre><code>def is_palindrome(n):
+    &quot;&quot;&quot;
+    Fill in the blanks &#x27;_____&#x27; to check if a number
+    is a palindrome.
+
+    &gt;&gt;&gt; is_palindrome(12321)
+    True
+    &gt;&gt;&gt; is_palindrome(42)
+    False
+    &gt;&gt;&gt; is_palindrome(2015)
+    False
+    &gt;&gt;&gt; is_palindrome(55)
+    True
+    &quot;&quot;&quot;
+    x, y = n, 0
+<div class="alt solution-4">    f = lambda: _____
+</div><div class="solution solution-4">&#x20;&#x20;&#x20;&#x20;&#x66;&#x20;&#x3d;&#x20;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x3a;&#x20;&#x79;&#x20;&#x2a;&#x20;&#x31;&#x30;&#x20;&#x2b;&#x20;&#x78;&#x20;&#x25;&#x20;&#x31;&#x30;</div>    while x &gt; 0:
+<div class="alt solution-4">        x, y = _____, f()
+</div><div class="solution solution-4">&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x78;&#x2c;&#x20;&#x79;&#x20;&#x3d;&#x20;&#x78;&#x20;&#x2f;&#x2f;&#x20;&#x31;&#x30;&#x2c;&#x20;&#x66;&#x28;&#x29;</div>    return y == n</code></pre>
+
+
+        <button id='solution-4' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q is_palindrome</code></pre>
+
+
+<h2 id="environment-diagrams">Environment diagrams</h2>
+
+
+<h3 class="question" id="q6">Q6: Doge</h3>
+
+<p>Draw the environment diagram for the following code.</p>
+
+<pre><code>wow = 6
+
+def much(wow):
+    if much == wow:
+        such = lambda wow: 5
+        def wow():
+            return such
+        return wow
+    such = lambda wow: 4
+    return wow()
+
+wow = much(much(much))(wow)</code></pre>
+
+<p>Verify your solution with <a href="https://goo.gl/rLDpDe">Python Tutor</a>.</p>
+
+
+<h2 id="more-recursion-practice">More Recursion Practice</h2>
+
+
+<h3 class="question" id="q7">Q7: Find the Bug</h3>
+
+<p>Find the bug with this recursive function.</p>
+
+<pre><code>def skip_mul(n):
+    &quot;&quot;&quot;Return the product of n * (n &#x2d; 2) * (n &#x2d; 4) * ...
+
+    &gt;&gt;&gt; skip_mul(5) # 5 * 3 * 1
+    15
+    &gt;&gt;&gt; skip_mul(8) # 8 * 6 * 4 * 2
+    384
+    &quot;&quot;&quot;
+    if n == 2:
+        return 2
+    else:
+        return n * skip_mul(n &#x2d; 2)</code></pre>
+
+<p>When you find it, run this to check your answer:</p>
+
+<pre><code>python3 ok &#x2d;q skip_mul_ok &#x2d;u</code></pre>
+
+<p>Then, fix the code in <code>lab03_extra.py</code> and run this to check your code:</p>
+
+<pre><code>python3 ok &#x2d;q skip_mul</code></pre>
+
+<div class="solution solution-5">
+
+<p>Consider what happens when we choose an odd number for <code>n</code>. <code>skip_mul(3)</code> will
+return <code>3 * skip_mul(1)</code>. <code>skip_mul(1)</code> will return <code>1 * skip_mul(&#x2d;1)</code>. You
+may see the problem now. Since we are decreasing <code>n</code> by two at a time, we've
+completed missed our base case of <code>n == 2</code>, and we will end up recursing
+indefinitely. We need to add another base case to make sure this doesn't
+happen.</p>
+
+<pre><code>def skip_mul(n):
+    if n == 1:
+        return 1
+    elif n == 2:
+        return 2
+    else:
+        return n * skip_mul(n &#x2d; 2)</code></pre>
+
+</div>
+        <button id='solution-5' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<h3 class="question" id="q8">Q8: Is Prime</h3>
+
+<p>Write a function <code>is_prime</code> that takes a single argument <code>n</code> and returns <code>True</code>
+if <code>n</code> is a prime number and <code>False</code> otherwise. Assume <code>n &gt; 1</code>. We implemented
+this in <a href="../../disc/disc01.pdf">Discussion 1</a> iteratively, now time to do it recursively!</p>
+
+<blockquote><p><em>Hint</em>: You will need a helper function! Remember helper functions are useful
+if you need to keep track of more variables than the given parameters, or
+if you need to change the value of the input.</p></blockquote>
+
+
+
+<pre><code>def is_prime(n):
+    &quot;&quot;&quot;Returns True if n is a prime number and False otherwise.
+
+    &gt;&gt;&gt; is_prime(2)
+    True
+    &gt;&gt;&gt; is_prime(16)
+    False
+    &gt;&gt;&gt; is_prime(521)
+    True
+    &quot;&quot;&quot;
+<div class="alt solution-6">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-6">&#x20;&#x20;&#x20;&#x20;&#x64;&#x65;&#x66;&#x20;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x28;&#x69;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x69;&#x20;&#x3e;&#x20;&#x28;&#x6e;&#x20;&#x2a;&#x2a;&#x20;&#x30;&#x2e;&#x35;&#x29;&#x3a;&#x20;&#x23;&#x20;&#x43;&#x6f;&#x75;&#x6c;&#x64;&#x20;&#x72;&#x65;&#x70;&#x6c;&#x61;&#x63;&#x65;&#x20;&#x77;&#x69;&#x74;&#x68;&#x20;&#x69;&#x20;&#x3d;&#x3d;&#x20;&#x6e;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x54;&#x72;&#x75;&#x65;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x69;&#x66;&#x20;&#x6e;&#x20;&#x25;&#x20;&#x69;&#x20;&#x3d;&#x3d;&#x20;&#x30;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x46;&#x61;&#x6c;&#x73;&#x65;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x28;&#x69;&#x20;&#x2b;&#x20;&#x31;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x28;&#x32;&#x29;</div></code></pre>
+
+
+        <button id='solution-6' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q is_prime</code></pre>
+
+<h3 class="question" id="q9">Q9: Interleaved Sum</h3>
+
+<p>Recall that the <code>summation</code> function computes the sum of a sequence of
+terms from 1 to <code>n</code>:</p>
+
+<pre><code>def summation(n, term):
+    &quot;&quot;&quot;Return the sum of the first n terms of a sequence.
+
+    &gt;&gt;&gt; summation(5, lambda x: pow(x, 3))
+    225
+    &quot;&quot;&quot;
+    total, k = 0, 1
+    while k &lt;= n:
+        total, k = total + term(k), k + 1
+    return total</code></pre>
+
+<p>Write a function <code>interleaved_sum</code> that similarly computes the sum of a
+sequence of terms from 1 to <code>n</code>, but uses different functions to compute
+the terms for odd and even numbers. Do so without using any loops or
+testing in any way if a number is odd or even. (You may test if a
+number is equal to 0, 1, or <code>n</code>.)</p>
+
+<blockquote><p><em>Hint</em>: Use recursion and a helper function!</p></blockquote>
+
+
+
+<pre><code>def interleaved_sum(n, odd_term, even_term):
+    &quot;&quot;&quot;Compute the sum odd_term(1) + even_term(2) + odd_term(3) + ..., up
+    to n.
+
+    &gt;&gt;&gt; # 1 + 2^2 + 3 + 4^2 + 5
+    ... interleaved_sum(5, lambda x: x, lambda x: x*x)
+    29
+    &quot;&quot;&quot;
+<div class="alt solution-7">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-7">&#x20;&#x20;&#x20;&#x20;&#x64;&#x65;&#x66;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x6c;&#x65;&#x61;&#x76;&#x65;&#x64;&#x5f;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x28;&#x74;&#x65;&#x72;&#x6d;&#x30;&#x2c;&#x20;&#x74;&#x65;&#x72;&#x6d;&#x31;&#x2c;&#x20;&#x6b;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6b;&#x20;&#x3d;&#x3d;&#x20;&#x6e;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x74;&#x65;&#x72;&#x6d;&#x30;&#x28;&#x6b;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x74;&#x65;&#x72;&#x6d;&#x30;&#x28;&#x6b;&#x29;&#x20;&#x2b;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x6c;&#x65;&#x61;&#x76;&#x65;&#x64;&#x5f;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x28;&#x74;&#x65;&#x72;&#x6d;&#x31;&#x2c;&#x20;&#x74;&#x65;&#x72;&#x6d;&#x30;&#x2c;&#x20;&#x6b;&#x2b;&#x31;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x6c;&#x65;&#x61;&#x76;&#x65;&#x64;&#x5f;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x28;&#x6f;&#x64;&#x64;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x2c;&#x20;&#x65;&#x76;&#x65;&#x6e;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x2c;&#x20;&#x31;&#x29;&#xa;&#xa;&#x23;&#x20;&#x41;&#x6c;&#x74;&#x65;&#x72;&#x6e;&#x61;&#x74;&#x65;&#x20;&#x73;&#x6f;&#x6c;&#x75;&#x74;&#x69;&#x6f;&#x6e;&#xa;&#x64;&#x65;&#x66;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x6c;&#x65;&#x61;&#x76;&#x65;&#x64;&#x5f;&#x73;&#x75;&#x6d;&#x32;&#x28;&#x6e;&#x2c;&#x20;&#x6f;&#x64;&#x64;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x2c;&#x20;&#x65;&#x76;&#x65;&#x6e;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x22;&#x22;&#x22;&#x43;&#x6f;&#x6d;&#x70;&#x75;&#x74;&#x65;&#x20;&#x74;&#x68;&#x65;&#x20;&#x73;&#x75;&#x6d;&#x20;&#x6f;&#x64;&#x64;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x28;&#x31;&#x29;&#x20;&#x2b;&#x20;&#x65;&#x76;&#x65;&#x6e;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x28;&#x32;&#x29;&#x20;&#x2b;&#x20;&#x6f;&#x64;&#x64;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x28;&#x33;&#x29;&#x20;&#x2b;&#x20;&#x2e;&#x2e;&#x2e;&#x2c;&#x20;&#x75;&#x70;&#xa;&#x20;&#x20;&#x20;&#x20;&#x74;&#x6f;&#x20;&#x6e;&#x2e;&#xa;&#xa;&#x20;&#x20;&#x20;&#x20;&#x3e;&#x3e;&#x3e;&#x20;&#x23;&#x20;&#x31;&#x20;&#x2b;&#x20;&#x32;&#x5e;&#x32;&#x20;&#x2b;&#x20;&#x33;&#x20;&#x2b;&#x20;&#x34;&#x5e;&#x32;&#x20;&#x2b;&#x20;&#x35;&#xa;&#x20;&#x20;&#x20;&#x20;&#x2e;&#x2e;&#x2e;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x6c;&#x65;&#x61;&#x76;&#x65;&#x64;&#x5f;&#x73;&#x75;&#x6d;&#x32;&#x28;&#x35;&#x2c;&#x20;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x20;&#x78;&#x3a;&#x20;&#x78;&#x2c;&#x20;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x20;&#x78;&#x3a;&#x20;&#x78;&#x2a;&#x78;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x32;&#x39;&#xa;&#x20;&#x20;&#x20;&#x20;&#x22;&#x22;&#x22;&#xa;&#x20;&#x20;&#x20;&#x20;&#x74;&#x6f;&#x74;&#x61;&#x6c;&#x2c;&#x20;&#x74;&#x65;&#x72;&#x6d;&#x30;&#x2c;&#x20;&#x74;&#x65;&#x72;&#x6d;&#x31;&#x20;&#x3d;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x6c;&#x65;&#x61;&#x76;&#x65;&#x64;&#x5f;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x32;&#x28;&#x6e;&#x2c;&#x20;&#x6f;&#x64;&#x64;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x2c;&#x20;&#x65;&#x76;&#x65;&#x6e;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x74;&#x6f;&#x74;&#x61;&#x6c;&#xa;&#xa;&#x64;&#x65;&#x66;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x6c;&#x65;&#x61;&#x76;&#x65;&#x64;&#x5f;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x32;&#x28;&#x6e;&#x2c;&#x20;&#x6f;&#x64;&#x64;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x2c;&#x20;&#x65;&#x76;&#x65;&#x6e;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6e;&#x20;&#x3d;&#x3d;&#x20;&#x31;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x6f;&#x64;&#x64;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x28;&#x31;&#x29;&#x2c;&#x20;&#x65;&#x76;&#x65;&#x6e;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x2c;&#x20;&#x6f;&#x64;&#x64;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x74;&#x6f;&#x74;&#x61;&#x6c;&#x2c;&#x20;&#x74;&#x65;&#x72;&#x6d;&#x30;&#x2c;&#x20;&#x74;&#x65;&#x72;&#x6d;&#x31;&#x20;&#x3d;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x6c;&#x65;&#x61;&#x76;&#x65;&#x64;&#x5f;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x32;&#x28;&#x6e;&#x2d;&#x31;&#x2c;&#x20;&#x6f;&#x64;&#x64;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x2c;&#x20;&#x65;&#x76;&#x65;&#x6e;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x74;&#x6f;&#x74;&#x61;&#x6c;&#x20;&#x2b;&#x20;&#x74;&#x65;&#x72;&#x6d;&#x30;&#x28;&#x6e;&#x29;&#x2c;&#x20;&#x74;&#x65;&#x72;&#x6d;&#x31;&#x2c;&#x20;&#x74;&#x65;&#x72;&#x6d;&#x30;&#xa;&#xa;&#x23;&#x20;&#x41;&#x6c;&#x74;&#x65;&#x72;&#x6e;&#x61;&#x74;&#x65;&#x20;&#x73;&#x6f;&#x6c;&#x75;&#x74;&#x69;&#x6f;&#x6e;&#x20;&#x75;&#x73;&#x69;&#x6e;&#x67;&#x20;&#x6f;&#x64;&#x64;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x20;&#x61;&#x6e;&#x64;&#x20;&#x65;&#x76;&#x65;&#x6e;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x20;&#x73;&#x65;&#x70;&#x61;&#x72;&#x61;&#x74;&#x65;&#x6c;&#x79;&#xa;&#x64;&#x65;&#x66;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x6c;&#x65;&#x61;&#x76;&#x65;&#x64;&#x5f;&#x73;&#x75;&#x6d;&#x33;&#x28;&#x6e;&#x2c;&#x20;&#x6f;&#x64;&#x64;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x2c;&#x20;&#x65;&#x76;&#x65;&#x6e;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x64;&#x65;&#x66;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x6c;&#x65;&#x61;&#x76;&#x65;&#x64;&#x5f;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x33;&#x28;&#x69;&#x2c;&#x20;&#x66;&#x6e;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x69;&#x20;&#x3e;&#x20;&#x6e;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x66;&#x6e;&#x28;&#x69;&#x29;&#x20;&#x2b;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x6c;&#x65;&#x61;&#x76;&#x65;&#x64;&#x5f;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x33;&#x28;&#x69;&#x20;&#x2b;&#x20;&#x32;&#x2c;&#x20;&#x66;&#x6e;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x6c;&#x65;&#x61;&#x76;&#x65;&#x64;&#x5f;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x33;&#x28;&#x30;&#x2c;&#x20;&#x65;&#x76;&#x65;&#x6e;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x29;&#x20;&#x2b;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x6c;&#x65;&#x61;&#x76;&#x65;&#x64;&#x5f;&#x68;&#x65;&#x6c;&#x70;&#x65;&#x72;&#x33;&#x28;&#x31;&#x2c;&#x20;&#x6f;&#x64;&#x64;&#x5f;&#x74;&#x65;&#x72;&#x6d;&#x29;</div></code></pre>
+
+
+        <button id='solution-7' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q interleaved_sum</code></pre>
+
+<h3 class="question" id="q10">Q10: Ten-pairs</h3>
+
+<p>Write a function that takes a positive integer <code>n</code> and returns the
+number of ten-pairs it contains.  A ten-pair is a pairs of digits
+within <code>n</code> that sum to 10.   <em>Do not use any assignment statements.</em></p>
+
+<p>The number 7,823,952 has 3 ten-pairs. The first and fourth digits sum
+to 7+3=10, the second and third digits sum to 8+2=10, and the second
+and last digit sum to 8+2=10:</p>
+
+<blockquote><p><em>Hint</em>: Use a helper function to calculate how many times a digit
+appears in n.</p></blockquote>
+
+
+
+<pre><code>def ten_pairs(n):
+    &quot;&quot;&quot;Return the number of ten&#x2d;pairs within positive integer n.
+
+    &gt;&gt;&gt; ten_pairs(7823952)
+    3
+    &gt;&gt;&gt; ten_pairs(55055)
+    6
+    &gt;&gt;&gt; ten_pairs(9641469)
+    6
+    &quot;&quot;&quot;
+<div class="alt solution-8">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-8">&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6e;&#x20;&#x3c;&#x20;&#x31;&#x30;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x74;&#x65;&#x6e;&#x5f;&#x70;&#x61;&#x69;&#x72;&#x73;&#x28;&#x6e;&#x2f;&#x2f;&#x31;&#x30;&#x29;&#x20;&#x2b;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x5f;&#x64;&#x69;&#x67;&#x69;&#x74;&#x28;&#x6e;&#x2f;&#x2f;&#x31;&#x30;&#x2c;&#x20;&#x31;&#x30;&#x20;&#x2d;&#x20;&#x6e;&#x25;&#x31;&#x30;&#x29;&#xa;&#xa;&#x64;&#x65;&#x66;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x5f;&#x64;&#x69;&#x67;&#x69;&#x74;&#x28;&#x6e;&#x2c;&#x20;&#x64;&#x69;&#x67;&#x69;&#x74;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x22;&#x22;&#x22;&#x52;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x68;&#x6f;&#x77;&#x20;&#x6d;&#x61;&#x6e;&#x79;&#x20;&#x74;&#x69;&#x6d;&#x65;&#x73;&#x20;&#x64;&#x69;&#x67;&#x69;&#x74;&#x20;&#x61;&#x70;&#x70;&#x65;&#x61;&#x72;&#x73;&#x20;&#x69;&#x6e;&#x20;&#x6e;&#x2e;&#xa;&#xa;&#x20;&#x20;&#x20;&#x20;&#x3e;&#x3e;&#x3e;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x5f;&#x64;&#x69;&#x67;&#x69;&#x74;&#x28;&#x35;&#x35;&#x30;&#x35;&#x35;&#x2c;&#x20;&#x35;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x34;&#xa;&#x20;&#x20;&#x20;&#x20;&#x22;&#x22;&#x22;&#xa;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6e;&#x20;&#x3d;&#x3d;&#x20;&#x30;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6e;&#x25;&#x31;&#x30;&#x20;&#x3d;&#x3d;&#x20;&#x64;&#x69;&#x67;&#x69;&#x74;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x5f;&#x64;&#x69;&#x67;&#x69;&#x74;&#x28;&#x6e;&#x2f;&#x2f;&#x31;&#x30;&#x2c;&#x20;&#x64;&#x69;&#x67;&#x69;&#x74;&#x29;&#x20;&#x2b;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x5f;&#x64;&#x69;&#x67;&#x69;&#x74;&#x28;&#x6e;&#x2f;&#x2f;&#x31;&#x30;&#x2c;&#x20;&#x64;&#x69;&#x67;&#x69;&#x74;&#x29;</div></code></pre>
+
+
+        <button id='solution-8' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q ten_pairs</code></pre>
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#topics">Topics</a></li>
+  <ul>
+    <li><a href="#recursion">Recursion</a></li>
+  </ul>
+  <li><a href="#required-questions">Required Questions</a></li>
+  <ul>
+    <li><a href="#q1">Q1: GCD</a></li>
+    <li><a href="#q2">Q2: Hailstone</a></li>
+  </ul>
+  <li><a href="#midterm-review">Midterm Review</a></li>
+  <ul>
+    <li><a href="#functions">Functions</a></li>
+    <ul>
+      <li><a href="#q3">Q3: WWPD: Call Expressions</a></li>
+    </ul>
+    <li><a href="#higher-order-functions">Higher Order Functions</a></li>
+    <ul>
+      <li><a href="#q4">Q4: I Heard You Liked Functions...</a></li>
+    </ul>
+    <li><a href="#lambda-expressions">Lambda expressions</a></li>
+    <ul>
+      <li><a href="#q5">Q5: Palindrome</a></li>
+    </ul>
+    <li><a href="#environment-diagrams">Environment diagrams</a></li>
+    <ul>
+      <li><a href="#q6">Q6: Doge</a></li>
+    </ul>
+    <li><a href="#more-recursion-practice">More Recursion Practice</a></li>
+    <ul>
+      <li><a href="#q7">Q7: Find the Bug</a></li>
+      <li><a href="#q8">Q8: Is Prime</a></li>
+      <li><a href="#q9">Q9: Interleaved Sum</a></li>
+      <li><a href="#q10">Q10: Ten-pairs</a></li>
+    </ul>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+
+<script type="text/javascript" src="../../assets/js/config.js"></script>
+<script>
+  $(function() {
+    var staging_domains = ['staging.cs61a.org', 'solutions.cs61a.org', 'localhost', '127.0.0.1'];
+    var host = window.location.hostname;
+    var staging = staging_domains.indexOf(host) != -1;
+    staging = staging || (host.endsWith('.pullrequests.cs61a.org') && !host.startsWith('last-build.'));
+
+    var after_due_date = new Date("02/05/2018") < new Date();
+    var before_end_date = new Date() <= new Date(endDate);
+    var release_solutions = (staging || after_due_date) && before_end_date;
+
+    if (release_solutions) {
+      $('.toggle').css('display', 'inline-block');
+      $('.toggle').click(function() {
+        var solution_id = $(this).attr('id');
+        $('div.' + solution_id).slideToggle(600);
+      });
+    }
+  });
+</script>
+
+
+  </body>
+
+<!-- Mirrored from cs61a.org/lab/lab03/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:00 GMT -->
+</html>

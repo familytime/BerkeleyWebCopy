@@ -1,0 +1,112 @@
+\Question{Breaking RSA}
+
+\begin{Parts}
+    \Part Eve is not convinced she needs to factor $N = pq$ in order to break
+    RSA.
+    She argues: "All I need to know is $(p-1)(q-1)$... then I can find $d$
+as the inverse of $e$ mod $(p-1)(q-1)$. This should be easier than
+factoring $N$."
+Prove Eve wrong, by showing that if she knows $(p-1)(q-1)$,
+she can easily factor $N$ (thus showing finding $(p-1)(q-1)$ is at least
+as hard as factoring $N$). Assume Eve has a friend Wolfram, who can easily return the
+roots of polynomials over $\R$ (this is, in fact, easy).
+
+    \Part When working with RSA, it is not uncommon to use $e=3$ in the public
+    key. Suppose that Alice has sent Bob, Carol, and Dorothy the same
+    message indicating the time she is having her birthday party. Eve, who is
+    not invited, wants to decrypt the message and show up to the
+    party.
+    Bob, Carol, and Dorothy have public keys $(N_1, e_1), (N_2, e_2), (N_3,
+    e_3)$ respectively, where $e_1=e_2=e_3=3$. Furthermore assume that $N_1,N_2,N_3$ are
+    all different. Alice has chosen a number $0\leq x< \min\{N_1,N_2,N_3\}$ which
+    indicates the time her party starts and has encoded it via the three
+    public keys and sent it to her three friends. Eve has been able to
+    obtain the three encoded messages. Prove that Eve can figure out $x$.
+    First solve the problem when two of $N_1,N_2,N_3$ have a
+    common factor. Then solve it when no two of them have a common factor.
+    Again, assume Eve is friends with Wolfram as above.
+    
+    
+    \textit{Hint}: The concept behind this problem is the Chinese Remainder Theorem:
+    Suppose $n_1, ...,n_k$ are positive integers, that are pairwise co-prime.
+    Then, for any given sequence of integers $a_1, ..., a_k$, there exists an
+    integer $x$ solving the following system of simultaneous congruences:
+    \begin{align*}
+        x &\equiv a_1 \pmod{n_1} \\ 
+        x &\equiv a_2 \pmod{n_2} \\ 
+        &\vdots \\ 
+        x &\equiv a_k \pmod{n_k} 
+    \end{align*}
+    Furthermore, all solutions $x$ of the system are congruent modulo 
+    the product, $N=n_1 \dotsm n_k$. Hence:
+    $x \equiv y \pmod{n_i} \text{ for } 1 \leq i \leq k \iff 
+        x \equiv y \pmod N $.
+\end{Parts}
+
+
+\Question{Squared RSA}
+
+\begin{Parts}
+  \Part Prove the identity $a^{p(p-1)} \equiv 1 \pmod{p^2}$, where $a$ is relatively prime to $p$ and $p$ is prime.
+
+  \Part 
+   Now consider the RSA scheme: the public key is $(N = p^2 q^2, e)$ for primes $p$ and $q$, with $e$ relatively prime to $p(p-1)q(q-1)$. The private key is $d = e^{-1} \pmod{p(p-1)q(q-1)}$.
+  Prove that the scheme is correct, i.e.\ $x^{ed} \equiv x \pmod{N}$. You may assume that $x$ is relatively prime to both $p$ and $q$.
+  \Part Continuing the previous part, prove that the scheme is unbreakable, i.e.\ your scheme is at least as difficult to break as ordinary RSA.
+\end{Parts}
+
+
+
+\Question{Badly Chosen Public Key}
+
+Your friend would like to send you a message using the RSA public key $N = (pq, e)$.
+Unfortunately, your friend did not take CS 70, so your friend mistakenly chose $e$ which is \textit{not} relatively prime to $(p-1)(q-1)$.
+Your friend then sends you a message $y = x^e$.
+In this problem we will investigate if it is possible to recover the original message $x$.
+Throughout this problem, assume that you have discovered an integer $a$ which has the property that $a^{(p-1)(q-1)} \equiv 1 \pmod N$, and for any positive integer $k$ where $1 \le k < (p-1)(q-1)$, $a^k \not\equiv 1 \pmod N$.
+\begin{Parts}
+    \Part Show that for any integer $z$ which is relatively prime to $N$, $z$ can be written as $a^k \pmod N$ for some integer $0 \le k < (p-1)(q-1)$.
+    [\textit{Hint}: Show that $1, a, a^2, \dotsc, a^{(p-1)(q-1)-1}$ are all distinct modulo $N$. Think of the proof for Fermat's Little Theorem.]
+    \Part Show that if $k$ is any integer such that $a^k \equiv 1 \pmod N$, then $(p-1)(q-1) \mid k$.
+    \Part Assume that $y$ is relatively prime to $N$.
+    By the first part, we can write $y \equiv a^\ell \pmod N$ for some $\ell \in \{0, \dotsc, (p-1)(q-1)-1\}$.
+    Show that if $k$ is an integer such that $(p-1)(q-1) \mid ek - \ell$, then $\tilde{x} := a^k$ satisfies $\tilde{x}^e \equiv y \pmod N$.
+    \Part Unfortunately the solution $\tilde{x}$ found in the previous part might not be the original solution $x$.
+    Show that if $d := \gcd(e, (p-1)(q-1)) > 1$, then there are exactly $d$ distinct integers $x_1, \dotsc, x_d$ which are all distinct modulo $N$ such that $x_i^e = y$, $i = 1,\dotsc, d$.
+    [\textit{Hint}: You will probably find it helpful to use $a$ as a tool here.]
+\end{Parts}
+
+
+\Question{Quantum Factoring}
+
+We're pretty sure that classical computers can't break RSA (because it is hard to factor large numbers on them), but we know that quantum computers theoretically could. The fact that we will prove in this question is a key part of Shor's Algorithm, a quantum algorithm for factoring large numbers quickly.
+
+\begin{Parts}
+\Part
+Let $N = pq$, for primes $p$ and $q$. Prove that, for all $a \in \mathbb{N}$, there are only four possible values for $gcd(a, N)$.
+
+\Part 
+Again, let $N=pq$. Using part (a), prove that, if $r^2 = 1 \mod N$ and $r \not \equiv \pm 1 \pmod N$ (i.e. $r$ is a "nontrivial square root of 1" mod $N$), then $gcd(r-1, N)$ is one of the prime factors of $N$.\\
+\textit{Hint: $r^2 = 1 \mod N$ can be rewritten as $r^2 - 1 = 0 \mod N$ or $(r+1)(r-1) = 0 \mod N$.}
+
+\end{Parts}
+
+\Question{Polynomial Short Answer}
+For each of these questions, please provide a brief justification or explanation unless otherwise specified.
+\begin{Parts}
+	\Part Sanity checks (no justification needed): 
+	\begin{enumerate}[(i)]
+		\item A degree $d$ nonzero polynomial in $\mathbb{R}$ has at most \underline{\quad} roots.
+		\item A degree $d$ nonzero polynomial in $GF(p)$ has at most $\min(\underline{\quad}, p)$ roots. 
+		\item $d$ points determine an at most $\underline{\quad}$-degree polynomial. 
+	\end{enumerate}
+	\Part In a Galois Field, why does it make sense that we require $p$ to be a prime? (Hint: look at the properties of a field in note 8.)
+	\Part Use Lagrange interpolation to find a degree-2 polynomial that passes through these points in $GF(7)$:	$(0,1), (5,0), (6, 2)$. 
+	\Part Using Fermat's Little Theorem, show that for every prime $p$, every polynomial over $GF(p)$ with degree $\geq p$ is equivalent to a polynomial of degree at most $p-1$. (Two polynomials are equivalent if they evaluate to the same value for every $x\in GF(p)$.
+\end{Parts}
+
+\Question{Rational Root Theorem}
+The rational root theorem states that for a polynomial
+\[P(x) = a_nx^n + a_{n-1}x^{n-1} + \cdots + a_0,   \]
+$a_0, \cdots, a_n \in \mathbb{Z}$, if $a_0, a_n \neq 0$, then for each rational solution $\frac{p}{q}$ (gcd($p,q) = 1$) $p | a_0$ and $q|a_n$. Prove the rational root theorem. 
+

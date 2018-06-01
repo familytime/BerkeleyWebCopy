@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec7/lec7 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Testing Study Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Testing Study Guide</header><div class="due-date">Author: Kartik Kapur</div><ul id="markdown-toc">
+  <li><a href="#lecture-code" id="markdown-toc-lecture-code">Lecture Code</a></li>
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#exercises" id="markdown-toc-exercises">Exercises</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C Level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B Level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="lecture-code">Lecture Code</h2>
+
+<p>Code from this lecture available at</p>
+
+<p><a href="https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/testing">https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/testing</a>.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Why Test Code?</strong> In the real world chances are you won’t have an autograder.
+When your code gets deployed into production, it is important that you know
+that it will work for simple cases as well as strange edge cases.</p>
+
+<p><strong>Test-Driven Development</strong> When provided an autograder, it is very easy to go
+“autograder happy”. Instead of actually understanding the spec and the
+requirements for a project, a student may write some base implementation, smash
+their code against the autograder, fix some parts, and repeat until a test is
+passed. This process tends to be a bit lengthy and really is not the best use
+of time. We will introduce a new programming method, Test-Driven Development
+(TDD) where the programmer writes the tests for a function  BEFORE the actual
+function is written. Since unit tests are written before the function is,
+it becomes much easier to isolate errors in your code. Additionally, writing
+unit test requires that you have a relatively solid understanding of the task
+that you are undertaking. A drawback of this method is that it can be fairly
+slow and also sometimes it can be easy to forget to test how functions
+interact with each other.</p>
+
+<p><strong>JUnit Tests</strong> JUnit is a package that can is used to debug programs
+in Java. An example function that comes from JUnit is
+<code class="highlighter-rouge">assertEquals(expected, actual)</code>. This function asserts true if expected and
+actual have the same value and false otherwise. There are a bunch of other
+JUnit functions such as <code class="highlighter-rouge">assertEquals</code>, <code class="highlighter-rouge">assertFalse</code>, and <code class="highlighter-rouge">assertNotNull</code>.</p>
+
+<p>When writing JUnit tests,  it is good practice to write ‘@Test’
+above the functionthat is testing. This allows for all your test methods to be
+run non statically.</p>
+
+<h2 id="exercises">Exercises</h2>
+
+<h3 id="c-level">C Level</h3>
+<ol>
+  <li>In general, is it good to write tests that test your entire program? How
+about for specific functions?</li>
+</ol>
+
+<h3 id="b-level">B Level</h3>
+<ol>
+  <li>
+    <p>Write a testing method that will take in 2 arrays and see if they are equal.
+These arrays can have nested arrays and those nested arrays can have nested
+arrays and so forth.</p>
+  </li>
+  <li>
+    <p>If we have 2 classes that have identical qualities, will
+<code class="highlighter-rouge">assertEquals(Object o1, Object o2)</code> assert true or false?</p>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec7/lec7 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:18 GMT -->
+</html>

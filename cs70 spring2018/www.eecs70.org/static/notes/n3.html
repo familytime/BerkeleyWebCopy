@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<!--==============================================================================
+	           "GitHub HTML5 Pandoc Template" v1.2 — by Tristano Ajmone           
+	==============================================================================
+	(c) Tristano Ajmone, 2017, MIT License (MIT). Project's home repository:
+
+	- https://github.com/tajmone/pandoc-goodies
+
+	This template reuses source code taken from the following projects:
+
+	- GitHub Markdown CSS: © Sindre Sorhus, MIT License (MIT):
+	  https://github.com/sindresorhus/github-markdown-css
+
+	- Primer CSS: © 2016 GitHub Inc., MIT License (MIT):
+	  http://primercss.io/
+	==============================================================================-->
+<html>
+
+<!-- Mirrored from www.eecs70.org/static/notes/n3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:38:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Induction</title>
+<style type="text/css">@font-face{font-family:octicons-link;src:url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAZwABAAAAAACFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEU0lHAAAGaAAAAAgAAAAIAAAAAUdTVUIAAAZcAAAACgAAAAoAAQAAT1MvMgAAAyQAAABJAAAAYFYEU3RjbWFwAAADcAAAAEUAAACAAJThvmN2dCAAAATkAAAABAAAAAQAAAAAZnBnbQAAA7gAAACyAAABCUM+8IhnYXNwAAAGTAAAABAAAAAQABoAI2dseWYAAAFsAAABPAAAAZwcEq9taGVhZAAAAsgAAAA0AAAANgh4a91oaGVhAAADCAAAABoAAAAkCA8DRGhtdHgAAAL8AAAADAAAAAwGAACfbG9jYQAAAsAAAAAIAAAACABiATBtYXhwAAACqAAAABgAAAAgAA8ASm5hbWUAAAToAAABQgAAAlXu73sOcG9zdAAABiwAAAAeAAAAME3QpOBwcmVwAAAEbAAAAHYAAAB/aFGpk3jaTY6xa8JAGMW/O62BDi0tJLYQincXEypYIiGJjSgHniQ6umTsUEyLm5BV6NDBP8Tpts6F0v+k/0an2i+itHDw3v2+9+DBKTzsJNnWJNTgHEy4BgG3EMI9DCEDOGEXzDADU5hBKMIgNPZqoD3SilVaXZCER3/I7AtxEJLtzzuZfI+VVkprxTlXShWKb3TBecG11rwoNlmmn1P2WYcJczl32etSpKnziC7lQyWe1smVPy/Lt7Kc+0vWY/gAgIIEqAN9we0pwKXreiMasxvabDQMM4riO+qxM2ogwDGOZTXxwxDiycQIcoYFBLj5K3EIaSctAq2kTYiw+ymhce7vwM9jSqO8JyVd5RH9gyTt2+J/yUmYlIR0s04n6+7Vm1ozezUeLEaUjhaDSuXHwVRgvLJn1tQ7xiuVv/ocTRF42mNgZGBgYGbwZOBiAAFGJBIMAAizAFoAAABiAGIAznjaY2BkYGAA4in8zwXi+W2+MjCzMIDApSwvXzC97Z4Ig8N/BxYGZgcgl52BCSQKAA3jCV8CAABfAAAAAAQAAEB42mNgZGBg4f3vACQZQABIMjKgAmYAKEgBXgAAeNpjYGY6wTiBgZWBg2kmUxoDA4MPhGZMYzBi1AHygVLYQUCaawqDA4PChxhmh/8ODDEsvAwHgMKMIDnGL0x7gJQCAwMAJd4MFwAAAHjaY2BgYGaA4DAGRgYQkAHyGMF8NgYrIM3JIAGVYYDT+AEjAwuDFpBmA9KMDEwMCh9i/v8H8sH0/4dQc1iAmAkALaUKLgAAAHjaTY9LDsIgEIbtgqHUPpDi3gPoBVyRTmTddOmqTXThEXqrob2gQ1FjwpDvfwCBdmdXC5AVKFu3e5MfNFJ29KTQT48Ob9/lqYwOGZxeUelN2U2R6+cArgtCJpauW7UQBqnFkUsjAY/kOU1cP+DAgvxwn1chZDwUbd6CFimGXwzwF6tPbFIcjEl+vvmM/byA48e6tWrKArm4ZJlCbdsrxksL1AwWn/yBSJKpYbq8AXaaTb8AAHja28jAwOC00ZrBeQNDQOWO//sdBBgYGRiYWYAEELEwMTE4uzo5Zzo5b2BxdnFOcALxNjA6b2ByTswC8jYwg0VlNuoCTWAMqNzMzsoK1rEhNqByEyerg5PMJlYuVueETKcd/89uBpnpvIEVomeHLoMsAAe1Id4AAAAAAAB42oWQT07CQBTGv0JBhagk7HQzKxca2sJCE1hDt4QF+9JOS0nbaaYDCQfwCJ7Au3AHj+LO13FMmm6cl7785vven0kBjHCBhfpYuNa5Ph1c0e2Xu3jEvWG7UdPDLZ4N92nOm+EBXuAbHmIMSRMs+4aUEd4Nd3CHD8NdvOLTsA2GL8M9PODbcL+hD7C1xoaHeLJSEao0FEW14ckxC+TU8TxvsY6X0eLPmRhry2WVioLpkrbp84LLQPGI7c6sOiUzpWIWS5GzlSgUzzLBSikOPFTOXqly7rqx0Z1Q5BAIoZBSFihQYQOOBEdkCOgXTOHA07HAGjGWiIjaPZNW13/+lm6S9FT7rLHFJ6fQbkATOG1j2OFMucKJJsxIVfQORl+9Jyda6Sl1dUYhSCm1dyClfoeDve4qMYdLEbfqHf3O/AdDumsjAAB42mNgYoAAZQYjBmyAGYQZmdhL8zLdDEydARfoAqIAAAABAAMABwAKABMAB///AA8AAQAAAAAAAAAAAAAAAAABAAAAAA==) format('woff')}.markdown-body{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;color:#24292e;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";font-size:16px;line-height:1.5;word-wrap:break-word;box-sizing:border-box;min-width:200px;max-width:980px;margin:0 auto;padding:45px}.markdown-body .octicon{display:inline-block;fill:currentColor;vertical-align:text-bottom}.markdown-body a{background-color:transparent;-webkit-text-decoration-skip:objects;color:#0366d6;text-decoration:none}.markdown-body a:active,.markdown-body a:hover{outline-width:0}.markdown-body h1{margin:.67em 0}.markdown-body img{border-style:none}.markdown-body svg:not(:root){overflow:hidden}.markdown-body code,.markdown-body kbd,.markdown-body pre{font-family:monospace,monospace}.markdown-body input{font:inherit;margin:0;overflow:visible;font-family:inherit;font-size:inherit;line-height:inherit}.markdown-body [type=checkbox]{box-sizing:border-box;padding:0}.markdown-body *{box-sizing:border-box}.markdown-body a:hover{text-decoration:underline}.markdown-body strong{font-weight:600}.markdown-body hr{box-sizing:content-box;overflow:hidden;background:0 0;border-bottom:1px solid #dfe2e5}.markdown-body hr::before{display:table;content:""}.markdown-body hr::after{display:table;clear:both;content:""}.markdown-body table{border-spacing:0;border-collapse:collapse;display:block;width:100%;overflow:auto}.markdown-body td,.markdown-body th{padding:0}.markdown-body blockquote{margin:0}.markdown-body ol ol,.markdown-body ul ol{list-style-type:lower-roman}.markdown-body ol ol ol,.markdown-body ol ul ol,.markdown-body ul ol ol,.markdown-body ul ul ol{list-style-type:lower-alpha}.markdown-body dd{margin-left:0}.markdown-body code{font-family:SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace}.markdown-body pre{font:12px SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace;word-wrap:normal}.markdown-body .pl-0{padding-left:0!important}.markdown-body .pl-1{padding-left:4px!important}.markdown-body .pl-2{padding-left:8px!important}.markdown-body .pl-3{padding-left:16px!important}.markdown-body .pl-4{padding-left:24px!important}.markdown-body .pl-5{padding-left:32px!important}.markdown-body .pl-6{padding-left:40px!important}.markdown-body::before{display:table;content:""}.markdown-body::after{display:table;clear:both;content:""}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:0}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e1e4e8;border:0}.markdown-body blockquote{padding:0 1em;color:#6a737d;border-left:.25em solid #dfe2e5}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body kbd{font-size:11px;box-shadow:inset 0 -1px 0 #959da5}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#1b1f23;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1{padding-bottom:.3em;font-size:2em;border-bottom:1px solid #eaecef}.markdown-body h2{padding-bottom:.3em;font-size:1.5em;border-bottom:1px solid #eaecef}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#6a737d}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:600}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table th{font-weight:600}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #dfe2e5}.markdown-body table tr{background-color:#fff;border-top:1px solid #c6cbd1}.markdown-body table tr:nth-child(2n){background-color:#f6f8fa}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body code{padding:.2em 0;margin:0;font-size:85%;background-color:rgba(27,31,35,.05);border-radius:3px}.markdown-body code::after,.markdown-body code::before{letter-spacing:-.2em;content:"\00a0"}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:0 0;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f6f8fa;border-radius:3px}.markdown-body pre code{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code::after,.markdown-body pre code::before{content:normal}.markdown-body .full-commit .btn-outline:not(:disabled):hover{color:#005cc5;border-color:#005cc5}.markdown-body kbd{display:inline-block;padding:3px 5px;font:11px SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace;line-height:10px;color:#444d56;vertical-align:middle;background-color:#fcfcfc;border:1px solid #c6cbd1;border-bottom-color:#959da5;border-radius:3px;box-shadow:inset 0 -1px 0 #959da5}.markdown-body :checked+.radio-label{position:relative;z-index:1;border-color:#0366d6}.markdown-body .task-list-item{list-style-type:none}.markdown-body .task-list-item+.task-list-item{margin-top:3px}.markdown-body .task-list-item input{margin:0 .2em .25em -1.6em;vertical-align:middle}.markdown-body hr{border-bottom-color:#eee}.flash{position:relative;padding:16px;color:#246;background-color:#e2eef9;border:1px solid #bac6d3;border-radius:3px}.flash p:last-child{margin-bottom:0}.flash-messages{margin-bottom:24px}.flash-warn{color:#4c4a42;background-color:#fff9ea;border-color:#dfd8c2}.flash-error{color:#911;background-color:#fcdede;border-color:#d2b2b2}.flash-success{color:#22662c;background-color:#e2f9e5;border-color:#bad3be}.flash-plain{color:#4c4a42;background-color:#f5f5f5;border-color:#c1c1c1}.figure{text-align:center;}</style>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {equationNumbers: {autoNumber: "AMS"}}
+    });
+  </script>
+  <script src="../../../cdn.mathjax.org/mathjax/latest/MathJax2ba6.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  
+</head>
+<body>
+<article class="markdown-body">
+<header>
+<h1 class="title">Induction</h1>
+</header>
+<nav id="TOC">
+<ul>
+<li><a href="#scn:induction">Mathematical Induction</a></li>
+<li><a href="#strengthening-the-induction-hypothesis">Strengthening the Induction Hypothesis</a></li>
+<li><a href="#simple-induction-vs.-strong-induction">Simple Induction vs. Strong Induction</a></li>
+<li><a href="#recursion-programming-and-induction">Recursion, Programming, and Induction</a></li>
+<li><a href="#false-proofs">False Proofs</a></li>
+<li><a href="#practice-problems">Practice Problems</a></li>
+</ul>
+</nav>
+<h1 id="scn:induction">Mathematical Induction</h1>
+<h4 id="introduction">Introduction</h4>
+<p>In this note, we introduce the proof technique of <em>mathematical induction</em>. Induction is a powerful tool which is used to establish that a statement holds for <em>all</em> natural numbers. Of course, there are infinitely many natural numbers — induction provides a way to reason about them by finite means.</p>
+<p>Let us demonstrate the intuition behind induction with an example. Suppose we wish to prove the statement: For all natural numbers <span class="math inline">\(n\)</span>, <span class="math inline">\(0 + 1 + 2 + 3 + \cdots + n = n(n+1)/2\)</span>. More formally, using the universal quantifier from Note 1, we can write this as: <a name="eq:1"></a><span style="display: inline-block; position: relative; width: 100%"><span class="math display">\[
+\forall n \in {\mathbb{N}}, \quad\sum^n_{i=0} i=\frac{n(n+1)}{2}.\]</span><span style="position: absolute; right: 0em; top: 50%; line-height:0; text-align: right">(1)</span></span>  How would you prove this? Well, you could begin by checking that it holds for <span class="math inline">\(n=0,1,2\)</span>, and so forth. But there are an <span>infinite</span> number of values of <span class="math inline">\(n\)</span> for which it needs to be checked! Moreover, checking just the first few values of <span class="math inline">\(n\)</span> does <em>not</em> suffice to conclude the statement holds for all <span class="math inline">\(n\in{\mathbb{N}}\)</span>, as the following example demonstrates:</p>
+<blockquote>
+<p><em>Sanity check!</em> Consider the statement: <span class="math inline">\(\forall n \in {\mathbb{N}}, \; n^2 − n + 41\)</span> is a prime number. Check that it holds for the first few natural numbers. (In fact, you could check all the way up to <span class="math inline">\(n = 40\)</span> and not find a counterexample!) Now check the case of <span class="math inline">\(n = 41\)</span>.</p>
+</blockquote>
+<p>In mathematical induction, we circumvent this problem by making an interesting observation: Suppose the statement holds for some value <span class="math inline">\(n=k\)</span>, i.e. <span class="math inline">\(\sum^k_{i=0} i= k(k+1)/2\)</span>. (This is called the <em>induction hypothesis</em>.) Then: <span class="math display">\[\label{eqn:2_1}
+\left(\sum_{i=0}^{k} i\right) + (k+1)
+= \frac{k(k+1)}{2} + (k+1)
+= \frac{(k+1)(k+2)}{2},\]</span> i.e. the claim must also hold for <span class="math inline">\(n=k+1\)</span>! In other words, if the statement holds for some <span class="math inline">\(k\)</span>, then it must also hold for <span class="math inline">\(k+1\)</span>. Let us call the argument above the <em>inductive step</em>. The inductive step is a very powerful tool: If we can show the statement holds for <span class="math inline">\(k\)</span>, then the inductive step allows us to conclude that it also holds for <span class="math inline">\(k+1\)</span>; but now that <span class="math inline">\(k+1\)</span> holds, the inductive step implies that <span class="math inline">\(k+2\)</span> must hold; in fact, we can repeat this argument indefinitely for all <span class="math inline">\(n\geq k\)</span>! So is that it? Have we proven Equation <a href="#eq:1">1</a>? Almost!</p>
+<p>The problem is that in order to apply the inductive step, we first have to establish that Equation <a href="#eq:1">1</a> holds for some <em>initial</em> value of <span class="math inline">\(k\)</span>. Since our aim is to prove the statement for all natural numbers, the obvious choice is <span class="math inline">\(k=0\)</span>. We call this choice of <span class="math inline">\(k\)</span> the <em>base case</em>. Then, if the base case holds, the axiom of <em>mathematical induction</em> says that the inductive step allows us to conclude that Equation <a href="#eq:1">1</a> indeed holds for all <span class="math inline">\(n\in{\mathbb{N}}\)</span>.</p>
+<p>Let us now formally re-write this proof.</p>
+<p><span id="thm:triangular-number" class="pandoc-numbering-text thm"><strong>Theorem 1</strong></span></p>
+<p><span class="math inline">\(\forall n \in {\mathbb{N}}\)</span>, <span class="math inline">\(\displaystyle\sum_{i=0}^n i = \frac{n(n+1)}{2}\)</span>.</p>
+<p><em>Proof</em>. We proceed by <em>induction</em> on the variable <span class="math inline">\(n\)</span>.</p>
+<p><em>Base Case <span class="math inline">\((n=0)\)</span></em>: Here, we have <span class="math inline">\(\sum_{i=0}^0 i = 0 = 0(0+1)/2\)</span>. Thus, the base case is correct.</p>
+<p><em>Inductive Hypothesis</em>: For arbitrary <span class="math inline">\(n=k\geq 0\)</span>, assume that <span class="math inline">\(\sum_{i=0}^k i = k(k+1)/2\)</span>. In words, the Inductive Hypothesis says “let’s assume we have proved the statement for an arbitrary value of <span class="math inline">\(n =k \geq 0\)</span>”.</p>
+<p><em>Inductive Step</em>: Prove the statement for <span class="math inline">\(n=(k+1)\)</span>, i.e. show that <span class="math inline">\(\sum_{i=0}^{k+1} i = (k+1)(k+2)/2\)</span>: <a name="eq:2"></a><span style="display: inline-block; position: relative; width: 100%"><span class="math display">\[
+\displaystyle\sum_{i=0}^{k+1} i = \left(\sum_{i=0}^{k} i\right) + (k+1)
+= \frac{k(k+1)}{2} + (k+1)
+= \frac{k(k+1)+ 2(k+1)}{2}
+= \frac{(k+1)(k+2)}{2},\]</span><span style="position: absolute; right: 0em; top: 50%; line-height:0; text-align: right">(2)</span></span>  where the second equality follows from the Induction Hypothesis. By the principle of mathematical induction, the claim follows. <span class="math inline">\(\square\)</span></p>
+<blockquote>
+<p><em>Sanity check!</em> How exactly did the Induction Hypothesis help us show the second equality in Equation <a href="#eq:2">2</a>? [<em>Hint</em>: We used it to replace <span class="math inline">\(\sum_{i=0}^k i\)</span> with something useful.]</p>
+</blockquote>
+<h4 id="recap">Recap</h4>
+<p>What have we learned so far? Letting <span class="math inline">\(P(n)\)</span> denote the statement <span class="math inline">\(\sum_{i=0}^{n} i = n(n+1)/2\)</span>, our goal was to prove that <span class="math inline">\(\forall n \in {\mathbb{N}}\)</span>, <span class="math inline">\(P(n)\)</span>. The <span><em>principle of induction</em></span> asserts that to prove this requires three simple steps:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Base Case</strong>: Prove that <span class="math inline">\(P(0)\)</span> is true.</li>
+<li><strong>Inductive Hypothesis</strong>: For arbitrary <span class="math inline">\(k\geq 0\)</span>, assume that <span class="math inline">\(P(k)\)</span> is true.</li>
+<li><strong>Inductive Step</strong>: With the assumption of the Inductive Hypothesis in hand, show that <span class="math inline">\(P(k+1)\)</span> is true.</li>
+</ol>
+<p>Let us visualize how these three steps fit together using dominoes. Let statement <span class="math inline">\(P(n)\)</span> be represented by a sequence of dominoes, numbered from <span class="math inline">\(0, 1, 2, \dotsc, n\)</span>, such that <span class="math inline">\(P(0)\)</span> corresponds to the <span class="math inline">\(0^{\text{th}}\)</span> domino, <span class="math inline">\(P(1)\)</span> corresponds to the <span class="math inline">\(1^{\text{st}}\)</span> domino, and so on. The dominoes are lined up so that if the <span class="math inline">\(k^{\text{th}}\)</span> domino is knocked over, then it in turn knocks over the <span class="math inline">\((k+1)^{\text{st}}\)</span>. Knocking over the <span class="math inline">\(k^{\text{th}}\)</span> domino corresponds to proving <span class="math inline">\(P(k)\)</span> is true. And the induction step corresponds to the placement of the dominoes to ensure that if the <span class="math inline">\(k^{\text{th}}\)</span> domino falls, in turn it knocks over the <span class="math inline">\((k+1)^{\text{st}}\)</span> domino. The base case (<span class="math inline">\(n=0\)</span>) knocks over the <span class="math inline">\(0^{\text{th}}\)</span> domino, setting off a chain reaction that knocks down all the dominoes!</p>
+<div class="figure">
+<img src="n3-induction.png" style="width:10.0%" />
+
+</div>
+<p>Finally, a word about choosing an appropriate base case — in this example, we chose <span class="math inline">\(k=0\)</span>, but in general, the choice of base case will naturally depend on the claim you wish to prove.</p>
+<h4 id="another-proof-by-induction">Another Proof by Induction</h4>
+<p>Let us do another proof by induction. Recall from Note 1 that for integers <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, we say that <span class="math inline">\(a\)</span> <em>divides</em> <span class="math inline">\(b\)</span>, denoted <span class="math inline">\(a \mid b\)</span>, if and only if there exists an integer <span class="math inline">\(q\)</span> satisfying <span class="math inline">\(b = aq\)</span>.</p>
+<blockquote>
+<p><em>Sanity check!</em> How would you write the definition of <span class="math inline">\(a \mid b\)</span> formally using quantifiers? (Answer: <span class="math inline">\(\forall a, b \in \mathbb{Z}\)</span>, <span class="math inline">\(a \mid b\)</span> iff <span class="math inline">\(\exists q \in \mathbb{Z}\)</span> such that <span class="math inline">\(b = aq\)</span>.)</p>
+</blockquote>
+<p><span id="thm:divisible-3" class="pandoc-numbering-text thm"><strong>Theorem 2</strong></span></p>
+<p><em><span class="math inline">\(\forall n \in {\mathbb{N}}\)</span>, <span class="math inline">\(n^3 - n\)</span> is divisible by 3.</em></p>
+<p><em>Proof</em>. We proceed by induction over <span class="math inline">\(n\)</span>. Let <span class="math inline">\(P(n)\)</span> denote the statement <span class="math inline">\(\forall n \in {\mathbb{N}}\)</span>, <span class="math inline">\(n^3 - n\)</span> is divisible by 3.</p>
+<p><em>Base Case (<span class="math inline">\(n=0\)</span>):</em> <span class="math inline">\(P(0)\)</span> asserts that <span class="math inline">\(3 \mid (0^3 - 0)\)</span> or <span class="math inline">\(3 \mid 0\)</span>, which is true since any non-zero integer divides <span class="math inline">\(0\)</span>.</p>
+<p><em>Inductive Hypothesis:</em> Assume for <span class="math inline">\(n=k\geq 0\)</span> that <span class="math inline">\(P(k)\)</span> is true. That is, <span class="math inline">\(3 \mid (k^3-k)\)</span>, or <span class="math inline">\(\exists q \in {\mathbb{Z}}, k^3 - k = 3q\)</span>.</p>
+<em>Inductive Step:</em> We show that <span class="math inline">\(P(k+1)\)</span> is true, i.e. that <span class="math inline">\(3 \mid ((k+1)^3-(k+1))\)</span>. To show this, we expand the number <span class="math inline">\(((k+1)^3-(k+1))\)</span> as follows:
+<span class="math display">\[\begin{align*}
+(k+1)^3 - (k+1) &amp;= k^3 + 3k^2 + 3k + 1 - (k+1) \\
+&amp;= (k^3 - k) + 3k^2 + 3k \\
+&amp;= 3q + 3(k^2 + k) \text{ for some } q \in \mathbb{Z} \quad\text{(Induction Hypothesis)}\\
+&amp;= 3(q + k^2 + k).
+\end{align*}\]</span>
+<blockquote>
+<p><em>Sanity check!</em> How exactly did the Induction Hypothesis help us show the third equality above?</p>
+</blockquote>
+<p>We conclude that <span class="math inline">\(3 \mid ((k+1)^3-(k+1))\)</span>. Thus, by the principle of induction, <span class="math inline">\(\forall n \in {\mathbb{N}}\)</span>, <span class="math inline">\(3 \mid (n^3-n)\)</span>. <span class="math inline">\(\square\)</span></p>
+<h4 id="two-color-theorem">Two Color Theorem</h4>
+<p>We now consider a more advanced proof by induction for a simplified version of the famous <em>four color theorem</em>. The four color theorem states that any map can be colored with four colors such that any two adjacent countries (which share a border, but <span>not</span> just a point) have different colors. The four color theorem is very difficult to prove, and several bogus proofs were claimed since the problem was first posed in 1852. In fact, it was not until 1976 that a computer-assisted proof of the theorem was finally given Appel and Haken. (For an interesting history of the problem and state-of-the-art proof, which is nonetheless still very challenging, see <a href="http://www.math.gatech.edu/~thomas/FC/fourcolor.html">www.math.gatech.edu/~thomas/FC/fourcolor.html</a>).</p>
+<p>In this note, we consider a simpler version of the theorem in which our “map” is given by a rectangle which is divided into regions by drawing lines, such that each line divides the rectangle into two regions. Can we color such a map using no more than two colors (say, red and blue) such that no two bordering regions have the same color? To illustrate, here is an example of a two-colored map:</p>
+<div class="figure">
+<img src="n3-2-color-4.png" style="width:30.0%" />
+
+</div>
+<p><span id="thm:two-color" class="pandoc-numbering-text thm"><strong>Theorem 3</strong></span></p>
+<p><em>Let <span class="math inline">\(P(n)\)</span> denote the statement “any map with <span class="math inline">\(n\)</span> lines is two-colorable”. Then, it holds that <span class="math inline">\(\forall n\in {\mathbb{N}}\; P(n)\)</span>.</em></p>
+<p><em>Proof</em>. We proceed by induction on <span class="math inline">\(n\)</span>.</p>
+<p><em>Base Case (<span class="math inline">\(n=0\)</span>):</em> Clearly <span class="math inline">\(P(0)\)</span> holds, since if we have <span class="math inline">\(n=0\)</span> lines, then we can color the entire map using a single color.</p>
+<p><em>Inductive Hypothesis:</em> For any <span class="math inline">\(n=k\geq 0\)</span>, assume <span class="math inline">\(P(k)\)</span>.</p>
+<p><em>Inductive Step:</em> We prove <span class="math inline">\(P(k+1)\)</span>. Specifically, we are given a map with <span class="math inline">\(k+1\)</span> lines and wish to show that it can be two-colored. Let’s see what happens if we remove a line. With only <span class="math inline">\(k\)</span> lines on the map, the Induction Hypothesis says we can two-color the map. Let us make the following observation: Given a valid coloring, if we swap red <span class="math inline">\(\leftrightarrow\)</span> blue, we still have a two-coloring. With this in mind, let us place back the line we removed, and leave colors on one side of the line unchanged. On the other side of the line, swap red <span class="math inline">\(\leftrightarrow\)</span> blue. This is illustrated by Figure <a href="#fig:map">1</a>. We claim that this is a valid two-coloring for the map with <span class="math inline">\(k+1\)</span> lines.</p>
+<div class="figure">
+<img src="n3-2-color-5.png" alt="Figure 1: (Left) The map with the (k+1)^{\text{st}} line removed. (Right) The map with the (k+1)^{\text{st}} line represented by a dashed line." id="fig:map" style="width:60.0%" />
+<p class="caption">Figure 1: (Left) The map with the <span class="math inline">\((k+1)^{\text{st}}\)</span> line removed. (Right) The map with the <span class="math inline">\((k+1)^{\text{st}}\)</span> line represented by a dashed line.</p>
+</div>
+<p>Why does this work? Consider two regions separated by a shared border. Then, one of two cases must hold: Case 1 is when the shared border is the line that was removed and replaced, i.e. line <span class="math inline">\(k+1\)</span>. But by construction, we flipped the colors on one side of this line so that any two regions separated by it have distinct colors. Case 2 is when the shared border is one of the original <span class="math inline">\(k\)</span> lines; here, the Induction Hypothesis guarantees that two regions separated by this border have different colors. Thus, in both cases, the regions separated by the shared border have distinct colors, as required. <span class="math inline">\(\square\)</span></p>
+<h1 id="strengthening-the-induction-hypothesis">Strengthening the Induction Hypothesis</h1>
+<p>When using induction, it can be very important to choose the correct statement to prove. For example, suppose we wish to prove the statement: <span class="math inline">\(\forall n \geq 1\)</span>, the sum of the first <span class="math inline">\(n\)</span> odd numbers is a perfect square. Here is a first proof attempt via induction.</p>
+<p><em>Proof Attempt.</em> We proceed by induction on <span class="math inline">\(n\)</span>.</p>
+<p><em>Base Case (<span class="math inline">\(n = 1\)</span>):</em> The first odd number is <span class="math inline">\(1\)</span>, which is a perfect square.</p>
+<p><em>Inductive Hypothesis:</em> Assume that the sum of the first <span class="math inline">\(k\)</span> odd numbers is a perfect square, say <span class="math inline">\(m^2\)</span>.</p>
+<p><em>Inductive Step:</em> The <span class="math inline">\((k+1)\)</span>st odd number is <span class="math inline">\(2k+1\)</span>. Thus, by the induction hypothesis, the sum of the first <span class="math inline">\(k+1\)</span> odd numbers is <span class="math inline">\(m^2 + 2k +1\)</span>. But now we are stuck. Why should <span class="math inline">\(m^2 + 2k+1\)</span> be a perfect square? It seems our Induction Hypothesis is too “weak”; it does not give us enough structure to say anything meaningful about the <span class="math inline">\((k+1)\)</span> case.</p>
+<p>So let’s take a step back for a moment, and do a preliminary check to ensure our claim isn’t obviously false: Let’s compute the values of the first few cases. Perhaps in the process, we can also uncover some hidden structure we have not yet identified.</p>
+<ul>
+<li><span class="math inline">\(n = 1: 1 = 1^2\)</span> is a perfect square.</li>
+<li><span class="math inline">\(n = 2: 1 + 3 = 4 = 2^2\)</span> is a perfect square.</li>
+<li><span class="math inline">\(n = 3: 1 + 3 + 5 = 9 = 3^2\)</span> is a perfect square.</li>
+<li><span class="math inline">\(n = 4: 1 + 3 + 5 + 7 = 16 = 4^2\)</span> is a perfect square.</li>
+</ul>
+<p>It looks like we have good news and even better news: The good news is that we have not yet found a counterexample to our claim. The even better news is that there is a surprising pattern emerging — the sum of the first <span class="math inline">\(n\)</span> odd numbers is not just a perfect square, but is equal precisely to <span class="math inline">\(n^2\)</span>! Motivated by this discovery, let’s try something counterintuitive: Let us try to show the following <em>stronger</em> claim.</p>
+<p><span id="thm:sumodd" class="pandoc-numbering-text thm"><strong>Theorem 4</strong></span></p>
+<p><em>For all <span class="math inline">\(n \geq 1\)</span>, the sum of the first <span class="math inline">\(n\)</span> odd numbers is <span class="math inline">\(n^2\)</span>.</em></p>
+<p><em>Proof</em>. We proceed by induction on <span class="math inline">\(n\)</span>.</p>
+<p><em>Base Case (<span class="math inline">\(n = 1\)</span>):</em> The first odd number is <span class="math inline">\(1\)</span>, which is <span class="math inline">\(1^2\)</span>.</p>
+<p><em>Inductive Hypothesis:</em> Assume that the sum of the first <span class="math inline">\(k\)</span> odd numbers is <span class="math inline">\(k^2\)</span>.</p>
+<p><em>Inductive Step:</em> The <span class="math inline">\((k+1)\)</span>-st odd number is <span class="math inline">\(2k+1\)</span>. Applying the Induction Hypothesis, the sum of the first <span class="math inline">\(k+1\)</span> odd numbers is <span class="math inline">\(k^2 + (2k +1) = (k+1)^2\)</span>. Thus, by the principle of induction the theorem holds. <span class="math inline">\(\square\)</span></p>
+<p>So let’s get this straight — we couldn’t prove our original statement, so instead we hypothesized a stronger one and managed to prove that. Why on Earth did this work? The reason is that our original claim did not capture the true <em>structure</em> of the underlying fact we were trying to prove — it was too vague. As a result, our Induction Hypothesis wasn’t strong enough to prove our desired result. In contrast, although our second claim is <em>a priori</em> stronger, it also has more structure to it; this, in turn, makes our Induction Hypothesis stronger — we can use the fact that not only is the sum of the first <span class="math inline">\(k\)</span> odd numbers a perfect square, but that it in fact equals <span class="math inline">\(k^2\)</span>. This additional structure is exactly what we needed to complete the proof. In summary, we have demonstrated an example in which, although a claim was true, the precise formulation of the Induction Hypothesis made the difference between a failing and successful proof.</p>
+<h4 id="example">Example</h4>
+<p>Let us now try a second example; this time, we’ll let you do some of the work! Suppose we wish to prove the claim: <span class="math inline">\(\forall n \geq 1\)</span>, <span class="math inline">\(\sum_{i=1}^n i^{-2}\leq 2\)</span>.</p>
+<blockquote>
+<p><em>Sanity check!</em> The “obvious” choice of Induction Hypothesis says the following: Assume that for <span class="math inline">\(n = k\)</span>, <span class="math inline">\(\sum_{i=1}^k i^{-2} \le 2\)</span>. Why does this not suffice to prove the claim for <span class="math inline">\(n = k+1\)</span>, i.e. to show that <span class="math inline">\(\sum_{i=1}^k i^{-2} + (k + 1)^{-2} \le 2\)</span>? [<em>Hint</em>: Is it possible that <span class="math inline">\(\sum_{i=1}^k i^{-2}\)</span> actually <em>equals</em> <span class="math inline">\(2\)</span>?]</p>
+</blockquote>
+<p>Now let’s again do the unthinkable — let’s prove the following <em>stronger</em> statement, i.e. let’s strengthen our induction hypothesis.</p>
+<p><span id="thm:sum-less-than-2" class="pandoc-numbering-text thm"><strong>Theorem 5</strong></span></p>
+<p><em>For all <span class="math inline">\(n \geq 1\)</span>, <span class="math inline">\(\displaystyle\sum_{i=1}^n \frac{1}{i^2}\leq 2-\frac{1}{n}\)</span>.</em></p>
+<p><em>Proof</em>. We proceed by induction on <span class="math inline">\(n\)</span>.</p>
+<p><em>Base Case (<span class="math inline">\(n = 1\)</span>):</em> We have <span class="math inline">\(\sum_{i=1}^1 i^{-2} =1\leq 2-1/1\)</span>, as required.</p>
+<p><em>Inductive Hypothesis:</em> Assume that the claim holds for <span class="math inline">\(n=k\)</span>.</p>
+<p><em>Inductive Step:</em> By the Induction Hypothesis, we have that <span class="math display">\[\sum_{i=1}^{k+1} \frac{1}{i^2}=\sum_{i=1}^{k} \frac{1}{i^2}+ \frac{1}{(k+1)^2}\leq 2-\frac{1}{k} + \frac{1}{(k+1)^2}.\]</span> Thus, to prove our claim, it suffices to show that <a name="eq:bound"></a><span style="display: inline-block; position: relative; width: 100%"><span class="math display">\[-\frac{1}{k} + \frac{1}{(k+1)^2} \leq -\frac{1}{k+1}.\]</span><span style="position: absolute; right: 0em; top: 50%; line-height:0; text-align: right">(3)</span></span> </p>
+<blockquote>
+<p><em>Exercise.</em> Show that Equation <a href="#eq:bound">3</a> holds. [<em>Hint</em>: Multiply both sides of the inequality by <span class="math inline">\((k +1)\)</span>.]</p>
+</blockquote>
+<p>By the principle of mathematical induction, the claim holds. <span class="math inline">\(\square\)</span></p>
+<h1 id="simple-induction-vs.-strong-induction">Simple Induction vs. Strong Induction</h1>
+<p>Thus far, we have been using a notion of induction known as <em>simple</em> or <em>weak</em> induction. There is another notion of induction, which we now discuss, called <em>strong</em> induction. The latter is similar to simple induction, except we have a slightly different inductive hypothesis: Instead of just assuming <span class="math inline">\(P(k)\)</span> is true (as was the case with simple induction), we assume the stronger statement that <span class="math inline">\(P(0)\)</span>, <span class="math inline">\(P(1)\)</span>, …, and <span class="math inline">\(P(k)\)</span> are <em>all</em> true (i.e. that <span class="math inline">\(\bigwedge_{i=0}^{k} P(i)\)</span> is true).</p>
+<p>Is there a difference between the power of strong and weak induction, i.e. can strong induction prove statements which weak induction cannot? <em>No!</em> Intuitively, this can be seen by returning to our domino analogy from <a href="#scn:induction">Mathematical Induction</a>. In this picture, weak induction says that if the <span class="math inline">\(k\)</span>th domino falls, so does the <span class="math inline">\((k+1)^{\text{st}}\)</span> one, whereas strong induction says that if dominos <span class="math inline">\(1\)</span> through <span class="math inline">\(k\)</span> fall, then so does the <span class="math inline">\((k+1)^{\text{st}}\)</span> one. But these scenarios are equivalent: If the first domino falls, then applying weak induction repeatedly we conclude that the first domino in turn topples dominos <span class="math inline">\(2\)</span> through <span class="math inline">\(k\)</span>, setting up the case of <span class="math inline">\(k+1\)</span>, just as is the case with strong induction. With that said, strong induction does have an appealing advantage — it can make proofs <em>easier</em>, since we get to assume a stronger hypothesis. How should we understand this? Consider the analogy of a screwdriver and a power screwdriver — they both accomplish the same task, but the latter is much easier to use!</p>
+<p>Let’s try a simple example<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> of strong induction. As a bonus, this is our first induction proof requiring <em>multiple</em> base cases.</p>
+<p><span id="thm:sumeven" class="pandoc-numbering-text thm"><strong>Theorem 6</strong></span></p>
+<p><em>For every natural number <span class="math inline">\(n\geq 12\)</span>, it holds that <span class="math inline">\(n=4x+5y\)</span> for some <span class="math inline">\(x,y\in{\mathbb{N}}\)</span>.</em></p>
+<p><em>Proof</em>. We proceed by induction on <span class="math inline">\(n\)</span>.</p>
+<p><em>Base Case (<span class="math inline">\(n = 12\)</span>):</em> We have <span class="math inline">\(12=4\cdot 3+5\cdot 0\)</span>.</p>
+<p><em>Base Case (<span class="math inline">\(n = 13\)</span>):</em> We have <span class="math inline">\(13=4\cdot 2+5\cdot 1\)</span>.</p>
+<p><em>Base Case (<span class="math inline">\(n = 14\)</span>):</em> We have <span class="math inline">\(14=4\cdot 1+5\cdot 2\)</span>.</p>
+<p><em>Base Case (<span class="math inline">\(n = 15\)</span>):</em> We have <span class="math inline">\(15=4\cdot 0+5\cdot 3\)</span>.</p>
+<p><em>Inductive Hypothesis:</em> Assume that the claim holds for all <span class="math inline">\(12\leq n\leq k\)</span> for <span class="math inline">\(k\geq 15\)</span>.</p>
+<p><em>Inductive Step:</em> We prove the claim for <span class="math inline">\(n=k+1\geq 16\)</span>. Specifically, note that <span class="math inline">\((k+1)-4\geq 12\)</span>; thus, the Induction Hypothesis implies that <span class="math inline">\((k+1)-4=4x&#39;+5y&#39;\)</span> for some <span class="math inline">\(x&#39;,y&#39;\in{\mathbb{N}}\)</span>. Setting <span class="math inline">\(x=x&#39;+1\)</span> and <span class="math inline">\(y=y&#39;\)</span> completes the proof. <span class="math inline">\(\square\)</span></p>
+<blockquote>
+<p><em>Sanity check!</em> Why would the proof above fail if we used weak induction instead of strong induction?</p>
+</blockquote>
+<p>Let’s try a second, more advanced, example. For this, recall that a number <span class="math inline">\(n\geq 2\)</span> is prime if <span class="math inline">\(1\)</span> and <span class="math inline">\(n\)</span> are its only divisors.</p>
+<p><span id="thm:prodprimes" class="pandoc-numbering-text thm"><strong>Theorem 7</strong></span></p>
+<p><em>Every natural number <span class="math inline">\(n &gt; 1\)</span> can be written as a product of primes.</em></p>
+<p><em>Proof</em>. We proceed by induction on <span class="math inline">\(n\)</span>. Let <span class="math inline">\(P(n)\)</span> be the proposition that <span class="math inline">\(n\)</span> can be written as a product of primes. We will prove that <span class="math inline">\(P(n)\)</span> is true for all <span class="math inline">\(n \geq 2\)</span>.</p>
+<p><em>Base Case (<span class="math inline">\(n=2\)</span>):</em> We start at <span class="math inline">\(n = 2\)</span>. Clearly <span class="math inline">\(P(2)\)</span> holds, since 2 is a prime number.</p>
+<p><em>Inductive Hypothesis:</em> Assume <span class="math inline">\(P(n)\)</span> is true <em>for all</em> <span class="math inline">\(2 \leq n \leq k\)</span>.</p>
+<p><em>Inductive Step:</em> Prove that <span class="math inline">\(n=k+1\)</span> can be written as a product of primes.</p>
+<p>We have two cases: either <span class="math inline">\(k+1\)</span> is a prime number, or it is not. For the first case, if <span class="math inline">\(k+1\)</span> is a prime number, then we are done. For the second case, if <span class="math inline">\(k+1\)</span> is not a prime number, then by definition <span class="math inline">\(k+1 = xy\)</span> for some <span class="math inline">\(x,y \in {\mathbb{Z}}^+\)</span> satisfying <span class="math inline">\(1 &lt; x,y &lt; k+1\)</span>. By the Induction Hypothesis, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> can each be written as a product of primes (since <span class="math inline">\(x,y \leq n\)</span>). But this implies that <span class="math inline">\(k+1\)</span> can also be written as a product of primes. <span class="math inline">\(\square\)</span></p>
+<blockquote>
+<p><em>Sanity check!</em> Why does this proof fail if we instead use simple induction? [<em>Hint</em>: Suppose <span class="math inline">\(k = 42\)</span>. Since <span class="math inline">\(42 = 6 \cdot 7\)</span>, in the Inductive Step we wish to use the facts that <span class="math inline">\(P(6)\)</span> and <span class="math inline">\(P(7)\)</span> are true. But weak induction does not give us this — which value of P does weak induction allow us to assume is true in this case?]</p>
+</blockquote>
+<p>Finally, for those who wish to have a more formal understanding of why weak and strong induction are equivalent, consider the following. Let <span class="math inline">\(Q(n)=P(0)\wedge P(1)\wedge\cdots\wedge P(n)\)</span>. Then, strong induction on <span class="math inline">\(P\)</span> is equivalent to weak induction on <span class="math inline">\(Q\)</span>.</p>
+<h1 id="recursion-programming-and-induction">Recursion, Programming, and Induction</h1>
+<p>There is an intimate connection between induction and recursion, which we explore here via two examples.</p>
+<h4 id="example-1-fibonaccis-rabbits">Example 1: Fibonacci’s Rabbits</h4>
+<p>In the 13th century lived a famous Italian mathematician known as <em>Fibonacci</em><a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>, who in 1202 considered the following rabbit-based puzzle: Starting with a pair of rabbits, how many rabbits are there after a year, if each month each pair begets a new pair which from the second month on becomes productive? This model of population growth can be modeled by recursively defining a function; the resulting sequence of numbers is nowadays referred to as the <em>Fibonacci</em> numbers.</p>
+<p>To recursively model our rabbit population, let <span class="math inline">\(F(n)\)</span> denote the number of pairs of rabbits in month <span class="math inline">\(n\)</span>. By the rules above, our initial conditions are as follows: Clearly <span class="math inline">\(F(0)=0\)</span>. In month <span class="math inline">\(1\)</span>, a single pair of rabbits is introduced, implying <span class="math inline">\(F(1) = 1\)</span>. Finally, since it takes a month for new rabbits to become reproductive, we also have <span class="math inline">\(F(2) = 1\)</span>.</p>
+<p>In month <span class="math inline">\(3\)</span>, the fun begins. For example, <span class="math inline">\(F(3)=2\)</span>, since the original pair breeds to produce a new pair. But how about <span class="math inline">\(F(n)\)</span> for a general value of <span class="math inline">\(n\)</span>? It seems difficult to give an explicit formula for <span class="math inline">\(F(n)\)</span>. However, we can define <span class="math inline">\(F(n)\)</span> <em>recursively</em> as follows. In month <span class="math inline">\(n -1\)</span>, by definition we have <span class="math inline">\(F(n-1)\)</span> pairs. How many of these pairs were productive? Well, only those that were already alive in the previous month, i.e. <span class="math inline">\(F(n-2)\)</span> of them. Thus, we have <span class="math inline">\(F(n-2)\)</span> new pairs in the <span class="math inline">\(n\)</span>th month in addition to our existing <span class="math inline">\(F(n-1)\)</span> pairs. Hence, we have <span class="math inline">\(F(n) = F(n-1) + F(n-2)\)</span>. To summarize:</p>
+<ul>
+<li><span class="math inline">\(F(0) = 0\)</span>.</li>
+<li><span class="math inline">\(F(1) = 1\)</span>.</li>
+<li>For <span class="math inline">\(n \geq 2\)</span>, <span class="math inline">\(F(n) = F(n-1) + F(n-2)\)</span>.</li>
+</ul>
+<p>Pretty neat, except you might wonder why we care about rabbit reproduction in the first place! It turns out this simplified model of population growth illustrates a fundamental principle: Left unchecked, populations grow exponentially over time. In fact, understanding the significance of this unchecked exponential population growth was a key step that led Darwin to formulate his theory of evolution. To quote Darwin: “There is no exception to the rule that every organic being increases at so high a rate, that if not destroyed, the earth would soon be covered by the progeny of a single pair.&quot;</p>
+<p>Now, we promised you programming in the title of this section, so here it is — a trivial recursive program to evaluate <span class="math inline">\(F(n)\)</span>:</p>
+<pre><code>function F(n)
+  if n = 0 then return 0
+  if n = 1 then return 1
+  else return F(n - 1) + F(n - 2)</code></pre>
+<blockquote>
+<p><em>Exercise.</em> How long does it take this program to compute <span class="math inline">\(F(n)\)</span>, i.e. how many calls to <span class="math inline">\(F(n)\)</span> are needed?</p>
+</blockquote>
+<p>The exercise above should convince you that this is a very inefficient way to compute the <span class="math inline">\(n\)</span>th Fibonacci number. Here is a much faster iterative algorithm to accomplish the same task (this should be a familiar example of turning a tail-recursion into an iterative algorithm):</p>
+<pre><code>function F2(n)
+if n = 0 then return 0
+if n = 1 then return 1
+a = 1
+b = 0
+for k = 2 to n do
+  temp = a
+  a = a + b
+  b = temp
+return a</code></pre>
+<blockquote>
+<p><em>Exercise.</em> How long does this iterative algorithm take to compute <span class="math inline">\(F_2(n)\)</span>, i.e. how many iterations of its loop are needed? Can you show by induction that this new function <span class="math inline">\(F_2(n) = F(n)\)</span>?</p>
+</blockquote>
+<h4 id="example-2-binary-search">Example 2: Binary Search</h4>
+<p>We next use induction to analyze a recursive algorithm which even your grandmother is likely familiar with — binary search! Let us discuss binary search in the context of finding a word in the dictionary: To find word <span class="math inline">\(W\)</span>, we open the dictionary to its middle page. If the letter of that page comes after the first letter of <span class="math inline">\(W\)</span>, we recurse on the first half of the dictionary; else, we recurse on the last half of the dictionary. (For simplicity, we ignore the issue of dividing a dictionary with an <em>odd</em> number of pages into two halves.) Once we’ve narrowed down the dictionary to a single page, we resort to a brute force search to find <span class="math inline">\(W\)</span> on that page. In pseudocode, we have:</p>
+<pre><code>1.  // pre-condition: W is a word and D is a subset of the dictionary with at least 1 page.
+2.  // post-condition: Either the definition of W is returned, or “W not found” is returned.
+3.  findWord(W, D) {
+4.    // Base case
+5.    If (D has precisely one page)
+6.      Look for W in D by brute force. If found, return its definition; else, return “W not found”.
+7. 
+8.    // Recursive case
+9.    Let W&#39; be the first word on the middle page of D.
+10.   If (W comes before W&#39;)
+11.     return findWord(first half of D)
+12.   Else
+13.     return findWord(last half of D)
+14. }</code></pre>
+<p>Let us prove using induction that <code>findWord()</code> is <em>correct</em>, i.e. it returns the definition of <span class="math inline">\(W\)</span> if <span class="math inline">\(W\)</span> is in the dictionary <span class="math inline">\(D\)</span>. As a bonus, the proof requires us to use <em>strong</em> induction instead of simple induction!</p>
+<p><em>Proof of Correctness of <code>findWord()</code></em>. We proceed by strong induction on the number of pages, <span class="math inline">\(n\)</span>, in <span class="math inline">\(D\)</span>.</p>
+<p><em>Base Case (<span class="math inline">\(n = 1\)</span>):</em> If <span class="math inline">\(D\)</span> has one page, line <span class="math inline">\(6\)</span> searches via brute force for <span class="math inline">\(W\)</span>. Thus, if <span class="math inline">\(W\)</span> is present, it is found and returned; else, we return “<span class="math inline">\(W\)</span> not found”, as desired.</p>
+<p><em>Inductive Hypothesis:</em> Assume that <code>findWord()</code> is correct for all <span class="math inline">\(1\leq n\leq k\)</span>. We prove it is correct for <span class="math inline">\(n=k+1\)</span>.</p>
+<p><em>Inductive Step:</em> After Step 9, we know <span class="math inline">\(W&#39;\)</span>; thus we can determine whether <span class="math inline">\(W\)</span> must be in the first or second half of <span class="math inline">\(D\)</span>. In the first case, we recurse on the first half of <span class="math inline">\(D\)</span> in line 11, and in the second case we recurse on the second half of <span class="math inline">\(D\)</span> in line 13. By the Induction Hypothesis, the recursive call correctly finds <span class="math inline">\(W\)</span> in the first or second half, or returns “<span class="math inline">\(W\)</span> not found”. Since we return the recursive call’s answer, we conclude that <code>findWord()</code> correctly finds <span class="math inline">\(W\)</span> in <span class="math inline">\(D\)</span> of size <span class="math inline">\(n=k+1\)</span>. By the principle of mathematical induction, <code>findWord()</code> is correct. <span class="math inline">\(\square\)</span></p>
+<blockquote>
+<p><em>Sanity check!</em> Why did we require <em>strong</em> induction in the proof above?</p>
+</blockquote>
+<h1 id="false-proofs">False Proofs</h1>
+<p>It is very easy to prove false things if your proof is incorrect! Let’s illustrate with a famous example. In the middle of the last century, a colloquial expression in common use was “that is a horse of a different color&quot;, referring to something that is quite different from normal or common expectation. The reknowned mathematician George Polya, who was also a great expositor of mathematics for the lay public, gave the following proof to show that there is no horse of a different color!</p>
+<p><span id="thm:horses" class="pandoc-numbering-text thm"><strong>Theorem 8</strong></span></p>
+<p><em>All horses are the same color.</em></p>
+<p><em>Proof</em>. We proceed by induction on the number of horses, <span class="math inline">\(n\)</span>. Let <span class="math inline">\(P(n)\)</span> denote the statement of the claim.</p>
+<p><em>Base Case (<span class="math inline">\(n=1\)</span>):</em> <span class="math inline">\(P(1)\)</span> is certainly true, since if you have a set containing just one horse, all horses in the set have the same color.</p>
+<p><em>Inductive Hypothesis:</em> Assume <span class="math inline">\(P(n)\)</span> holds for any <span class="math inline">\(n\geq 1\)</span>.</p>
+<p><em>Inductive Step:</em> Given a set of <span class="math inline">\(n+1\)</span> horses <span class="math inline">\(\{h_1,h_2,\ldots,h_{n+1}\}\)</span>, we can exclude the last horse in the set and apply the inductive hypothesis just to the first <span class="math inline">\(n\)</span> horses <span class="math inline">\(\{h_1,\ldots,h_n\}\)</span>, deducing that they all have the same color. Similarly, we can conclude that the last <span class="math inline">\(n\)</span> horses <span class="math inline">\(\{h_2,\ldots,h_{n+1}\}\)</span> all have the same color. But now the “middle” horses <span class="math inline">\(\{h_2,\ldots,h_n\}\)</span> (i.e., all but the first and the last) belong to both of these sets, so they have the same color as horse <span class="math inline">\(h_1\)</span> and horse <span class="math inline">\(h_{n+1}\)</span>. It follows, therefore, that all <span class="math inline">\(n+1\)</span> horses have the same color. We conclude, by the principle of induction, that all horses have the same color. <span class="math inline">\(\spadesuit\)</span></p>
+<p>Clearly, it is not true that all horses are of the same color! So, where did we go wrong? Recall that in order for the principle of mathematical induction to apply, the induction step must show the statement: <span class="math inline">\(\forall n\geq 1\)</span>, <span class="math inline">\(P(n){\implies}P(n+1)\)</span>. We claim that in the proof above, this statement is false — in particular, there exists a choice of <span class="math inline">\(n\)</span> which yields a <em>counterexample</em> to this statement.</p>
+<blockquote>
+<p><em>Exercise.</em> For which value of n is it not true that <span class="math inline">\(P(n) \implies P(n+1)\)</span>? [<em>Hint</em>: Think about the key property in the proof of having “middle” horses.]</p>
+</blockquote>
+<h1 id="practice-problems">Practice Problems</h1>
+<ol style="list-style-type: decimal">
+<li><p>Prove for any natural number <span class="math inline">\(n\)</span> that <span class="math inline">\(1^2 + 2^2 + 3^2 + \cdots + n^2 = n(n+1)(2n+1)/6\)</span>.</p></li>
+<li><p>Prove that <span class="math inline">\(3^n &gt; 2^n\)</span> for all natural numbers <span class="math inline">\(n \geq 1\)</span>.</p></li>
+<li><p>In real analysis, Bernoulli’s Inequality is an inequality which approximates the exponentiations of <span class="math inline">\(1+x\)</span>. Prove this inequality, which states that <span class="math inline">\((1+x)^n \geq 1+nx\)</span> if <span class="math inline">\(n\)</span> is a natural number and <span class="math inline">\(1+x &gt; 0\)</span>.</p></li>
+<li><p>A common recursively defined function is the <em>factorial</em>, defined for a nonnegative number <span class="math inline">\(n\)</span> as <span class="math inline">\(n! = n(n-1)(n-2) \dotsm 1\)</span>, with base case <span class="math inline">\(0! = 1\)</span>. Let us reinforce our understanding of the connection between recursion and induction by considering the following theorem involving factorials.</p>
+<p><span id="thm:factorial" class="pandoc-numbering-text thm"><strong>Theorem 9</strong></span></p>
+<p><span class="math inline">\(\forall n \in {\mathbb{N}}\)</span>, <span class="math inline">\(n &gt; 1 \Longrightarrow n! &lt; n^n\)</span>.</p>
+<p>Prove this theorem using induction. [<em>Hint</em>: In the Inductive Step, write <span class="math inline">\((n+1)!=(n+1)\cdot n!\)</span>, and use the Induction Hypothesis.]</p></li>
+<li><p>A <em>celebrity</em> at a party is someone whom everyone knows, yet who knows no one. Suppose that you are at a party with <span class="math inline">\(n\)</span> people. For any pair of people <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> at the party, you can ask <span class="math inline">\(A\)</span> if they know <span class="math inline">\(B\)</span> and receive an honest answer. Give a recursive algorithm to determine whether there is a celebrity at the party, and if so who, by asking at most <span class="math inline">\(3n - 4\)</span> questions. (Note: For the purpose of this question you are just visiting the party to ask questions. What you are trying to determine is whether the <span class="math inline">\(n\)</span> people actually attending the party include a celebrity.)</p>
+<p>Prove by induction that your algorithm always correctly identifies a celebrity iff there is one, and that the number of questions is at most <span class="math inline">\(3n-4\)</span>.</p></li>
+</ol>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>This problem also goes under the name of the Postage Stamp Problem, which states that every amount of postage over <span class="math inline">\(12\)</span> cents can be paid using <span class="math inline">\(4\)</span>- and <span class="math inline">\(5\)</span>-cent stamps.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Fibonacci was also known as Leonardo of Pisa. If you ever find yourself in Pisa, Italy, you can visit his grave; his remains are buried at Campo Santo.<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>
+</article>
+</body>
+
+<!-- Mirrored from www.eecs70.org/static/notes/n3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:38:25 GMT -->
+</html>

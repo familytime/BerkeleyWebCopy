@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/policies.php by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:16 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="CS61C Spring 2018 Course Website">
+    <meta name="author" content="Steven Ho">
+    <link rel="icon" href="img/icon3.png">
+
+    <title>CS61C Spring 2018: Great Ideas in Computer Architecture</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap-dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/navbar-fixed-top.css" rel="stylesheet">
+    <link href="css/balloon.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Custom styles for Full Calendar integration -->
+    <link href='fullcalendar/fullcalendar.css' rel='stylesheet' />
+    <link href='fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+    <!-- Scripts for Full Calendar found in pagefooter.html -->
+
+    <style>
+        #loading {
+            display: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        #week-cal {
+            max-width: 98%;
+            margin: 0 auto;
+        }
+        /*.table td.week0 {
+            background: linear-gradient(to bottom, white 75%, #F4E9E3 76%);
+            float:top;
+            vertical-align: top;
+        }
+        .table td.week1 {
+            background: linear-gradient(to bottom, #F4E9E3 75%, #F4D2D0 76%);
+            float:top;
+            vertical-align: top;
+        }
+        .table td.week2 {
+            background: #F4D2D0;
+        }
+        .table td.week3 {
+            background: #C9D3DF;
+            float:top;
+            vertical-align: middle;
+        }
+        .table td.week4 {
+            background: lavender;
+            float:top;
+            vertical-align: middle;
+        }
+        .table td.week5 {
+            background: #9EAEC5;
+            float:top;
+            vertical-align: middle;
+        }
+        .table td.week6 {
+            background: #C9D3DF;
+            float:top;
+            vertical-align: middle;
+        }
+        .table td.week7 {
+            background: linear-gradient(to bottom, #C9D3DF 25%, white 26%);
+        }*/
+    </style>
+
+  </head>
+
+  <body data-spy="scroll" data-target="#navscroll">
+
+    <!-- Fixed navbar -->
+    <div id="navscroll">
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href=".html" style="color: #000;">CS61C Spring 2018</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" >
+          <ul class="nav navbar-nav">
+              <!-- anything here with an id starting with na will have a
+              ./ prepended on certain pages -->
+              <!--            <li class="active"><a href="#">Home</a></li>-->
+            <li><a id="na1" href="#news" >News</a></li>
+            <li><a id="na2" href="#calendar">Calendar</a></li>
+            <!--            <li><a href="#officehours">Office Hours</a></li>-->
+            <li><a id="na3" href="#sched">Weekly Schedule</a></li>
+
+<!--            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Resources <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">MIPS Green Sheet</a></li>
+                <li><a href="#">GDB Reference Card</a></li>
+                <li><a href="#">Harvey notes on C</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>-->
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a id="na4" href="#staff">Staff</a></li>
+            <li><a id="na5" href="#resources">Resources</a></li>
+            <li id="polnavbutton"><a href="policies.html">Policies</a></li>
+            <!-- <li><a href="http://61c-queue.app.cs61a.org/" target="_blank">Queue</a></li> -->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    </div>
+
+      <!-- Main component for a primary marketing message or call to action -->
+        <div class="jumbotron" style="background-image: url('img/dphoto2_web.jpg'); background-size: 100%; margin-top:-20px;">
+            <div class="container">
+            <div class="row"   style="background-color:rgba(255,255,255,0.95);border-radius: 7px;"   >
+
+                <div id="floatdiv2">
+                    <div class="col-md-12" >
+                        <div style="padding: 10px;">
+                            <h2>Great Ideas in Computer Architecture (Machine Structures) </h2>
+                            <h3><a href="http://eecs.berkeley.edu/">UC Berkeley EECS</a></h3>
+                            <h3>TuTh 3:30-5:00pm, <a href="http://www.berkeley.edu/map?wheeler">150 Wheeler</a></h3>
+                            <h3>Instructors: John Wawrzynek, Nicholas Weaver</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="floatdiv">
+                    <div class="col-md-6" >
+                        <div style="padding: 10px;">
+                        <h2>Great Ideas in Computer Architecture (Machine Structures) </h2>
+                        <h3><a href="http://eecs.berkeley.edu/">UC Berkeley EECS</a></h3>
+                        <h3>TuTh 3:30-5:00pm, <a href="http://www.berkeley.edu/map?wheeler">150 Wheeler</a></h3>
+                        <h3>Instructors: <a href="http://www1.icsi.berkeley.edu/~nweaver/">Nicholas Weaver</a>, <a href="https://people.eecs.berkeley.edu/~johnw/">John Wawrzynek</a></h3>
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="align: right; padding-top:20px" align="right">
+                        <div style="height: 200px; overflow: hidden;">        <img src="img/P%26H.jpg" height="200" class="img-rounded"/> <img src="img/WSC.jpg" height="200" class="img-rounded"/> <img src="img/K%26R.jpg" height="200" class="img-rounded"/></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="container">
+    <!-- end include -->
+
+<div class="row">
+            <a class="anchor" id="policies" > </a>
+
+            <div class="col-md-12">
+            <h2>Course Policies/About</h2>
+
+<p>
+Official Academic Guide <a href="http://guide.berkeley.edu/search/?P=COMPSCI%2061C">course description</a>.
+<br><br>
+The subjects covered in this course include:
+C and assembly language programming,
+translation of high-level programs into machine language,
+computer organization,
+caches,
+performance measurement,
+parallelism,
+CPU design,
+warehouse-scale computing,
+and related topics.
+<br><br>
+<b>Prerequisites:</b> CS61A and CS61B (or equivalents).  CS61B requirement can be bypassed if you have solid experience with a C-based programming language.
+</p>
+
+<hr align=left>
+
+<h3>Textbooks/Materials</h3>
+
+<table class="table table-bordered table-striped" >
+  <tr>
+      <td><a href="img/P%26H.jpg"><img SRC="img/P%26H.jpg" height=60 align=LEFT alt="P&H"></a></td>
+      <td>We will be using the <b>first edition</b> of Patterson and Hennessy's <i>Computer Organization and Design RISC-V Edition</i> book ("P&amp;H"), ISBN <b>0128122757</b>.</td></tr>
+
+  <tr>
+      <td><a href="img/K%26R.jpg"><img SRC="img/K%26R.png" height=60 align=LEFT alt="K&R"></a></td>
+  <td>We are also requiring <i>The C Programming Language, Second Edition</i> by Kernighan and Ritchie ("K&amp;R"), and will reference its sections in the reading assignments.
+      Other books are also suitable if you are already comfortable with them, but our lectures will be based on K&amp;R.</td>
+
+  </tr>
+
+  <tr>
+      <td><a href="img/WSC.jpg"><img SRC="img/WSC.jpg" height=60 align=LEFT alt="WSC"></a> </td>
+      <td>Finally, we will be using <i>The Datacenter as a Computer: An Introduction to the Design of Warehouse-Scale Machines</i> ("WSC"), which is freely available online <a href="https://inst.eecs.berkeley.edu/~cs61c/resources/WSCBarrosoHolzle.pdf">here</a>.</td>
+  </tr>
+</table>
+
+<hr align=left>
+
+<h3>Computer Resources</h3>
+
+<h4>Discussion Forum</h4>
+
+<p>
+All important course announcements will be made on Piazza. Be sure to join here:
+<a href="https://piazza.com/berkeley/spring2018/cs61c">https://piazza.com/berkeley/spring2018/cs61c</a>.
+</p>
+
+<h4>Computer Accounts</h4>
+
+<p>
+You will need a CS61C class account for use in the computer labs, submitting assignments, and tracking your grades.
+You must request a class login via <a href="http://inst.eecs.berkeley.edu/webacct">http://inst.eecs.berkeley.edu/webacct</a>.
+<b>Make sure you remember your log-in information once you change it!
+We cannot recover your account information for you.</b>
+</p>
+
+<h4>Computer Labs</h4>
+
+<p>
+We will be using a combination of 275 Soda, 277 Soda, and 330 Soda this semester.
+You will be receiving 24/7 key card access to these labs, but please be mindful of the fact that we share these lab spaces with other CS classes.
+In addition, please respect the labs by keeping things neat and avoid eating/drinking near the computers.
+<br><br>
+You can connect remotely to the lab computers using the following addresses:
+<ul>
+  <li>330 Soda ("The Hive" -- Linux): <a href="http://inst.eecs.berkeley.edu/cgi-bin/clients.cgi?choice=330soda">http://inst.eecs.berkeley.edu/cgi-bin/clients.cgi?choice=330soda</a></li>
+</ul>
+</p>
+
+<hr align=left>
+
+<a class="anchor" id="grading"></a>
+<h3>Grading</h3>
+
+<p>
+In order to foster a collaborative environment, CS61C is graded on a fixed scale.
+The course is graded out of 300 points, with the following mappings from points to letter grades:
+</p>
+
+<div class="table-responsive">
+<table class="table table-bordered table-striped">
+    <tr>
+        <td><strong>Raw Score</strong></td>
+        <td>290+</td>
+        <td>[270,290)</td>
+        <td>[260,270)</td>
+        <td>[250,260)</td>
+        <td>[230,250)</td>
+        <td>[220,230)</td>
+        <td>[210,220)</td>
+        <td>[190,210)</td>
+        <td>[180,190)</td>
+        <td>[140,180)</td>
+        <td>[0,140)</td>
+    </tr>
+    <tr>
+        <td><strong>Grade</strong></td>
+        <td>A+</td>
+        <td>A</td>
+        <td>A-</td>
+        <td>B+</td>
+        <td>B</td>
+        <td>B-</td>
+        <td>C+</td>
+        <td>C</td>
+        <td>C-</td>
+        <td>D</td>
+        <td>F</td>
+    </tr>
+</table>
+</div>
+
+<p>In the event that our distribution does not align with the
+<a href="http://www.eecs.berkeley.edu/Policies/ugrad.grading.shtml">EECS departmental
+guidelines</a>, we may decrease the raw score boundaries, but they will not increase (i.e. it is possible
+to receive a higher grade than the mapping suggests, but not a lower one).</p>
+
+<p>Your grade in the class will be broken into the following components:</p>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <td><strong>Assignment</strong></td>
+        <td><strong>Percentage of Grade</strong></td>
+    </tr>
+    <tr>
+        <td>EPA: Effort, Participation, and Altruism</td>
+        <td>5% (15 points)</td>
+    </tr>
+    <tr>
+        <td>Labs <!--(drop 2 lowest)--></td>
+        <td>10% (30 points)</td>
+    </tr>
+    <tr>
+        <td>Homework <!--(drop lowest)--></td>
+        <td>5% (15 points)</td>
+    </tr>
+    <tr>
+        <td>Projects (5 total)</td>
+        <td>25% (75 points)</td>
+    </tr>
+    <tr>
+        <td>Midterm I </td>
+        <td>15% (45 points)</td>
+    </tr>
+    <tr>
+        <td>Midterm II </td>
+        <td>15% (45 points)</td>
+    </tr>
+    <tr>
+        <td>Final</td>
+        <td>30% (90 points)</td>
+    </tr>
+</table>
+
+Below, you will find sections describing some of these assignment types.
+
+<hr align=left>
+
+<h3>EPA</h3>
+
+<p>
+You can earn "extra credit" points for each of the following:<br><br>
+
+<strong>Effort</strong>: Attending office hours and discussions. Keeping up with Piazza.<br>
+
+<strong>Participation</strong>: Interacting
+with TAs and other students in discussion and lab, asking questions on Piazza.<br>
+
+<strong>Altruism</strong>: Helping others in lab and on Piazza.<br><br>
+
+Because you must be truly exceptional to receive full credit in any one EPA category, it is very difficult to receive a full EPA score. TAs will reward students where credit is due. EPA scores are kept internal to the course staff (i.e. not disclosed to students).<br><br>
+</p>
+
+<a class="anchor" id="clickers"></a>
+<h4>Peer Instruction/i&gt;clickers</h4>
+<p>
+As you may have noticed in the "Participation" section of EPA, you will receive 
+credit for voting on iClicker questions in lecture (your answer does not necessarily
+need to be correct). This is designed to give you both a break in lecture and 
+a chance to digest the material by applying it on-the-spot.
+Over the course of the semester, you will be allowed to miss "a few" lectures
+with no penalty.<br><br>
+
+As a result, you will need to purchase an iClicker. Any iClicker that supports 5-choice 
+multiple choice should be sufficient. As far as we are aware, this means that
+any iClicker should work correctly.
+</p>
+
+<hr align=left>
+
+
+<h3>Labs</h3>
+
+<p>Labs are designed to give you introductory experience with the 
+course material. After completing each lab, you will need show your understanding
+of the lab to your TA or Lab Assistant by stepping through the checkoff steps with him or her.
+You are required to attend the lab in which you are enrolled, but you are free to attend
+any discussion section you prefer. However, it's highly recommended that your discussion TA is the
+same as your lab TA so that they have a better relationship with you and thus can award you with
+more EPA points than if you were to split your interactions among multiple TAs.</p>
+
+<p><span style="color:red">Labs are graded on correct completion.</span>
+<!--You are allowed to drop your two lowest-scoring lab grades, though -->Completion of all labs is highly recommended for success in the course.
+Each of the 13 labs are graded out of 2 points. Please note that these are not 2 points each from the 30 points "Labs" portion in your course grade.
+Each lab is simply graded out of 2 points, and we will scale the 26 points lab total up to the 30 points course grade portion.</p>
+
+<p>In each lab, we will maintain two queues: a checkoff queue and a help queue. The checkoff queue is strictly for students who completed the entire lab,
+and are confident in their results/checkoff answers. Ideally, checkoffs should be quick and efficient. The help queue is for students who need help completing
+the lab. Please do not use the checkoff queue to request help, even if it is shorter. You will only have one official checkoff attempt, as mentioned below.</p>
+
+<p>You are required to work in partners for labs. For full credit, labs must be checked off by the next lab after they were assigned.
+You can turn in late labs for half credit if you get them checked off the lab section after they were due.</p>
+
+<p><span style="color:red">Lab checkoff policy TL;DR:</span><br>
+Labs are due for full points by the next lab session (which is 1 week after the lab was assigneds). If they’re another week late, then you get half credit.
+Any later than that and it’s 0 points. You can always ask for help on the lab, but you can only asked to be checked off once. If you asked to be checked off
+and you don’t pass the checkoff, you’ll get 0 points.
+</p>
+
+<p>In more detail, here is the exact policy on checkoffs and point allocations: The day that lab X is assigned...</p>
+
+<ul>
+  <li>You will receive 2 points if you get lab X checked off.</li>
+  <li>You will receive 2 points if you get lab X-1 checked off within lab.</li>
+  <li>You will receive 1 point if you get lab X-2 checked off within the lab.</li>
+  <li>You will receive 0 points if you attempt to get a lab checked off, but fail to show understanding of the lab.</li>
+  <li><strong>Note:  You will only have one attempt to check off any lab.</strong></li>
+</ul>
+
+<p>In summary, here is a table to illustrate the checkoff grading policy.</p>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <td><strong>Checking off a lab...</strong></td>
+        <td><strong>100% Understanding?</strong></td>
+        <td><strong>Grade</strong></td>
+    </tr>
+    <tr>
+        <td>The day it is assigned</td>
+        <td>Yes</td>
+        <td>2/2</td>
+    </tr>
+    <tr>
+        <td>The day it is assigned</td>
+        <td>No</td>
+        <td>0/2 (only one chance) </td>
+    </tr>
+    <tr>
+        <td>One lab after</td>
+        <td>Yes</td>
+        <td>2/2 (only one chance)</td>
+    </tr>
+    <tr>
+        <td>One lab after</td>
+        <td>No</td>
+        <td>0/2 (only one chance)</td>
+    </tr>
+    <tr>
+        <td>Two labs after</td>
+        <td>Yes</td>
+        <td>1/2 (only one chance, this is slightly late)</td>
+    </tr>
+    <tr>
+        <td>Two labs after</td>
+        <td>No</td>
+        <td>0/2 (only one chance)</td>
+    </tr>
+    <tr>
+        <td>Three labs or more after</td>
+        <td>--</td>
+        <td>0/2 (this is too late, encouraged to finish, use help queue)</td>
+    </tr>
+</table>
+
+<p>The staff recommends always asking for help on labs when you need it, and to only request a check off
+  when you have thought about the lab sufficiently and can have an informed conversation with your TA.
+  You won't immediately fail a checkoff if you make a small mistake; in this scenario, your TA might
+  correct your small misunderstanding, and if you can quickly bounce back with the correct solution, you'll be fine.
+</p>
+
+<p>Lastly, once your checkoff is complete, your TA or Lab Assistant will immediately enter your points. Your score should instantly be reflected on glookup.
+Please verify the moment you finish your checkoff. <strong>The staff is not liable for missing checkoff points.</strong></p>
+
+<hr align=left>
+
+<!-- <h4>Lab Section Swap Policy</h4>
+<p>As you may know, we've made it clear that we want your lab section TA to be your project TA, and thus
+your project partner should be your lab partner. We understand that many of you wish to swap lab sections
+in order to be in the same lab as your partner. Here's how we're going to regulate such a process:
+</p>
+<ul>
+  <li>Try your best to officially enroll in the lab you wish to switch to by going to CalCentral and clicking
+    "Options" and then specify that you want to switch lab sections. If successful, you're good to go!
+  <li>If you can't officially enroll, first fill out this
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1WnzYj54-U3-uHMFxOXizQkCu4FH4oflrZdKhRLLZdsWazQ/viewform?usp=sf_link">Lab Swap Google Form</a>
+  <li>Your head TA will be keeping track of any labs that he can tell are going to be extremely packed. If he emails you
+    telling you that you should not go to the lab you requested to swap into, then go to the lab you're
+    officially enrolled in. Otherwise, if you get no email, assume it is fine to attend the lab
+    section you want to swap into. Your lab TA will be expecting you.
+  <li>The lab TA has every right to ask students who aren't enrolled to leave the lab if it gets
+    overcrowded. If you don't fill out the form and go to a lab section you're not enrolled in,
+    the TA will ask you to leave first.
+</ul> -->
+
+<hr align=left>
+
+<h3>Homework</h3>
+
+<p>Homework is designed to give you more problem practice on the week's material.
+We encourage you to work on the homework problems in small groups, but each
+student is required to turn in a solution that they have written themselves.</p>
+
+<p>Homework is done online via edX and is <span style="color:red">graded on correct completion</span>.
+<!--You are allowed to drop your lowest-scoring HW grade (not HW0), though -->Once again, completion of all HW is highly recommended.
+We will release homework solutions shortly after the due date, so late homework is not accepted.</p>
+
+<p>Though most homeworks will give you unlimited attempts, some will not. In particular,
+  some homeworks will contain multiple choice questions with limited attempts. These questions
+  will mention that they are limited, so please read all questions thoroughly before attempting.</p>
+
+<hr align=left>
+
+
+<h3>Projects</h3>
+
+<p>Projects are designed to give you heavy-duty experience with the application of course content.
+<span style="color:red">Projects are graded on correctness.</span></p>
+
+<p>You will work on projects individually. Collaborating with other students
+ is strictly prohibited. Please see the section on Academic 
+Dishonesty below.</p>
+
+<p>For each day that a project is late, 1/3 of your earned points on the project
+are deducted, until the project is worth nothing. Lateness rounds up to the
+nearest day - that is, an assignment that is 2 hours late is one day late.</p>
+
+<h4>Slip Days</h4>
+
+<p>To help you handle any issues that arise, we give you <strong>three</strong> slip-day tokens,
+which allow you to reduce your late penalties on late submissions.
+<br>Example usages:
+<ul>
+  <li>Use two slip-days to receive no penalty on a project submitted two days late
+  <li>Use two slip-days to receive no penalty for two separate projects each submitted one day late
+  <li>Use three slip-days to receive just a 1/3 penalty on a project submitted 4 days late
+</ul>
+We will track the total number of late days for your submissions and then assign your slip-days
+at the end of the semester to maximize your course score!
+</p>
+
+<p>Slip-days may only be applied towards projects, and not any other assignments.
+Slip-days will not be assessed against projects you did not submit.
+No extra credit is awarded for avoiding the use of slip-days,
+however it is in your best interest to avoid turning projects in late.
+Usually, a new project will be released very shortly after the current project is due.</p>
+
+<hr align=left>
+
+
+<h3>Exams</h3><a id="exams"></a>
+<p>
+<ul>
+    <li><b>Midterm 1:</b> Covers up to and including the 02/08 lecture on CALL</li>
+    <li><b>Midterm 2:</b> Covers up to and including the 03/15 lecture on Performance, Floating Point, and Tech Trends.</li>
+    <li><b>Final:</b> Consists of 3 sections: MT1 material, MT2 material, post-MT2 material. Performance on MT1/MT2 sections can override Midterm 1 and Midterm 2 grades (see clobber policy).</li>
+</ul>
+</p>
+
+<p>
+On each exam, you will be given a <a href="img/riscvcard.pdf">RISC-V Green Sheet</a> attached to the exam.
+Additionally, you will be allowed to bring <i>handwritten</i> cheat sheets as indicated below:</p>
+
+<ul>
+<li><b>Midterm 1:</b> One 8.5"x11", double-sided cheat sheet.</li>
+<li><b>Midterm 2:</b> One 8.5"x11", double-sided cheat sheet.</li>
+<li><b>Final:</b> Three 8.5"x11", double-sided cheat sheets (it is recommended that you re-use your cheat sheets from the two midterms).</li>
+</ul>
+
+<a class="anchor" id="clobber"></a>
+<h3>The "Clobber" Policy</h3>
+<p>
+    The clobber policy allows you to override your Midterm 1 and Midterm 2 scores with
+the score of the corresponding section on the final exam if you perform better
+on the respective sections of the final. Note that the reverse
+is not true - you must take the entire final exam, regardless of your Midterm 1
+and Midterm 2 scores.</p>
+
+<p>
+Here is an example of the process: <br><br>
+
+Suppose we are interested in computing your clobbered midterm 1 score:<br><br>
+
+<strong>Potential replacement score</strong> = (Final-mt1-subscore - Final-mt1-mean)/Final-mt1-stddev * Mt1-stddev + Mt1-mean<br>
+<strong>Clobbered mt1 score</strong> = MAX(Original mt1 score, Potential replacement score)<br><br>
+
+Final-mt1-subscore is your score on the midterm 1 section of the final, Final-mt1-mean and Final-mt1-stddev are the mean and standard deviation of the midterm 1 section of the final, and Mt1-stddev and Mt1-mean are the standard deviation and mean of the actual midterm 1.<br><br>
+
+"Clobbered mt1 score" is then filled in as your midterm 1 score for the final
+grade calculation.
+</p>
+</p>
+
+
+<hr align=left>
+
+
+<h3>Academic Dishonesty and Cheating</h3>
+
+<p>Please carefully read the policies below and ask a member of the course staff
+if you have any questions or if something is unclear.</p>
+
+<ul>
+    <li>All projects will be done individually.</li>
+    <!-- <li>All projects you turn in must be the work of your team and your team <strong>ALONE</strong>.</li> -->
+    <!-- <li>Partner teams <strong>MAY NOT</strong> work with other partner teams on projects.</li> -->
+    <li>It is <strong>NOT</strong> acceptable to copy solutions from other students.</li>
+    <li>It is <strong>NOT</strong> acceptable to copy (or start your) solutions from the Internet.</li>
+    <li>It is <strong>NOT</strong> acceptable to use public GitHub archives to obtain solutions or to store your project code.</li>
+    <li>We have tools and methods, developed over many years, for detecting this. You <strong>WILL</strong> be caught, and the
+    penalties <strong>WILL</strong> be severe. This software can even detect attempts to purposefully obfuscate copying.</li>
+    <li>If you are caught you will receive at the minimum an F in the course and a letter on your university
+    record documenting the incidence of cheating.</li>
+    <li>Both the giver and the receiver of code are equally culpable and suffer equal penalties.</li>
+</ul>
+
+
+<hr align=left>
+
+
+<h3>Disabled Students' Program</h3>
+
+<p>
+The Disabled Students' Program (DSP) is committed to ensuring that all students with disabilities have equal access to educational opportunities at UC Berkeley.
+They offer a wide range of services for students with disabilities that are individually designed and remove the need to reveal sensitive medical information to the course staff.
+If you have a medical need for extensions of exam times or assignment deadlines, these will be granted through official documentation from DSP.
+Please start the process at <a href="http://dsp.berkeley.edu/">http://dsp.berkeley.edu</a> as soon as possible to avoid delays.
+</p>
+
+
+<hr align=left>
+
+
+<h3>Extenuating Circumstances and Inclusiveness</h3>
+
+<p> We recognize that our students come from varied backgrounds and can have
+widely-varying circumstances.  If you have any unforeseen or extenuating
+circumstance that arise during the course, please do not hesitate to contact
+the instructors in office hours or via e-mail or private Piazza post to discuss your situation.
+The sooner we are made aware, the more easily these situations can be resolved.
+Extenuating circumstances include work-school balance, familial
+responsibilities, religious observations, military duties, unexpected travel,
+or anything else beyond your control that may negatively impact your
+performance in the class.
+<br><br>
+Additionally, if at any point you are made to feel uncomfortable, disrespected,
+or excluded by a staff member or fellow student, please report the incident so
+that we may address the issue and maintain a supportive and inclusive learning
+environment. Should you feel uncomfortable bringing up an issue with a staff
+member directly, you may consider contacting the <a target="_blank"
+href="http://sa.berkeley.edu/ombuds">Campus Ombuds Office</a> or the <a
+target="_blank" href="http://advocate.berkeley.edu/">ASUC Student Advocate's
+Office</a> (SAO).</p>
+
+
+            </div>
+        </div>
+
+
+        <div class="row" style="padding-bottom:20px;">
+<hr align=left>
+
+<div class="col-md-12">CS61C, <a href="https://eecs.berkeley.edu/">Electrical Engineering and Computer Sciences</a>, <a href="http://berkeley.edu/">University of California, Berkeley</a> <br> <a href="http://inst.eecs.berkeley.edu/~cs61c/">http://inst.eecs.berkeley.edu/~cs61c/</a>
+            </div>
+
+        </div>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src='fullcalendar/lib/moment.min.js'></script>
+    <script src='fullcalendar/lib/jquery.min.js'></script>
+    <script src='fullcalendar/fullcalendar.min.js'></script>
+    <script src='fullcalendar/gcal.js'></script>
+    <script src='weekly_schedule.js'></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> -->
+    <script src="bootstrap-dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="js/ie10-viewport-bug-workaround.html"></script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63692984-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <script>
+        // hacky link fix
+        q = $("a[id^='na']"); // get all a tags with id starting with na
+        q.each(function () {
+            $(this).attr("href", "./" + $(this).attr("href"));
+        });
+        $("#polnavbutton").addClass("active");
+    </script>
+  </body>
+
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/policies.php by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:17 GMT -->
+</html>

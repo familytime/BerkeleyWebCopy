@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/proj/proj1a/proj1a by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Project 1A: Data Structures | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Project 1A: Data Structures</header><ul id="markdown-toc">
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#getting-the-skeleton-files" id="markdown-toc-getting-the-skeleton-files">Getting the Skeleton Files</a></li>
+  <li><a href="#the-deque-api" id="markdown-toc-the-deque-api">The Deque API</a></li>
+  <li><a href="#project-tasks" id="markdown-toc-project-tasks">Project Tasks</a>    <ul>
+      <li><a href="#1-linked-list-deque" id="markdown-toc-1-linked-list-deque">1. Linked List Deque</a></li>
+      <li><a href="#2-array-deque" id="markdown-toc-2-array-deque">2. Array Deque</a></li>
+    </ul>
+  </li>
+  <li><a href="#testing" id="markdown-toc-testing">Testing</a></li>
+  <li><a href="#deliverables" id="markdown-toc-deliverables">Deliverables</a></li>
+  <li><a href="#tips" id="markdown-toc-tips">Tips</a></li>
+  <li><a href="#frequently-asked-questions" id="markdown-toc-frequently-asked-questions">Frequently Asked Questions</a>    <ul>
+      <li><a href="#q-how-should-i-print-the-items-in-my-deque-when-i-dont-know-their-type" id="markdown-toc-q-how-should-i-print-the-items-in-my-deque-when-i-dont-know-their-type">Q: How should I print the items in my deque when I don’t know their type?</a></li>
+      <li><a href="#q-i-cant-get-java-to-create-an-array-of-generic-objects" id="markdown-toc-q-i-cant-get-java-to-create-an-array-of-generic-objects">Q: I can’t get Java to create an array of generic objects!</a></li>
+      <li><a href="#q-i-tried-that-but-im-getting-a-compiler-warning" id="markdown-toc-q-i-tried-that-but-im-getting-a-compiler-warning">Q: I tried that but I’m getting a compiler warning.</a></li>
+      <li><a href="#q-how-do-i-make-my-arrows-point-to-particular-fields-of-a-data-structure" id="markdown-toc-q-how-do-i-make-my-arrows-point-to-particular-fields-of-a-data-structure">Q: How do I make my arrows point to particular fields of a data structure.</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>This project is in two parts. Part 1A will be due 2/2, and Part 1B will be due
+2/9.</p>
+
+<p>Rather than simulating the glorious gravitational physics of our universe,
+we’ll instead be building data structures. Not the most glamorous thing, but
+this will provide you with plenty of opportunities to practice everything we’ve
+been doing in lecture before our midterm rolls around.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>In project 1A, we will build implementations of a “Double Ended Queue” using
+both lists and arrays. In project 1B (next week), we will learn how to write
+our own tests for those data structures, and will use the Double Ended Queue to
+solve some small real world probelms.</p>
+
+<p>In this part of the project you will create exactly two Java files:
+<code class="highlighter-rouge">LinkedListDeque.java</code> and <code class="highlighter-rouge">ArrayDeque.java</code>, with public methods listed
+below.</p>
+
+<p>Unlike project 0, we will provide relatively little scaffolding. In other
+words, we’ll say what you should do, but not how.</p>
+
+<p>For this project, you must work alone! Please carefully read the <a href="../../../about.html#project-collaboration-policy">Policy on
+Collaboration and Cheating</a> to see what
+this means exactly.</p>
+
+<p><strong>We strongly encourage you to switch to IntelliJ for this project.</strong> While it’s not absolutely required, you will have a better time. The ability to visually debug your code can be incredibly useful, it’s also nice to have a development environment that catches syntax errors as you are typing, and it avoids the need to type <code class="highlighter-rouge">javac</code> and <code class="highlighter-rouge">java</code> (or pressing arrow keys) a bajillion times.</p>
+
+<h2 id="getting-the-skeleton-files">Getting the Skeleton Files</h2>
+
+<p>As with project 0, you should start by downloading the skeleton files. The
+directions are repeated below.</p>
+
+<p>To do this, head to the folder containing your copy of your repository. For
+example, if your login is ‘agz’, then head to the ‘sp18-agz’ folder (or any
+subdirectory).</p>
+
+<p>Now we’ll make sure you have the latest copy of the skeleton files with by using<br />
+<code class="highlighter-rouge">git pull skeleton master</code>. If you’re using a newer version of git, you
+might need to do <br />
+<code class="highlighter-rouge">git pull skeleton master -allow-unrelated-histories</code>.</p>
+
+<p>If you find yourself faced with a strange text editor or a merge conflict, see
+the <a href="../proj0/proj0.html">project 0 directions</a> for how to proceed.</p>
+
+<p>Once you’ve successfully merged, you should see a proj1a directory appear with
+files that match <a href="https://github.com/Berkeley-CS61B/skeleton-sp18/tree/master/proj1a">the skeleton
+repository</a>.</p>
+
+<p>If you get some sort of error, STOP and either figure it out by carefully
+reading the git guide or seek help at OH or Piazza. You’ll potentially save
+yourself a lot of trouble vs. guess-and-check with git commands. If you find
+yourself trying to use commands recommended by Google like <br />
+<code class="highlighter-rouge">force push</code>,
+<a href="https://twitter.com/heathercmiller/status/526770571728531456">don’t</a>. <strong>Don’t
+use force push, even if a post you found on Stack Overflow says to do it!</strong></p>
+
+<p>The only provided file in the skeleton is <code class="highlighter-rouge">LinkedListDequeTest.java</code>. This file
+provides examples of how you might write tests to verify the correctness of
+your code. We strongly encourage you try out the given tests, as well as to
+write at least one of your own.</p>
+
+<p>You may find writing tests quite annoying. However, in
+part B of this project, we will use a library called JUnit, which will make
+writing tests much easier and organized. We will talk more about testing in a
+later section.</p>
+
+<h2 id="the-deque-api">The Deque API</h2>
+
+<p>The double ended queue is very similar to the SLList and AList classes that
+we’ve discussed in class. Here is a definition from
+<a href="http://www.cplusplus.com/reference/deque/deque/">cplusplus.com</a>.</p>
+
+<blockquote>
+  <p>Deque (usually pronounced like “deck”) is an irregular acronym of double-ended
+queue. Double-ended queues are sequence containers with dynamic sizes that can
+be expanded or contracted on both ends (either its front or its back).</p>
+</blockquote>
+
+<p>Specifically, any deque implementation must have exactly the following
+operations:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">public void addFirst(T item)</code>: Adds an item of type <code class="highlighter-rouge">T</code> to the front of the
+deque.</li>
+  <li><code class="highlighter-rouge">public void addLast(T item)</code>: Adds an item of type <code class="highlighter-rouge">T</code> to the back of the
+deque.</li>
+  <li><code class="highlighter-rouge">public boolean isEmpty()</code>: Returns true if deque is empty, false otherwise.</li>
+  <li><code class="highlighter-rouge">public int size()</code>: Returns the number of items in the deque.</li>
+  <li><code class="highlighter-rouge">public void printDeque()</code>: Prints the items in the deque from first to last,
+separated by a space.</li>
+  <li><code class="highlighter-rouge">public T removeFirst()</code>: Removes and returns the item at the front of the
+deque. If no such item exists, returns null.</li>
+  <li><code class="highlighter-rouge">public T removeLast()</code>: Removes and returns the item at the back of the
+deque. If no such item exists, returns null.</li>
+  <li><code class="highlighter-rouge">public T get(int index)</code>: Gets the item at the given index, where 0 is the
+front, 1 is the next item, and so forth. If no such item exists, returns null.
+Must not alter the deque!</li>
+</ul>
+
+<p>Your class should accept any generic type (not just integers). For information
+on creating and using generic data structures, see <a href="https://docs.google.com/presentation/d/1suIeJ1SIGxoNDT8enLwsSrMxcw4JTvJBsMcdARpqQCk/edit#slide=id.g1088234679_27_82">lecture
+5</a>.
+Make sure to pay close attention to the rules of thumb on the last slide about
+generics.</p>
+
+<h2 id="project-tasks">Project Tasks</h2>
+
+<h3 id="1-linked-list-deque">1. Linked List Deque</h3>
+
+<p><em>Note: We covered everything needed in lecture to do this part in Lectures 4
+and 5 (1/24 and 1/26).</em></p>
+
+<p>Create a file called <code class="highlighter-rouge">LinkedListDeque.java</code> in your project directory.</p>
+
+<p>As your first deque implementation, you’ll build the <code class="highlighter-rouge">LinkedListDeque</code> class,
+which will be linked list based.</p>
+
+<p>Your operations are subject to the following rules:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">add</code> and <code class="highlighter-rouge">remove</code> operations must not involve any looping or recursion. A
+single such operation must take “constant time”, i.e. execution time should not
+depend on the size of the deque.</li>
+  <li><code class="highlighter-rouge">get</code> must use iteration, not recursion.</li>
+  <li><code class="highlighter-rouge">size</code> must take constant time.</li>
+  <li>The amount of memory that your program uses at any given time must be
+proportional to the number of items. For example, if you add 10,000 items to
+the deque, and then remove 9,999 items, the resulting size should be more like
+a deque with 1 item than 10,000. Do not maintain references to items that are
+no longer in the deque.</li>
+</ul>
+
+<p>Implement all the methods listed above in “The Deque API” section.</p>
+
+<p>In addition, you also need to implement:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">public LinkedListDeque()</code>: Creates an empty linked list deque.</li>
+  <li><code class="highlighter-rouge">public T getRecursive(int index)</code>: Same as get, but uses recursion.</li>
+</ul>
+
+<p>You may add any private helper classes or methods in <code class="highlighter-rouge">LinkedListDeque.java</code> if
+you deem it necessary.</p>
+
+<p>While this may sound simple, there are many design issues to consider, and you
+may find the implementation more challenging than you’d expect. Make sure to
+consult the lecture on doubly linked lists, particularly the slides on sentinel
+nodes: <a href="https://docs.google.com/presentation/d/1suIeJ1SIGxoNDT8enLwsSrMxcw4JTvJBsMcdARpqQCk/pub?start=false&amp;loop=false&amp;delayms=3000&amp;slide=id.g829fe3f43_0_291">two sentinel
+topology</a>,
+and <a href="https://docs.google.com/presentation/d/1suIeJ1SIGxoNDT8enLwsSrMxcw4JTvJBsMcdARpqQCk/pub?start=false&amp;loop=false&amp;delayms=3000&amp;slide=id.g829fe3f43_0_376">circular sentinel
+topology</a>.
+I prefer the circular approach. <strong>You are not allowed to use Java’s built in
+LinkedList data structure (or any data structure from <code class="highlighter-rouge">java.util.*</code>) in your
+implementation</strong>.</p>
+
+<h3 id="2-array-deque">2. Array Deque</h3>
+
+<p><em>Note: We’ll have covered everything needed in lecture to do this part by Jan
+29th (lecture 6).</em></p>
+
+<p>Create a file called <code class="highlighter-rouge">ArrayDeque.java</code> in your project directory.</p>
+
+<p>As your second deque implementation, you’ll build the <code class="highlighter-rouge">ArrayDeque</code> class. This
+deque must use arrays as the core data structure.</p>
+
+<p>For this implementation, your operations are subject to the following rules:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">add</code> and <code class="highlighter-rouge">remove</code> must take constant time, except during resizing
+operations.</li>
+  <li><code class="highlighter-rouge">get</code> and <code class="highlighter-rouge">size</code> must take constant time.</li>
+  <li>The starting size of your array should be 8.</li>
+  <li>The amount of memory that your program uses at any given time must be
+proportional to the number of items. For example, if you add 10,000 items to
+the deque, and then remove 9,999 items, you shouldn’t still be using an array
+of length 10,000ish. For arrays of length 16 or more, your usage factor should
+always be at least 25%. For smaller arrays, your usage factor can be
+arbitrarily low.</li>
+</ul>
+
+<p>Implement all the methods listed above in “The Deque API” section.</p>
+
+<p>In addition, you also need to implement:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">public ArrayDeque()</code>: Creates an empty array deque.</li>
+</ul>
+
+<p>You may add any private helper classes or methods in <code class="highlighter-rouge">ArrayDeque.java</code> if you
+deem it necessary.</p>
+
+<p>We <em>strongly recommend</em> that you treat your array as circular for this
+exercise. In other words, if your front pointer is at position zero, and you
+<code class="highlighter-rouge">addFirst</code>, the front pointer should loop back around to the end of the array
+(so the new front item in the deque will be the last item in the underlying
+array). This will result in far fewer headaches than non-circular approaches.
+See the <a href="https://docs.google.com/presentation/d/1XBJOht0xWz1tEvLuvOL4lOIaY0NSfArXAvqgkrx0zpc/edit#slide=id.g1094ff4355_0_450">project 1 demo
+slides</a>
+for more details.</p>
+
+<p>Correctly resizing your array is <strong>very tricky</strong>, and will require some deep thought. Try drawing out various approaches by hand. It may take you quite some time to come up with the right approach, and we encourage you to debate the big ideas with your fellow students or TAs. Make sure that your actual implementation <strong>is by you alone</strong>.</p>
+
+<h2 id="testing">Testing</h2>
+<p>Testing is an imporant part of code writing in industry and academia. It is an
+essential skill that can prevent monetary loss and hazardous bugs in industry,
+or in your case, losing points. Learning how to write good, comprehensive unit
+tests, and developing a good habit of always testing code before shipping are
+some core objectives of CS 61B.</p>
+
+<p>We will focus more on testing in the next part of this project, project 1B. For
+now, we have provided you a very simple sanity check,
+<code class="highlighter-rouge">LinkedListDequeTest.java</code>. To use the sample testing file, you must uncomment
+the lines in the sample tests. Only uncomment a test once you have implemented
+all of the methods used by that test (otherwise it won’t compile). Execute the
+main method to run the tests. When testing your project, <strong>remember you can use
+the visualizer from inside IntelliJ!</strong></p>
+
+<p>You will not submit <code class="highlighter-rouge">LinkedListDequeTest.java</code>. It is for your benefit to write
+more comprehensive tests for both LinkedListDeque and ArrayDeque before
+submitting. Note, passing the given tests in <code class="highlighter-rouge">LinkedListDequeTest.java</code> does
+<em>not necessarily</em> mean that you will pass all of the autograder tests or
+receive full credit.</p>
+
+<h2 id="deliverables">Deliverables</h2>
+<ul>
+  <li><code class="highlighter-rouge">LinkedListDeque.java</code></li>
+  <li><code class="highlighter-rouge">ArrayDeque.java</code></li>
+</ul>
+
+<h2 id="tips">Tips</h2>
+
+<ul>
+  <li>
+    <p>Check out the <a href="https://docs.google.com/presentation/d/1XBJOht0xWz1tEvLuvOL4lOIaY0NSfArXAvqgkrx0zpc/edit#slide=id.g1094ff4355_0_450">project 1
+slides</a>
+for some additional visually oriented tips.</p>
+  </li>
+  <li>
+    <p>If you’re stuck and don’t even know where to start: One great first step is
+implementing SLList and/or AList. Starter code for
+SList and AList (link coming soon). For maximum efficiency, work with a friend 
+or two or three. Solutions also available on github.</p>
+  </li>
+  <li>
+    <p>Take things a little at a time. Writing tons of code all at once is going to
+lead to misery and only misery. If you wrote too much stuff and feel
+overwhelmed, comment out whatever is unnecessary.</p>
+  </li>
+  <li>
+    <p>If your first try goes badly, don’t be afraid to scrap your code and start
+over. The amount of code for each class isn’t actually that much (my solution
+is about 130 lines for each .java file, including all comments and
+whitespace).</p>
+  </li>
+  <li>
+    <p>For ArrayDeque, consider not doing resizing at all until you know your code
+works without it. Resizing is a performance optimization (and is required for
+full credit).</p>
+  </li>
+  <li>
+    <p>Work out what your data structures will look like on paper before you try
+implementing them in code! If you can find a willing friend, have them give
+commands, while you attempt to draw everything out. Try to come up with
+operations that might reveal problems with your implementation.</p>
+  </li>
+  <li>
+    <p>Make sure you think carefully about what happens if the data structure goes
+from empty, to some non-zero size (e.g. 4 items) back down to zero again, and
+then back to some non-zero size. This is a common oversight.</p>
+  </li>
+  <li>
+    <p>Sentinel nodes make life <strong>much</strong> easier, once you understand them.</p>
+  </li>
+  <li>
+    <p>Circular data structures make life easier for both implementations (but
+especially the ArrayDeque).</p>
+  </li>
+  <li>
+    <p>Consider a helper function to do little tasks like compute array indices. For
+example, in my implementation of <code class="highlighter-rouge">ArrayDeque</code>, I wrote a function called <code class="highlighter-rouge">int
+minusOne(int index)</code> that computed the index immediately “before” a given
+index.</p>
+  </li>
+</ul>
+
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+
+<h4 id="q-how-should-i-print-the-items-in-my-deque-when-i-dont-know-their-type">Q: How should I print the items in my deque when I don’t know their type?</h4>
+
+<p>A: It’s fine to use the default String that will be printed (this string comes
+from an Object’s implementation of <code class="highlighter-rouge">toString()</code>, which we’ll talk more about
+later this semester).  For example, if you called the generic type in your
+class <code class="highlighter-rouge">Jumanji</code>, to print <code class="highlighter-rouge">Jumanji j</code>, you can call <code class="highlighter-rouge">System.out.print(j)</code>.</p>
+
+<h4 id="q-i-cant-get-java-to-create-an-array-of-generic-objects">Q: I can’t get Java to create an array of generic objects!</h4>
+
+<p>A: Use the strange syntax we saw in January 30th’s lecture,<br />
+i.e. <code class="highlighter-rouge">T[] a = (T[]) new Object[1000];</code>. Here, <code class="highlighter-rouge">T</code> is a generic type, it’s a placeholder for other
+Object types like “String” or “Integer”.</p>
+
+<h4 id="q-i-tried-that-but-im-getting-a-compiler-warning">Q: I tried that but I’m getting a compiler warning.</h4>
+
+<p>A: Sorry, this is something the designers of Java messed up when they introduced
+generics into Java. There’s no nice way around it. Enjoy your compiler warning.
+We’ll talk more about this in a few weeks.</p>
+
+<h4 id="q-how-do-i-make-my-arrows-point-to-particular-fields-of-a-data-structure">Q: How do I make my arrows point to particular fields of a data structure.</h4>
+<p>In your diagram from lecture it looked like the arrows were able to point to the
+middle of an array or at specific fields of a node.</p>
+
+<p>A: Any time I drew an arrow in class that pointed at an object, the pointer was to
+the ENTIRE object, not a particular field of an object. In fact it is
+impossible for a reference to point to the fields of an object in Java.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/proj/proj1a/proj1a by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:18 GMT -->
+</html>

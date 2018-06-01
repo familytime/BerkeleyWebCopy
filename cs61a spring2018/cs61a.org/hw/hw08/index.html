@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/hw/hw08/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+<link rel="stylesheet" type="text/css" href="../../assets/css/hw.css">
+
+
+    <title>
+Homework 8 | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Homework 8
+
+        
+        <ul class="inline-block list-inline">
+          <li><a href="hw08.zip" class="label label-outline">hw08.zip</a></li>
+        </ul>
+        
+      </h1>
+    </header>
+    
+<p><em>Due by 11:59pm on Thursday, 03/22</em></p>
+
+
+
+
+<h2>Instructions</h2>
+
+<p>Download <a href="hw08.zip">hw08.zip</a>.</p>
+
+<blockquote><p>Our course uses a custom version of Scheme (which you will build for Project
+4) included in the starter ZIP archive. To start the interpreter, type
+<code>python3 scheme</code>. To run a Scheme program interactively, type <code>python3 scheme
+&#x2d;i &lt;file.scm&gt;</code>. To exit the Scheme interpreter, type <code>(exit)</code>.</p></blockquote>
+
+<p><strong>Submission:</strong> When you are done, submit with
+<code>python3 ok --submit</code>.
+You may submit more than once before the deadline; only the final submission
+will be scored. Check that you have successfully submitted your code on
+<a href="https://okpy.org/">okpy.org</a>.
+See <a href="../../lab/lab00/index.html#submit-the-assignment">Lab 0</a>
+for more instructions on submitting assignments.</p>
+
+<p><strong>Using Ok:</strong> If you have any questions about using Ok, please
+refer to <a href="../../articles/using-ok.html">this guide.</a>
+
+
+  <p><strong>Readings:</strong> You might find the following references
+  useful:</p>
+  <ul>
+  <li><a href="../../articles/scheme-spec.html">Scheme Specification</a></li>
+  <li><a href="../../articles/scheme-primitives.html">Scheme Primitives Reference</a></li>
+  <li><a href="http://composingprograms.com/pages/29-recursive-objects.html#linked-list-class">2.9.1</a></li>
+  <li><a href="http://composingprograms.com/pages/29-recursive-objects.html#tree-class">2.9.2</a></li>
+  <li><a href="http://composingprograms.com/pages/32-functional-programming.html">3.2</a></li>
+</ul>
+
+
+
+
+    
+<h3 class="question" id="q1">Q1: Cadr and Caddr</h3>
+
+<p>Define the procedures <code>cadr</code> and <code>caddr</code>, which return the second
+and third elements of a list, respectively:</p>
+
+<solution>
+
+<pre><code>(define (cddr s)
+  (cdr (cdr s)))
+
+(define (cadr s)
+  'YOUR-CODE-HERE
+)
+
+(define (caddr s)
+  'YOUR-CODE-HERE
+)</code></pre>
+
+</solution>
+
+
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q cadr-caddr -u
+python3 ok -q cadr-caddr</code></pre>
+
+
+<h3 id="conditional-expressions">Conditional expressions</h3>
+
+
+<p>The <code>cond</code> special form is a general conditional expression, similar to
+a multi-clause conditional statement in Python.  The general form of a
+conditional expression is:</p>
+
+<pre><code>(cond
+    (&lt;p1&gt; &lt;el1&gt;)
+    (&lt;p2&gt; &lt;el2&gt;)
+    ...
+    (&lt;pn&gt; &lt;eln&gt;)
+    (else &lt;else&#x2d;expressions&gt;))</code></pre>
+
+<p>This consists of the symbol <code>cond</code> followed by sequences of expressions <code>(&lt;p&gt;
+&lt;el&gt;)</code> called <em>clauses</em>.</p>
+
+<p>The first expression in each pair is a
+<em>predicate</em>: an expression whose value is interpreted as either being true
+or false.</p>
+
+<p>In Scheme, <em>all</em> values except the special boolean value <code>#f</code> are
+interpreted as true values (unlike Python). (Our particular version of the
+Scheme interpreter allows you to write <code>True</code> and <code>False</code> in place of
+<code>#t</code> and <code>#f</code>, and prints boolean values as <code>True</code> and <code>False</code>. This is not
+standard.)</p>
+
+<p>Conditional expressions are evaluated as follows:</p>
+
+<ul>
+  <li>The predicate <code>&lt;p1&gt;</code> is evaluated first. If its value is <code>#f</code>, then <code>&lt;p2&gt;</code> is evaluated.</li>
+  <li>If <code>&lt;p2&gt;</code>'s value is also <code>#f</code>, then <code>&lt;p3&gt;</code> is evaluated.</li>
+  <li><p>This process continues until the first predicate <code>&lt;pi&gt;</code> is found whose value
+  is true, in which case the interpreter returns the result of evaluating each
+  of the corresponding list of consequent expressions <code>&lt;eli&gt;</code> and returning the
+  last value as the value of the whole conditional expression.</p>
+
+  <p><strong>Note:</strong> Unless some of the expressions have side-effects, there is no point
+  in having more than one expression in an expression list <code>&lt;eli&gt;</code>.</p></li>
+  <li>The <code>else</code> keyword, if present, is taken to be true, so that if none of the
+  <code>&lt;p&gt;</code>'s is found to be true, the interpreter evaluates the <code>else&#x2d;expressions</code>
+  and returns the last value.</li>
+  <li>If no clause has a true predicate, the result is an "unspecified value".</li>
+</ul>
+
+<p>This is a somewhat simplified version of the semantics of <code>cond</code>, covering the
+cases we usually encounter.</p>
+
+<h3 class="question" id="q2">Q2: Sign</h3>
+
+<p>Using <code>cond</code>, define a procedure <code>sign</code> that returns <code>&#x2d;1</code> for negative
+arguments, <code>0</code> for zero, and <code>1</code> for positive arguments:</p>
+
+<solution>
+
+<pre><code>(define (sign x)
+  'YOUR-CODE-HERE
+)</code></pre>
+
+</solution>
+
+
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q sign -u
+python3 ok -q sign</code></pre>
+
+<h3 class="question" id="q3">Q3: Pow</h3>
+
+<p>Implement a procedure <code>pow</code> for raising the number <code>b</code> to the power of a
+nonnegative integer <code>n</code> that runs in Θ(log n) time.</p>
+
+<blockquote><p><em>Hint:</em> Consider the following observations:</p>
+
+<ol>
+  <li>b<sup>2k</sup> = (b<sup>k</sup>)<sup>2</sup></li>
+  <li>b<sup>2k+1</sup> = b(b<sup>k</sup>)<sup>2</sup></li>
+</ol>
+
+<p>You may use the built-in predicates <code>even?</code> and <code>odd?</code>.</p></blockquote>
+
+<solution>
+
+<pre><code>(define (square x) (* x x))
+
+(define (pow b n)
+  'YOUR-CODE-HERE
+)</code></pre>
+
+</solution>
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q pow -u
+python3 ok -q pow</code></pre>
+
+
+
+<h3 class="question" id="q4">Q4: Ordered</h3>
+
+<p>Implement a procedure called <code>ordered?</code>, which takes a list of numbers and
+returns <code>True</code> if the numbers are in nondescending order, and <code>False</code> otherwise.
+Numbers are considered nondescending if they are in a monotonically increasing
+sequence, that is:</p>
+
+<pre><code>1 2 3 3 4</code></pre>
+
+<p>Is nondescending, but:</p>
+
+<pre><code>1 2 3 3 2</code></pre>
+
+<p>Is not.</p>
+
+<blockquote><p><em>Hint</em>: The built-in <code>null?</code> function returns whether its argument is <code>nil</code>.</p></blockquote>
+
+<pre><code>(define (ordered? s)
+  'YOUR-CODE-HERE
+)</code></pre>
+
+
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q ordered -u
+python3 ok -q ordered</code></pre>
+
+<h3 class="question" id="q5">Q5: No Dots!</h3>
+
+<p>Implement the procedure <code>nodots</code>, which takes a nested list of numbers that
+may not be well-formed and returns a nested list with the same content and
+structure, but which does not have any dots when displayed.  Lists are not
+well-formed if they do not properly terminate in a null list.  In such cases,
+the list will print with a dot before the final item to indicate that its
+last two items are contained in a single pair.  For example,</p>
+
+<pre><code>(cons 1 (cons 2 3))</code></pre>
+
+<p>would print as</p>
+
+<pre><code>(1 2 . 3)</code></pre>
+
+<p>for which <code>nodots</code> should substitute</p>
+
+<pre><code>(1 2 3)</code></pre>
+
+<blockquote><p>You may find the built-in <code>null?</code> and <code>pair?</code> predicates useful.</p></blockquote>
+
+<pre><code>(define (nodots s)
+  'YOUR-CODE-HERE
+)</code></pre>
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q nodots -u
+python3 ok -q nodots</code></pre>
+
+
+
+
+<h3 id="sets-as-ordered-lists">Sets as Ordered Lists</h3>
+
+
+<p>One way to represent a set is by using an ordered list, where the ordering is
+used to speed up search (although only by a constant factor). The following few
+questions explore this idea, assuming a "set" is a Scheme list with no repeated
+elements that is already ordered from least to greatest.</p>
+
+<h3 class="question" id="q6">Q6: Contains</h3>
+
+<p>Define <code>contains?</code>, which returns whether a set <code>s</code> contains value <code>v</code>. The
+Python implementation of this procedure is provided for your reference.</p>
+
+<pre><code>; Sets as sorted lists
+
+(define (empty? s) (null? s))
+
+(define (contains? s v)
+    (cond ((empty? s) #f)
+          'YOUR-CODE-HERE
+          (else nil) ; replace this line
+          ))
+
+; Equivalent Python code, for your reference:
+;
+; def empty(s):
+;     return s is Link.empty
+;
+; def contains(s, v):
+;     if empty(s):
+;         return False
+;     elif s.first &gt; v:
+;         return False
+;     elif s.first == v:
+;         return True
+;     else:
+;         return contains(s.rest, v)</code></pre>
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q contains -u
+python3 ok -q contains</code></pre>
+
+
+
+<h3 class="question" id="q7">Q7: Add</h3>
+
+<p>Define <code>add</code>, which takes a set <code>s</code> and a value <code>v</code> as arguments. It returns a
+representation of a set containing the values in <code>s</code> and the value <code>v</code>. There
+should be no repeated elements in the return value.</p>
+
+<pre><code>(define (add s v)
+    (cond ((empty? s) (list v))
+          'YOUR-CODE-HERE
+          (else nil) ; replace this line
+          ))</code></pre>
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q add -u
+python3 ok -q add</code></pre>
+
+
+
+<h3 class="question" id="q8">Q8: Intersect and Union</h3>
+
+<p>Define <code>intersect</code>, which returns a set containing only values that appear in
+both sets <code>s</code> and <code>t</code>. Your implementation should run in linear time in the
+length of the input sets. A Python implementation of this procedure is
+provided for your reference.</p>
+
+<p>Also, define <code>union</code>, which returns a set containing all values that appear
+in either set <code>s</code> or <code>t</code>.</p>
+
+<pre><code>(define (intersect s t)
+    (cond ((or (empty? s) (empty? t)) nil)
+          'YOUR-CODE-HERE
+          (else nil) ; replace this line
+          ))
+
+; Equivalent Python code, for your reference:
+;
+; def intersect(set1, set2):
+;     if empty(set1) or empty(set2):
+;         return Link.empty
+;     else:
+;         e1, e2 = set1.first, set2.first
+;         if e1 == e2:
+;             return Link(e1, intersect(set1.rest, set2.rest))
+;         elif e1 &lt; e2:
+;             return intersect(set1.rest, set2)
+;         elif e2 &lt; e1:
+;             return intersect(set1, set2.rest)
+
+(define (union s t)
+    (cond ((empty? s) t)
+          ((empty? t) s)
+          'YOUR-CODE-HERE
+          (else nil) ; replace this line
+          ))</code></pre>
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q intersect -u
+python3 ok -q intersect
+python3 ok -q union -u
+python3 ok -q union</code></pre>
+
+
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#q1">Q1: Cadr and Caddr</a></li>
+  <li><a href="#conditional-expressions">Conditional expressions</a></li>
+  <li><a href="#q2">Q2: Sign</a></li>
+  <li><a href="#q3">Q3: Pow</a></li>
+  <li><a href="#q4">Q4: Ordered</a></li>
+  <li><a href="#q5">Q5: No Dots!</a></li>
+  <li><a href="#sets-as-ordered-lists">Sets as Ordered Lists</a></li>
+  <li><a href="#q6">Q6: Contains</a></li>
+  <li><a href="#q7">Q7: Add</a></li>
+  <li><a href="#q8">Q8: Intersect and Union</a></li>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+
+<!-- Mirrored from cs61a.org/hw/hw08/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:45 GMT -->
+</html>

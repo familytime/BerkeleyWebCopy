@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/lab/lab09/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:45 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+Lab 09: Scheme | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Lab 09: Scheme
+
+        
+        <ul class="inline-block list-inline">
+          <li><a href="lab09.zip" class="label label-outline">lab09.zip</a></li>
+        </ul>
+        
+      </h1>
+    </header>
+    
+
+<p><i>Due at 11:59pm on Friday, 03/23/2018.</i></p>
+
+
+<h2 id='starter-files'>Starter Files</h2>
+
+
+<p>Download <a href="lab09.zip">lab09.zip</a>.
+Inside the archive, you will find starter files for the questions in this lab,
+  along with a copy of the <a href="ok.zip">Ok</a> autograder.</p>
+
+
+<h2 id='submission'>Submission</h2>
+
+<p>By the end of this lab, you should have submitted the lab with
+<code>python3 ok --submit</code>. You may submit more than once before the
+deadline; only the final submission will be graded.
+Check that you have successfully submitted your code on
+<a href="https://okpy.org/">okpy.org</a>.</p>
+
+<ul>
+  <li>To receive credit for this lab, you must complete Question 1 through 4 in
+  <a href="lab09.scm">lab09.scm</a> and submit through Ok.</li>
+  <li>Questions 5 through 11 are <em>extra practice</em>. They can be found in the
+  <a href="lab09_extra.scm">lab09_extra.scm</a> file. It is recommended that you
+  complete these problems on your own time.</li>
+</ul>
+
+
+
+    
+<h1 id="topics">Topics</h1>
+
+
+<blockquote><p><strong>Note:</strong> We're diving into a new programming language today!  As such, the Topics
+section is lengthier than usual and covers a lot of fundamentals that will help
+you build a good foundation for understanding the Scheme material in this
+course. We recommend that you thoroughly read this section before beginning the
+problems.</p></blockquote>
+
+
+<h2 id="scheme">Scheme</h2>
+
+
+<p>Scheme is a famous functional programming language from the 1970s.  It is a
+dialect of Lisp (which stands for LISt Processing).  The first observation most
+people make is the unique syntax, which uses a prefix notation and (often many)
+nested parentheses (see <a href="http://xkcd.com/297/">http://xkcd.com/297/</a>).  Scheme
+features first-class functions and optimized tail-recursion, which were
+relatively new features at the time.</p>
+
+<blockquote><p>Our course uses a custom version of Scheme (which you will build for Project
+4) included in the starter ZIP archive. To start the interpreter, type
+<code>python3 scheme</code>. To run a Scheme program interactively, type <code>python3 scheme
+&#x2d;i &lt;file.scm&gt;</code>. To exit the Scheme interpreter, type <code>(exit)</code>.</p></blockquote>
+
+<p>You may find it useful to try <a href="https://scheme.cs61a.org/">scheme.cs61a.org</a> when
+working through problems, as it can draw environment and box-and-pointer
+diagrams and it lets you walk your code step-by-step (similar to Python Tutor).
+Don't forget to submit your code through Ok though!</p>
+
+
+<h2 id="expressions">Expressions</h2>
+
+
+
+<h3 id="primitives">Primitives</h3>
+
+
+<p>Just like in Python, primitive, or atomic, expressions in Scheme take a single
+step to evaluate. These include numbers, booleans, names, and symbols.</p>
+
+<p>Out of these, the symbol type is the only one we didn't encounter in
+Python. A <strong>symbol</strong> acts a lot like a Python string, but not exactly. For now,
+just be aware that you can represent a string of valid Scheme characters as a
+symbol.</p>
+
+<p>In Scheme, <em>all</em> values except the special boolean value <code>#f</code> are interpreted
+as true values (unlike Python, where there are some false-y values like <code>0</code>).
+Our particular version of the Scheme interpreter allows you to write <code>True</code> and
+<code>False</code> in place of <code>#t</code> and <code>#f</code>. This is not standard.</p>
+
+<pre><code>scm&gt; 1234    ; integer
+1234
+scm&gt; 123.4   ; real number
+123.5
+scm&gt; true    ; alias for built&#x2d;in true value
+#t
+scm&gt; &#x27;a      ; symbol
+a
+scm&gt; &#x27;hello&#x2d;world!
+hello&#x2d;world!</code></pre>
+
+
+<h3 id="call-expressions">Call expressions</h3>
+
+
+<p>All expressions that aren't atomic expressions are either call expressions or
+special forms. Both are written as Scheme <a href="#list">lists</a>. A call expression
+has the following syntax:</p>
+
+<pre><code>(&lt;operator&gt; &lt;operand1&gt; &lt;operand2&gt; ...)</code></pre>
+
+<p>Like Python, the operator comes before all the operands. Unlike Python, the
+operator is included within the parentheses and the operands are separated by
+spaces rather than with commas. However, evaluation of a Scheme call expression
+follows the exact same rules as in Python:</p>
+
+<ol>
+  <li>Evaluate the operator. It should evaluate to a procedure.</li>
+  <li>Evaluate the operands, left to right.</li>
+  <li>Apply the procedure to the evaluated operands.</li>
+</ol>
+
+<p>Here are some examples using mathematical operators:</p>
+
+<pre><code>scm&gt; (+ 1 2)
+3
+scm&gt; (* 3 4)
+12
+scm&gt; (&#x2d; 10 (/ 6 2))
+7</code></pre>
+
+
+<h3 id="special-forms">Special forms</h3>
+
+
+<p>A special form in Scheme has the exact same syntax as a call expression:</p>
+
+<pre><code>(&lt;special&#x2d;form&gt; &lt;operand1&gt; &lt;operand2&gt; ...)</code></pre>
+
+<p>What makes them "special" is that they do not follow the three rules of
+evaluation stated in the previous section. Instead, each special form follows
+its own special rules for execution, such as short-circuiting before evaluating
+all the operands.</p>
+
+<p>Some examples of special forms that we'll study today are the <code>if</code>, <code>cond</code>,
+<code>define</code>, and <code>lambda</code> forms. Read their corresponding sections below to find
+out what their rules of evaluation are!</p>
+
+
+<h2 id="control-structures">Control Structures</h2>
+
+
+
+<h3 id="if-expressions"><code>if</code> Expressions</h3>
+
+
+<p>In Scheme, an <code>if</code> expression is a special form with the following syntax:</p>
+
+<pre><code>(if &lt;condition&gt; &lt;true&#x2d;result&gt; &lt;false&#x2d;result&gt;)</code></pre>
+
+<p>Note the similar syntax to a call expression: the <code>if</code> keyword precedes the 3
+operands in a space separated list. The rules for evaluating the <code>if</code> special
+form are as follows:</p>
+
+<ol>
+  <li>Evaluate <code>&lt;condition&gt;</code>.</li>
+  <li>If <code>&lt;condition&gt;</code> evaluates to a truth-y value, the whole <code>if</code> expression
+  evaluates to the value of <code>&lt;true&#x2d;result&gt;</code>. Otherwise, it evaluates to the value
+  of <code>&lt;false&#x2d;result&gt;</code>.</li>
+</ol>
+
+<p>Can you see why this expression is a special form? Compare the rules between
+a regular call expression and an <code>if</code> expression. What is the difference?</p>
+
+<div class="solution solution-1">
+
+<blockquote><p>Step 2 of evaluating call expressions requires evaluating all of the operands
+in order. However, an <code>if</code> expression will only evaluate two of its operands,
+the conditional expression and either <code>&lt;true&#x2d;result&gt;</code> or <code>&lt;false&#x2d;result&gt;</code>.
+Because we don't evaluate all the operands in an <code>if</code> expression, it is a
+special form.
+</div>
+        <button id='solution-1' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        </p></blockquote>
+
+<p>The following blocks of code written in Scheme and Python are roughly
+equivalent:</p>
+
+<table class='table table-bordered'>
+  <tr>
+    <th>Scheme</th>
+    <th>Python</th>
+  </tr>
+  <tr>
+    <td>
+<pre><code>scm> (if (> x 3)
+         1
+         2)</code></pre>
+    </td><td>
+<pre><code>>>> if x > 3:
+...     print(1)
+... else:
+...     print(2)</code></pre>
+    </td>
+  </tr>
+</table>
+
+<p>The reason these blocks of code are not exactly equivalent is that a Scheme
+<code>if</code> expression actually evaluates to a value whereas a Python <code>if</code> statement
+simply directs the flow of the program. In this case, the Scheme code actually
+evaluates to <code>1</code> or <code>2</code>, while the Python code just prints the values.</p>
+
+<p>Moreover, it's possible to add even more lines of code into the suites of the
+Python <code>if</code> statement besides the print statements, while a Scheme <code>if</code>
+expression expects just a single expression for each of the true result and the
+false result.</p>
+
+<p>Another difference is that in Scheme, you cannot write <code>elif</code> cases. If you
+want to have multiple cases using the <code>if</code> expression, you would need multiple
+branched <code>if</code> expressions:</p>
+
+<table class='table table-bordered'>
+  <tr>
+    <th>Scheme</th>
+    <th>Python</th>
+  </tr>
+  <tr>
+    <td>
+<pre><code>scm> (if (< x 0)
+         'negative
+         (if (= x 0)
+             'zero
+             'positive
+         )
+ )</code></pre>
+    </td><td>
+<pre><code>>>> if x < 0:
+...     print('negative')
+... else:
+...     if x == 0:
+...         print('zero')
+...     else:
+...         print('positive')</code></pre>
+  </tr>
+</table>
+
+
+<h3 id="cond-expressions"><code>cond</code> Expressions</h3>
+
+
+<p>Using nested <code>if</code> expressions doesn't seem like a very practical way to take
+care of multiple cases. Instead, we can use the <code>cond</code> special form, a general
+conditional expression similar to a multi-clause if/elif/else conditional
+expression in Python. <code>cond</code> takes in an arbitrary number of arguments known as
+<em>clauses</em>.  A clause is written as a list containing two expressions: <code>(&lt;p&gt;
+&lt;e&gt;)</code>.</p>
+
+<pre><code>(cond
+    (&lt;p1&gt; &lt;e1&gt;)
+    (&lt;p2&gt; &lt;e2&gt;)
+    ...
+    (&lt;pn&gt; &lt;en&gt;)
+    (else &lt;else&#x2d;expression&gt;))</code></pre>
+
+<p>The first expression in each clause is a <strong>predicate</strong> -- an expression whose
+value is interpreted as either <code>True</code> or <code>False</code>. The second expression in the
+clause is the return expression corresponding to its predicate. The optional
+<code>else</code> clause has no predicate.</p>
+
+<p>The rules of evaluation are as follows:</p>
+
+<ol>
+  <li>Evaluate the predicates <code>&lt;p1&gt;</code>, <code>&lt;p2&gt;</code>, ..., <code>&lt;pn&gt;</code> in order until you reach
+  one that evaluates to a truth-y value.</li>
+  <li>The <code>cond</code> expression evaluates to the value of the <code>&lt;ei&gt;</code> corresponding to
+  the first true <code>&lt;pi&gt;</code> expression.</li>
+  <li>If none of the predicates are truth-y and there is an <code>else</code> clause, evaluate
+  and return <code>&lt;else&#x2d;expression&gt;</code>.</li>
+</ol>
+
+<p>As you can see, <code>cond</code> is a special form because it does not evaluate its
+operands in their entirety; the predicates are evaluated separately from their
+corresponding return expression. In addition, the expression short circuits
+upon reaching the first predicate that evaluates to a truth-y value, leaving
+the remaining predicates unevaluated.</p>
+
+<p>The following code is roughly equivalent (see the explanation in the <a href="#if-expressions">if
+expression section</a>):</p>
+
+<table class='table table-bordered'>
+  <tr>
+    <th>Scheme</th>
+    <th>Python</th>
+  </tr>
+  <tr>
+    <td>
+<pre><code>scm> (cond
+        ((> x 0) 'positive)
+        ((< x 0) 'negative)
+        (else 'zero))</code></pre>
+    </td><td>
+<pre><code>>>> if x > 0:
+...     print('positive')
+... elif x < 0:
+...     print('negative')
+... else:
+...     print('zero')</code></pre>
+  </tr>
+</table>
+
+
+<h2 id="lists">Lists</h2>
+
+
+<blockquote><p>As you read through this section, it may be difficult to understand the
+differences between the various representations of Scheme containers. We
+recommend that you use <a href="http://scheme.cs61a.org/">our online Scheme interpreter</a>
+to see the box-and-pointer diagrams of pairs and lists that you're having a
+hard time visualizing! (Use the command <code>(autodraw)</code> to toggle the automatic
+drawing of diagrams.)</p></blockquote>
+
+
+<h3 id="pairs">Pairs</h3>
+
+
+<p>A pair is a built-in data type in Scheme that holds two values. To create a
+pair, use the <code>cons</code> procedure, which takes in two arguments:</p>
+
+<pre><code>scm&gt; (cons 3 5)
+(3 . 5)</code></pre>
+
+<p>Elements in a pair are displayed as separated by a dot. We can use the <code>car</code>
+and <code>cdr</code> procedures to retrieve the first and second elements in the pair,
+respectively.</p>
+
+<pre><code>scm&gt; (car (cons 3 5))
+3
+scm&gt; (cdr (cons 3 5))
+5</code></pre>
+
+<p>It's possible to nest <code>cons</code> calls such that an element within a pair is
+another pair!</p>
+
+<pre><code>scm&gt; (cons (cons 1 2) 3)
+((1 . 2) . 3)
+scm&gt; (cons 1 (cons 2 3))
+(1 2 . 3)</code></pre>
+
+<p>You may be wondering why the first dot disappeared in the value of the second
+expression (i.e., why isn't it displayed as <code>(1 . (2 . 3))</code>?). This is because
+when Scheme sees a dot followed by an open parenthesis, it will remove the dot,
+the open parenthesis, and the corresponding close parenthesis:</p>
+
+<pre><code>(a . ( ... )) &#x2d;&gt; (a ...)</code></pre>
+
+<p>Read on to find out how to make a list without any dots!</p>
+
+
+<h3 id="well-formed-lists">Well-formed lists</h3>
+
+
+<p>Scheme lists are very similar to the linked lists we've been working with in
+Python. Just like how a linked list is constructed of a series of <code>Link</code>
+objects, a Scheme list is constructed with a series of pairs.</p>
+
+<p>A well-formed Scheme list is a list in which the <code>cdr</code> is either another
+well-formed list or <code>nil</code>, an empty list. A well-formed list is displayed in
+the interpreter with no dots. To understand this, first observe the following
+pair construction:</p>
+
+<pre><code>scm&gt; (cons 1 (cons 2 3))
+(1 2 . 3)</code></pre>
+
+<p>This is what's known as a <em>malformed list</em>, one where the <code>cdr</code> is not either a
+well-formed list or <code>nil</code>. Note that you can still see the dot. Now, take a
+look at this pair construction:</p>
+
+<pre><code>scm&gt; (cons 1 (cons 2 (cons 3 nil)))
+(1 2 3)</code></pre>
+
+<p>Here, we've created a <em>well-formed list</em> by ensuring that the second argument
+of each <code>cons</code> expression is another <code>cons</code> expression or <code>nil</code>. Yay, no more
+dots!  Here is the box-and-pointer diagram for this list:</p>
+
+<p><img class="img-responsive center-block" src="assets/list1.png" alt="list"></p>
+
+<p>We can retrieve values from our list with the <code>car</code> and <code>cdr</code> procedures, which
+now work similarly to the Python <code>Link</code>'s <code>first</code> and <code>rest</code> attributes.
+(Curious about where these weird names come from?  <a href="https://en.wikipedia.org/wiki/CAR_and_CDR">Check out their
+etymology.</a>)</p>
+
+<pre><code>scm&gt; (define a (cons 1 (cons 2 (cons 3 nil))))  ; Assign the list to the name a
+scm&gt; a
+(1 2 3)
+scm&gt; (car a)
+1
+scm&gt; (cdr a)
+(2 3)
+scm&gt; (car (cdr (cdr a)))
+3</code></pre>
+
+
+<h3 id="list-procedure"><code>list</code> Procedure</h3>
+
+
+<p>There are a few other ways to create lists. The <code>list</code> procedure takes in an
+arbitrary number of arguments and constructs a well-formed list with the values
+of these arguments:</p>
+
+<pre><code>scm&gt; (list 1 2 3)
+(1 2 3)
+scm&gt; (list 1 (list 2 3) 4)
+(1 (2 3) 4)
+scm&gt; (list (cons 1 2) 3 4)
+((1 . 2) 3 4)</code></pre>
+
+<p>Note that all of the operands in this expression are evaluated before being put
+into the resulting list.</p>
+
+
+<h3 id="quote-form">Quote Form</h3>
+
+
+<p>We can also use the quote form to create a list, which will construct the exact
+list that is given. Unlike with the <code>list</code> procedure, the argument to <code>&#x27;</code> is
+<em>not</em> evaluated.</p>
+
+<pre><code>scm&gt; &#x27;(1 2 3)
+(1 2 3)
+scm&gt; &#x27;(1 2 . 3)
+(1 2 . 3)
+scm&gt; &#x27;(cons 1 2)           ; Argument to quote is not evaluated
+(cons 1 2)
+scm&gt; &#x27;(1 (2 3 4))
+(1 (2 3 4))
+scm&gt; &#x27;(1 . (2 3 4))        ; Removes dot/parentheses when possible
+(1 2 3 4)</code></pre>
+
+
+<h3 id="built-in-procedures-for-lists">Built-In Procedures for Lists</h3>
+
+<p>There are a few other built-in procedures in Scheme that are used for lists.
+Try them out in the interpreter!</p>
+
+<pre><code>scm&gt; (null? nil)                ; Checks if a list is empty
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x54;&#x72;&#x75;&#x65;</div>
+scm&gt; (append &#x27;(1 2 3) &#x27;(4 5 6)) ; Concatenates two lists
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x28;&#x31;&#x20;&#x32;&#x20;&#x33;&#x20;&#x34;&#x20;&#x35;&#x20;&#x36;&#x29;</div>
+scm&gt; (length &#x27;(1 2 3 4 5))      ; Returns the number of elements in a list
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x35;</div></code></pre>
+        <button id='prompt-1' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+
+<h2 id="defining-procedures">Defining procedures</h2>
+
+
+<p>To define procedures, we use the special form <code>define</code>, which has the following
+syntax:</p>
+
+<pre><code>(define (&lt;name&gt; &lt;param1&gt; &lt;param2&gt; ...)
+    &lt;body&gt;
+)</code></pre>
+
+<p>This expression defines a function with the given parameters and body and
+assigns it to the given name in the current environment.</p>
+
+<p>A procedure may take in any number of parameters. The <code>&lt;body&gt;</code> may contain
+multiple expressions. There is not an equivalent version of a Python <code>return</code>
+statement in Scheme. The function will return the value of the last expression
+in the body.</p>
+
+<p>This expression is a special form because its operands are not evaluated at
+all!  For example, <code>&lt;body&gt;</code> is not evaluated when a procedure is defined, but
+rather when it is called. <code>&lt;name&gt;</code> and the parameter names are all names that
+should not be evaluated when executing this <code>define</code> expression.</p>
+
+
+<h2 id="lambdas">Lambdas</h2>
+
+
+<p>Ah yes, you thought you were safe, but we can also write lambda procedures in
+Scheme! A <code>lambda</code> expression has the following syntax:</p>
+
+<pre><code>(lambda (&lt;param1&gt; &lt;param2&gt; ...) &lt;body&gt;)</code></pre>
+
+<p>Notice how the only difference between this expression and a <code>define</code>
+expression is the lack of procedure name. This expression will create and
+return a function, but will not alter the current environment. This is very
+similar to the difference between a <code>def</code> statement and <code>lambda</code> expression in
+Python!</p>
+
+<pre><code>scm&gt; (lambda (x y) (+ x y))        ; Returns a lambda function, but doesn&#x27;t assign it to a name
+(lambda (x y) (+ x y))
+scm&gt; ((lambda (x y) (+ x y)) 3 4)  ; Create and call a lambda function in one line
+7</code></pre>
+
+
+<h1 id="required-questions">Required Questions</h1>
+
+
+
+<h2 id="what-would-scheme-display">What Would Scheme Display?</h2>
+
+
+<h3 class="question" id="q1">Q1: WWSD: Lists</h3>
+
+<blockquote><p>Use Ok to test your knowledge with the following "What Would Scheme Display?"
+questions:</p>
+
+<pre><code>python3 ok &#x2d;q wwsd&#x2d;lists &#x2d;u</code></pre></blockquote>
+
+</question>
+
+<pre><code>scm&gt; (cons 1 2)
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x28;&#x31;&#x20;&#x2e;&#x20;&#x32;&#x29;</div>
+scm&gt; (cons 1 (cons 2 nil))
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x28;&#x31;&#x20;&#x32;&#x29;</div>
+scm&gt; (car (cons 1 (cons 2 nil)))
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x31;</div>
+scm&gt; (cdr (cons 1 (cons 2 nil)))
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x28;&#x32;&#x29;</div>
+scm&gt; (list 1 2 3)
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x28;&#x31;&#x20;&#x32;&#x20;&#x33;&#x29;</div>
+scm&gt; (list 1 (cons 2 3))
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x28;&#x31;&#x20;&#x28;&#x32;&#x20;&#x2e;&#x20;&#x33;&#x29;&#x29;</div>
+scm&gt; &#x27;(1 2 3)
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x28;&#x31;&#x20;&#x32;&#x20;&#x33;&#x29;</div>
+scm&gt; &#x27;(2 . 3)
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x28;&#x32;&#x20;&#x2e;&#x20;&#x33;&#x29;</div>
+scm&gt; &#x27;(2 . (3))  ; Recall dot rule for pairs
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x28;&#x32;&#x20;&#x33;&#x29;</div>
+scm&gt; (equal? &#x27;(1 . (2 . 3)) (cons 1 (cons 2 (cons 3 nil)))) ; Recall how boolean values are displayed
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x23;&#x66;</div>
+scm&gt; (equal? &#x27;(1 . (2 . 3)) (cons 1 (cons 2 3)))
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x23;&#x74;</div>
+scm&gt; (equal? &#x27;(1 . (2 . 3)) (list 1 (cons 2 3)))
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x23;&#x66;</div>
+scm&gt; (cons 1 &#x27;(list 2 3))  ; Recall quoting
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x28;&#x31;&#x20;&#x6c;&#x69;&#x73;&#x74;&#x20;&#x32;&#x20;&#x33;&#x29;</div></code></pre>
+        <button id='prompt-2' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<pre><code>scm&gt; (cons (list 2 (cons 3 4)) nil)
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x28;&#x28;&#x32;&#x20;&#x28;&#x33;&#x20;&#x2e;&#x20;&#x34;&#x29;&#x29;&#x29;</div>
+scm&gt; (car (cdr &#x27;(127 . ((131 . (137))))))
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x28;&#x31;&#x33;&#x31;&#x20;&#x31;&#x33;&#x37;&#x29;</div>
+scm&gt; (equal? &#x27;(1 . ((2 . 3))) (cons 1 (cons (cons 2 3) nil)))
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x23;&#x74;</div>
+scm&gt; &#x27;(cons 4 (cons (cons 6 8) ()))
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x34;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x36;&#x20;&#x38;&#x29;&#x20;&#x28;&#x29;&#x29;&#x29;</div></code></pre>
+        <button id='prompt-3' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+
+<h2 id="coding-questions">Coding Questions</h2>
+
+
+<h3 class="question" id="q2">Q2: Over or Under</h3>
+
+<p>Define a procedure <code>over&#x2d;or&#x2d;under</code> which takes in an <code>x</code> and a <code>y</code> and
+returns the the following:</p>
+
+<ul>
+  <li>return -1 if <code>x</code> is less than <code>y</code></li>
+  <li>return 0 if <code>x</code> is equal to <code>y</code></li>
+  <li>return 1 if <code>x</code> is greater than <code>y</code></li>
+</ul>
+
+
+
+<pre><code>(define (over&#x2d;or&#x2d;under x y)
+<div class="alt solution-2">  'YOUR-CODE-HERE
+</div><div class="solution solution-2">&#x20;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x64;&#xa;&#x20;&#x20;&#x20;&#x20;&#x28;&#x28;&#x3c;&#x20;&#x78;&#x20;&#x79;&#x29;&#x20;&#x2d;&#x31;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x28;&#x28;&#x3d;&#x20;&#x78;&#x20;&#x79;&#x29;&#x20;&#x30;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x28;&#x65;&#x6c;&#x73;&#x65;&#x20;&#x31;&#x29;&#x29;</div>)
+
+;;; Tests
+(over&#x2d;or&#x2d;under 1 2)
+; expect &#x2d;1
+(over&#x2d;or&#x2d;under 2 1)
+; expect 1
+(over&#x2d;or&#x2d;under 1 1)
+; expect 0</code></pre>
+
+
+        <button id='solution-2' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q over-or-under -u
+python3 ok -q over-or-under</code></pre>
+
+<h3 class="question" id="q3">Q3: Filter</h3>
+
+<p>Write a procedure <code>filter</code>, which takes a predicate <code>f</code> and a list <code>lst</code>, and
+returns a new list containing only elements of the list that satisfy the
+predicate. The output should contain the elements in the same order that they
+appeared in the original list.</p>
+
+
+
+<pre><code>(define (filter f lst)
+<div class="alt solution-3">  'YOUR-CODE-HERE
+</div><div class="solution solution-3">&#x20;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x64;&#x20;&#x28;&#x28;&#x6e;&#x75;&#x6c;&#x6c;&#x3f;&#x20;&#x6c;&#x73;&#x74;&#x29;&#x20;&#x27;&#x28;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x28;&#x66;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x6c;&#x73;&#x74;&#x29;&#x29;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x6c;&#x73;&#x74;&#x29;&#x20;&#x28;&#x66;&#x69;&#x6c;&#x74;&#x65;&#x72;&#x20;&#x66;&#x20;&#x28;&#x63;&#x64;&#x72;&#x20;&#x6c;&#x73;&#x74;&#x29;&#x29;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x65;&#x6c;&#x73;&#x65;&#x20;&#x28;&#x66;&#x69;&#x6c;&#x74;&#x65;&#x72;&#x20;&#x66;&#x20;&#x28;&#x63;&#x64;&#x72;&#x20;&#x6c;&#x73;&#x74;&#x29;&#x29;&#x29;&#x29;</div>)
+
+;;; Tests
+(define (even? x)
+  (= (modulo x 2) 0))
+(filter even? &#x27;(0 1 1 2 3 5 8))
+; expect (0 2 8)</code></pre>
+
+
+        <button id='solution-3' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q filter -u
+python3 ok -q filter</code></pre>
+
+<h3 class="question" id="q4">Q4: Make Adder</h3>
+
+<p>Write the procedure <code>make&#x2d;adder</code> which takes in an initial number,
+<code>num</code>, and then returns a procedure. This returned procedure takes in a
+number <code>x</code> and returns the result of <code>x + num</code>.</p>
+
+
+
+<pre><code>(define (make&#x2d;adder num)
+<div class="alt solution-4">  'YOUR-CODE-HERE
+</div><div class="solution solution-4">&#x20;&#x20;&#x28;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x20;&#x28;&#x78;&#x29;&#x20;&#x28;&#x2b;&#x20;&#x78;&#x20;&#x6e;&#x75;&#x6d;&#x29;&#x29;</div>)
+
+;;; Tests
+(define adder (make&#x2d;adder 5))
+(adder 8)
+; expect 13</code></pre>
+
+
+        <button id='solution-4' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q make-adder -u
+python3 ok -q make-adder</code></pre>
+
+
+<h1 id="optional-questions">Optional Questions</h1>
+
+
+<blockquote><p>The following questions are for <strong>extra practice</strong> -- they can be
+found in the the <a href="lab09_extra.scm">lab09_extra.scm</a> file. It is
+recommended that you complete these problems on your own time.</p></blockquote>
+
+<h3 class="question" id="q5">Q5: Make a List</h3>
+
+<p>Create the list with the following box-and-pointer diagram:</p>
+
+<p><img class="img-responsive center-block" src="assets/list2.png" alt="linked list"></p>
+
+
+
+<pre><code>(define lst
+<div class="alt solution-5">  'YOUR-CODE-HERE
+</div><div class="solution solution-5">&#x20;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x31;&#x20;&#x27;&#x28;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x32;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x33;&#x20;&#x34;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x35;&#x20;&#x27;&#x28;&#x29;&#x29;&#x29;&#x29;&#x29;</div>)</code></pre>
+
+
+        <button id='solution-5' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q make-list -u
+python3 ok -q make-list</code></pre>
+
+<h3 class="question" id="q6">Q6: Compose</h3>
+
+<p>Write the procedure <code>composed</code>, which takes in procedures <code>f</code> and <code>g</code>
+and outputs a new procedure. This new procedure takes in a number <code>x</code>
+and outputs the result of calling <code>f</code> on <code>g</code> of <code>x</code>.</p>
+
+
+
+<pre><code>(define (composed f g)
+<div class="alt solution-6">  'YOUR-CODE-HERE
+</div><div class="solution solution-6">&#x20;&#x20;&#x28;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x20;&#x28;&#x78;&#x29;&#x20;&#x28;&#x66;&#x20;&#x28;&#x67;&#x20;&#x78;&#x29;&#x29;&#x29;</div>)</code></pre>
+
+
+        <button id='solution-6' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q composed -u
+python3 ok -q composed</code></pre>
+
+<h3 class="question" id="q7">Q7: Remove</h3>
+
+<p>Implement a procedure <code>remove</code> that takes in a list and returns a new list with
+<em>all</em> instances of <code>item</code> removed from <code>lst</code>. You may assume the list will only
+consist of numbers and will not have nested lists.</p>
+
+<p><em>Hint</em>: You might find the <code>filter</code> procedure useful.</p>
+
+
+
+<pre><code>(define (remove item lst)
+<div class="alt solution-7">  'YOUR-CODE-HERE
+</div><div class="solution solution-7">&#x20;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x64;&#x20;&#x28;&#x28;&#x6e;&#x75;&#x6c;&#x6c;&#x3f;&#x20;&#x6c;&#x73;&#x74;&#x29;&#x20;&#x27;&#x28;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x28;&#x65;&#x71;&#x75;&#x61;&#x6c;&#x3f;&#x20;&#x69;&#x74;&#x65;&#x6d;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x6c;&#x73;&#x74;&#x29;&#x29;&#x20;&#x28;&#x72;&#x65;&#x6d;&#x6f;&#x76;&#x65;&#x20;&#x69;&#x74;&#x65;&#x6d;&#x20;&#x28;&#x63;&#x64;&#x72;&#x20;&#x6c;&#x73;&#x74;&#x29;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x65;&#x6c;&#x73;&#x65;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x6c;&#x73;&#x74;&#x29;&#x20;&#x28;&#x72;&#x65;&#x6d;&#x6f;&#x76;&#x65;&#x20;&#x69;&#x74;&#x65;&#x6d;&#x20;&#x28;&#x63;&#x64;&#x72;&#x20;&#x6c;&#x73;&#x74;&#x29;&#x29;&#x29;&#x29;&#x29;</div>)
+
+<div class="solution solution-7">&#x28;&#x64;&#x65;&#x66;&#x69;&#x6e;&#x65;&#x20;&#x28;&#x72;&#x65;&#x6d;&#x6f;&#x76;&#x65;&#x20;&#x69;&#x74;&#x65;&#x6d;&#x20;&#x6c;&#x73;&#x74;&#x29;&#xa;&#x20;&#x20;&#x28;&#x66;&#x69;&#x6c;&#x74;&#x65;&#x72;&#x20;&#x28;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x20;&#x28;&#x78;&#x29;&#x20;&#x28;&#x6e;&#x6f;&#x74;&#x20;&#x28;&#x3d;&#x20;&#x78;&#x20;&#x69;&#x74;&#x65;&#x6d;&#x29;&#x29;&#x29;&#x20;&#x6c;&#x73;&#x74;&#x29;&#x29;</div>
+;;; Tests
+(remove 3 nil)
+; expect ()
+(remove 3 &#x27;(1 3 5))
+; expect (1 5)
+(remove 5 &#x27;(5 3 5 5 1 4 5 4))
+; expect (3 1 4 4)</code></pre>
+
+
+        <button id='solution-7' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q remove -u
+python3 ok -q remove</code></pre>
+
+<h3 class="question" id="q8">Q8: Greatest Common Divisor</h3>
+
+<p>Let's revisit a familiar problem: finding the greatest common divisor
+of two numbers.</p>
+
+<p>Write the procedure <code>gcd</code>, which computes the gcd of numbers <code>a</code> and <code>b</code>.
+Recall that the <em>greatest common divisor</em> of two positive integers <code>a</code> and <code>b</code>
+is the largest integer which evenly divides both numbers (with no remainder).
+<a href="http://en.wikipedia.org/wiki/Euclidean_algorithm#Description">Euclid's
+algorithm</a> states
+that the greatest common divisor is</p>
+
+<ul>
+  <li>the smaller value if it evenly divides the larger value, OR</li>
+  <li>the greatest common divisor of the smaller value and the remainder of
+  the larger value divided by the smaller value</li>
+</ul>
+
+<p>In other words, if <code>a</code> is greater than <code>b</code> and <code>a</code> is not divisible by
+<code>b</code>, then</p>
+
+<pre><code>gcd(a, b) == gcd(b, a % b)</code></pre>
+
+<p>You may find the provided procedures <code>min</code> and <code>max</code> helpful. You can
+also use the built-in <code>modulo</code> procedure.</p>
+
+
+
+<pre><code>(define (max a b) (if (&gt; a b) a b))
+(define (min a b) (if (&gt; a b) b a))
+(define (gcd a b)
+<div class="alt solution-8">  'YOUR-CODE-HERE
+</div><div class="solution solution-8">&#x20;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x64;&#x20;&#x28;&#x28;&#x7a;&#x65;&#x72;&#x6f;&#x3f;&#x20;&#x61;&#x29;&#x20;&#x62;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x28;&#x7a;&#x65;&#x72;&#x6f;&#x3f;&#x20;&#x62;&#x29;&#x20;&#x61;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x28;&#x3d;&#x20;&#x28;&#x6d;&#x6f;&#x64;&#x75;&#x6c;&#x6f;&#x20;&#x28;&#x6d;&#x61;&#x78;&#x20;&#x61;&#x20;&#x62;&#x29;&#x20;&#x28;&#x6d;&#x69;&#x6e;&#x20;&#x61;&#x20;&#x62;&#x29;&#x29;&#x20;&#x30;&#x29;&#x20;&#x28;&#x6d;&#x69;&#x6e;&#x20;&#x61;&#x20;&#x62;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x65;&#x6c;&#x73;&#x65;&#x20;&#x28;&#x67;&#x63;&#x64;&#x20;&#x28;&#x6d;&#x69;&#x6e;&#x20;&#x61;&#x20;&#x62;&#x29;&#x20;&#x28;&#x6d;&#x6f;&#x64;&#x75;&#x6c;&#x6f;&#x20;&#x28;&#x6d;&#x61;&#x78;&#x20;&#x61;&#x20;&#x62;&#x29;&#x20;&#x28;&#x6d;&#x69;&#x6e;&#x20;&#x61;&#x20;&#x62;&#x29;&#x29;&#x29;&#x29;&#x29;</div>)
+
+;;; Tests
+(gcd 24 60)
+; expect 12
+(gcd 1071 462)
+; expect 21</code></pre>
+
+
+        <button id='solution-8' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q gcd -u
+python3 ok -q gcd</code></pre>
+
+<h3 class="question" id="q9">Q9: No Repeats</h3>
+
+<p>Implement <code>no&#x2d;repeats</code>, which takes a list of numbers <code>s</code> as input and returns
+a list that has all of the unique elements of <code>s</code> in the order that they first
+appear, but no repeats. For example, <code>(no&#x2d;repeats (list 5 4 5 4 2 2))</code>
+evaluates to <code>(5 4 2)</code>.</p>
+
+<p><em>Hints</em>: To test if two numbers are equal, use the <code>=</code> procedure. To test if
+two numbers are not equal, use the <code>not</code> procedure in combination with <code>=</code>.
+You may find it helpful to use the <code>filter</code> procedure.</p>
+
+
+
+<pre><code>(define (no&#x2d;repeats s)
+<div class="alt solution-9">  'YOUR-CODE-HERE
+</div><div class="solution solution-9">&#x20;&#x20;&#x28;&#x69;&#x66;&#x20;&#x28;&#x6e;&#x75;&#x6c;&#x6c;&#x3f;&#x20;&#x73;&#x29;&#x20;&#x73;&#xa;&#x20;&#x20;&#x20;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x73;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x6e;&#x6f;&#x2d;&#x72;&#x65;&#x70;&#x65;&#x61;&#x74;&#x73;&#x20;&#x28;&#x66;&#x69;&#x6c;&#x74;&#x65;&#x72;&#x20;&#x28;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x20;&#x28;&#x78;&#x29;&#x20;&#x28;&#x6e;&#x6f;&#x74;&#x20;&#x28;&#x3d;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x73;&#x29;&#x20;&#x78;&#x29;&#x29;&#x29;&#x20;&#x28;&#x63;&#x64;&#x72;&#x20;&#x73;&#x29;&#x29;&#x29;&#x29;&#x29;</div>)</code></pre>
+
+
+        <button id='solution-9' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q no-repeats -u
+python3 ok -q no-repeats</code></pre>
+
+<h3 class="question" id="q10">Q10: Substitute</h3>
+
+<p>Write a procedure <code>substitute</code> that takes three arguments: a list <code>s</code>, an <code>old</code>
+word, and a <code>new</code> word. It returns a list with the elements of <code>s</code>, but with
+every occurrence of <code>old</code> replaced by <code>new</code>, even within sub-lists.</p>
+
+<p><em>Hint</em>: The built-in <code>pair?</code> predicate returns True if its argument is a <code>cons</code>
+pair.</p>
+
+<p><em>Hint</em>: The <code>=</code> operator will only let you compare numbers, but using <code>equal?</code>
+or <code>eq?</code> will let you compare symbols as well as numbers. For more information,
+check out the
+<a href="../../articles/scheme-primitives.html#general">Scheme Primitives Reference</a>.</p>
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q substitute -u
+python3 ok -q substitute</code></pre>
+
+
+
+<pre><code>(define (substitute s old new)
+<div class="alt solution-10">  'YOUR-CODE-HERE
+</div><div class="solution solution-10">&#x20;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x64;&#x20;&#x28;&#x28;&#x6e;&#x75;&#x6c;&#x6c;&#x3f;&#x20;&#x73;&#x29;&#x20;&#x6e;&#x69;&#x6c;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x28;&#x70;&#x61;&#x69;&#x72;&#x3f;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x73;&#x29;&#x29;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x28;&#x73;&#x75;&#x62;&#x73;&#x74;&#x69;&#x74;&#x75;&#x74;&#x65;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x73;&#x29;&#x20;&#x6f;&#x6c;&#x64;&#x20;&#x6e;&#x65;&#x77;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x73;&#x75;&#x62;&#x73;&#x74;&#x69;&#x74;&#x75;&#x74;&#x65;&#x20;&#x28;&#x63;&#x64;&#x72;&#x20;&#x73;&#x29;&#x20;&#x6f;&#x6c;&#x64;&#x20;&#x6e;&#x65;&#x77;&#x29;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x28;&#x65;&#x71;&#x75;&#x61;&#x6c;&#x3f;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x73;&#x29;&#x20;&#x6f;&#x6c;&#x64;&#x29;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x6e;&#x65;&#x77;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x73;&#x75;&#x62;&#x73;&#x74;&#x69;&#x74;&#x75;&#x74;&#x65;&#x20;&#x28;&#x63;&#x64;&#x72;&#x20;&#x73;&#x29;&#x20;&#x6f;&#x6c;&#x64;&#x20;&#x6e;&#x65;&#x77;&#x29;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x65;&#x6c;&#x73;&#x65;&#x20;&#x28;&#x63;&#x6f;&#x6e;&#x73;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x73;&#x29;&#x20;&#x28;&#x73;&#x75;&#x62;&#x73;&#x74;&#x69;&#x74;&#x75;&#x74;&#x65;&#x20;&#x28;&#x63;&#x64;&#x72;&#x20;&#x73;&#x29;&#x20;&#x6f;&#x6c;&#x64;&#x20;&#x6e;&#x65;&#x77;&#x29;&#x29;&#x29;&#x29;</div>)</code></pre>
+
+<div class="solution solution-10">
+
+<p>Remember that we want to use <code>equal?</code> to compare symbols since <code>=</code> will only
+work for numbers!</p>
+
+<p>If the input list is empty, there's nothing to substitute. That's a pretty
+straightforward base case. Otherwise, our list has at least one item.</p>
+
+<p>We can break the rest of this problem into roughly two big cases:</p>
+
+<p><strong>Nested list here</strong></p>
+
+<p>This means that <code>(car s)</code> is a pair. Since you can assume that the list is
+well-formed, <code>(list? (car s))</code> is also an adequate check. In this case, we have
+to dig deeper and recurse on <code>(car s)</code> since there could be symbols to replace
+in there. We must recurse on <code>(cdr s)</code> as well to handle the rest of the list.</p>
+
+<p><strong>No nested list here</strong></p>
+
+<p>This is the case if <code>(car s)</code> is <em>not</em> a pair. Of course, there could still be
+nesting later on in the list, but we'll rely on our recursive call to handle
+that.</p>
+
+<p>If <code>(car s)</code> matches <code>old</code>, we'll make sure to use <code>new</code> in its place.
+Otherwise, we'll use <code>(car s)</code> without replacing it. In both cases, we must
+recurse on the rest of the list.</p>
+
+<p>Video walkthrough: <a href="https://youtu.be/LAr-_twxXao">https://youtu.be/LAr-_twxXao</a></p>
+
+</div>
+
+
+        <button id='solution-10' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<h3 class="question" id="q11">Q11: Sub All</h3>
+
+<p>Write <code>sub&#x2d;all</code>, which takes a list <code>s</code>, a list of <code>old</code> words, and a
+list of <code>new</code> words; the last two lists must be the same length. It returns a
+list with the elements of <code>s</code>, but with each word that occurs in the second
+argument replaced by the corresponding word of the third argument. You may use
+<code>substitute</code> in your solution.</p>
+
+
+
+<pre><code>(define (sub&#x2d;all s olds news)
+<div class="alt solution-11">  'YOUR-CODE-HERE
+</div><div class="solution solution-11">&#x20;&#x20;&#x28;&#x69;&#x66;&#x20;&#x28;&#x6e;&#x75;&#x6c;&#x6c;&#x3f;&#x20;&#x6f;&#x6c;&#x64;&#x73;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x73;&#xa;&#x20;&#x20;&#x20;&#x20;&#x28;&#x73;&#x75;&#x62;&#x2d;&#x61;&#x6c;&#x6c;&#x20;&#x28;&#x73;&#x75;&#x62;&#x73;&#x74;&#x69;&#x74;&#x75;&#x74;&#x65;&#x20;&#x73;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x6f;&#x6c;&#x64;&#x73;&#x29;&#x20;&#x28;&#x63;&#x61;&#x72;&#x20;&#x6e;&#x65;&#x77;&#x73;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x63;&#x64;&#x72;&#x20;&#x6f;&#x6c;&#x64;&#x73;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x28;&#x63;&#x64;&#x72;&#x20;&#x6e;&#x65;&#x77;&#x73;&#x29;&#x29;&#x29;</div>)</code></pre>
+
+<div class="solution solution-11">
+
+<p>Solving <code>sub&#x2d;all</code> means just repeatedly doing the substitute operation we wrote
+earlier. If this were Python, we might iterate over the list of olds and news,
+calling <code>substitute</code> and saving the result for the next call. For example, it
+might look something like this:</p>
+
+<pre><code>def sub_all(s, olds, news):
+    for o, n in zip(olds, news):
+        s = substitute(s, o, n)
+    return s</code></pre>
+
+<p>If that approach makes sense, then the only tricky part now is to translate that
+logic into Scheme. Since we don't have access to iteration, we have to reflect
+our progress in our recursive call to <code>sub&#x2d;all</code>. This means shortening the list
+of <code>olds</code> and <code>news</code>, and most importantly, feeding the result of <code>substitute</code>
+into the next call.</p>
+
+<p>Therefore, the base case is if we have nothing we want to replace in <code>olds</code>.
+Checking if <code>news</code> is empty would also be ok, since <code>olds</code> and <code>news</code> should be
+the same length.</p>
+
+<p>What doesn't work, however, is checking if <code>s</code> is an empty list. While this
+won't make your solution wrong on its own, it's an <strong>insufficient</strong> base case.
+Remember that we're passing in <code>s</code> with elements replaced into the recursive
+call, which means it won't become any shorter.</p>
+
+<p>Video walkthrough: <a href="https://youtu.be/avYPLlaBtj0">https://youtu.be/avYPLlaBtj0</a></p>
+
+</div>
+
+
+        <button id='solution-11' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q sub-all -u
+python3 ok -q sub-all</code></pre>
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#topics">Topics</a></li>
+  <ul>
+    <li><a href="#scheme">Scheme</a></li>
+    <li><a href="#expressions">Expressions</a></li>
+    <ul>
+      <li><a href="#primitives">Primitives</a></li>
+      <li><a href="#call-expressions">Call expressions</a></li>
+      <li><a href="#special-forms">Special forms</a></li>
+    </ul>
+    <li><a href="#control-structures">Control Structures</a></li>
+    <ul>
+      <li><a href="#if-expressions"><code>if</code> Expressions</a></li>
+      <li><a href="#cond-expressions"><code>cond</code> Expressions</a></li>
+    </ul>
+    <li><a href="#lists">Lists</a></li>
+    <ul>
+      <li><a href="#pairs">Pairs</a></li>
+      <li><a href="#well-formed-lists">Well-formed lists</a></li>
+      <li><a href="#list-procedure"><code>list</code> Procedure</a></li>
+      <li><a href="#quote-form">Quote Form</a></li>
+      <li><a href="#built-in-procedures-for-lists">Built-In Procedures for Lists</a></li>
+    </ul>
+    <li><a href="#defining-procedures">Defining procedures</a></li>
+    <li><a href="#lambdas">Lambdas</a></li>
+  </ul>
+  <li><a href="#required-questions">Required Questions</a></li>
+  <ul>
+    <li><a href="#what-would-scheme-display">What Would Scheme Display?</a></li>
+    <ul>
+      <li><a href="#q1">Q1: WWSD: Lists</a></li>
+    </ul>
+    <li><a href="#coding-questions">Coding Questions</a></li>
+    <ul>
+      <li><a href="#q2">Q2: Over or Under</a></li>
+      <li><a href="#q3">Q3: Filter</a></li>
+      <li><a href="#q4">Q4: Make Adder</a></li>
+    </ul>
+  </ul>
+  <li><a href="#optional-questions">Optional Questions</a></li>
+  <ul>
+    <li><a href="#q5">Q5: Make a List</a></li>
+    <li><a href="#q6">Q6: Compose</a></li>
+    <li><a href="#q7">Q7: Remove</a></li>
+    <li><a href="#q8">Q8: Greatest Common Divisor</a></li>
+    <li><a href="#q9">Q9: No Repeats</a></li>
+    <li><a href="#q10">Q10: Substitute</a></li>
+    <li><a href="#q11">Q11: Sub All</a></li>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+
+<script type="text/javascript" src="../../assets/js/config.js"></script>
+<script>
+  $(function() {
+    var staging_domains = ['staging.cs61a.org', 'solutions.cs61a.org', 'localhost', '127.0.0.1'];
+    var host = window.location.hostname;
+    var staging = staging_domains.indexOf(host) != -1;
+    staging = staging || (host.endsWith('.pullrequests.cs61a.org') && !host.startsWith('last-build.'));
+
+    var after_due_date = new Date("03/23/2018") < new Date();
+    var before_end_date = new Date() <= new Date(endDate);
+    var release_solutions = (staging || after_due_date) && before_end_date;
+
+    if (release_solutions) {
+      $('.toggle').css('display', 'inline-block');
+      $('.toggle').click(function() {
+        var solution_id = $(this).attr('id');
+        $('div.' + solution_id).slideToggle(600);
+      });
+    }
+  });
+</script>
+
+
+  </body>
+
+<!-- Mirrored from cs61a.org/lab/lab09/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:48 GMT -->
+</html>

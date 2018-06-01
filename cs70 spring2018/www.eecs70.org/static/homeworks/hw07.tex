@@ -1,0 +1,152 @@
+\Question{Counting, Counting, and More Counting}
+
+The only way to learn counting is to practice, practice, practice, so
+here is your chance to do so.
+For this problem, you do not need to show work that justifies your answers.
+We encourage you to leave your answer as an expression (rather than
+trying to evaluate it to get a specific number).
+\begin{Parts}
+%\Part How many 10-bit strings are there that contain exactly 4 ones?
+
+\Part How many ways are there to arrange $n$ 1s and $k$ 0s into a sequence?
+
+\Part A bridge hand is obtained by selecting 13 cards from a standard
+  52-card deck. The order of the cards in a bridge hand is
+  irrelevant. \\
+  How many different 13-card bridge hands are there? 
+  How many different 13-card bridge hands are there that contain
+  no aces? How many different 13-card bridge hands are there that contain
+  all four aces? How many different 13-card bridge hands are there that contain
+  exactly 6 spades?
+
+\Part Two identical decks of 52 cards are mixed together, yielding a
+  stack of 104 cards.
+  How many different ways are there to order this stack of 104 cards?
+  
+\Part How many 99-bit strings are there that contain more ones than
+  zeros?
+  
+\Part An anagram of FLORIDA is any re-ordering of the letters of FLORIDA, i.e., any
+  string made up of the letters F, L, O, R, I, D, and A, in any order.
+  The anagram does not have to be an English word. \\
+  How many different anagrams of FLORIDA are there? How many different anagrams 
+  of ALASKA are there? How many different anagrams of ALABAMA are there? 
+  How many different anagrams of MONTANA are there?
+%\Part If we have a standard 52-card deck, how many ways are there to
+%  order these 52 cards?
+ 
+\Part How many  different anagrams of ABCDEF are there if: (1) C is the left neighbor of E; (2) C is on the left of E.
+
+\Part We have 9 balls, numbered 1 through 9, and 27 bins.
+  How many different ways are there to distribute these 9 balls among
+  the 27 bins? Assume the bins are distinguishable (e.g., numbered 1
+  through 27).
+  
+\Part We throw 9 identical balls into 7 bins.
+  How many different ways are there to distribute these 9 balls among
+  the 7 bins such that no bin is empty? Assume the bins are
+  distinguishable (e.g., numbered 1 through 7).
+  
+\Part How many different ways are there to throw 9 identical balls
+  into 27 bins? Assume the bins are distinguishable (e.g., numbered 1
+  through 27).
+  
+\Part There are exactly 20 students currently enrolled in a class.
+  How many different ways are there to pair up the 20 students, so
+  that each student is paired with one other student?
+
+% \Part Let (1, 1) be the bottom-left corner and (8, 8) be the upper-right 
+% corner of a chessboard. If you are allowed to move one square at a time and
+% can only move up or right, what is the number of ways to go from the bottom-left corner to 
+% the upper-right corner? 
+
+% \Part What is the number of ways to go from the bottom-left corner to 
+% the upper-right corner of the chesssboard, if you must pass through the square 
+% (6, 2), where $(i, j)$ represents the square in the $i$th row from the
+% bottom and the $j$th column from the left? (Again, you are only allowed to move up or right.)
+  
+\Part How many solutions does $x_0 + x_1 + \cdots + x_k = n$ have, if each $x$ must be a non-negative integer?
+
+\Part How many solutions does $x_0 + x_1 = n$ have, if each $x$ must be a \emph{strictly positive} integer?
+
+\Part How many solutions does $x_0 + x_1 + \cdots + x_k = n$ have, if each $x$ must be a \emph{strictly positive} integer?
+
+\end{Parts}
+
+
+\Question{N-Bit} Let $NBit$ be a program that takes in a program $P$ and an input $x$ and outputs ``true'' if the program ever directly assigns a variable to an $n$-bit number and ``false'' otherwise. Can $NBit$ exist? If so, describe the procedure, and if not, prove that it cannot exist. (\textit{Hint: model off of the proof that $TestHalt$ cannot exist})
+
+\Question{Counting Cartesian Products}
+
+For two sets $A$ and $B$, define the Cartesian Product as $A \times B = \{(a,b) : a \in A, b \in B \}$.
+
+\begin{Parts}
+	\Part Given two countable sets $A$ and $B$, prove that $A \times B$ is countable.
+	\Part Given a finite number of countable sets $A_1, A_2, \dots, A_n$, prove that 
+	$A_1 \times A_2 \times \cdots \times A_n$ \\is countable. 
+	\Part Consider an infinite number of countable sets: $B_1, B_2, \dots$. Under what
+	condition(s) is \\$B_1 \times B_2 \times \cdots$ countable? Prove that if this
+	condition is violated, $B_1 \times B_2 \times \cdots$ is uncountable.
+\end{Parts}
+
+\Question{Vacation Time}
+After a number of complaints, the Dunder Mifflin Paper Company has decided on the following rule for vacation leave for the next year (365 days): Every employee must take exactly one vacation leave of 4 consecutive days, one vacation leave of 5 consecutive days and one vacation leave of 6 consecutive days within the year, with the property that any two of the vacation leaves have a gap of at least 7 days between them. In how many ways can an employee arrange their vacation time? (The vacation policy resets every year, so there is no need to worry about leaving a gap between this year and next year's vacations).
+
+\Question{Fermat's Wristband}
+
+Let $p$ be a prime number and let $k$ be a positive integer.
+We have beads of
+$k$ different colors, where any two beads of the same color are indistinguishable.
+
+\begin{Parts}
+    \Part
+    We place $p$ beads onto a string.
+    How many different ways are there construct such a sequence of $p$ beads with up to $k$ different colors?
+
+    \Part 
+    How many sequences of $p$ beads on the string are there that use at least two colors?
+
+    \Part
+    Now we tie the two ends of the string together, forming a
+    wristband.
+    Two wristbands are equivalent if the sequence of colors on one
+    can be obtained by rotating the beads on the other.
+    (For instance, if we have $k=3$ colors, red (R), green (G), and
+    blue (B), then the length $p = 5$ necklaces RGGBG, GGBGR, GBGRG, BGRGG, and GRGGB are all
+    equivalent, because these are all rotated versions of each other.)
+
+    How many non-equivalent wristbands are there now?
+    Again, the $p$
+    beads must not all have the same color.
+    (Your answer should be a simple function of $k$ and $p$.)
+
+    [\textit{Hint}: Think about the fact that rotating all the beads on the wristband to another
+        position produces an identical wristband.]
+
+    \Part Use your answer to part (c) to prove Fermat's little theorem.
+\end{Parts}
+
+
+\Question{Story Problems}
+
+\newcommand{\sblank}{\vspace{1in}}
+Prove the following identities by combinatorial argument:
+\begin{Parts}
+
+    %\Part $\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}$
+
+  	\Part $\binom{2n}{2} = 2 \binom{n}{2} + n^2$
+
+  	\Part $n^2 = 2 \binom{n}{2} + n$
+
+    \Part $\sum_{k=0}^n k {n \choose k} = n2^{n-1}$ \\
+    \textit{Hint:} Consider how many ways there are to pick groups of people ("teams") and then a representative ("team leaders").
+
+    \Part $\sum_{k=j}^n {n \choose k} {k \choose j} = 2^{n-j} {n \choose j}$ \\
+    \textit{Hint:} Consider a generalization of the previous part.
+
+\end{Parts}
+
+% Carries over from 10M
+
+

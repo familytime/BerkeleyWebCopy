@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<!--==============================================================================
+	           "GitHub HTML5 Pandoc Template" v1.2 — by Tristano Ajmone           
+	==============================================================================
+	(c) Tristano Ajmone, 2017, MIT License (MIT). Project's home repository:
+
+	- https://github.com/tajmone/pandoc-goodies
+
+	This template reuses source code taken from the following projects:
+
+	- GitHub Markdown CSS: © Sindre Sorhus, MIT License (MIT):
+	  https://github.com/sindresorhus/github-markdown-css
+
+	- Primer CSS: © 2016 GitHub Inc., MIT License (MIT):
+	  http://primercss.io/
+	==============================================================================-->
+<html>
+
+<!-- Mirrored from www.eecs70.org/static/notes/n2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:38:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Proofs</title>
+  <style type="text/css">@font-face{font-family:octicons-link;src:url(data:font/woff;charset=utf-8;base64,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) format('woff')}.markdown-body{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;color:#24292e;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";font-size:16px;line-height:1.5;word-wrap:break-word;box-sizing:border-box;min-width:200px;max-width:980px;margin:0 auto;padding:45px}.markdown-body .octicon{display:inline-block;fill:currentColor;vertical-align:text-bottom}.markdown-body a{background-color:transparent;-webkit-text-decoration-skip:objects;color:#0366d6;text-decoration:none}.markdown-body a:active,.markdown-body a:hover{outline-width:0}.markdown-body h1{margin:.67em 0}.markdown-body img{border-style:none}.markdown-body svg:not(:root){overflow:hidden}.markdown-body code,.markdown-body kbd,.markdown-body pre{font-family:monospace,monospace}.markdown-body input{font:inherit;margin:0;overflow:visible;font-family:inherit;font-size:inherit;line-height:inherit}.markdown-body [type=checkbox]{box-sizing:border-box;padding:0}.markdown-body *{box-sizing:border-box}.markdown-body a:hover{text-decoration:underline}.markdown-body strong{font-weight:600}.markdown-body hr{box-sizing:content-box;overflow:hidden;background:0 0;border-bottom:1px solid #dfe2e5}.markdown-body hr::before{display:table;content:""}.markdown-body hr::after{display:table;clear:both;content:""}.markdown-body table{border-spacing:0;border-collapse:collapse;display:block;width:100%;overflow:auto}.markdown-body td,.markdown-body th{padding:0}.markdown-body blockquote{margin:0}.markdown-body ol ol,.markdown-body ul ol{list-style-type:lower-roman}.markdown-body ol ol ol,.markdown-body ol ul ol,.markdown-body ul ol ol,.markdown-body ul ul ol{list-style-type:lower-alpha}.markdown-body dd{margin-left:0}.markdown-body code{font-family:SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace}.markdown-body pre{font:12px SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace;word-wrap:normal}.markdown-body .pl-0{padding-left:0!important}.markdown-body .pl-1{padding-left:4px!important}.markdown-body .pl-2{padding-left:8px!important}.markdown-body .pl-3{padding-left:16px!important}.markdown-body .pl-4{padding-left:24px!important}.markdown-body .pl-5{padding-left:32px!important}.markdown-body .pl-6{padding-left:40px!important}.markdown-body::before{display:table;content:""}.markdown-body::after{display:table;clear:both;content:""}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:0}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e1e4e8;border:0}.markdown-body blockquote{padding:0 1em;color:#6a737d;border-left:.25em solid #dfe2e5}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body kbd{font-size:11px;box-shadow:inset 0 -1px 0 #959da5}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#1b1f23;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1{padding-bottom:.3em;font-size:2em;border-bottom:1px solid #eaecef}.markdown-body h2{padding-bottom:.3em;font-size:1.5em;border-bottom:1px solid #eaecef}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#6a737d}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:600}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table th{font-weight:600}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #dfe2e5}.markdown-body table tr{background-color:#fff;border-top:1px solid #c6cbd1}.markdown-body table tr:nth-child(2n){background-color:#f6f8fa}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body code{padding:.2em 0;margin:0;font-size:85%;background-color:rgba(27,31,35,.05);border-radius:3px}.markdown-body code::after,.markdown-body code::before{letter-spacing:-.2em;content:"\00a0"}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:0 0;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f6f8fa;border-radius:3px}.markdown-body pre code{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code::after,.markdown-body pre code::before{content:normal}.markdown-body .full-commit .btn-outline:not(:disabled):hover{color:#005cc5;border-color:#005cc5}.markdown-body kbd{display:inline-block;padding:3px 5px;font:11px SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace;line-height:10px;color:#444d56;vertical-align:middle;background-color:#fcfcfc;border:1px solid #c6cbd1;border-bottom-color:#959da5;border-radius:3px;box-shadow:inset 0 -1px 0 #959da5}.markdown-body :checked+.radio-label{position:relative;z-index:1;border-color:#0366d6}.markdown-body .task-list-item{list-style-type:none}.markdown-body .task-list-item+.task-list-item{margin-top:3px}.markdown-body .task-list-item input{margin:0 .2em .25em -1.6em;vertical-align:middle}.markdown-body hr{border-bottom-color:#eee}.flash{position:relative;padding:16px;color:#246;background-color:#e2eef9;border:1px solid #bac6d3;border-radius:3px}.flash p:last-child{margin-bottom:0}.flash-messages{margin-bottom:24px}.flash-warn{color:#4c4a42;background-color:#fff9ea;border-color:#dfd8c2}.flash-error{color:#911;background-color:#fcdede;border-color:#d2b2b2}.flash-success{color:#22662c;background-color:#e2f9e5;border-color:#bad3be}.flash-plain{color:#4c4a42;background-color:#f5f5f5;border-color:#c1c1c1}</style>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {equationNumbers: {autoNumber: "AMS"}}
+    });
+  </script>
+  <script src="../../../cdn.mathjax.org/mathjax/latest/MathJax2ba6.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<article class="markdown-body">
+<header>
+<h1 class="title">Proofs</h1>
+</header>
+<nav id="TOC">
+<ul>
+<li><a href="#proofs">Proofs</a></li>
+<li><a href="#scn:facts">Notation and Basic Facts</a></li>
+<li><a href="#scn:direct">Direct Proof</a></li>
+<li><a href="#scn:contrapositive">Proof by Contraposition</a></li>
+<li><a href="#scn:contradiction">Proof by Contradiction</a></li>
+<li><a href="#scn:cases">Proof by Cases</a></li>
+<li><a href="#scn:errors">Common Errors when Writing Proofs</a></li>
+<li><a href="#scn:style">Style and Substance in Proofs</a></li>
+<li><a href="#scn:exercises">Exercises</a></li>
+</ul>
+</nav>
+<h1 id="proofs">Proofs</h1>
+<p>In science, evidence is accumulated through experiments to assert the validity of a statement. Mathematics, in contrast, aims for a more absolute level of certainty. A mathematical proof provides a means for <span><em>guaranteeing</em></span> that a statement is true. Proofs are very powerful and are in some ways like computer programs. Indeed, there is a deep historic link between these two concepts that we will touch upon in this course — the invention of computers is intimately tied to the exploration of the idea of a mathematical proof about a century ago.</p>
+<p>So what types of “computer science-related” statements might we want to prove? Here are two examples: (1) Does program <span class="math inline">\(P\)</span> halt on every input? (2) Does program <span class="math inline">\(P\)</span> correctly compute the function <span class="math inline">\(f(x)\)</span>, i.e. does it output <span class="math inline">\(f(x)\)</span> on input <span class="math inline">\(x\)</span>, for every <span class="math inline">\(x\)</span>? Note that each of these statements refers to the behavior of a program on <em>infinitely</em> many inputs. For such a statement, we can try to provide <em>evidence</em> that it is true by testing that it holds for many values of <span class="math inline">\(x\)</span>. Unfortunately, this does not guarantee that the statement holds for the infinitely many values of x that we did not test! To be certain that the statement is true, we must provide a rigorous <em>proof</em>.</p>
+<p>So what is a proof? A proof is a finite sequence of steps, called <em>logical deductions</em>, which establishes the truth of a desired statement. In particular, the power of a proof lies in the fact that using <em>finite</em> means, we can guarantee the truth of a statement with <em>infinitely</em> many cases.</p>
+<p>More specifically, a proof is typically structured as follows. Recall that there are certain statements, called axioms or postulates, that we accept without proof (we have to start somewhere). Starting from these axioms, a proof consists of a sequence of logical deductions: simple steps that apply the rules of logic. This results in a sequence of statements where each successive statement is necessarily true if the previous statements were true. This property is enforced by the rules of logic. Each statement follows from the previous statements. These rules of logic are a formal distillation of laws that were thought to underlie human thinking. They play a central role in the design of computers, starting with digital logic design or the fundamental principles behind the design of digital circuits. At a more advanced level, these rules of logic play an indispensable role in artificial intelligence, one of whose ultimate goals is to emulate human thought on a computer.</p>
+<h4 id="organization-of-this-note">Organization of this Note</h4>
+<p>We begin in <a href="#scn:facts">Notation and Basic Facts</a> by setting notation and stating basic mathematical facts used throughout this note. We next introduce four different proof techniques: <a href="#scn:direct">Direct Proof</a>, <a href="#scn:contrapositive">Proof by Contraposition</a>, <a href="#scn:contradiction">Proof by Contradiction</a>, and <a href="#scn:cases">Proof by Cases</a>. We then briefly discuss common pitfalls in and stylistic advice for proofs (<a href="#scn:errors">Common Errors when Writing Proofs</a> and <a href="#scn:style">Style and Substance in Proofs</a>, respectively). We close with <a href="#scn:exercises">Exercises</a>.</p>
+<h1 id="scn:facts">Notation and Basic Facts</h1>
+<p>In this note, we use the following notation and basic mathematical facts. Let <span class="math inline">\(\mathbb{Z}\)</span> denote the set of integers, i.e. <span class="math inline">\(\mathbb{Z}=\{\ldots,-2,-1,0,1,2,\ldots\}\)</span>, and <span class="math inline">\(\mathbb{N}\)</span> the set of natural numbers <span class="math inline">\(\mathbb{N}=\{0,1,2,\ldots\}\)</span>. Recall that the sum or product of two integers is an integer, i.e. the set of integers is <em>closed</em> under addition and multiplication. The set of natural numbers is also closed under addition and multiplication.</p>
+<p>Given integers <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, we say that <span class="math inline">\(a\)</span> divides <span class="math inline">\(b\)</span> (denoted <span class="math inline">\(a \mid b\)</span>) iff there exists an integer <span class="math inline">\(q\)</span> such that <span class="math inline">\(b=aq\)</span>. For example, <span class="math inline">\(2 \mid 10\)</span> because there exists an integer <span class="math inline">\(q=5\)</span> such that <span class="math inline">\(10=5\cdot 2\)</span>. We say a natural number <span class="math inline">\(p\)</span> is <em>prime</em> if it is divisible only by <span class="math inline">\(1\)</span> and itself.</p>
+<p>Finally, we use the notation <span class="math inline">\(:=\)</span> to indicate a definition. For example, <span class="math inline">\(q:=6\)</span> defines variable <span class="math inline">\(q\)</span> as having value <span class="math inline">\(6\)</span>.</p>
+<h1 id="scn:direct">Direct Proof</h1>
+<p>With the language of propositional logic from Note 0 under our belts, we can now discuss proof techniques, and the real fun can begin. Are you ready? If so, here is our first technique, known as a <em>direct proof</em>. Throughout this section, keep in mind that our goal is give clear and concise proofs. Let’s begin with a very simple example.</p>
+<p><span id="thm:divides" class="pandoc-numbering-text thm"><strong>Theorem 1</strong></span></p>
+<p><em>For any <span class="math inline">\(a,b,c\in \mathbb{Z}\)</span>, if <span class="math inline">\(a \mid b\)</span> and <span class="math inline">\(a \mid c\)</span>, then <span class="math inline">\(a \mid (b+c)\)</span>.</em></p>
+<blockquote>
+<p><em>Sanity check!</em> Let <span class="math inline">\(P(x, y)\)</span> denote “<span class="math inline">\(x \mid y\)</span>”. Convince yourself that the statement above is equivalent to <span class="math inline">\((\forall a,b, c \in \mathbb{Z}) (P(a,b) \land P(a, c)) \implies P(a,b+c))\)</span>.</p>
+</blockquote>
+<p>At a high level, a direct proof proceeds as follows. For each <span class="math inline">\(x\)</span>, the proposition we are trying to prove is of the form <span class="math inline">\(P(x) \implies Q(x)\)</span>. A direct proof of this starts by assuming <span class="math inline">\(P(x)\)</span> for a generic value of <span class="math inline">\(x\)</span> and eventually concludes <span class="math inline">\(Q(x)\)</span> through a chain of implications:</p>
+<p><strong>Direct Proof</strong></p>
+<table style="width:56%;">
+<colgroup>
+<col width="19%" />
+<col width="36%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td align="center"><em>Goal</em>:</td>
+<td align="center">To prove <span class="math inline">\(P \implies Q\)</span>.</td>
+</tr>
+<tr class="even">
+<td align="center"><em>Approach</em>:</td>
+<td align="center">Assume <span class="math inline">\(P\)</span><br />
+<span class="math inline">\(\vdots\)</span><br />
+Therefore <span class="math inline">\(Q\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><em>Proof of <a href="#thm:divides">Theorem 1</a></em>. Assume that <span class="math inline">\(a \mid b\)</span> and <span class="math inline">\(a \mid c\)</span>, i.e. there exist integers <span class="math inline">\(q_1\)</span> and <span class="math inline">\(q_2\)</span> such that <span class="math inline">\(b=q_1a\)</span> and <span class="math inline">\(c=q_2a\)</span>. Then, <span class="math inline">\(b+c=q_1a+q_2a=(q_1+q_2)a\)</span>. Since the <span class="math inline">\(\mathbb{Z}\)</span> is closed under addition, we conclude that <span class="math inline">\((q_1+q_2)\in\mathbb{Z}\)</span>, and so <span class="math inline">\(a \mid (b+c)\)</span>, as desired. <span class="math inline">\(\square\)</span></p>
+<p>Easy as pie, right? But wait, earlier we said <a href="#thm:divides">Theorem 1</a> was equivalent to <span class="math inline">\((\forall a,b,c\in\mathbb{Z})\;(P(a,b)\wedge P(a,c))\implies P(a,b+c))\)</span>; where in the proof above did we encounter the <span class="math inline">\(\forall\)</span> quantifier? The key insight is that the proof did not assume any <em>specific</em> values for <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(c\)</span>; indeed, our proof holds for <span>arbitrary</span> <span class="math inline">\(a,b,c\in\mathbb{Z}\)</span>! Thus, we have indeed proven the desired claim.</p>
+<blockquote>
+<p><em>Sanity check!</em> Give a direct proof of the following statement: For any <span class="math inline">\(a,b, c \in \mathbb{Z}\)</span>, if <span class="math inline">\(a \mid b\)</span> and <span class="math inline">\(a\mid c\)</span>, then <span class="math inline">\(a \mid (b−c)\)</span>.</p>
+</blockquote>
+<p>Let’s try something a little more challenging.</p>
+<p><span id="thm:sumdigits" class="pandoc-numbering-text thm"><strong>Theorem 2</strong></span></p>
+<p><em>Let <span class="math inline">\(0&lt;n&lt;1000\)</span> be an integer. If the sum of the digits of <span class="math inline">\(n\)</span> is divisible by <span class="math inline">\(9\)</span>, then <span class="math inline">\(n\)</span> is divisible by <span class="math inline">\(9\)</span>.</em></p>
+<p>Observe that this statement is equivalent to <span class="math display">\[(\forall n\in\mathbb{Z}^+)(n &lt;1000) \implies (\text{sum of $n$&#39;s digits divisible by $9$}\implies \text{$n$ divisible by $9$}),\]</span> where <span class="math inline">\(\mathbb{Z}^+\)</span> denotes the set of positive integers, <span class="math inline">\(\{1,2,\ldots\}\)</span>. Now the proof proceeds similarly — we start by assuming, for a generic value of <span class="math inline">\(n\)</span>, that the sum of <span class="math inline">\(n\)</span>’s digits is divisible by <span class="math inline">\(9\)</span>. Then we perform a sequence of implications to conclude that <span class="math inline">\(n\)</span> itself is divisible by <span class="math inline">\(9\)</span>.</p>
+<p><em>Proof of <a href="#thm:sumdigits">Theorem 2</a></em>. Let <span class="math inline">\(n\)</span> in decimal be written as <span class="math inline">\(n=abc\)</span>, i.e. <span class="math inline">\(n=100a+10b+c\)</span>. Assume that the sum of the digits of <span class="math inline">\(n\)</span> is divisible by <span class="math inline">\(9\)</span>, i.e. <a name="eq:a+b+c"></a><span style="display: inline-block; position: relative; width: 100%"><span class="math display">\[\exists k\in\mathbb{Z} \quad\text{such that}\quad a+b+c = 9k.\]</span><span style="position: absolute; right: 0em; top: 50%; line-height:0; text-align: right">(1)</span></span>  Adding <span class="math inline">\(99a + 9b\)</span> to both sides of Equation <a href="#eq:a+b+c">1</a>, we have <span class="math display">\[100a+10b+c = n=9k + 99a + 9b = 9(k+11a+b).\]</span> We conclude that <span class="math inline">\(n\)</span> is divisible by <span class="math inline">\(9\)</span>. <span class="math inline">\(\square\)</span></p>
+<p>Is the converse of <a href="#thm:sumdigits">Theorem 2</a> also true? Recall that the <em>converse</em> of <span class="math inline">\(P\implies Q\)</span> is <span class="math inline">\(Q\implies P\)</span>. The converse of <a href="#thm:sumdigits">Theorem 2</a> says that for any integer <span class="math inline">\(0&lt;n&lt;1000\)</span>, if <span class="math inline">\(n\)</span> is divisible by <span class="math inline">\(9\)</span>, then the sum of the digits of <span class="math inline">\(n\)</span> is divisible by <span class="math inline">\(9\)</span>.</p>
+<p><span id="thm:converse" class="pandoc-numbering-text thm"><strong>Theorem 3</strong> <em>(Converse of <a href="#thm:sumdigits">Theorem 2</a>)</em></span></p>
+<p><em>Let <span class="math inline">\(0&lt;n&lt;1000\)</span> be an integer. If <span class="math inline">\(n\)</span> is divisible by <span class="math inline">\(9\)</span>, then the sum of the digits of <span class="math inline">\(n\)</span> is divisible by <span class="math inline">\(9\)</span>.</em></p>
+<p><em>Proof</em>. Assume that <span class="math inline">\(n\)</span> is divisible by <span class="math inline">\(9\)</span>. We use the same notation for the digits of <span class="math inline">\(n\)</span> as we used in <a href="#thm:sumdigits">Theorem 2</a>’s proof. We proceed as follows. <span class="math display">\[\begin{align*}
+n\text{ is divisible by }9 &amp;\implies n=9l\quad\text{ for }l \in \mathbb{Z}\\
+&amp;\implies 100a + 10b + c = 9l\\
+&amp;\implies 99a+9b + (a+b+c) = 9l\\
+&amp;\implies a+b+c = 9l-99a-9b\\
+&amp;\implies a+b+c = 9(l-11a-b)\\
+&amp;\implies a+b+c = 9k \quad\text{ for } k=l-11a-b\in\mathbb{Z}.\end{align*}\]</span> We conclude that <span class="math inline">\(a+b+c\)</span> is divisible by <span class="math inline">\(9\)</span>. <span class="math inline">\(\square\)</span></p>
+<p>We now come to the moral of this story. We have shown both <a href="#thm:sumdigits">Theorem 2</a> and its converse, <a href="#thm:converse">Theorem 3</a>. This means that the sum of the digits of <span class="math inline">\(n\)</span> is divisible by <span class="math inline">\(9\)</span> <em>if and only if</em> <span class="math inline">\(n\)</span> is divisible by <span class="math inline">\(9\)</span>; in other words, these two statements are logically equivalent. So the key lesson is this: Whenever you wish to prove an equivalence <span class="math inline">\(P\iff Q\)</span>, always proceed by showing <span class="math inline">\(P\implies Q\)</span> and <span class="math inline">\(Q\implies P\)</span> separately (as we have done here).</p>
+<h1 id="scn:contrapositive">Proof by Contraposition</h1>
+<p>We now move to our second proof technique. Recall from our discussion on propositional logic that any implication <span class="math inline">\(P\implies Q\)</span> is equivalent to its <span>contrapositive</span> <span class="math inline">\(\neg Q\implies \neg P\)</span>. Yet, sometimes <span class="math inline">\(\neg Q\implies \neg P\)</span> can be much simpler to prove than <span class="math inline">\(P\implies Q\)</span>. Thus, a proof by contraposition proceeds by proving <span class="math inline">\(\neg Q\implies \neg P\)</span> instead of <span class="math inline">\(P\implies Q\)</span>.</p>
+<p><strong>Proof by Contraposition</strong></p>
+<table>
+<colgroup>
+<col width="19%" />
+<col width="80%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td align="center"><em>Goal</em>:</td>
+<td align="center">To prove <span class="math inline">\(P \implies Q\)</span>.</td>
+</tr>
+<tr class="even">
+<td align="center"><em>Approach</em>:</td>
+<td align="center">Assume <span class="math inline">\(\neg Q\)</span><br />
+<span class="math inline">\(\vdots\)</span><br />
+Therefore <span class="math inline">\(\neg P\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><em>Conclusion</em>:</td>
+<td align="center"><span class="math inline">\(\neg Q \implies \neg P\)</span>, which is equivalent to <span class="math inline">\(P \implies Q\)</span>.</td>
+</tr>
+</tbody>
+</table>
+<p>Consider now the following theorem:</p>
+<p><span id="thm:oddodd" class="pandoc-numbering-text thm"><strong>Theorem 4</strong></span></p>
+<p><em>Let <span class="math inline">\(n\)</span> be a positive integer and let <span class="math inline">\(d\)</span> divide <span class="math inline">\(n\)</span>. If <span class="math inline">\(n\)</span> is odd then <span class="math inline">\(d\)</span> is odd.</em></p>
+<p>Proving this via the technique of direct proof seems difficult; we would assume <span class="math inline">\(n\)</span> is odd in Step 1, but then what? An approach via contraposition, on the other hand, turns out to be much easier.</p>
+<blockquote>
+<p><em>Sanity check!</em> What is the contrapositive of <a href="#thm:oddodd">Theorem 4</a>? (<em>Answer</em>: If <span class="math inline">\(d\)</span> is even, then <span class="math inline">\(n\)</span> is even.)</p>
+</blockquote>
+<p><em>Proof of <a href="#thm:oddodd">Theorem 4</a></em>. We proceed by contraposition. Assume that <span class="math inline">\(d\)</span> is even. Then, by definition, <span class="math inline">\(d=2k\)</span> for some <span class="math inline">\(k\in \mathbb{Z}\)</span>. Because <span class="math inline">\(d \mid n\)</span>, <span class="math inline">\(n=dl\)</span>, for some <span class="math inline">\(l \in \mathbb{Z}\)</span>. Combining these two statements, we have <span class="math inline">\(n=dl=(2k)l=2(kl)\)</span>. We conclude that <span class="math inline">\(n\)</span> is even. <span class="math inline">\(\square\)</span></p>
+<p>Note that this time, the first line of our proof stated our proof technique — this is good practice for any proof, similar to how commenting code is good practice when programming. Stating your proof technique like this is an enormous aid to your reader in understanding where your proof will go next. (Let us not forget that a reader who understands your proof, such a teaching assistant or instructor, is much more likely to give you a good grade for it!)</p>
+<h1 id="scn:contradiction">Proof by Contradiction</h1>
+<p>Of all the proof techniques we discuss in this note, it’s perhaps hardest to resist the appeal of this one; after all, who wouldn’t want to use a technique known as <span><em>reductio ad absurdum</em></span>, i.e. reduction to an absurdity? The idea in a proof by contradiction is to assume that the claim you wish to prove is <em>false</em> (yes, this seems backwards, but bear with us). Then, you show that this leads to a conclusion which is utter nonsense: A contradiction. Hence, you conclude that your claim must in fact have been true.</p>
+<blockquote>
+<p><em>Sanity check!</em> A proof by contradiction relies crucially on the fact that if a proposition is not false, then it must be true. Which law from a previous lecture embodied this black or white interpretation of a statement?</p>
+</blockquote>
+<p><strong>Proof by Contradiction</strong></p>
+<table>
+<colgroup>
+<col width="18%" />
+<col width="81%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td align="center"><em>Goal</em>:</td>
+<td align="center">To prove <span class="math inline">\(P\)</span>.</td>
+</tr>
+<tr class="even">
+<td align="center"><em>Approach</em>:</td>
+<td align="center">Assume <span class="math inline">\(\neg P\)</span><br />
+<span class="math inline">\(\vdots\)</span><br />
+<span class="math inline">\(R\)</span><br />
+<span class="math inline">\(\vdots\)</span><br />
+<span class="math inline">\(\neg R\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><em>Conclusion</em>:</td>
+<td align="center"><span class="math inline">\(\neg P \implies \neg R \land R\)</span>, which is a contradiction. Thus, <span class="math inline">\(P\)</span>.</td>
+</tr>
+</tbody>
+</table>
+<p>If you are not convinced by the intuitive explanation thus far as to why proof by contradiction works, here is the formal reasoning: A proof by contradiction shows that <span class="math inline">\(\neg P\implies \neg R\wedge R\equiv\text{False}\)</span>. The contrapositive of this statement is hence <span class="math inline">\(\text{True}\implies P\)</span>.</p>
+<p>Let us now take this proof technique on a trial run. Note that in doing so, we are continuing a long-standing legacy — the proof of the theorem below dates back more than 2000 years to the ancient Greek mathematician, Euclid of Alexandria!<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<p><span id="thm:infiniteprimes" class="pandoc-numbering-text thm"><strong>Theorem 5</strong></span></p>
+<p><em>There are infinitely many prime numbers.</em></p>
+<p>To appreciate the power of contradiction, let us pause for a moment to ponder how we might try to prove <a href="#thm:infiniteprimes">Theorem 5</a> via a different proof technique, such as, say, a direct proof. It seems very difficult, right? How would you construct infinitely many prime numbers? The remarkable thing about contradiction, however, is that if we assume the statement is false, i.e. there are only finitely many primes, bad things will happen.</p>
+<p>To proceed, we now state a simple lemma which is handy in showing <a href="#thm:infiniteprimes">Theorem 5</a>. Its proof will be deferred to a future lecture in which we learn about induction.</p>
+<p><span id="lem:prime" class="pandoc-numbering-text lem"><strong>Lemma 1</strong></span></p>
+<p><em>Every natural number greater than one is either prime or has a prime divisor.</em></p>
+<p><em>Proof of <a href="#thm:infiniteprimes">Theorem 5</a></em>. We proceed by contradiction. Suppose that <a href="#thm:infiniteprimes">Theorem 5</a> is false, i.e. that there are only finitely many primes, say <span class="math inline">\(k\)</span> of them. Then, we can enumerate them: <span class="math inline">\(p_1, p_2, p_3, \ldots, p_k\)</span>.</p>
+<p>Now, define number <span class="math inline">\(q:=p_1 p_2 p_3 \dotsm p_k + 1\)</span>, which is the product of all primes plus one. We claim that <span class="math inline">\(q\)</span> cannot be prime. Why? Because by definition, it is larger than all the primes <span class="math inline">\(p_1\)</span> through <span class="math inline">\(p_k\)</span>! By <a href="#lem:prime">Lemma 1</a>, we therefore conclude that <span class="math inline">\(q\)</span> has a prime divisor, <span class="math inline">\(p\)</span>. This will be our statement <span class="math inline">\(R\)</span>.</p>
+<p>Next, because <span class="math inline">\(p_1, \ldots, p_k\)</span> are all the primes, <span class="math inline">\(p\)</span> must be equal to one of them; thus, <span class="math inline">\(p\)</span> divides <span class="math inline">\(r:=p_1 p_2 p_3 \dotsm p_k\)</span>. Hence, <span class="math inline">\(p \mid q\)</span> and <span class="math inline">\(p \mid r\)</span>, implying <span class="math inline">\(p \mid (q-r)\)</span>. But <span class="math inline">\(q-r=1\)</span>, implying <span class="math inline">\(p\leq 1\)</span>, and hence <span class="math inline">\(p\)</span> is not prime; this is the statement <span class="math inline">\(\neg R\)</span>. We thus have <span class="math inline">\(R\wedge \neg R\)</span>, which is a contradiction, as desired. <span class="math inline">\(\square\)</span></p>
+<p>Now that we’re warmed up, let’s tackle another classic proof involving contradictions. Recall that a <strong>rational number</strong> is a number that can be expressed as the ratio of two integers. For example, <span class="math inline">\(2/3\)</span>, <span class="math inline">\(3/5\)</span>, and <span class="math inline">\(9/16\)</span> are rational numbers. Numbers which <em>cannot</em> be expressed as fractions, on the other hand, are called <strong>irrational</strong>. Now, how about <span class="math inline">\(\sqrt{2}\)</span>? Do you think it’s rational or irrational? The answer is as follows.</p>
+<p><span id="thm:irrational" class="pandoc-numbering-text thm"><strong>Theorem 6</strong></span></p>
+<p><em><span class="math inline">\(\sqrt{2}\)</span> is irrational.</em></p>
+<p>Before giving the proof, let us ask a crucial question: Why should contradiction be a good candidate proof technique to try here? Well, consider this: <a href="#thm:infiniteprimes">Theorem 5</a> and <a href="#thm:irrational">Theorem 6</a> share something fundamental in common — in both cases, we wish to show that something <em>doesn’t</em> exist. For example, for <a href="#thm:infiniteprimes">Theorem 5</a>, we wished to show that a largest prime doesn’t exist, and for <a href="#thm:irrational">Theorem 6</a>, we wish to show that integers <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> satisfying <span class="math inline">\(\sqrt{2}=a/b\)</span> don’t exist. In general, proving that something <em>doesn’t</em> exist seems difficult. But this is actually one setting in which proof by contradiction shines.</p>
+<p>To prove <a href="#thm:irrational">Theorem 6</a>, we use the following simple lemma. In <a href="#scn:exercises">Exercises</a>, we ask you to prove <a href="#lem:asquared">Lemma 2</a>.</p>
+<p><span id="lem:asquared" class="pandoc-numbering-text lem"><strong>Lemma 2</strong></span></p>
+<p><em>If <span class="math inline">\(a^2\)</span> is even, then <span class="math inline">\(a\)</span> is even.</em></p>
+<p><em>Proof of <a href="#thm:irrational">Theorem 6</a></em>. We proceed by contradiction. Assume that <span class="math inline">\(\sqrt{2}\)</span> is rational. By the definition of rational numbers, there are integers <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> with no common factor other than 1, such that <span class="math inline">\(\sqrt{2} = a/b\)</span>. Let our assertion <span class="math inline">\(R\)</span> state that <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> share no common factors.</p>
+<p>Now, for any numbers <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, we know that <span class="math inline">\(x = y \implies x^2 = y^2\)</span>. Hence <span class="math inline">\(2 = {a^2}/{b^2}\)</span>. Multiplying both sides by <span class="math inline">\(b^2\)</span>, we have <span class="math inline">\(a^2 = 2b^2\)</span>. Since <span class="math inline">\(b\)</span> is an integer, it follows that <span class="math inline">\(b^2\)</span> is an integer, and thus <span class="math inline">\(a^2\)</span> is even (by the definition of evenness). Plugging in <a href="#lem:asquared">Lemma 2</a>, we hence have that <span class="math inline">\(a\)</span> is even. In other words, there exists integer <span class="math inline">\(c\)</span> such that <span class="math inline">\(a = 2c\)</span>.</p>
+<p>Combining all our facts thus far, we have that <span class="math inline">\(2b^2 = 4 c^2\)</span>, or <span class="math inline">\(b^2 = 2 c^2\)</span>. Since <span class="math inline">\(c\)</span> is an integer, <span class="math inline">\(c^2\)</span> is an integer, and hence <span class="math inline">\(b^2\)</span> is even. Thus, again applying <a href="#lem:asquared">Lemma 2</a>, we conclude that <span class="math inline">\(b\)</span> is even.</p>
+<p>But we have just shown that both <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are even. In particular, this means they share the common factor 2. This implies <span class="math inline">\(\neg R\)</span>. We conclude that <span class="math inline">\(R\land \neg R\)</span> holds; thus, we have a contradiction, as desired. <span class="math inline">\(\square\)</span></p>
+<h1 id="scn:cases">Proof by Cases</h1>
+<p>Here is a proof to tickle your fancy; it relies on another proof technique known as proof by <em>cases</em>, which we will touch on informally in this section. Specifically, the idea behind a proof by cases is as follows: Sometimes when we wish to prove a claim, we don’t know which of a set of possible cases is true, but we know that <em>at least one</em> of the cases is true. What we can do then is to prove the result in <em>both</em> cases; then, clearly the general statement must hold.</p>
+<p><span id="thm:xy" class="pandoc-numbering-text thm"><strong>Theorem 7</strong></span></p>
+<p><em>There exist irrational numbers <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> such that <span class="math inline">\(x^y\)</span> is rational.</em></p>
+<p><em>Proof</em>. We proceed by cases. Note that the statement of the theorem is quantified by an existential quantifier: Thus, to prove our claim, it suffices to demonstrate a single <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> such that <span class="math inline">\(x^y\)</span> is rational. To do so, let <span class="math inline">\(x=\sqrt{2}\)</span> and <span class="math inline">\(y=\sqrt{2}\)</span>. Let us divide our proof into two cases, exactly one of which must be true:</p>
+<ol style="list-style-type: decimal">
+<li><p><span class="math inline">\(\sqrt{2}^{\sqrt{2}}\)</span> is rational, or</p></li>
+<li><p><span class="math inline">\(\sqrt{2}^{\sqrt{2}}\)</span> is irrational.</p></li>
+</ol>
+<p>(Case 1) Assume first that <span class="math inline">\(\sqrt{2}^{\sqrt{2}}\)</span> is rational. But this immediately yields our claim, since <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are irrational numbers such that <span class="math inline">\(x^y\)</span> is rational.</p>
+<p>(Case 2) Assume now that <span class="math inline">\(\sqrt{2}^{\sqrt{2}}\)</span> is irrational. Our first guess for <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> was not quite right, but now we have a new irrational number to play with, <span class="math inline">\(\sqrt{2}^{\sqrt{2}}\)</span>. So, let’s try setting <span class="math inline">\(x=\sqrt{2}^{\sqrt{2}}\)</span> and <span class="math inline">\(y=\sqrt{2}\)</span>. Then, <span class="math display">\[x^y  =  \left(\sqrt{2}^{\sqrt{2}}\right)^{\sqrt{2}}
+        =  \sqrt{2}^{\sqrt{2}\sqrt{2}}
+        =  \sqrt{2}^2 = 2,\]</span> where the second equality follows from the axiom <span class="math inline">\((x^y)^z=x^{yz}\)</span>. But now we again started with two irrational numbers <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> and obtained rational <span class="math inline">\(x^y\)</span>.</p>
+<p>Since one of Case 1 or Case 2 must hold, we thus conclude that the statement of <a href="#thm:xy">Theorem 7</a> is true. <span class="math inline">\(\square\)</span></p>
+<p>Before closing, let us point out a peculiarity of the proof above. What were the <em>actual</em> numbers <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> satisfying the claim of <a href="#thm:xy">Theorem 7</a>? Were they <span class="math inline">\(x=\sqrt{2}\)</span> and <span class="math inline">\(y=\sqrt{2}\)</span>? Or <span class="math inline">\(x=\sqrt{2}^{\sqrt{2}}\)</span> and <span class="math inline">\(y=\sqrt{2}\)</span>? Well, since we did a case analysis, it’s not clear which of the two choices is actually the correct one. In other words, we have just demonstrated something rather remarkable known as a <strong>non-constructive</strong> proof: We’ve proven that some object <span class="math inline">\(X\)</span> exists, but without explicitly revealing what <span class="math inline">\(X\)</span> itself is!</p>
+<h1 id="scn:errors">Common Errors when Writing Proofs</h1>
+<p>The ability to write clean and concise proofs is a remarkable thing, and is arguably among the highest forms of intellectual enlightenment one can achieve. It requires your mind to critically reflect on its own inner workings (i.e. your thought processes), and reorganize them into a coherent and logical sequence of thoughts. In other words, your mind is improving itself at a very fundamental level, far transcending the boundaries of computer science or any particular area of study. The benefits of this training will touch every aspect of your life as you know it; indeed, it will shape the way you approach life itself.</p>
+<p>As with any such fundamental achievement, developing the ability to write rigorous proofs is likely among the most difficult learning challenges you will face in university, so do not despair if it gives you trouble; you are not alone. There is simply no substitute here for lots and lots of practice. To help get you started on your way, we now raise some red flags regarding common pitfalls in composing proofs. Let us begin with a simple, but common error.</p>
+<p><strong>Claim:</strong> <span class="math inline">\(-2 = 2\)</span>.</p>
+<p><strong>Proof?</strong> Assume <span class="math inline">\(-2 = 2\)</span>. Squaring both sides, we have <span class="math inline">\((-2)^2 = 2^2\)</span>, or <span class="math inline">\(4 = 4\)</span>, which is true. We conclude that <span class="math inline">\(-2 = 2\)</span>, as desired. <span class="math inline">\(\spadesuit\)</span></p>
+<p>The theorem is obviously false, so what did we do wrong? Our arithmetic is correct, and each step rigorously follows from the previous step. So, the error must lie in the very beginning of the proof, where we made a brazen assumption: That <span class="math inline">\(-2=2\)</span>. But wait, wasn’t this the very statement we were trying to prove? Exactly. In other words, to prove the statement <span class="math inline">\(P\equiv \text{“$-2=2$&quot;}\)</span>, we just proved that <span class="math inline">\(P\implies\text{True}\)</span>, which is not the same as proving <span class="math inline">\(P\)</span>. Lesson #1: When writing proofs, do not assume the claim you aim to prove!</p>
+<p>Lesson #2 is about the number zero: In particular, never forget to consider the case where your variables take on the value <span class="math inline">\(0\)</span>. Otherwise, this can happen:</p>
+<p><strong>Claim:</strong> <span class="math inline">\(1 = 2\)</span>.</p>
+<p><strong>Proof?</strong> Assume that <span class="math inline">\(x=y\)</span> for integers <span class="math inline">\(x,y\in\mathbb{Z}\)</span>. Then, <span class="math display">\[\begin{align*}
+    x^2-xy &amp;= x^2-y^2 &amp;&amp; \text{(since $x=y$)}\\
+    x(x-y) &amp;= (x+y)(x-y) &amp;&amp;\\
+    x &amp;= x+y &amp;&amp;\text{(divide both sides by $x-y$)}\\
+    x &amp;= 2x.\end{align*}\]</span> Setting <span class="math inline">\(x=y=1\)</span> yields the claim. <span class="math inline">\(\spadesuit\)</span></p>
+<p>But, clearly <span class="math inline">\(1\neq 2\)</span>, unless your grade school teachers were lying to you. Where did we go wrong? In deriving the third equality, we divided by <span class="math inline">\((x-y)\)</span>. What is the value of <span class="math inline">\((x-y)\)</span> in our setting? Zero. Dividing by zero is not well-defined; thus the third equality does not hold.</p>
+<p>Lesson #3 says to be careful when mixing negative numbers and inequalities. For example:</p>
+<p><strong>Claim:</strong> <span class="math inline">\(4 \leq 1\)</span>.</p>
+<p><strong>Proof?</strong> We know that <span class="math inline">\(-2\leq 1\)</span>; squaring both sides of this inequality yields <span class="math inline">\(4 \leq 1\)</span>. <span class="math inline">\(\spadesuit\)</span></p>
+<blockquote>
+<p><em>Sanity check!</em> To see why this proof fails, ask yourself this: If <span class="math inline">\(a \le b\)</span>, is it necessarily true that <span class="math inline">\(|a| \le |b|\)</span>? Can you give a counterexample?</p>
+</blockquote>
+<p>In addition, do not forget that multiplying an inequality by a negative number flips the direction of the inequality! For example, multiplying both sides of <span class="math inline">\(-2 &lt; 5\)</span> by <span class="math inline">\(-1\)</span> yields <span class="math inline">\(2 &gt; -5\)</span>, as you would expect.</p>
+<h1 id="scn:style">Style and Substance in Proofs</h1>
+<p>We conclude with some general words of advice. First, get in the habit of thinking carefully before you write down the next sentence of your proof. If you cannot explain clearly why the step is justified, you are making a leap and you need to go back and think some more. In theory, each step in a proof must be justified by appealing to a definition or general axiom. In practice the depth to which one must do this is a matter of taste. For example, we could break down the step, “Since <span class="math inline">\(a\)</span> is an integer, <span class="math inline">\((2a^2 + 2a)\)</span> is an integer,” into several more steps. [Exercise: What are they?] A justification can be stated without proof only if you are absolutely confident that (1) it is correct and (2) the reader will automatically agree that it is correct.</p>
+<p>Notice that in the proof that <span class="math inline">\(\sqrt{2}\)</span> is irrational, we used the result, “For any integer <span class="math inline">\(n\)</span>, if <span class="math inline">\(n^2\)</span> is even then <span class="math inline">\(n\)</span> is even,” twice. This suggests that it may be a useful fact in many proofs. A subsidiary result that is useful in a more complex proof is called a <span><em>lemma</em></span>. It is often a good idea to break down a long proof into several lemmas. This is similar to the way in which large programming tasks should be divided up into smaller subroutines. Furthermore, make each lemma (like each subroutine) as general as possible so it can be reused elsewhere.</p>
+<p>The dividing line between lemmas and theorems is not clear-cut. Usually, when writing a paper, the theorems are those propositions that you want to “export” from the paper to the rest of the world, whereas the lemmas are propositions used locally in the proofs of your theorems. There are, however, some lemmas (for example, the Pumping Lemma and the Lifting Lemma) that are perhaps more famous and important than the theorems they were used to prove.</p>
+<p>Finally, you should remember that the point of this lecture was not the specific statements we proved, but the different proof strategies, and their logical structure. Make sure you understand them clearly; you will be using them when you write your own proofs in homework and exams.</p>
+<h1 id="scn:exercises">Exercises</h1>
+<ol style="list-style-type: decimal">
+<li><p>Generalize the proof of <a href="#thm:sumdigits">Theorem 2</a> so that it works for <span><em>any</em></span> positive integer <span class="math inline">\(n\)</span>. [<em>Hint</em>: Suppose <span class="math inline">\(n\)</span> has <span class="math inline">\(k\)</span> digits, and write <span class="math inline">\(a_i\)</span> for the digits of <span class="math inline">\(n\)</span>, so that <span class="math inline">\(n=\sum_{i=0}^{k-1} (a_i\cdot10^i)\)</span>.]</p></li>
+<li><p>Prove <a href="#lem:asquared">Lemma 2</a>. [<em>Hint</em>: First try a direct proof. Then, try contraposition. Which proof approach is better suited to proving this lemma?]</p></li>
+</ol>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>It is perhaps worth pausing here to appreciate the true scale of this statement — after all, how many aspects of our human heritage remain relevant after multiple millenia? Music? Fashion? All of these are quickly outdated with time. But mathematics is, in a sense, timeless.<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
+</article>
+</body>
+
+<!-- Mirrored from www.eecs70.org/static/notes/n2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:38:18 GMT -->
+</html>

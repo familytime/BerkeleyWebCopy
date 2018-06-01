@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/hw/hw2/hw2 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>HW 2: Percolation | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">HW 2: Percolation</header><ul id="markdown-toc">
+  <li><a href="#getting-the-skeleton-files" id="markdown-toc-getting-the-skeleton-files">Getting the Skeleton Files</a></li>
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#percolationjava" id="markdown-toc-percolationjava"><code class="highlighter-rouge">Percolation.java</code></a></li>
+  <li><a href="#percolationstatsjava" id="markdown-toc-percolationstatsjava"><code class="highlighter-rouge">PercolationStats.java</code></a></li>
+  <li><a href="#runtime-analysis-ungraded" id="markdown-toc-runtime-analysis-ungraded">Runtime Analysis (Ungraded)</a></li>
+  <li><a href="#provided-files" id="markdown-toc-provided-files">Provided Files</a></li>
+  <li><a href="#submission" id="markdown-toc-submission">Submission</a></li>
+  <li><a href="#faq" id="markdown-toc-faq">FAQ</a>    <ul>
+      <li><a href="#what-should-stddev-return-if-t-equals-1" id="markdown-toc-what-should-stddev-return-if-t-equals-1">What should <code class="highlighter-rouge">stddev()</code> return if T equals 1?</a></li>
+      <li><a href="#after-the-system-has-percolated-percolationvisualizer-colors-in-light-blue-all-sites-connected-to-open-sites-on-the-bottom-in-addition-to-those-connected-to-open-sites-on-the-top-is-this-backwash-acceptable" id="markdown-toc-after-the-system-has-percolated-percolationvisualizer-colors-in-light-blue-all-sites-connected-to-open-sites-on-the-bottom-in-addition-to-those-connected-to-open-sites-on-the-top-is-this-backwash-acceptable">After the system has percolated, <code class="highlighter-rouge">PercolationVisualizer</code> colors in light blue all sites connected to open sites on the bottom (in addition to those connected to open sites on the top). Is this “backwash” acceptable?</a></li>
+      <li><a href="#how-do-i-generate-a-site-uniformly-at-random-among-all-blocked-sites-for-use-in-percolationstats" id="markdown-toc-how-do-i-generate-a-site-uniformly-at-random-among-all-blocked-sites-for-use-in-percolationstats">How do I generate a site uniformly at random among all blocked sites for use in <code class="highlighter-rouge">PercolationStats</code>?</a></li>
+      <li><a href="#i-dont-get-reliable-timing-information-in-percolationstats-when-n--200-what-should-i-do" id="markdown-toc-i-dont-get-reliable-timing-information-in-percolationstats-when-n--200-what-should-i-do">I don’t get reliable timing information in <code class="highlighter-rouge">PercolationStats</code> when N = 200. What should I do?</a></li>
+      <li><a href="#im-failing-the-chi-squared-test-but-passing-everything-else" id="markdown-toc-im-failing-the-chi-squared-test-but-passing-everything-else">I’m failing the Chi Squared test but passing everything else.</a></li>
+      <li><a href="#its-telling-me-that-my-code-reports-false-for-percolates-but-when-i-run-the-visualizer-im-getting-true" id="markdown-toc-its-telling-me-that-my-code-reports-false-for-percolates-but-when-i-run-the-visualizer-im-getting-true">It’s telling me that my code reports “false” for <code class="highlighter-rouge">percolates()</code> but when I run the visualizer I’m getting true!</a></li>
+      <li><a href="#my-code-is-compiling-on-my-computer-but-not-on-the-autograder" id="markdown-toc-my-code-is-compiling-on-my-computer-but-not-on-the-autograder">My code is compiling on my computer but not on the autograder.</a></li>
+    </ul>
+  </li>
+  <li><a href="#credits" id="markdown-toc-credits">Credits</a></li>
+</ul>
+
+<h2 id="getting-the-skeleton-files">Getting the Skeleton Files</h2>
+
+<p>As usual, run <code class="highlighter-rouge">git pull skeleton master</code> to get the skeleton files. If you are using IntelliJ, <strong>you must import the project at the outer ‘hw2’ directory level (not the ‘hw2’ directory within the ‘hw2’ directory)</strong>. Otherwise, you will get an error with the packages!</p>
+
+<h2 id="introduction">Introduction</h2>
+<p>In this program, we’ll write a program to estimate the value of the percolation threshold via <a href="https://en.wikipedia.org/wiki/Monte_Carlo_method">Monte Carlo simulation</a>. You will be using a disjoint sets implementation provided as part of the Princeton standard library. You will not be implementing disjoint sets for this homework, as this has already been done for you in the library.</p>
+
+<p><strong>Introductory Video.</strong> An introductory video for this HW can be found at <a href="https://www.youtube.com/watch?v=kIYKCsvG6UI&amp;list=PLNSdoiHk6ujjZs46s6XVXEbZUuF1MIO7g">this link</a>. It is broken into three parts: Intro, Implementation Spoilers, and Optimization Spoilers. Feel free to ignore these spoilers for a more difficult challenge. If you’d prefer to watch a four year old video I made when I was at Princeton, see <a href="https://www.youtube.com/watch?v=o60oHXesOuA">this link</a>.</p>
+
+<p><strong>HW2 Slides.</strong> Slides for this HW can be found <a href="https://docs.google.com/presentation/d/1AV5v-gTSIi5xUwtm-FtkReUmuTA3Mqry1eGjje7OgQo/edit?usp=sharing">here</a>. Because this is a HW and not a project, I give spoilers for how to approach the HW. You may ignore them if you’d like a bigger challenge.</p>
+
+<p><strong>Percolation.</strong> Given a composite systems comprised of randomly distributed insulating and metallic materials: what fraction of the materials need to be metallic so that the composite system is an electrical conductor? Given a porous landscape with water on the surface (or oil below), under what conditions will the water be able to drain through to the bottom (or the oil to gush through to the surface)? Scientists have defined an abstract process known as percolation to model such situations.</p>
+
+<p><strong>The model.</strong> We model a percolation system using an N-by-N grid of sites. Each site is either open or blocked. A full site is an open site that can be connected to an open site in the top row via a chain of neighboring (left, right, up, down) open sites. We say the system percolates if there is a full site in the bottom row. In other words, a system percolates if we fill all open sites connected to the top row and that process fills some open site on the bottom row. (For the insulating/metallic materials example, the open sites correspond to metallic materials, so that a system that percolates has a metallic path from top to bottom, with full sites conducting. For the porous substance example, the open sites correspond to empty space through which water might flow, so that a system that percolates lets water fill open sites, flowing from top to bottom.)</p>
+
+<p><img src="images/percolates.png" alt="percolates" /></p>
+
+<p><strong>The problem.</strong> In a famous scientific problem, researchers are interested in the following question: if sites are independently set to be open with probability p (and therefore blocked with probability 1 − p), what is the probability that the system percolates? When p equals 0, the system does not percolate; when p equals 1, the system percolates. The plots below show the site vacancy probability p versus the percolation probability for 20-by-20 random grid (top) and 100-by-100 random grid (bottom).</p>
+
+<p><img src="images/percolation-threshold20.png" alt="threshold20" />     <img src="images/percolation-threshold100.png" alt="threshold100" /></p>
+
+<p>When $N$ is sufficiently large, there is a threshold value $p^*$ such that when $p &lt; p^*$ a random N-by-N grid almost never percolates, and when $p &gt; p^*$, a random N-by-N grid almost always percolates. No mathematical solution for determining the percolation threshold $p^*$ has yet been derived. Your task is to write a computer program to estimate $p^*$.</p>
+
+<h2 id="percolationjava"><code class="highlighter-rouge">Percolation.java</code></h2>
+
+<p><strong>Percolation data type.</strong> To model a percolation system, create a data type in the hw2 package named <code class="highlighter-rouge">Percolation</code> with the following API:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class Percolation {
+   public Percolation(int N)                // create N-by-N grid, with all sites initially blocked
+   public void open(int row, int col)       // open the site (row, col) if it is not open already
+   public boolean isOpen(int row, int col)  // is the site (row, col) open?
+   public boolean isFull(int row, int col)  // is the site (row, col) full?
+   public int numberOfOpenSites()           // number of open sites
+   public boolean percolates()              // does the system percolate?
+   public static void main(String[] args)   // use for unit testing (not required)
+}
+</code></pre></div></div>
+
+<p><strong>Corner cases.</strong>  By convention, the row and column indices are integers between 0 and <code class="highlighter-rouge">N</code> − 1, where (0, 0) is the upper-left site: Throw a <code class="highlighter-rouge">java.lang.IndexOutOfBoundsException</code> if any argument to <code class="highlighter-rouge">open()</code>, <code class="highlighter-rouge">isOpen()</code>, or <code class="highlighter-rouge">isFull()</code> is outside its prescribed range. The constructor should throw a <code class="highlighter-rouge">java.lang.IllegalArgumentException</code> if <code class="highlighter-rouge">N</code> ≤ 0.</p>
+
+<p><strong>Performance requirements.</strong>  The constructor should take time proportional to $N^2$; all methods should take constant time plus a constant number of calls to the union-find methods <code class="highlighter-rouge">union()</code>, <code class="highlighter-rouge">find()</code>, <code class="highlighter-rouge">connected()</code>, and <code class="highlighter-rouge">count()</code>. Meeting these requirements is somewhat tricky! You might consider creating a solution that simply works, before figuring out a way to make it faster. For tips on meeting the speed requirements, see the video at the beginning of this spec. Your <code class="highlighter-rouge">numberOfOpenSites()</code> method must take constant time. <strong>Your code must use the <code class="highlighter-rouge">WeightedQuickUnionUF</code> class!</strong> Do not reimplement the Union Find ADT. Part of the goal of this assignment is to learn how to cast one problem (Percolation) in terms of an already solved problem (Disjoint Sets, a.k.a Union Find).</p>
+
+<h2 id="percolationstatsjava"><code class="highlighter-rouge">PercolationStats.java</code></h2>
+
+<p><strong>Monte Carlo simulation.</strong> To estimate the percolation threshold, consider the following computational experiment:</p>
+
+<ul>
+  <li>Initialize all sites to be blocked.</li>
+  <li>Repeat the following until the system percolates:
+    <ul>
+      <li>Choose a site uniformly at random among all blocked sites.</li>
+      <li>Open the site.</li>
+      <li>The fraction of sites that are opened when the system percolates provides an estimate of the percolation threshold.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>For example, if sites are opened in a 20-by-20 grid according to the snapshots below, then our estimate of the percolation threshold is 204/400 = 0.51 because the system percolates when the 204th site is opened. The images correspond to the 50, 100, 150, and 204 sites being open, respectively.</p>
+
+<p><img src="images/percolation-50.png" alt="percolation50" />     <img src="images/percolation-100.png" alt="percolation100" />        <img src="images/percolation-150.png" alt="percolation150" />     <img src="images/percolation-204.png" alt="percolation204" /></p>
+
+<p>By repeating this computation experiment $T$ times and averaging the results, we obtain a more accurate estimate of the percolation threshold. Let $x_t$ be the fraction of open sites in computational experiment $t$. The sample mean $\mu$ provides an estimate of the percolation threshold; the sample standard deviation $\sigma$ measures the sharpness of the threshold.</p>
+
+<p>$\mu = \frac{x_1 + x_2 + … + x_T}{T}$, $\sigma^2 = \frac{(x_1 - \mu)^2 + (x_2 - \mu)^2 + … + (x_T - \mu)^2}{T-1}$</p>
+
+<p>Assuming $T$ is sufficiently large (say, at least 30), the following provides a 95% confidence interval for the percolation threshold:</p>
+
+<p>$[\mu - \frac{1.96\sigma}{\sqrt{T}}, \mu + \frac{1.96\sigma}{\sqrt{T}}]$</p>
+
+<p>To perform a series of computational experiments, create a data type in the hw2 package named <code class="highlighter-rouge">PercolationStats</code> with the following API:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class PercolationStats {
+   public PercolationStats(int N, int T, PercolationFactory pf)   // perform T independent experiments on an N-by-N grid
+   public double mean()                                           // sample mean of percolation threshold
+   public double stddev()                                         // sample standard deviation of percolation threshold
+   public double confidenceLow()                                  // low endpoint of 95% confidence interval
+   public double confidenceHigh()                                 // high endpoint of 95% confidence interval
+}
+</code></pre></div></div>
+
+<p>The constructor should throw a <code class="highlighter-rouge">java.lang.IllegalArgumentException</code> if either <code class="highlighter-rouge">N</code> ≤ 0 or <code class="highlighter-rouge">T</code> ≤ 0.</p>
+
+<p>The constructor should take three arguments <code class="highlighter-rouge">N</code>, <code class="highlighter-rouge">T</code>, and <code class="highlighter-rouge">pf</code>, and perform <code class="highlighter-rouge">T</code> independent computational experiments (discussed above) on an <code class="highlighter-rouge">N</code>-by-<code class="highlighter-rouge">N</code> grid. Using this experimental data, it should calculate the mean, standard deviation, and the 95% confidence interval for the percolation threshold.</p>
+
+<p>For this portion of the HW assignment, you must use the <code class="highlighter-rouge">PercolationFactory</code> object <code class="highlighter-rouge">pf</code> to create new <code class="highlighter-rouge">Percolation</code> objects. <strong>You should never call <code class="highlighter-rouge">new Percolation(N)</code> directly in <code class="highlighter-rouge">PercolationStats</code>, for this will mess up autograder testing.</strong> Using the <code class="highlighter-rouge">PercolationFactory</code> object will allow us to use your <code class="highlighter-rouge">PercolationStats</code> implementation with the solution <code class="highlighter-rouge">Percolation</code> implementation to avoid cascading errors.</p>
+
+<p>In addition, you must use <a href="http://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/StdRandom.html"><code class="highlighter-rouge">edu.princeton.cs.introcs.StdRandom</code></a> to generate random numbers because our testing suite relies on this library. You should use <a href="http://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/StdStats.html"><code class="highlighter-rouge">edu.princeton.cs.introcs.StdStats</code></a> to compute the sample mean and standard deviation, but if you’d prefer, you’re welcome to write your own functions to compute statistics.</p>
+
+<h2 id="runtime-analysis-ungraded">Runtime Analysis (Ungraded)</h2>
+
+<p>This part of the HW will not be graded, but it is highly recommended that you at least read though and think about the following points:</p>
+
+<ul>
+  <li>
+    <p>Implement the <code class="highlighter-rouge">Percolation</code> data type using the quick-find algorithm in QuickFindUF. Use <a href="http://introcs.cs.princeton.edu/java/stdlib/Stopwatch.java.html">Stopwatch</a> to measure the total running time of <code class="highlighter-rouge">PercolationStats</code> for various values of <code class="highlighter-rouge">N</code> and <code class="highlighter-rouge">T</code>. How does doubling <code class="highlighter-rouge">N</code> affect the total running time? How does doubling <code class="highlighter-rouge">T</code> affect the total running time? (Edit: An earlier version of this assignment mentioned tilde notation which was removed in the 2018 version of the course).</p>
+  </li>
+  <li>
+    <p>Now, implement the <code class="highlighter-rouge">Percolation</code> data type using the weighted quick-union algorithm in WeightedQuickUnionUF. Answer the same questions in the previous bullet.</p>
+  </li>
+</ul>
+
+<h2 id="provided-files">Provided Files</h2>
+
+<p>We provide two clients that serve as large-scale visual traces. We highly recommend using them for testing and debugging your <code class="highlighter-rouge">Percolation</code> implementation.</p>
+
+<p><strong>Interactive Visualization client.</strong> <code class="highlighter-rouge">InteractivePercolationVisualizer.java</code> animates the results of opening sites in a percolation system, using the mouse as input. It takes a command-line integer <code class="highlighter-rouge">N</code> that specifies the grid size. As a bonus, it prints out the sequence of sites opened in the same format used by <code class="highlighter-rouge">PercolationVisualizer</code> (described below), so you can use it to prepare interesting files for testing. If you design an interesting data file, feel free to share it in the discussion forums.</p>
+
+<p><strong>File-Based Visualization client.</strong> <code class="highlighter-rouge">PercolationVisualizer.java</code> is similar to the first test client except that the input comes from a file (instead of mouse clicks). It visualizes by performing the following steps:</p>
+
+<ul>
+  <li>Read the grid size N from the file.</li>
+  <li>Create an N-by-N grid of sites (initially all blocked).</li>
+  <li>Read in a sequence of sites (row i, column j) to open from the file. After each site is opened, draw full sites in light blue, open sites (that aren’t full) in white, and blocked sites in black using standard draw, with site (0, 0) in the upper left-hand corner.</li>
+</ul>
+
+<p>For the input file, <code class="highlighter-rouge">input20.txt</code>, the program should produce output as shown in the following images. The images correspond to the 50, 100, 150,  204, and 250 sites being open, respectively.</p>
+
+<p><img src="images/percolation-50.png" alt="percolation50" />     <img src="images/percolation-100.png" alt="percolation100" />        <img src="images/percolation-150.png" alt="percolation150" />     <img src="images/percolation-204.png" alt="percolation204" />     <img src="images/percolation-250.png" alt="percolation250" /></p>
+
+<p>You can run the visualizer on this input by passing in <code class="highlighter-rouge">inputFiles/input20.txt</code> to the IntelliJ program’s <code class="highlighter-rouge">Edit Configurations...</code> tab.</p>
+
+<p><strong>Sample data files.</strong> The <code class="highlighter-rouge">inputFiles</code> directory contains some sample files for use with the visualization client, including the <code class="highlighter-rouge">input20.txt</code> that we saw above. Associated with each input <code class="highlighter-rouge">.txt</code> file is an output <code class="highlighter-rouge">.png</code> file that contains the desired graphical output at the end of the visualization.</p>
+
+<h2 id="submission">Submission</h2>
+
+<p>You should submit the usual way, by pushing to GitHub and then submitting on Gradescope.</p>
+
+<h2 id="faq">FAQ</h2>
+
+<h4 id="what-should-stddev-return-if-t-equals-1">What should <code class="highlighter-rouge">stddev()</code> return if T equals 1?</h4>
+<p>The sample standard deviation is undefined. We recommend returning Double.NaN but we will not test this case.</p>
+
+<h4 id="after-the-system-has-percolated-percolationvisualizer-colors-in-light-blue-all-sites-connected-to-open-sites-on-the-bottom-in-addition-to-those-connected-to-open-sites-on-the-top-is-this-backwash-acceptable">After the system has percolated, <code class="highlighter-rouge">PercolationVisualizer</code> colors in light blue all sites connected to open sites on the bottom (in addition to those connected to open sites on the top). Is this “backwash” acceptable?</h4>
+
+<p>While allowing backwash does not strictly conform to the Percolation API, it requires quite a bit of ingenuity to fix and it leads to only a small deduction if you don’t.</p>
+
+<p><img src="images/percolation-backwash.png" alt="percolation" /></p>
+
+<h4 id="how-do-i-generate-a-site-uniformly-at-random-among-all-blocked-sites-for-use-in-percolationstats">How do I generate a site uniformly at random among all blocked sites for use in <code class="highlighter-rouge">PercolationStats</code>?</h4>
+
+<p>Pick a site at random (by using <code class="highlighter-rouge">StdRandom</code> or some other library to generate two integers between 0 (inclusive) and N (exclusive) and use this site if it is blocked; if not, repeat.</p>
+
+<h4 id="i-dont-get-reliable-timing-information-in-percolationstats-when-n--200-what-should-i-do">I don’t get reliable timing information in <code class="highlighter-rouge">PercolationStats</code> when N = 200. What should I do?</h4>
+
+<p>Increase the size of N (say to 400, 800, and 1600), until the mean running time exceeds its standard deviation.</p>
+
+<h4 id="im-failing-the-chi-squared-test-but-passing-everything-else">I’m failing the Chi Squared test but passing everything else.</h4>
+
+<p>The issue is that you’re using the same random seed for multiple simulations, and the statistical test is catching the fact that they are the same.</p>
+
+<p>If you look at the code for <code class="highlighter-rouge">StdRandom</code>, you’ll see that it sets the seed just once (the first time <code class="highlighter-rouge">StdRandom</code> is used), which prevents this issue of seed reset. In short, don’t set the seed yourself.</p>
+
+<p>Alternately, make sure you’re not generating biased random numbers. You should be using the <code class="highlighter-rouge">StdRandom</code> method that generates integers, not doubles.</p>
+
+<h4 id="its-telling-me-that-my-code-reports-false-for-percolates-but-when-i-run-the-visualizer-im-getting-true">It’s telling me that my code reports “false” for <code class="highlighter-rouge">percolates()</code> but when I run the visualizer I’m getting true!</h4>
+
+<p>The visualizer does a very specific sequence of <code class="highlighter-rouge">isOpen()</code>/<code class="highlighter-rouge">isFull()</code>/<code class="highlighter-rouge">percolates()</code> calls. Try creating your own test that only opens sites and then calls <code class="highlighter-rouge">percolates()</code>. Alternately, disable all <code class="highlighter-rouge">isOpen()</code> and/or <code class="highlighter-rouge">isFull()</code> calls in the visualizer so you can focus on the <code class="highlighter-rouge">percolates()</code> behavior. Alternately, pay close attention to the test labeled <code class="highlighter-rouge">Random Operation Order</code>.</p>
+
+<h4 id="my-code-is-compiling-on-my-computer-but-not-on-the-autograder">My code is compiling on my computer but not on the autograder.</h4>
+
+<p>Your code must obey the API exactly. You may not add additional public methods or variables to the <code class="highlighter-rouge">Percolation</code> class. When we test your <code class="highlighter-rouge">PercolationStats</code>, we use a reference version of Percolation instead of your version to avoid cascading errors – which means you can’t assume that any additional public methods are available.</p>
+
+<h2 id="credits">Credits</h2>
+<p>This assignment originally developed by Kevin Wayne and Bob Sedgewick at Princeton University, with autograder built by Josh Hug for the Princeton Algorithms course.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/hw/hw2/hw2 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:25 GMT -->
+</html>

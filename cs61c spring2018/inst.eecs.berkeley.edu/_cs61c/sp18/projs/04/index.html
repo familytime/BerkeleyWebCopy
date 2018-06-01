@@ -1,0 +1,265 @@
+<!DOCTYPE HTML>
+<html>
+
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/projs/04/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:54:10 GMT -->
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css", media="screen" href="style.css">
+    <style type="text/css">
+        table{background:#cdc;border-collapse:collapse;font-family:monospace}td{border:0.125em solid #aba;padding:0.25em}thead{background:#676;color:#fff;text-transform:uppercase}
+    td{font-size: 1.2em;}
+        span.inst{color:#d00}span.rgtr{color:#00a}span.immd{color:#a0a}span.label{color:#666}
+        div.highlight{background:#cdc;padding:1em}
+        span.warn{color:#f00;font-weight:bold;}
+        table.colonly{display:inline-block;vertical-align:top;}table.colonly td{border-top:0em;border-bottom:0em;padding-top:0.1em;padding-bottom:0.1em;}td.center{text-align:center}
+    </style>
+<title>Project 4: Canny Edge Detection Performance</title>
+
+</head>
+
+<body>
+<div class='header'>
+  <h1>CS61C Spring 2018 Project 4: Canny Edge Detection Performance</h1>
+  <br>
+  <big>TA: Nicholas Riasanovsky</big><br>
+  <big>Due 4/16 @ 23:59:59</big>
+</div>
+
+<div class='content'>
+
+
+    <h2>Goals</h2>
+    <p>In this project you will speedup image processing in performing edge detection using the Canny Edge Detection algorithm. To do so you will want to use some or all of the techniques observed in this class, such as utilizing loop unrolling, special x86 instructions, and open mp.  </p>
+   
+    
+
+    <h3>Setup</h3>
+    <p>Intialize your repository and get the skeleton code files by entering the following commands:</p>
+    <pre class="output">$ <span class="input">git clone https://mybitbucketusername@bitbucket.org/mybitbucketusername/proj4-xxx.git/</span>
+$ <span class="input">cd proj4-xxx</span>
+$ <span class="input">git remote add proj4-starter https://github.com/61c-teach/sp18-proj4-starter.git</span>
+$ <span class="input">git fetch proj4-starter</span>
+$ <span class="input">git merge proj4-starter/master -m "merge proj4 skeleton code"</span></pre>
+
+
+    <h2>Background</h2>
+    <p>For this project it is not completely necessary to understand all of the code presented to you in complete detail. You should not need to know for example why a particular constant is chosen or the theoretical justification behind any of the decisions made. However, having some understanding of the various components of the project will make your task significantly easier by empowering you to make better decisions about what will speed up the code most effectively.</p>
+
+    <h3>libpng</h3>
+
+    <p>This project takes png files and attempts to remove noise associated with the image to uncover just the edges. Admittedly the code given to you is not the best implementation of the algorithm or edge detection in general and the focus of this project is going to be on improving the speed of the code (although you are also more than welcome to improve the accuracy/quality of the edge detection). Effectively this project consists of 3 components. First each png file is read using libpng, which is a library installed already on the hive machines. The code given to you interacts with the api presented by libpng to read in the information to match the png specification. Then it converts the image from a potential color image to a grayscale image to perform the edge detection algorithm. You should not need to be familiar with libpng beyond maintaining the interaction with the api provided in the given code. Second the code performs the Canny Edge Detection algorithm on the read in png file. Finally libpng will write the resulting data to a new png file.</p>
+
+    <p>While understanding libpng is not essential, it is likely necessary that you maintain the interaction with the api by calling libpng functions with arguments of the correct type. The functions that are part of libpng and the types they define are those that begin with png_. One type defined by the library that you should be familiar with is a png_bytep, which is simply an unsigned char *. Some of the library functions given require a png_bytep * so you will want to think about how you can make changes while still meeting this requirement. Other than that you should not need to interact with libpng too much. If you are interested in more of the features you can find the specification <a href="http://www.libpng.org/pub/png/libpng-1.4.0-manual.pdf">here</a>. Note that the hive machines has version 1.2 installed so all your code must comply with that version. </p>
+
+    <h3>Edge Detection</h3>
+
+    <p>Edge detection attempts to find the boundaries of objects within images. This can be useful for many important fields such as machine vision and there are many algorithms to do so. In this project the Canny Edge Detection algorithm is implemented for you (although again its implementation could use improvement). Fundamentally this algorithm consists of four parts which will be discussed below but if you are curious you can also look at the <a href="https://en.wikipedia.org/wiki/Canny_edge_detector">wikipedia page</a>.</p>
+
+    <h4>Remove Noise with a Gaussian Filter</h4>
+    <p>In this first step a Gaussian Filter is produced, using a a known formula. The size of this filter depends on the standard deviation, sigma, which we do not know at runtime so we will approximate it based on empirical evidence. Then once the filter is produced the image data is convolved with the filter. This effectively transforms the data so we can later determine what is noise and what is an edge.</p>
+
+    <h4>Calculate the intensity Gradient</h4>
+    <p>Now for each pixel you will want to determine the gradient of the edge. This is accomplished using two known matrices. At this step you can also determine the direction of the edge which will be needed in the next step.</p>
+
+    <h4>Non-maximum Supression</h4>
+    <p>Now that you have both the gradient and the direction you want to check if the edge is a local maximum in the that direction. If it is you should maintain the value of the gradient otherwise set it to 0.</p>
+
+    <h4>Edge tracking by hysteresis</h4>
+    <p>In the final step you want to determine what values of gradients that you kept alive are actually edges. To do this you will use two constants, tmax and tmin. If a pixel has a gradient value greater than tmax then it is an edge and should marked as such. However if the value is only greater than tmin it may or may not be an edge. To resolve this we consider it to be an edge if it is greater than tmin and neighbors a determined edge.</p>
+
+    <p>All 4 of these steps are implemented as separate functions. In particular the code you will be working with is a modfication of the tutorial on canny edge detection present on <a href="https://rosettacode.org/wiki/Canny_edge_detector">rosetta code</a> but adapted to use png files instead of bmp files.</p>
+
+    <h2>Your Task</h2>
+
+    <p>Your task will be to take the code provided and speed it up while maintaining functionality. The code you will speedup are the files located in the folder student. There are two .c files, student.c and ced.c. You are free to edit either of these, delete them, or add more, but the code is divided so a fully working solution can be obtained by just editing student.c. You will be graded on how well your program performs.</p>
+
+    <h3>Speedup Targets</h3>
+
+    <p>In this project your grade will be determined based upon how fast your code runs relative to the naive solution given to you. The various benchmarks for grading are:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Speedup</th>
+          <th>Grade</th> 
+        </tr>
+      </thead>
+      <tr>
+        <td>7x</td>
+        <td>100%</td>
+      </tr>
+      <tr>
+        <td>6x</td>
+        <td>85%</td>
+      </tr>
+        <tr>
+        <td>5x</td>
+        <td>65%</td>
+      </tr>
+        <tr>
+        <td>4x</td>
+        <td>45%</td> 
+      </tr>
+        <tr>
+        <td>3x</td>
+        <td>30%</td> 
+      </tr>
+        <tr>
+        <td>2x</td>
+        <td>15%</td> 
+      </tr>
+  </table>
+
+    <p>Since the naive program is given to you, you should be able to discover your speedup on the project directly. When testing your program your speed will be measured based upon your performance on the hive machines. This is not strictly necessary for development. Assuming you have or can download libpng you should be able to work from your personal machine. However, you should keep in mind the number of cores on your machine for when you run openmp will impact the speedup among other features. You should also test on the hive machines at a minimum to ensure everything is correct, but note that because of the size of the course the peak hours of the project right before it is due may not be an accurate reflection of your speedup if the hive machines get too busy. As a result starting early is your friend and similarly your tests will likely be more accurate at 3am than noon.</p>
+
+    <p>We may also find it necessary to alter the exact means of determining your speedup. Currently the time to complete your program is measured by a python script. If this proves to be too inaccurate or inconsistent modifications may be made but they should not impact your results significantly. When testing your speedup also be sure to run the program 2-3 times and take the average as our grading will take the average speedup over multiple runs.</p>
+
+    <h3>Correctness</h3>
+
+    <p>It is not enough for your code to be fast it also needs to work. To measure correctness canny edge detection was run using the built in canny edge detection in matlab. These are the images stored in ref and they look much nicer than the ones you currently produce. Your edge detection will be considered correct if the output you produce is at least as close to this reference as the starter code given to you (off by at most 5%). This will be measured at the pixel level and seeing which are on and which are off.</p>
+
+    <h3>Rules</h3>
+
+    <p>This project actually has a lot of freedom for you to make decisions. You are free to ignore my advice, add additional files, or even implement an entirely different algorithm so long as it is reasonably correct. The way you approach this project does not have to be at all related to this course and you should feel free to explore an alternative solution. However there are a few strict requirements you must meet with are:</p>
+    <ul>
+    <li>You cannot modify the makefile, python script, naive solution, or check-correctness file in your submission.</li>
+    <li>You cannot use a language other than c.</li>
+    <li>You cannot include anything that requires additional installation on the hive machines.</li>
+    <li>You cannot violate the spirit of the assignment.</li>
+    </ul>
+
+    <p>The statement spirit of the assignment is purposely vague and is intended as a catch all for solutions which do not speedup the actual code and instead attempt to gimick the system. For example trying to achieve a speedup by changing the program to just copy the reference solution into the output would be an example of violating the spirit of the assignment. For this reason our testing may involve new data sets, changing file locations, and other hidden details designed to catch these sorts of attempts.</p>
+
+    <h2>Running the Program</h2>
+
+    <p>To run the program there are a few possible commands to use.</p>
+
+    <h3>Compile</h3>
+
+    <p>To compile do:</p>
+
+    <pre class="output">$ <span class="input">make build</span></pre>
+
+    <h3>Clean</h3>
+
+    <p>To remove your executable and output for both the naive and your solution do:</p>
+
+    <pre class="output">$ <span class="input">make clean</span></pre>
+
+    <p>To remove just your executable and output do:</p>
+
+    <pre class="output">$ <span class="input">make clean-solution</span></pre>
+
+    <h3>Batch</h3>
+
+    <p>To run the program that will constitute your grade do:</p>
+
+    <pre class="output">$ <span class="input">make batch</span></pre>
+
+    <p>This command will first clean both the naive and student solution, build both, then run the algorithm on 30 png files, report the speedup, and finally check the correctness.</p>
+
+    <h3>Correctness</h3>
+
+    <p>The naive solution takes 20+ second on the hive to compute. If you do not want to rerun the naive solution every time you want to check correctness then there is an alternative. If you have the output expected from naive computed and currently sitting in its out directory (meaning make clean hasn't run since you last ran make batch) then you can use the command:</p>
+
+    <pre class="output">$ <span class="input">make correctness</span></pre>
+
+    <p>This command will clean and build the student code then run the student code on the 30 inputs and finally to the correctness check with the existing output files for naive. Note again if the output files for naive do not exist this check will fail.</p>
+
+    <h3>Viewing</h3>
+
+    <p>If you just want an example of how an image changed and are on linux with libpng installed (for example the hive machines) you can run the command:</p>
+
+    <pre class="output">$ <span class="input">make view</span></pre>
+
+    <p>This will clean the student code, build it, and run the algorithm on a single png file, flag.png. Then the output will be displayed alongside the original image. This is a nice place to start to get an understand of what actually happened to the image and i suggest opening the reference file to observe how it can look with a better implementation of the algorithm. Again this is only defined to work on linux systems. If you want to look at the images on a different system you will need to run make batch and look through them yourself.</p>
+
+    <h2>Advice</h2>
+
+    <p>Here are some questions to consider for each step in the project. I suggest going in this order but it is by no means required. You may use some, none, or all of these steps in a working solution. Additionally </p>
+
+    <p>In approaching this project </p>
+    <ul>
+      <li>What do you think are the main areas impacting the speed of the program?</li>
+      <li>What are the contexts in which a function is called? With what arguments?</li>
+    </ul>
+
+    <h3>Preliminary Speedup</h3>
+    <ul>
+      <li>What seems inconsistent with typical c code you have seen in this class?</li>
+      <li>What actions being done are wasteful or redundant?</li>
+      <li>The staff solution edits every single function in student.c. Why are some of those functions included?</li>
+    </ul>
+
+    <h3>Loop Unrolling</h3>
+
+    <ul>
+      <li>Which loop is most useful to unroll?</li>
+      <li>How do these loops differ from the standard case of loop unrolling you have seen in lab?</li>
+    </ul>
+
+    <h3>Using x86 intrinsics</h3>
+    <ul>
+      <li>In what location can I use intrinsics?</li>
+      <li>Where is it efficient to use intrinsics? Keep in mind these have overhead.</li>
+    </ul>
+
+    <h3>Open MP</h3>
+    <ul>
+      <li>At what location is it best to use openmp?</li>
+      <li>How much of a speedup should openmp give me roughly?</li>
+      <li>What can be the costly parts of using openmp?</li>
+    </ul>
+
+
+    <h2>Debugging</h2>
+
+    <p>Since the you are working with decently size data sets (the naive solution mallocs 393 million bytes) if you make a mistake things will break entirely. In addition it may also be difficult to determine exactly what the correct values should be which make debugging difficult. These are some tips on how to debug this project.</p>
+
+    <h3>General Advice</h3>
+    <p>Test frequently and commit often. If you work for 3 hours and then decide to test if your code is correct it may be too late to salvage your work. Reasonably speaking you should be committing regularly and testing just as often. If something is wrong the first thing I would do is compare to the naive solution for any speedup and ensure it is fundamentally the same.</p>
+
+    <h3>Segmentation Faults</h3>
+    <p>If you get a segmentation fault you will want to use cgdb. At this point you should already be experienced with cgdb but if you need a refresher here are some useful commands.</p>
+    <pre class="output">$ <span class="input">make build</span>
+$ <span class="input">cd student</span>
+$ <span class="input">cdgb ced</span>
+<span class="input">r ../input/valve.png ../input/weaver.png ../input/bigbrain.png</span>
+<span class="input">bt</span></pre>
+
+    <p>This should tell you the exact location of the segmentation fault (unless it only happened on one specific test case in which case you may have to try again with different input files). At this point you can set breakpoints to debug in cgdb but as I first step I recommend comparing to the naive implmentation. You may also want to consider the next case once you have found the location of the segfault.</p>
+
+    <h3>Failing Correctness/Taking Forever</h3>
+
+    <p>Finding segfaults is helpful but sometimes the segmentation fault is not remotely in the location of the bug or incorrect code simply won't segfault. If you have code failing the correctness check it is likely that you are doing something incorrect involving bounds. This may cause your code to become very slow if you start accessing out of bounds locations so this is one potential indication. To debug these cases we will want to use valgrind. To do so run</p>
+
+    <pre class="output">$ <span class="input">make valgrind</span></pre>
+
+    <p>If you aren't familiar with valgrind it will give you a list of locations of potential memory leaks and perhaps more significantly locations where you do illegal accesses. If you see something that indicates you have illegal write or read at a location, this is likely the cause of your bug. Note that because of the size of your project it may look like you have 10000+ errors when it is a single bug causing all the errors. You may need to debug this function in cgdb or do some static inspection but valgrind can give you a smaller region in which to find your bug.</p>
+
+    <h3>Speedup isn't what you think it should be</h3>
+
+    <p>You may find you implement something you learned speeds up code in this class and then not get any speedup or even worse your code may be slower. If this happens you want to consider 3 things:</p>
+    <ul>
+      <li>What is the overhead associated with this action?</li>
+      <li>What are the size of the inputs I am executing this on?</li>
+      <li>What is the primary driving force that makes this code slow?</li>
+    </ul>
+
+    <p>At this point your code likely doesn't have a bug but you may have simply discovered that something that can often speedup code just doesn't in this circumstance.</p>
+
+    <h2>Testing</h2>
+    <p>Since the dataset is provided for you, you should not need to do any additional testing beyond running the programs given to you. However again in order to ensure complience with the project requirements we will also test your code on a hidden dataset. This output should not differ greatly from those provided to you and assuming the two results are close we will accept the max of the two.</p>
+
+    <h2>Submission and Grading</h2>
+    
+    <p>To submit, run: </p>
+    <pre class="output">$ <span class="input">submit proj4</span></pre>
+    <p>Again refer to the rules for what you are allowed to submit.</p>
+    <p>In addition, you should submit to your bitbucket repository as well.</p>
+    <pre class="output">$ <span class="input">cd proj4-XXX</span>
+$ <span class="input">git commit -am "proj4 submission"</span>
+$ <span class="input">git tag -f "proj4-sub"</span>
+$ <span class="input">git push origin master --tags</span></pre>
+

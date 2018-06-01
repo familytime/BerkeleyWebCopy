@@ -1,0 +1,90 @@
+table {
+    margin: 20px auto;
+    table-layout: fixed;
+}
+td {
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 300;
+    vertical-align: top;
+}
+.instructor {
+    max-width: 800px;
+    margin: 0 auto;
+}
+.instructor td:nth-child(1) {
+    width: 300px;
+}
+.instructor td:nth-child(2) {
+    padding-left: 30px;
+    vertical-align: middle;
+}
+.staff {
+    max-width: 900px;
+}
+.staff, .staff tr, .staff td {
+    border: 1px solid #DDD;
+    border-collapse: collapse;
+}
+.staff td {
+    width: 33%;
+}
+.staff .segmenttitle {
+    padding: 10px 10px 0;
+    margin: 0;
+}
+.staff .text {
+    margin: 0;
+    padding: 0 10px 10px;
+}
+td > .text.bio {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 2px 0 4px;
+}
+td > .text.email {
+    font-weight: 300;
+    font-size: 15px;
+}
+.photo {
+    height: 200px;
+    width: 200px;
+    overflow: hidden;
+    margin: 10px auto 0;
+}
+.instructor .photo {
+    height: 300px;
+    width: 300px;
+}
+.photo img {
+    height: 100%;
+}
+.photo2 {
+    display: none;
+}
+.photo3 {
+    display: none;
+}
+.photo4 {
+    display: none;
+}
+
+img {
+	display: block;
+	border: 0;
+	opacity: 0;
+}
+img:not(.initial) {
+  transition: opacity 0.2s;
+}
+
+img.initial,
+img.loaded,
+img.error {
+  opacity: 1;
+}
+
+img:not([src]) {
+  visibility: hidden;
+}

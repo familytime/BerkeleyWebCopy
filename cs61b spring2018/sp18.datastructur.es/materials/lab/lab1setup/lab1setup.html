@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab1setup/lab1setup by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:19:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lab 1 Setup: Setting Up Your Computer | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lab 1 Setup: Setting Up Your Computer</header><ul id="markdown-toc">
+  <li><a href="#a-configure-your-computer" id="markdown-toc-a-configure-your-computer">A. Configure Your Computer</a></li>
+  <li><a href="#b-learn-to-use-the-terminal" id="markdown-toc-b-learn-to-use-the-terminal">B. Learn to Use the Terminal</a></li>
+  <li><a href="#c-test-run" id="markdown-toc-c-test-run">C. Test Run</a></li>
+</ul>
+
+<p>We encourage you to complete as much of this setup as you can on your own
+before coming to lab. If you get stuck, come to office hours or lab to get
+help.</p>
+
+<h2 id="a-configure-your-computer">A. Configure Your Computer</h2>
+
+<p>Depending on your oeprating system, there are a bunch of things we need to do to set your computer up for 61B.</p>
+
+<p>The precise steps to take depend on your operating system.</p>
+<ul>
+  <li><a href="windows.html">Windows instructions</a> [<a href="https://youtu.be/xEO4SOjmUOw">Video Walkthrough</a>]</li>
+  <li><a href="mac.html">macOS instructions</a></li>
+  <li><a href="linux.html">Linux instructions</a></li>
+</ul>
+
+<p>Move on to the next section only once you’ve completed the instructions above
+for your operating system. Advanced users on Windows may also use the new Bash
+for Windows feature, but we will not be providing official directions. Note
+that if you use Bash for Windows, you’ll need to install Java twice (once
+inside Bash for Windows, and once inside Windows itself, following the
+directions above).</p>
+
+<h2 id="b-learn-to-use-the-terminal">B. Learn to Use the Terminal</h2>
+
+<p>If you already know how to open and use a terminal, skip this section.</p>
+
+<p>The terminal is an application that allows you to run all sorts of programs, as
+well as manipulate files in your own computer. It is a powerful but also
+dangerous tool, so please be careful with using some of these commands. On UNIX
+operating systems, the Terminal application will provide you with everything
+that you need. On Mac OS, for example, you can use Spotlight to search for the
+Terminal application.</p>
+
+<p>The lab computers run on the UNIX operating system. As such, you can use
+xterm commands to make changes to your directory and files. Here are some
+important ones that you may find useful in this course:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">cd</code>: change your working directory
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">cd </span>hw
+</code></pre></div>    </div>
+    <p>This command will change your directory to <code class="highlighter-rouge">hw</code>.</p>
+  </li>
+  <li><code class="highlighter-rouge">pwd</code>: present working directory
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">pwd</span>
+</code></pre></div>    </div>
+    <p>This command will tell you the full absolute path for the current
+  directory you are in if you are not sure where you are.</p>
+  </li>
+  <li><code class="highlighter-rouge">.</code>: means your current directory
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">cd</span> <span class="nb">.</span>
+</code></pre></div>    </div>
+    <p>This command will change your directory to the current directory (aka.
+  do nothing).</p>
+  </li>
+  <li><code class="highlighter-rouge">..</code>: means one parent directory above your current directory
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">cd</span> ..
+</code></pre></div>    </div>
+    <p>This command will change your directory to its parent. If you are in
+  /workspace/day1/, the command will place you in /workspace/.</p>
+  </li>
+  <li><code class="highlighter-rouge">ls</code>: list files/folders in directory
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">ls</span>
+</code></pre></div>    </div>
+    <p>This command will list all the files and folders in your current
+  directory.</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">ls</span> <span class="nt">-l</span>
+</code></pre></div>    </div>
+    <p>This command will list all the files and folders in your current
+  directory with timestamps and file permissions. This can help you
+  double-check if your file updated correctly or change the read-write-
+  execute permissions for your files.</p>
+  </li>
+  <li><code class="highlighter-rouge">mkdir</code>: make a directory
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  mkdir dirname
+</code></pre></div>    </div>
+    <p>This command will make a directory within the current directory called
+  <code class="highlighter-rouge">dirname</code>.</p>
+  </li>
+  <li><code class="highlighter-rouge">rm</code>: remove a file
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  rm file1
+</code></pre></div>    </div>
+    <p>This command will remove file1 from the current directory. It will not
+  work if <code class="highlighter-rouge">file1</code> does not exist.</p>
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  rm <span class="nt">-r</span> dir1
+</code></pre></div>    </div>
+    <p>This command will remove the <code class="highlighter-rouge">dir1</code> directory recursively. In other
+  words, it will delete all the files and directories in <code class="highlighter-rouge">dir1</code> in addition
+  to <code class="highlighter-rouge">dir1</code> itself. Be careful with this command!</p>
+  </li>
+  <li><code class="highlighter-rouge">cp</code>: copy a file
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  cp lab1/original lab2/duplicate
+</code></pre></div>    </div>
+    <p>This command will copy the <code class="highlighter-rouge">original</code> file in the <code class="highlighter-rouge">lab1</code> directory and
+  and create a <code class="highlighter-rouge">duplicate</code> copy in the <code class="highlighter-rouge">lab2</code> directory.</p>
+  </li>
+  <li><code class="highlighter-rouge">mv</code>: move or rename a file
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  mv lab1/original lab2/original
+</code></pre></div>    </div>
+    <p>This command moves <code class="highlighter-rouge">original</code> from <code class="highlighter-rouge">lab1</code> to <code class="highlighter-rouge">lab2</code>. Unlike <code class="highlighter-rouge">cp</code>, mv
+  does not leave original in the <code class="highlighter-rouge">lab1</code> directory.</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  mv lab1/original lab1/newname
+</code></pre></div>    </div>
+    <p>This command does not move the file but rather renames it from <code class="highlighter-rouge">original</code>
+  to <code class="highlighter-rouge">newname</code>.</p>
+  </li>
+</ul>
+
+<p>There are some other useful tricks when navigating on command line:</p>
+
+<ul>
+  <li>
+    <p>UNIX can complete file names and directory names for you with <em>tab completion</em>.
+When you have an incomplete name (for something that already exists), try
+pressing the <code class="highlighter-rouge">tab</code> key for autocomplete or a list of possible names.</p>
+  </li>
+  <li>
+    <p>If you want to retype the same instruction used recently, press the <code class="highlighter-rouge">up</code> key
+on your keyboard until you see the correct instruction. This saves typing time
+if you are doing repetitive instructions (like running Java programs on command
+line while testing).</p>
+  </li>
+</ul>
+
+<h2 id="c-test-run">C. Test Run</h2>
+
+<p>Let’s ensure that everything is working.</p>
+
+<ol>
+  <li>First open up your terminal. Check that git is a recognized command by typing
+the following command:
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git <span class="nt">--version</span>
+</code></pre></div>    </div>
+
+    <p>The version number for git should be printed. If you see “git: command not
+ found”, or similar, try opening a new terminal window, restarting your
+ computer, or installing Git again.</p>
+  </li>
+  <li>
+    <p>In the terminal, check that python is a recognized command:</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> python <span class="nt">-i</span>
+</code></pre></div>    </div>
+
+    <p>This should start python in the interactive mode. Use <code class="highlighter-rouge">quit()</code> to exit. If
+ it doesn’t work, try the command <code class="highlighter-rouge">python3 -i</code> instead, opening a new
+ terminal window, restarting your computer, or reinstalling Python.
+ If none of those work, see the Troubleshooting guide under your operating
+ system.</p>
+  </li>
+  <li>
+    <p>Lastly, let’s check that <code class="highlighter-rouge">javac</code> and <code class="highlighter-rouge">java</code> are working. Start by running
+the following commands at your terminal.</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> mkdir ~/temp
+ <span class="nb">cd</span> ~/temp
+</code></pre></div>    </div>
+
+    <ol>
+      <li>
+        <p>Then, open your operating system’s file explorer in this directory. You
+ can do this from the command line:</p>
+
+        <ul>
+          <li>Mac: <code class="highlighter-rouge">open .</code></li>
+          <li>Windows: <code class="highlighter-rouge">explorer .</code></li>
+          <li>Ubuntu: <code class="highlighter-rouge">gnome-open .</code></li>
+          <li>Linux Mint: <code class="highlighter-rouge">xdg-open .</code> or <code class="highlighter-rouge">mate .</code></li>
+        </ul>
+      </li>
+      <li>
+        <p>In this newly opened directory, create a file <code class="highlighter-rouge">HelloWorld.java</code> with
+ these contents:</p>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorld</span> <span class="o">{</span>
+     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hello world!"</span><span class="o">);</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>In your terminal, enter <code class="highlighter-rouge">ls</code> (list the files/folders in this directory).
+ You should see <code class="highlighter-rouge">HelloWorld.java</code> listed.</p>
+      </li>
+      <li>
+        <p>Run <code class="highlighter-rouge">javac HelloWorld.java</code>. If this produces any output, then something
+ may be wrong with your setup. Try opening a new terminal window or
+ restarting your computer. If that still doesn’t work, see the
+ Troubleshooting section under the directions for your operating system.</p>
+      </li>
+      <li>
+        <p>Type <code class="highlighter-rouge">ls</code>, you should see both <code class="highlighter-rouge">HelloWorld.java</code>
+ and a freshly created <code class="highlighter-rouge">HelloWorld.class</code> (the <code class="highlighter-rouge">javac</code> command created this
+ file).</p>
+      </li>
+      <li>
+        <p>Run <code class="highlighter-rouge">java HelloWorld</code>. It should print out “Hello world!” for you. If it
+ didn’t, something is wrong with your setup!</p>
+      </li>
+      <li>
+        <p>You’re done! You can also delete the “temp” folder and its contents as
+ you please.</p>
+      </li>
+    </ol>
+
+    <p>The screenshot below shows what we’re hoping for when we do steps 4-7. 
+ If you see something similar to this, your java setup is complete.
+ <img src="img/hello_world.png" alt="hello_world" /></p>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab1setup/lab1setup by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:19:59 GMT -->
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/guides/plugin.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:21:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Installing and Using the IntelliJ Plugin | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../assets/css/lab.css">
+    
+
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../assets/js/script.js"></script>
+    <script src="../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Installing and Using the IntelliJ Plugin</header><div class="due-date">Author: Eli Lipsitz</div><ul id="markdown-toc">
+  <li><a href="#installing" id="markdown-toc-installing">Installing</a></li>
+  <li><a href="#using-the-plugin" id="markdown-toc-using-the-plugin">Using the Plugin</a>    <ul>
+      <li><a href="#style-checking" id="markdown-toc-style-checking">Style Checking</a></li>
+      <li><a href="#java-visualizer" id="markdown-toc-java-visualizer">Java Visualizer</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>This document will guide you through installing and using the CS 61B IntelliJ
+plugin. This guide assumes that you already have IntelliJ installed.</p>
+
+<h2 id="installing">Installing</h2>
+
+<p>Begin the setup process by starting up IntelliJ. If you’re on one of the lab
+computers, use the command <code class="highlighter-rouge">/share/instsww/bin/idea.sh</code> in a terminal window to
+start IntelliJ. Then follow the steps below.</p>
+
+<ol>
+  <li>
+    <p>In the <em>Welcome</em> window, click the <strong>Configure -&gt; Plugin</strong> button on the
+bottom right of the window.</p>
+  </li>
+  <li>
+    <p>Click the button labeled <strong>Browse Repositories…</strong> on the bottom.
+ <img src="img/plugin-install-1.png" alt="Browse Repositories" /></p>
+  </li>
+  <li>
+    <p>In the window that appears, enter “CS 61B” in the search bar at the top. The
+CS 61B plugin entry should appear.</p>
+  </li>
+  <li>
+    <p>Click the green <strong>Install</strong> button.
+ <img src="img/plugin-install-2.png" alt="Browse Repositories" /></p>
+  </li>
+  <li>
+    <p>Wait for the plugin to download and install</p>
+  </li>
+  <li>
+    <p>Click the grey <strong>Restart IntelliJ IDEA</strong> button to finalize the installation.</p>
+  </li>
+</ol>
+
+<h2 id="using-the-plugin">Using the Plugin</h2>
+
+<h3 id="style-checking">Style Checking</h3>
+
+<p>In this class, you will eventually be required to make sure your code conforms
+to the official style guide. The plugin includes a helpful style checker, which
+will check your code and inform you of any style errors and their locations.</p>
+
+<p>To run the style checker, simply right click any file or directories you want to
+check, and select <strong>Check Style</strong> in the menu that appears:
+<img src="img/plugin-checkstyle-button.png" alt="Check Style Menu" /></p>
+
+<p>Click it, and the style checker will run. A tool window will appear with the
+results of the style check, and a list of any errors. Click the links to jump
+directly to the problematic line of code:
+<img src="img/plugin-checkstyle-results.png" alt="Check Style Results Tool Window" /></p>
+
+<h3 id="java-visualizer">Java Visualizer</h3>
+
+<p>The plugin contains a built-in version of the Java Visualizer, a tool similar to
+the Python Visualizer you may have used to CS 61B. This tool is intended to help
+you debug and understand your code, and is integrated into IntelliJ’s Java
+debugger.</p>
+
+<p>To use the built-in visualizer, debug your code, setting breakpoints as
+necessary. When your code stops, you can click the Java Visualizer icon:
+<img src="img/plugin-visualizer-button.png" alt="Java Visualizer Button" /></p>
+
+<p>The Java Visualizer will appear, displaying the stack of the currently paused
+program:
+<img src="img/plugin-visualizer-inaction.png" alt="Java Visualizer In Action" /></p>
+
+<p>As you continue to step through and pause your code, the visualizer display will
+update accordingly to show you what’s going on in your program.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/guides/plugin.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:21:58 GMT -->
+</html>

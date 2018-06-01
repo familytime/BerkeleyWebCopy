@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/hw/hw06/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+<link rel="stylesheet" type="text/css" href="../../assets/css/hw.css">
+
+
+    <title>
+Homework 6 | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Homework 6
+
+        
+        <ul class="inline-block list-inline">
+          <li><a href="hw06.zip" class="label label-outline">hw06.zip</a></li>
+        </ul>
+        
+      </h1>
+    </header>
+    
+<p><em>Due by 11:59pm on Thursday, 3/08</em></p>
+
+
+
+
+<h2>Instructions</h2>
+
+<p>Download <a href="hw06.zip">hw06.zip</a>.</p>
+
+<p><strong>Submission:</strong> When you are done, submit with
+<code>python3 ok --submit</code>.
+You may submit more than once before the deadline; only the final submission
+will be scored. Check that you have successfully submitted your code on
+<a href="https://okpy.org/">okpy.org</a>.
+See <a href="../../lab/lab00/index.html#submit-the-assignment">Lab 0</a>
+for more instructions on submitting assignments.</p>
+
+<p><strong>Using Ok:</strong> If you have any questions about using Ok, please
+refer to <a href="../../articles/using-ok.html">this guide.</a>
+
+
+  <p><strong>Readings:</strong> You might find the following references
+  useful:</p>
+  <ul>
+  <li><a href="http://composingprograms.com/pages/25-object-oriented-programming.html">Section 2.5</a></li>
+  <li><a href="http://composingprograms.com/pages/27-object-abstraction.html">Section 2.7.1</a></li>
+</ul>
+
+
+
+
+    
+<h3 id="q0-survey">Q0: Survey</h3>
+
+
+<p>Before you get started writing code, please fill out the <a href="https://goo.gl/forms/rXuDvQCmsVxQUvAp1">midterm
+survey</a>.</p>
+
+
+<h4 id="important-submission-note">Important Submission Note</h4>
+
+
+<blockquote><p><strong>You're not done yet!</strong> Add the passphrase you receive at the end of
+the survey to passphrase at the top of the homework. For example, if the
+passphrase was <code>CS61A</code> (it isn't 🙂), then the first line of your file
+should read:</p></blockquote>
+
+<pre><code>passphrase = &#x27;CS61A&#x27;</code></pre>
+
+<blockquote><p>Instead of:</p></blockquote>
+
+<pre><code>passphrase = &#x27;*** PASSPHRASE HERE ***&#x27;</code></pre>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q survey</code></pre>
+
+<h3 class="question" id="q1">Q1: Next Fibonacci Object</h3>
+
+<p>Implement the <code>next</code> method of the <code>Fib</code> class. For this class, the <code>value</code>
+attribute is a Fibonacci number. The <code>next</code> method returns a <code>Fib</code> instance
+whose <code>value</code> is the next Fibonacci number. The <code>next</code> method should take only
+constant time.</p>
+
+<p><em>Hint</em>: Assign <code>value</code> and <code>previous</code> attributes within <code>next</code>.</p>
+
+<pre><code>class Fib():
+    &quot;&quot;&quot;A Fibonacci number.
+
+    &gt;&gt;&gt; start = Fib()
+    &gt;&gt;&gt; start
+    0
+    &gt;&gt;&gt; start.next()
+    1
+    &gt;&gt;&gt; start.next().next()
+    1
+    &gt;&gt;&gt; start.next().next().next()
+    2
+    &gt;&gt;&gt; start.next().next().next().next()
+    3
+    &gt;&gt;&gt; start.next().next().next().next().next()
+    5
+    &gt;&gt;&gt; start.next().next().next().next().next().next()
+    8
+    &gt;&gt;&gt; start.next().next().next().next().next().next() # Ensure start isn&#x27;t changed
+    8
+    &quot;&quot;&quot;
+
+    def __init__(self, value=0):
+        self.value = value
+
+    def next(self):
+        "*** YOUR CODE HERE ***"
+
+    def __repr__(self):
+        return str(self.value)</code></pre>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q Fib</code></pre>
+
+
+
+<h3 class="question" id="q2">Q2: Vending Machine</h3>
+
+<p>Create a class called <code>VendingMachine</code> that represents a vending
+machine for some product. A <code>VendingMachine</code> object returns strings
+describing its interactions.  See the doctest below for examples:</p>
+
+<solution>
+
+<pre><code>class VendingMachine:
+    &quot;&quot;&quot;A vending machine that vends some product for some price.
+
+    &gt;&gt;&gt; v = VendingMachine(&#x27;candy&#x27;, 10)
+    &gt;&gt;&gt; v.vend()
+    &#x27;Machine is out of stock.&#x27;
+    &gt;&gt;&gt; v.deposit(15)
+    &#x27;Machine is out of stock. Here is your $15.&#x27;
+    &gt;&gt;&gt; v.restock(2)
+    &#x27;Current candy stock: 2&#x27;
+    &gt;&gt;&gt; v.vend()
+    &#x27;You must deposit $10 more.&#x27;
+    &gt;&gt;&gt; v.deposit(7)
+    &#x27;Current balance: $7&#x27;
+    &gt;&gt;&gt; v.vend()
+    &#x27;You must deposit $3 more.&#x27;
+    &gt;&gt;&gt; v.deposit(5)
+    &#x27;Current balance: $12&#x27;
+    &gt;&gt;&gt; v.vend()
+    &#x27;Here is your candy and $2 change.&#x27;
+    &gt;&gt;&gt; v.deposit(10)
+    &#x27;Current balance: $10&#x27;
+    &gt;&gt;&gt; v.vend()
+    &#x27;Here is your candy.&#x27;
+    &gt;&gt;&gt; v.deposit(15)
+    &#x27;Machine is out of stock. Here is your $15.&#x27;
+
+    &gt;&gt;&gt; w = VendingMachine(&#x27;soda&#x27;, 2)
+    &gt;&gt;&gt; w.restock(3)
+    &#x27;Current soda stock: 3&#x27;
+    &gt;&gt;&gt; w.restock(3)
+    &#x27;Current soda stock: 6&#x27;
+    &gt;&gt;&gt; w.deposit(2)
+    &#x27;Current balance: $2&#x27;
+    &gt;&gt;&gt; w.vend()
+    &#x27;Here is your soda.&#x27;
+    &quot;&quot;&quot;
+    "*** YOUR CODE HERE ***"
+</code></pre>
+
+</solution>
+
+<blockquote><p>You may find <a href="https://docs.python.org/2/library/stdtypes.html#str.format">Python string formatting
+syntax</a> useful.
+A quick example:</p></blockquote>
+
+<pre><code>&gt;&gt;&gt; ten, twenty, thirty = 10, &#x27;twenty&#x27;, [30]
+&gt;&gt;&gt; &#x27;{0} plus {1} is {2}&#x27;.format(ten, twenty, thirty)
+&#x27;10 plus twenty is [30]&#x27;</code></pre>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q VendingMachine</code></pre>
+
+
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#q0-survey">Q0: Survey</a></li>
+  <ul>
+    <li><a href="#important-submission-note">Important Submission Note</a></li>
+  </ul>
+  <li><a href="#q1">Q1: Next Fibonacci Object</a></li>
+  <li><a href="#q2">Q2: Vending Machine</a></li>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+
+<!-- Mirrored from cs61a.org/hw/hw06/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:31 GMT -->
+</html>

@@ -1,0 +1,81 @@
+\Question{More Family Planning}
+
+
+\begin{Parts}
+
+\Part Suppose we have a random variable $N \sim Geom(1/3)$ representing the number of children of a randomly chosen family. Assume that within the family, children are equally likely to be boys and girls. Let $B$ be the number of boys and $G$ the number of girls in the family. What is the joint probability distribution of $B$, $G$?
+
+\Part Given that we know there are $0$ girls in the family, what is the most likely number of boys in the family? 
+
+\Part Now let $X$ and $Y$ be independent random variables representing the number of children in two independently, randomly chosen families. Suppose $X \sim Geom(p)$ and $Y \sim Geom(q)$. Using their joint distribution, find the probability that the number of children in the first family ($X$) is less than the number of children in the second family ($Y$). (You may use the convergence formula for a Geometric Series: $\sum_{k=0}^\infty r^k = \frac{1}{1-r}$ for $|r| < 1$)
+
+\Part Show how you could obtain your answer from the previous part using an interpretation of the geometric distribution. 
+
+\end{Parts}
+
+
+\Question{Uniform Means}
+
+Let $X_1, X_2, \dotsc, X_n$ be $n$ independent and identically distributed uniform random variables on the interval $[0, 1]$ (where $n$ is a positive integer).
+
+\begin{Parts}
+    \Part Let $Y = \min\{X_1, X_2, \dotsc, X_n\}$. Find $\E(Y)$. [\textit{Hint}: Use the tail sum formula, which says the expected value of a nonnegative random variable is $\E(X) = \int_0^{\infty} \Pr(X > x) \, \D x$. Note that we can use the tail sum formula since $Y \geq 0$.]
+    \nosolspace{2cm}
+	\Part Let $Z = \max\{X_1, X_2, \dotsc, X_n\}$. Find $\E(Z)$.
+        [\textit{Hint}: Find the CDF.]
+    \nosolspace{2cm}
+\end{Parts}
+
+
+\Question{Variance of the Minimum of Uniform Random Variables}
+
+Let $n$ be a positive integer and let $X_1,\dotsc,X_n \overset{\text{i.i.d.}}{\sim} \Unif[0, 1]$.
+Find $\var Y$, where
+$$Y := \min\{X_1,\dotsc,X_n\}.$$
+
+(Hint: If you get stuck with the integral for $\E[Y^2]$, try reviewing how to perform integration by parts.)
+
+\Question{Arrows}
+
+You and your friend are competing in an archery competition. You are a more skilled archer than he is, and the distances of your arrows to the center of the bullseye are i.i.d.\ $\Unif[0,1]$ whereas his are i.i.d.\ $\Unif[0, 2]$. To even out the playing field, you both agree that you will shoot one arrow and he will shoot two. The arrow closest to the center of the bullseye wins the competition. What is the probability that you will win? \textit{Note}: The distances \textit{from the center of the bullseye} are uniform.
+\nosolspace{6cm}
+
+
+\Question{Darts (Again!)}
+
+Alvin is playing darts.
+His aim follows an exponential distribution; that is, the probability density that the dart is $x$ distance from the center is $f_X(x) = \exp(-x)$.
+The board's radius is 4 units.
+
+\begin{Parts}
+        \Part What is the probability the dart will stay within the board?
+        
+        \Part Say you know Alvin made it on the board. What is the probability he is within 1 unit from the center?
+        
+        \Part If Alvin is within 1 unit from the center, he scores 4 points, if he is within 2 units, he scores 3, etc. In other words, Alvin scores $\lfloor 5 - x\rfloor$, where $x$ is the distance from the center.  What is Alvin's expected score after one throw?
+\end{Parts}
+
+
+
+\Question{Exponential Distributions: Lightbulbs}
+
+A brand new lightbulb has just been installed in our classroom, and
+you know the life span of a lightbulb is exponentially distributed
+with a mean of $50$ days.
+
+\begin{enumerate}[(a)]
+\item Suppose an electrician is scheduled to check on the lightbulb in $30$
+days and replace it if it is broken. What is the probability that
+the electrician will find the bulb broken?
+\nosolspace{2cm}
+\item Suppose the electrician finds the bulb broken and replaces it with
+a new one. What is the probablity that the new bulb will last at least
+$30$ days?
+\nosolspace{2cm}
+\item Suppose the electrician finds the bulb in working condition and leaves.
+What is the probability that the bulb will last at least another $30$
+days?
+\nosolspace{2cm}
+\end{enumerate}
+
+

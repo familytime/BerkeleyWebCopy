@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/hw/hw4/hw4 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>HW 4: 8 Puzzle | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">HW 4: 8 Puzzle</header><ul id="markdown-toc">
+  <li><a href="#getting-the-skeleton-files" id="markdown-toc-getting-the-skeleton-files">Getting the Skeleton Files</a></li>
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#puzzle-formalization" id="markdown-toc-puzzle-formalization">Puzzle Formalization</a></li>
+  <li><a href="#best-first-search-conceptual" id="markdown-toc-best-first-search-conceptual">Best-First Search (conceptual)</a></li>
+  <li><a href="#best-first-search-implementation" id="markdown-toc-best-first-search-implementation">Best-First Search (implementation)</a>    <ul>
+      <li><a href="#solver" id="markdown-toc-solver">Solver</a>        <ul>
+          <li><a href="#optimizations" id="markdown-toc-optimizations">Optimizations</a></li>
+        </ul>
+      </li>
+      <li><a href="#board" id="markdown-toc-board">Board</a>        <ul>
+          <li><a href="#goal-distance-estimates" id="markdown-toc-goal-distance-estimates">Goal Distance Estimates</a></li>
+          <li><a href="#a-deeper-look-at-a-optional" id="markdown-toc-a-deeper-look-at-a-optional">A Deeper Look at A* (optional)</a></li>
+          <li><a href="#solver-test-client" id="markdown-toc-solver-test-client">Solver Test Client</a></li>
+        </ul>
+      </li>
+      <li><a href="#optional" id="markdown-toc-optional">Optional</a></li>
+      <li><a href="#optional-ultra-edition" id="markdown-toc-optional-ultra-edition">Optional Ultra-Edition</a></li>
+    </ul>
+  </li>
+  <li><a href="#faq" id="markdown-toc-faq">FAQ</a>    <ul>
+      <li><a href="#why-am-i-getting-cannot-resolve-symbol-boardutils" id="markdown-toc-why-am-i-getting-cannot-resolve-symbol-boardutils">Why am I getting cannot resolve symbol ‘BoardUtils’?</a></li>
+      <li><a href="#the-autograder-says-im-using-too-many-moves-on-a-puzzle-but-when-i-try-it-locally-it-works-fine" id="markdown-toc-the-autograder-says-im-using-too-many-moves-on-a-puzzle-but-when-i-try-it-locally-it-works-fine">The autograder says I’m using too many moves on a puzzle but when I try it locally it works fine.</a></li>
+      <li><a href="#the-neighbors-method-provided-doesnt-work-it-looks-like-it-only-returns-the-initial-board" id="markdown-toc-the-neighbors-method-provided-doesnt-work-it-looks-like-it-only-returns-the-initial-board">The neighbors() method provided doesn’t work. It looks like it only returns the initial board.</a></li>
+      <li><a href="#how-do-i-know-if-my-solver-is-optimal" id="markdown-toc-how-do-i-know-if-my-solver-is-optimal">How do I know if my Solver is optimal?</a></li>
+      <li><a href="#my-program-is-too-slow-or-runs-out-of-memory-on-some-of-the-large-sample-puzzles-is-this-ok" id="markdown-toc-my-program-is-too-slow-or-runs-out-of-memory-on-some-of-the-large-sample-puzzles-is-this-ok">My program is too slow or runs out of memory on some of the large sample puzzles. Is this OK?</a></li>
+      <li><a href="#what-size-puzzles-are-we-expected-to-solve" id="markdown-toc-what-size-puzzles-are-we-expected-to-solve">What size puzzles are we expected to solve?</a></li>
+      <li><a href="#even-with-the-critical-optimization-the-priority-queue-may-contain-two-or-more-search-nodes-corresponding-to-the-same-worldstate-should-i-try-to-eliminate-these-with-something-like-a-hashset-of-previously-used-states" id="markdown-toc-even-with-the-critical-optimization-the-priority-queue-may-contain-two-or-more-search-nodes-corresponding-to-the-same-worldstate-should-i-try-to-eliminate-these-with-something-like-a-hashset-of-previously-used-states">Even with the critical optimization, the priority queue may contain two or more search nodes corresponding to the same WorldState. Should I try to eliminate these with something like a HashSet of previously used states?</a></li>
+      <li><a href="#the-puzzles-work-fine-on-my-computer-but-not-on-the-ag-im-getting-a-gc-overhead-limit-exceeded-error-or-just-a-message-that-the-the-autograder-failed-to-execute-correctly" id="markdown-toc-the-puzzles-work-fine-on-my-computer-but-not-on-the-ag-im-getting-a-gc-overhead-limit-exceeded-error-or-just-a-message-that-the-the-autograder-failed-to-execute-correctly">The puzzles work fine on my computer, but not on the AG. I’m getting a GC overhead limit exceeded error, or just a message that the “The autograder failed to execute correctly.”</a></li>
+      <li><a href="#how-do-i-ensure-my-board-class-immutable" id="markdown-toc-how-do-i-ensure-my-board-class-immutable">How do I ensure my Board class immutable?</a></li>
+      <li><a href="#why-cant-gradescope-compile-my-files-even-though-i-can-compile-them-locally" id="markdown-toc-why-cant-gradescope-compile-my-files-even-though-i-can-compile-them-locally">Why can’t Gradescope compile my files even though I can compile them locally?</a></li>
+      <li><a href="#the-ag-is-reporting-a-bug-involving-access-or-some-kind-of-null-pointer-exception-whats-going-on" id="markdown-toc-the-ag-is-reporting-a-bug-involving-access-or-some-kind-of-null-pointer-exception-whats-going-on">The AG is reporting a bug involving access$ or some kind of null pointer exception. What’s going on?</a></li>
+    </ul>
+  </li>
+  <li><a href="#credits" id="markdown-toc-credits">Credits</a></li>
+</ul>
+
+<h2 id="getting-the-skeleton-files">Getting the Skeleton Files</h2>
+
+<p>As usual, run <code class="highlighter-rouge">git pull skeleton master</code> to get the skeleton files.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>In this assignment, we’ll be building an artificial intelligence that solves
+puzzles. Specifically, given an object of type <code class="highlighter-rouge">WorldState</code>, your solver will
+take that <code class="highlighter-rouge">WorldState</code> and find a sequence of valid transitions between world
+states such that the puzzle is solved.</p>
+
+<p>As an example of one such puzzle, consider the “word ladder” puzzle. In this puzzle, we try to convert one word in English
+to another by either changing, adding, or removing letters such that every
+transition results in a valid English word. Suppose we start with the word
+“horse” and we want to turn it into “nurse”. To do this, we could perform the
+following transitions: horse -&gt; hose -&gt; hole -&gt; cole -&gt; core -&gt; cure -&gt; pure -&gt;
+purse -&gt; nurse.</p>
+
+<p>As another example, consider the 8-puzzle problem. The 8-puzzle is a puzzle
+invented and popularized by Noyes Palmer Chapman in the 1870s. It is played on a
+3-by-3 grid with 8 square tiles labeled 1 through 8 and a blank square. In this
+puzzle, the goal is to rearrange the tiles so that they are in order, using as
+few moves as possible. The player is permitted to slide tiles horizontally or
+vertically into the blank square. The following shows a sequence of legal moves
+from an initial board (left) to the goal board (right). Each of these puzzles is
+considered a valid “WorldState”.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   1  3        1     3        1  2  3        1  2  3        1  2  3
+4  2  5   =&gt;   4  2  5   =&gt;   4     5   =&gt;   4  5      =&gt;   4  5  6
+7  8  6        7  8  6        7  8  6        7  8  6        7  8
+
+initial        1 left          2 up          5 left          goal
+</code></pre></div></div>
+
+<p>In this assignment, not only must your artificial intelligence find a solution
+to <strong>any WorldState puzzle</strong>, but it must also be the shortest possible
+solution. While this may seem daunting, read on, and you’ll see that we can solve this problem with a clever use of a priority queue.</p>
+
+<h2 id="puzzle-formalization">Puzzle Formalization</h2>
+
+<p>In this assignment, all puzzles will be implementations of the <code class="highlighter-rouge">WorldState</code>
+interface, given below.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">hw4</span><span class="o">.</span><span class="na">puzzle</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">WorldState</span> <span class="o">{</span>
+    <span class="cm">/** Provides an estimate of the number of moves to reach the goal.
+     * Must be less than or equal to the correct distance. */</span>
+    <span class="kt">int</span> <span class="nf">estimatedDistanceToGoal</span><span class="o">();</span>
+
+    <span class="cm">/** Provides an iterable of all the neighbors of this WorldState. */</span>
+    <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">WorldState</span><span class="o">&gt;</span> <span class="nf">neighbors</span><span class="o">();</span>
+
+    <span class="cm">/** Estimates the distance to the goal. Must be less than or equal
+     *  to the actual (and unknown) distance. */</span>
+    <span class="k">default</span> <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isGoal</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="nf">estimatedDistanceToGoal</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>As seen above, every <code class="highlighter-rouge">WorldState</code> object must be able to return all of its
+neighbors, and it must have a method to return the estimated distance to the goal. For reasons that will become clear later, this estimate must be less than or equal to the true distance.</p>
+
+<p>As an example, suppose we are solving a word ladder puzzle. Suppose that the current <code class="highlighter-rouge">WorldState</code> is the starting word “horse”, and our goal is to get to the word “nurse”. In this case, <code class="highlighter-rouge">neighbors()</code> would return <code class="highlighter-rouge">["house", "worse", "hose", "horses"]</code>, and <code class="highlighter-rouge">estimatedDistanceToGoal</code> might return 2, since changing ‘h’ into ‘n’, and ‘o’
+into ‘u’ would result in reaching the goal.</p>
+
+<p>Ultimately, the <code class="highlighter-rouge">WorldState</code> class is an <em>implicit</em> recursive data structure known as a graph, which we will traverse from our start state to our goal state. The <code class="highlighter-rouge">neighbors()</code> method tells us where we could possibly go, and the <code class="highlighter-rouge">estimatedDistanceToGoal()</code> will be used by our algorithm to decide where to explore first.</p>
+
+<p><strong>Test your understanding:</strong> Why is 2 guaranteed to be less than or equal to the true distance from “horse” to the goal “nurse”?</p>
+
+<h2 id="best-first-search-conceptual">Best-First Search (conceptual)</h2>
+
+<p>Our goal is to traverse the recursive data structure formed by our <code class="highlighter-rouge">WorldState</code> objects and their <code class="highlighter-rouge">neighbors()</code>. A naive algorithm would simply recursively search all <code class="highlighter-rouge">neighbors</code> in no particular order until you found the goal.</p>
+
+<p>However, this algorithm would be too slow. For example, suppose our current state is “mug”, which has neighbors [“bug”, <a href="https://www.tripadvisor.com/ShowUserReviews-g30196-d484529-r240318030-Magnolia_Cafe_South-Austin_Texas.html">“mag”, “mud”</a>, “rug”]. Suppose our goal is “rugs”. Naively recursive calling our search function on all the neighbors of “mug” would take us to “bug”, which provides no progress towards our goal. Instead, “rug” is clearly the better choice.</p>
+
+<p>Instead, we will do something called ‘best first search’, where we’ll try to make intelligent moves. For example, if we’re trying to get from ‘mug’ to the goal state ‘rugs’, the best neighbor of ‘mug’ to explore is ‘rug’.</p>
+
+<p>Conceptually, the idea is pretty simple:</p>
+<ul>
+  <li>Keep a priority queue of “move sequences”.</li>
+  <li>Remove the “best” move sequence from the PQ, let’s call it BMS.</li>
+  <li>Let F be the last state in BMS.</li>
+  <li>If F is the goal state, you’re done, so return BMS.</li>
+  <li>If F is not the goal, then for each neighbor N of F, create a new move sequence that consists of BMS + N and put it in the PQ.</li>
+</ul>
+
+<p>This algorithm is also known as the <a href="https://en.wikipedia.org/wiki/A*_search_algorithm">A* search algorithm</a>. We’ll talk about it in great detail later in class.</p>
+
+<h2 id="best-first-search-implementation">Best-First Search (implementation)</h2>
+
+<p>Your AI will implement the <a href="https://en.wikipedia.org/wiki/A*_search_algorithm">A* search algorithm</a>.</p>
+
+<p>Before we describe this algorithm, we’ll first define a <strong>search node</strong> of the
+puzzle to be:</p>
+<ul>
+  <li>a <code class="highlighter-rouge">WorldState</code>.</li>
+  <li>the number of moves made to reach this world state from the initial state.</li>
+  <li>a reference to the previous search node.</li>
+</ul>
+
+<p>Each <code class="highlighter-rouge">SearchNode</code> represents one “move sequence” as defined in the conceptual description of Best-First Search.</p>
+
+<p>The first step of the algorithm is to create a <strong>priority queue</strong> of search
+nodes, and insert an “initial search node” into the priority queue, which
+consists of:</p>
+<ul>
+  <li>the initial world state.</li>
+  <li>0 (since no moves have been made yet).</li>
+  <li>null (since there is no previous search node).</li>
+</ul>
+
+<p>The algorithm then proceeds as follows:</p>
+<ul>
+  <li>Remove the search node with minimum priority. Let’s call this node X. If it
+is the goal node, then we’re done.</li>
+  <li>Otherwise, for each neighbor of X’s world state, create a new search node
+that obeys the description above and insert it into the priority queue.</li>
+</ul>
+
+<p>We can think of each search node as having a priority equal to the sum of (the
+number of moves made to reach this world state from the initial state + the
+<code class="highlighter-rouge">WorldState</code>’s <code class="highlighter-rouge">estimatedDistanceToGoal</code>). In other words, if we have two search
+nodes on the priority queue, with the first M1 moves away from the initial state
+and E1 as its estimated distance to goal, and the other having M2 moves so far
+and E2 as its estimated distance to goal, then the former search node will have
+a lower priority iff (M1 + E1) &lt; (E2 + M2).</p>
+
+<p>The A* algorithm can also be thought of as “Given a state, pick a neighbor state
+such that (distance so far + estimated distance to goal) is minimized. Repeat
+until the goal is seen”.</p>
+
+<p>As an example, consider the problem of converting the word “stories” into
+“shore”. The diagram below shows the six search-nodes created after two
+removals, i.e. after “stories” has had a chance to be X, and “stores” has had a
+chance to be X. At this point in time, the priority queue contains four search
+nodes, and the next node to be dequeued will be “store”, for which M = 2 and E = 1. 
+The critical optimization mentioned in the figure is described below under
+“Optimizations”.</p>
+
+<p><img src="images/wordpuzzle-game-tree.png" alt="wordpuzzle game tree" /></p>
+
+<p>To see an example of this algorithm in action, see <a href="https://youtu.be/YFYBjtdl_w4">this
+video</a> or these
+<a href="https://docs.google.com/presentation/d/1FNt7kEFy7R0k0RQS85DgkDk93GLuzAMMcuUjtF4i7Kg">slides</a>.</p>
+
+<h3 id="solver">Solver</h3>
+
+<p>Create an <em>immutable</em> Solver class with the following API:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solver</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">Solver</span><span class="o">(</span><span class="n">WorldState</span> <span class="n">initial</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">moves</span><span class="o">()</span>
+    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">WorldState</span><span class="o">&gt;</span> <span class="nf">solution</span><span class="o">()</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Where the methods work as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Solver(initial): Constructor which solves the puzzle, computing
+                 everything necessary for moves() and solution() to
+                 not have to solve the problem again. Solves the
+                 puzzle using the A* algorithm. Assumes a solution exists.
+moves():         Returns the minimum number of moves to solve the puzzle starting
+                 at the initial WorldState.
+solution():      Returns a sequence of WorldStates from the initial WorldState
+                 to the solution.
+</code></pre></div></div>
+
+<p>To implement the A* algorithm, <strong>you must use the MinPQ class from
+<a href="http://algs4.cs.princeton.edu/code/">edu.princeton.cs.algs4</a> for the priority
+queue</strong>.</p>
+
+<p><strong>Test out your code using the <code class="highlighter-rouge">WordPuzzleSolver</code> class.</strong> If implemented
+properly, you should get a path between “cube” and “tubes”. Try changing the
+start state to “horse” and the end state to “nurse”, and you should get the
+solution horse -&gt; hose -&gt; hole -&gt; cole -&gt; core -&gt; cure -&gt; pure -&gt; purse -&gt;
+nurse. Other solutions of the same length are technically correct, but for full
+credit on this assignment, you’ll need to implement the critical optimization
+described below. If you get “horse -&gt; hose -&gt; home -&gt; come -&gt; core -&gt; cure -&gt;
+pure -&gt; purse -&gt; nurse”, most likely you have not implemented the critical
+optimization properly.</p>
+
+<p><em>Hint: Recall the search node concept mentioned above for using your PQ.</em></p>
+
+<h4 id="optimizations">Optimizations</h4>
+
+<p><strong>A critical optimization:</strong> Best-first search has one annoying feature: search
+nodes corresponding to the same board are enqueued on the priority queue many
+times. To reduce unnecessary exploration of useless search nodes, when
+considering the neighbors of a search node, don’t enqueue a neighbor if its
+world state is the same as the world state of the previous search node. <strong>You
+must implement this optimization, otherwise your code will not be fast enough
+for the second part of this assignment or the Gradescope autograder.</strong></p>
+
+<p>You can test that your critical optimization is working correctly by running 
+<code class="highlighter-rouge">CommonBugDetector</code> (added to skeleton on 3/28/18) and following the directions
+given in the print statement that starts with “TODO”.</p>
+
+<p>Edit (4/1/2018): <strong>The critical optimization only checks that no enqueued WorldState is its own grandparent! Some students have tried something fancier like never allowing any WorldState to be enqueued twice. This doesn’t work. See the FAQ for more.</strong></p>
+
+<p><strong>A second optimization:</strong> To avoid recomputing the <code class="highlighter-rouge">estimatedDistanceToGoal()</code>
+result from scratch each time during various priority queue operations, compute
+it at most once per object; save its value in an instance variable; and return
+the saved value as needed. This caching technique is broadly applicable:
+consider using it in any situation where you are recomputing the same quantity
+many times and for which computing that quantity is a bottleneck operation.</p>
+
+<h3 id="board">Board</h3>
+
+<p>For the second part of this assignment, you’ll implement the Board class,
+allowing your Solver from part 1 to solve the 8-puzzle.</p>
+
+<p>Organize your program by creating an immutable Board class with the following API:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Board</span> <span class="kd">implements</span> <span class="n">WorldState</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="nf">Board</span><span class="o">(</span><span class="kt">int</span><span class="o">[][]</span> <span class="n">tiles</span><span class="o">)</span> 
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">tileAt</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">j</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">size</span><span class="o">()</span>
+  <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">WorldState</span><span class="o">&gt;</span> <span class="nf">neighbors</span><span class="o">()</span>
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">hamming</span><span class="o">()</span>
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">manhattan</span><span class="o">()</span>
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">estimatedDistanceToGoal</span><span class="o">()</span>
+  <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">equals</span><span class="o">(</span><span class="n">Object</span> <span class="n">y</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span>  
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Where the constructor and methods work as follows:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Board(tiles): Constructs a board from an N-by-N array of tiles where
+              tiles[i][j] = tile at row i, column j
+tileAt(i, j): Returns value of tile at row i, column j (or 0 if blank)
+size():       Returns the board size N
+neighbors():  Returns the neighbors of the current board
+hamming():    Hamming estimate described below
+manhattan():  Manhattan estimate described below
+estimatedDistanceToGoal(): Estimated distance to goal. This method should
+              simply return the results of manhattan() when submitted to
+              Gradescope.
+equals(y):    Returns true if this board's tile values are the same
+              position as y's
+toString():   Returns the string representation of the board. This
+              method is provided in the skeleton
+</code></pre></div></div>
+
+<p>Note that the class will also support an <code class="highlighter-rouge">isGoal()</code> method that returns true
+if the board is the goal board. This is implemented for you already in the
+interface, so you should not reimplement it in your Board class.</p>
+
+<p><strong>The neighbors method is arguably a bit tedious. If you want, you’re welcome to
+use <a href="http://joshh.ug/neighbors.html">our solution</a>.</strong> If you do this, make sure
+to cite your source (like you should every time you get significant help from
+anyone else online or in person).</p>
+
+<p><strong>Corner cases:</strong>  You may assume that the constructor receives an N-by-N array
+containing the N<sup>2</sup> integers between 0 and N<sup>2</sup> − 1, where 0
+represents the blank square. The tileAt() method should throw a
+<code class="highlighter-rouge">java.lang.IndexOutOfBoundsException</code> unless both i and j are between 0 and N −
+1.</p>
+
+<p><strong>Performance requirements:</strong> Your implementation should support all Board
+methods in time proportional to N<sup>2</sup> (or faster) in the worst case.</p>
+
+<h4 id="goal-distance-estimates">Goal Distance Estimates</h4>
+<p>We consider two goal distance estimates:</p>
+
+<ul>
+  <li><em>Hamming estimate</em>: The number of tiles in the wrong position.</li>
+  <li><em>Manhattan estimate</em>: The sum of the Manhattan distances (sum of the vertical
+and horizontal distance) from the tiles to their goal positions.</li>
+</ul>
+
+<p>For example, the Hamming and Manhattan estimates of the board below are 5 and
+10, respectively.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>8  1  3        1  2  3     1  2  3  4  5  6  7  8    1  2  3  4  5  6  7  8
+4     2        4  5  6     ----------------------    ----------------------
+7  6  5        7  8        1  1  0  0  1  1  0  1    1  2  0  0  2  2  0  3
+
+initial          goal         Hamming = 5 + 0          Manhattan = 10 + 0
+</code></pre></div></div>
+
+<p>The Manhattan estimate will always be greater than or equal to the Hamming
+estimate. Both estimates will always be less or than equal to the true distance
+(try to convince yourself why).</p>
+
+<h4 id="a-deeper-look-at-a-optional">A Deeper Look at A* (optional)</h4>
+
+<p>As an aside, we can make a key observation which gives insight into why A*
+works: To solve the puzzle from a given search node on the priority queue, the
+total number of moves we need to make (including those already made) is at least
+its priority, using either the Hamming or Manhattan estimate. (For the Hamming
+estimate, this is true because each tile that is out of place must move at least
+once to reach its goal position. For the Manhattan estimate, this is true
+because each tile must move its Manhattan distance from its goal position. Note
+that we do not count the blank square when computing the Hamming or Manhattan
+estimates.) Consequently, when the goal board is dequeued, we have discovered
+not only a sequence of moves from the initial board to the goal board, but one
+that makes the fewest number of moves. (Challenge for the mathematically
+inclined: prove this fact.)</p>
+
+<p>One way to view the computation is as a game tree, where each search node is a
+node in the game tree and the children of a node correspond to its neighboring
+search nodes. The root of the game tree is the initial search node; the internal
+nodes have already been processed; the leaf nodes are maintained in a priority
+queue; at each step, the A* algorithm removes the node with the smallest
+priority from the priority queue and processes it (by adding its children to
+both the game tree and the priority queue).</p>
+
+<p><img src="images/8puzzle-game-tree.png" alt="8puzzle game tree" /></p>
+
+<h4 id="solver-test-client">Solver Test Client</h4>
+<p>We’ve provided two puzzle solvers that use your <strong>Solver</strong> class. These are
+<code class="highlighter-rouge">EightPuzzleSolver.java</code> and <code class="highlighter-rouge">WordPuzzleSolver.java</code>. <strong>Do not modify</strong> these
+files. 8-Puzzle input files are provided in the <em>input</em> folder.</p>
+
+<p>The input and output format for a board is the board size N followed by the
+N-by-N initial board, using 0 to represent the blank square. An example of an
+input file for N = 3 would look something like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3
+0  1  3
+4  2  5
+7  8  6
+</code></pre></div></div>
+
+<p>Your program should work correctly for arbitrary N-by-N boards (for any 1 &lt; N &lt;
+32768), even if it is too slow to solve some of them in a reasonable amount of
+time. Note N &gt; 1.</p>
+
+<p>To test against input in IntelliJ, set the command line arguments up using the Edit Configurations
+option (in the spirit of building independence see
+<a href="https://www.google.com/search?q=command+line+arguments+intelliJ&amp;oq=command+line+arguments+intelliJ&amp;aqs=chrome..69i57.2608j0j1&amp;sourceid=chrome&amp;ie=UTF-8">Google</a>).
+As an example, if I tested against an input file <code class="highlighter-rouge">input/test01.in</code> with the
+following contents:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2
+1  2
+0  3
+</code></pre></div></div>
+
+<p>I should get the following output:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Minimum number of moves <span class="o">=</span> 1
+2
+1  2
+0  3
+
+2
+1  2
+3  0
+</code></pre></div></div>
+
+<p>EDIT: 3/30/2018: I’ve added a more exhaustive set of local tests in the file TestSolver.java. 
+This tester automatically tries a bunch of puzzles. If you need to understand why a particular
+test fails, please use the debugger, possibly along with one of the two solver test clients
+described above.</p>
+
+<h3 id="optional">Optional</h3>
+
+<p>Try modifying the <code class="highlighter-rouge">Word</code> class so that neighbors is constant time instead of
+linear time. Try out the solver with a large words file, for example the one you
+used for project 1A. Report any cool findings on Piazza.</p>
+
+<h3 id="optional-ultra-edition">Optional Ultra-Edition</h3>
+
+<p>Try implementing other <code class="highlighter-rouge">WorldState</code> puzzles and show that your Solver is capable
+of solving them. Examples include maze traversal, path finding for video game
+AI, and solving a Rubik’s Cube.</p>
+
+<h2 id="faq">FAQ</h2>
+
+<h4 id="why-am-i-getting-cannot-resolve-symbol-boardutils">Why am I getting cannot resolve symbol ‘BoardUtils’?</h4>
+<p>File -&gt; Project Structure -&gt; Libraries -&gt; (+) sign to add new Java Library -&gt;
+Select your <strong>login/hw4</strong> directory <strong>DO NOT USE</strong> login/hw4/hw4/puzzle -&gt; OK -&gt;
+OK -&gt; OK.</p>
+
+<p>These are the steps needed for Macs. I suspect there won’t be big differences
+for other operating systems.
+–&gt;</p>
+
+<h4 id="the-autograder-says-im-using-too-many-moves-on-a-puzzle-but-when-i-try-it-locally-it-works-fine">The autograder says I’m using too many moves on a puzzle but when I try it locally it works fine.</h4>
+
+<p>Chances are that the autograder is breaking ties in a different order and the bug
+in your code only very rarely occurs. Try running <code class="highlighter-rouge">CommonBugDetector</code>. The most
+common reason this happens is that you are trying to avoid revisiting old
+<code class="highlighter-rouge">WorldStates</code> but you are doing so in a manner that breaks our search algorithm.</p>
+
+<h4 id="the-neighbors-method-provided-doesnt-work-it-looks-like-it-only-returns-the-initial-board">The neighbors() method provided doesn’t work. It looks like it only returns the initial board.</h4>
+
+<p>It works, but it does depend on the board being immutable. See the provided
+<code class="highlighter-rouge">TestBoard.java</code> to verify that your Board class is immutable.</p>
+
+<h4 id="how-do-i-know-if-my-solver-is-optimal">How do I know if my Solver is optimal?</h4>
+
+<p>The shortest solution to puzzle4x4-hard1.txt and puzzle4x4-hard2.txt are 38 and
+47, respectively. The shortest solution to “puzzle*[T].txt” requires exactly T
+moves. Warning: <em>puzzle36.txt</em>, <em>puzzle47.txt</em>, and <em>puzzle49.txt</em>, and
+<em>puzzle50.txt</em> are relatively difficult.</p>
+
+<h4 id="my-program-is-too-slow-or-runs-out-of-memory-on-some-of-the-large-sample-puzzles-is-this-ok">My program is too slow or runs out of memory on some of the large sample puzzles. Is this OK?</h4>
+
+<p>You should not expect to solve many of the larger puzzles with the Hamming
+priority function. However, you should be able to solve most (but not all) of
+the larger puzzles with the Manhattan priority function. Which puzzles
+your program is capable of solving may vary widely based on your code and
+computer.</p>
+
+<h4 id="what-size-puzzles-are-we-expected-to-solve">What size puzzles are we expected to solve?</h4>
+
+<p>Here are the puzzles you are explicitly expected to solve:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>input/puzzle2x2-[00-06].txt
+input/puzzle3x3-[00-30].txt
+input/puzzle4x4-[00-30].txt
+input/puzzle[00-31].txt
+</code></pre></div></div>
+
+<p>Edit (3/30/2018): The provided TestSolver.java file will test all of these puzzles.</p>
+
+<h4 id="even-with-the-critical-optimization-the-priority-queue-may-contain-two-or-more-search-nodes-corresponding-to-the-same-worldstate-should-i-try-to-eliminate-these-with-something-like-a-hashset-of-previously-used-states">Even with the critical optimization, the priority queue may contain two or more search nodes corresponding to the same WorldState. Should I try to eliminate these with something like a HashSet of previously used states?</h4>
+
+<p>In principle, you can avoid revisiting WorldStates by somehow “marking” them after they’ve been used. For example, you can create a <code class="highlighter-rouge">HashSet&lt;WorldState&gt;</code> to record all marked WorldStates. It is possible to do this, but be warned: this is beyond the scope for CS61B, so it’s going to feel very hand-wavy.</p>
+
+<p>The key issue is that you shouldn’t consider a state to be “used” until it is <strong>dequeued</strong>.</p>
+
+<p>In other words, if you DO attempt to do this, you should only <strong>“mark” a WorldState when it is dequeued from the PQ</strong>, not when it is enqueued! The reason for this is beyond the scope of 61B (see CS188 for more!), but the rough intuition behind this is as follows: If you’re at a move sequence (a.k.a. SearchNode) that ends at WorldState X and you see that WorldState G is one of X’s neighbors, it’s not safe to assume that this is the best path, and therefore it’s not safe to enqueue X-&gt;G and then subsequently disallow all other paths that end in G.</p>
+
+<p>As a crude analogy, imagine trying to compute driving directions to the Eiffel Tower by looking at a bunch of pictures taken from various locations: Just because you can see the Eiffel Tower from a picture of location X doesn’t mean that location X is along the best route to your destination, so you can’t just give up the first time you see the Eiffel Tower in a picture.</p>
+
+<p>This approach is not required! The critical optimization described in the spec is enough. However, you’re welcome to try this out and see if it helps. One potential pitfall is that your code may use too much memory, which may make the autograder crash in weird
+ways.</p>
+
+<p>Note: If you take 188, you’ll learn that this version of A* is called <code class="highlighter-rouge">A* Graph
+Search</code>, whereas the version given in the spec is called <code class="highlighter-rouge">A* Tree Search</code>.</p>
+
+<p>Edit (4/1/2018): This answer made more verbose since a few students on Piazza seemed be trying this instead of the critical optimization.</p>
+
+<h4 id="the-puzzles-work-fine-on-my-computer-but-not-on-the-ag-im-getting-a-gc-overhead-limit-exceeded-error-or-just-a-message-that-the-the-autograder-failed-to-execute-correctly">The puzzles work fine on my computer, but not on the AG. I’m getting a GC overhead limit exceeded error, or just a message that the “The autograder failed to execute correctly.”</h4>
+
+<p>Your computer is probably more powerful than the autograder. Notably, the AG has
+much less memory. You should be able to complete puzzles 30 and 31 in less than
+a second, and they should also work if you use only 128 megabytes of memory. To
+run your code with only 128 megabytes, try running your code with the following
+commands. Unfortunately, there’s no easy way to do this in IntelliJ. For
+directions in IntelliJ see <a href="https://www.jetbrains.com/help/idea/2016.3/tuning-intellij-idea.html#d964492e266">this
+link</a>. Otherwise, you can try running your code from the command line.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java <span class="nt">-Xmx128M</span> hw4.puzzle.EightPuzzleSolver ./input/puzzle30.txt
+java <span class="nt">-Xmx128M</span> hw4.puzzle.EightPuzzleSolver ./input/puzzle31.txt
+java <span class="nt">-Xmx128M</span> hw4.puzzle.EightPuzzleSolver ./input/puzzle4x4-30.txt
+</code></pre></div></div>
+
+<p>If your code is taking longer, by far the <strong>most likely issue is that you are
+not implementing the first critical optimization properly</strong>. Another possiblity
+is that you are creating a hash table of every board ever seen, which may cause
+the AG computer to run out of memory.</p>
+
+<p>It is not enough to simply look at your code for the optimization and declare
+that it is correct. Many students have indicated confidence in their
+optimization implementation, only to discover a subtle bug. Use print statements
+or the debugger to ensure that a board never enqueues the board it came from.</p>
+
+<p>Situations that cover 98% of student performance bugs:</p>
+<ul>
+  <li>Recall that there is a difference between <code class="highlighter-rouge">==</code> and <code class="highlighter-rouge">equals</code>.</li>
+  <li>Recall also that the optimization is that you should not “enqueue a neighbor
+if its board is the same as the board of the <strong>previous</strong> search node”.
+Checking vs. the current board does nothing, since a board is never its own
+neighbor.</li>
+</ul>
+
+<h4 id="how-do-i-ensure-my-board-class-immutable">How do I ensure my Board class immutable?</h4>
+
+<p>The most common situation where a Board is not immutable is as follows:</p>
+<ul>
+  <li>Step 1: Create a 2D array called cowmoo.</li>
+  <li>Step 2: Pass cowmoo as an argument to the Board constructor.</li>
+  <li>Step 3: Change one or more values of cowmoo.</li>
+</ul>
+
+<p>If you just copy the reference in the Board constructor, someone can change the
+state of your Board by changing the array. You should instead make a copy of the
+2D array that is passed to your board constructor. Try running <code class="highlighter-rouge">TestBoard</code> to
+ensure your board is immutable.</p>
+
+<h4 id="why-cant-gradescope-compile-my-files-even-though-i-can-compile-them-locally">Why can’t Gradescope compile my files even though I can compile them locally?</h4>
+
+<p>Due to the nature of the autograder, you cannot use any public Board and Solver
+methods that were not mentioned in the spec. Consider moving the logic into one
+file.</p>
+
+<h4 id="the-ag-is-reporting-a-bug-involving-access-or-some-kind-of-null-pointer-exception-whats-going-on">The AG is reporting a bug involving access$ or some kind of null pointer exception. What’s going on?</h4>
+
+<p>It’s important that your <code class="highlighter-rouge">moves</code> and <code class="highlighter-rouge">solutions</code> methods work no matter the
+order in which they are called, and no matter how many times they are called.
+Failing the mutability test, or failing only <code class="highlighter-rouge">moves</code> but not <code class="highlighter-rouge">solutions</code> tests
+are sure signs of this issue.</p>
+
+<h2 id="credits">Credits</h2>
+
+<p>This assignment was inspired by a somewhat similar assignment created by Kevin Wayne and Bob Sedgewick at Princeton University.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/hw/hw4/hw4 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:28 GMT -->
+</html>

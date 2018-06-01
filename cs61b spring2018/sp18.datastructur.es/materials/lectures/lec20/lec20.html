@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec20/lec20 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Disjoint Sets Study Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Disjoint Sets Study Guide</header><div class="due-date">Author: Josh Hug</div><ul id="markdown-toc">
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#example-implementations" id="markdown-toc-example-implementations">Example Implementations</a></li>
+  <li><a href="#recommended-problems" id="markdown-toc-recommended-problems">Recommended Problems</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B level</a></li>
+      <li><a href="#a-level" id="markdown-toc-a-level">A level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Algorthm Development.</strong> Developing a good algorithm is an iterative process.
+We create a model of the problem, develop an algorithm, and revise the
+performance of the algorithm until it meets our needs. This lecture serves as an
+example of this process.</p>
+
+<p><strong>The Dynamic Connectivity Problem.</strong> The ultimate goal of this lecture was to
+develop a data type that support the following operations on a fixed number <em>N</em>
+of objects:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">connect(int p, int q)</code> (called <code class="highlighter-rouge">union</code> in our optional textbook)</li>
+  <li><code class="highlighter-rouge">isConnected(int p, int q)</code> (called <code class="highlighter-rouge">connected</code> in our optional textbook)</li>
+</ul>
+
+<p>We do not care about finding the actual path between <code class="highlighter-rouge">p</code> and <code class="highlighter-rouge">q</code>.
+We care only about their connectedness. A third operation we can support
+is very closely related to <code class="highlighter-rouge">connected()</code>:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">find(int p)</code>: The <code class="highlighter-rouge">find()</code> method is defined so that <code class="highlighter-rouge">find(p) == find(q)</code>
+ iff <code class="highlighter-rouge">connected(p, q)</code>. We did not use this in class, but it’s in our textbook.</li>
+</ul>
+
+<p><strong>Key observation: Connectedness is an equivalence relation.</strong> Saying that two
+objects are connected is the same as saying they are in an equivalence class.
+This is just fancy math talk for saying “every object is in exactly one bucket,
+and we want to know if two objects are in the same bucket”. When you connect two
+objects, you’re basically just pouring everything from one bucket into another.</p>
+
+<p><strong>Quick find.</strong> This is the most natural solution, where each object is given an
+explicit number. Uses an array <code class="highlighter-rouge">id[]</code> of length $N$, where <code class="highlighter-rouge">id[i]</code> is the bucket
+number of object <code class="highlighter-rouge">i</code> (which is returned by <code class="highlighter-rouge">find(i)</code>). To connect two objects
+<code class="highlighter-rouge">p</code> and <code class="highlighter-rouge">q</code>, we set every object in <code class="highlighter-rouge">p</code>’s bucket to have <code class="highlighter-rouge">q</code>’s number.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">connect</code>: May require many changes to <code class="highlighter-rouge">id</code>. Takes $\Theta(N)$ time, as
+algorithm must iterate over the entire array.</li>
+  <li><code class="highlighter-rouge">isConnected</code> (and <code class="highlighter-rouge">find</code>): take constant time.</li>
+</ul>
+
+<p>Performing $M$ operations takes $\Theta(MN)$ time in the worst case. If $M$ is
+proportional to $N$, this results in a $\Theta(N^2)$ runtime.</p>
+
+<!--<p><b>Quadratic algorithms don't scale.</b>
+Given an *N* times larger problems on an *N* times faster computer,
+the problem takes *N* times as long to run.-->
+
+<p><strong>Quick union.</strong> An alternate approach is to change the meaning of our <code class="highlighter-rouge">id</code>
+array. In this strategy, <code class="highlighter-rouge">id[i]</code> is the parent object of object <code class="highlighter-rouge">i</code>. An object
+can be its own parent. The <code class="highlighter-rouge">find()</code> method climbs the ladder of parents until it
+reaches the root (an object whose parent is itself). To connect <code class="highlighter-rouge">p</code> and <code class="highlighter-rouge">q</code>, we
+set the root of <code class="highlighter-rouge">p</code> to point to the root of <code class="highlighter-rouge">q</code>.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">connect</code>: Requires only one change to <code class="highlighter-rouge">id[]</code>, but also requires root finding
+(worst case $\Theta(N)$ time).</li>
+  <li><code class="highlighter-rouge">isConnected</code> (and <code class="highlighter-rouge">find</code>): Requires root finding (worst case $\Theta(N)$
+time).</li>
+</ul>
+
+<p>Performing $M$ operations takes $\Theta(NM)$ time in the worst case. Again, this
+results in quadratic behavior if $M$ is proprtional to $N$.</p>
+
+<p><strong>Weighted quick union.</strong> Rather than <code class="highlighter-rouge">connect(p, q)</code> making the root of <code class="highlighter-rouge">p</code>
+point to the root of <code class="highlighter-rouge">q</code>, we instead make the root of the smaller tree point to
+the root of the larger one. The tree’s <em>size</em> is the <em>number</em> of nodes, not the
+height of the tree. Results in tree heights of $\lg N$.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">connect</code>: Requires only one change to <code class="highlighter-rouge">id</code>, but also requires root finding
+(worst case $\lg N$ time).</li>
+  <li><code class="highlighter-rouge">isConnected</code> (and <code class="highlighter-rouge">find</code>): Requires root finding (worst case $\lg N$ time).</li>
+</ul>
+
+<p>Warning: if the two trees have the same size, the book code has the opposite
+convention as quick union and sets the root of the second tree to point to the
+root of the first tree. This isn’t terribly important (you won’t be tested on
+trivial details like these).</p>
+
+<p><strong>Weighted quick union with path compression.</strong> When <code class="highlighter-rouge">find</code> is called, every
+node along the way is made to point at the root. Results in nearly flat trees.
+Making $M$ calls to union and find with $N$ objects results in no more than $O(M
+\log^*N)$ array accesses, not counting the creation of the arrays. For any
+reasonable values of $N$ in this universe that we inhabit, $log^*(N)$ is at
+most 5. It is possible to derive an even tighter bound, mentioned briefly in
+class (known as the <a href="https://en.wikipedia.org/wiki/Ackermann_function">Ackerman
+function</a>).</p>
+
+<h2 id="example-implementations">Example Implementations</h2>
+
+<p>You are not responsible for knowing the details of these implementations for
+exams, but these may help in your understanding of the concepts.</p>
+
+<p><a href="http://algs4.cs.princeton.edu/15uf/QuickFindUF.java.html">QuickFind</a></p>
+
+<p><a href="http://algs4.cs.princeton.edu/15uf/QuickUnionUF.java.html">QuickUnion</a></p>
+
+<p><a href="http://algs4.cs.princeton.edu/15uf/WeightedQuickUnionUF.java.html">WeightedQuickUnion</a></p>
+
+<p><a href="http://algs4.cs.princeton.edu/15uf/QuickUnionPathCompressionUF.java.html">Weighted Quick Union with Path Compression</a></p>
+
+<h2 id="recommended-problems">Recommended Problems</h2>
+
+<h3 id="c-level">C level</h3>
+
+<ol>
+  <li>
+    <p><a href="https://tbp.berkeley.edu/exams/5286/download/">Problem 2a</a> from Spring 2016 midterm #2.</p>
+  </li>
+  <li>
+    <p><a href="https://tbp.berkeley.edu/exams/5239/download/">Problem 1d</a> from Spring 2015 midterm #1.</p>
+  </li>
+</ol>
+
+<h3 id="b-level">B level</h3>
+<ol>
+  <li><a href="http://www.cs.princeton.edu/courses/archive/spring15/cos226/exams/mid-f11.pdf">Problem
+1</a>
+from the Princeton Fall 2011 midterm.</li>
+  <li><a href="http://www.cs.princeton.edu/courses/archive/spring15/cos226/exams/mid-f12.pdf">Problem
+1</a>
+from the Princeton Fall 2012 midterm.</li>
+  <li>For the <code class="highlighter-rouge">WeightedQuickUnionUF</code> data structure, the runtime of the <code class="highlighter-rouge">union</code> and
+<code class="highlighter-rouge">connected</code> operations is $O(\log N)$. Suppose we create a
+<code class="highlighter-rouge">WeightedQuickUnionUF</code> object with N items and then perform $M_U$ and $M_C$
+union and connected operations, give the runtime in big O notation. Answer (highlight to see):
+<span class="whitetext">$O(N + (M_U + M_C) \log N)$, the N is for array
+creation, and each operation takes $O(\log N)$ time</span></li>
+  <li>Same as #3, but give an example of a sequence of operations for which the
+runtime is $O(N + M_U + M_C)$.</li>
+  <li>(From Textbook 1.5.8) Does the following implementation of Quick-Find work?
+If not, give a counter-example:
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">connect</span><span class="o">(</span><span class="kt">int</span> <span class="n">p</span><span class="o">,</span> <span class="kt">int</span> <span class="n">q</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">if</span> <span class="o">(</span><span class="n">connected</span><span class="o">(</span><span class="n">p</span><span class="o">,</span> <span class="n">q</span><span class="o">))</span> <span class="k">return</span><span class="o">;</span>
+
+     <span class="c1">// Rename p’s component to q’s name.</span>
+     <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="o">;</span> <span class="n">id</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+         <span class="k">if</span> <span class="o">(</span><span class="n">id</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="n">id</span><span class="o">[</span><span class="n">p</span><span class="o">])</span> <span class="n">id</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">id</span><span class="o">[</span><span class="n">q</span><span class="o">];</span>
+     <span class="o">}</span>
+     <span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span><span class="o">;</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><a href="https://tbp.berkeley.edu/exams/5773/download/">Problem 3</a> from Spring 2017 midterm #2.</p>
+  </li>
+  <li><a href="https://tbp.berkeley.edu/exams/5286/download/">Problem 2b</a> from Spring 2016 midterm #2.</li>
+</ol>
+
+<h3 id="a-level">A level</h3>
+
+<ol>
+  <li>(From Textbook 1.5.10): In weighted quick-union, suppose that we set
+<code class="highlighter-rouge">id[find(p)]</code> to q instead of <code class="highlighter-rouge">id[find(q)]</code>. Would the resulting algorithm be
+correct?</li>
+  <li>If we’re concerned about tree height, why don’t we use height for deciding
+tree size instead of weight? What is the worst-case tree height for
+weighted-quick-union vs. heighted-quick-union? What is the average tree
+height?</li>
+  <li>Try writing weighted-quick-union-with-path-compression without looking at the
+code on the booksite. You may look at the API. Compare your resulting code
+with <a href="_http_/algs4.cs.princeton.edu/15uf/WeightedQuickUnionPathCompressionUF.java.html">the textbook’s
+code.</a></li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec20/lec20 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:22 GMT -->
+</html>

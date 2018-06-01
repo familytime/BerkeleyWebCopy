@@ -1,0 +1,11 @@
+.column {
+    float: left;
+    margin: 5px;
+    width: 32%;
+}
+.special {
+    color: #E64874;
+}
+.special:hover {
+    color: #A3284E;
+}

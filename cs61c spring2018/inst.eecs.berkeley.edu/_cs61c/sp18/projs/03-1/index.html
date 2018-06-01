@@ -1,0 +1,617 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/projs/03-1/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:53 GMT -->
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<title>Project 3-1: ALU and Regfile</title>
+
+  <link rel="stylesheet" type="text/css" media="screen" href="../01/style.css">
+
+<script language="javascript">
+
+</script>
+
+  <style type="text/css">
+    table{background:#cdc;border-collapse:collapse;font-family:monospace}td{border:0.125em solid #aba;padding:0.25em}thead{background:#676;color:#fff;text-transform:uppercase}
+    td{font-size: 1.2em;}
+    span.inst{color:#d00}span.rgtr{color:#00a}span.immd{color:#a0a}span.label{color:#666}
+    div.highlight{background:#cdc;padding:1em}
+    span.warn{color:#f00;font-weight:bold;}
+    table.colonly{display:inline-block;vertical-align:top;}table.colonly td{border-top:0em;border-bottom:0em;padding-top:0.1em;padding-bottom:0.1em;}td.center{text-align:center}
+  </style>
+  </style>
+
+</head>
+
+
+
+<body>
+
+<div class="header">
+  <div class="header-text">
+    <h1>CS61C Spring 2018 Project 3-1: ALU and Regfile</h1>
+        TAs: Derek Feng and Qijing Huang
+  </div>
+</div>
+<div class="content">
+  <h2>Due March 7th, 2018 @ 11:59:59 pm</h2>
+
+  <hr>
+
+<h2>Updates and Clarifications</h2>
+<p>Check here for all updates. Check Piazza for <b>VERY</b> important updates. If you haven't read the Piazza post, go read it now!</p>
+<!--
+Updates:
+<ul>
+    <li></li>
+</ul>
+
+To apply updates, please enter the following:
+<div class="highlight">
+    <code>
+        git fetch proj3-starter <br />
+        git merge proj3-starter/proj3-1-starter -m "Merge proj3-1 updates"
+    </code>
+</div> -->
+
+    <h2>Overview</h2>
+
+
+    <p>In this project you will be using <a href="http://www.cburch.com/logisim/index.html">Logisim</a> to implement a simple 32-bit processor, with an ISA that uses a subset of RISC-V instructions. This reduced ISA utilizes 32 registers that hold 32 bits of data, and a 32 bit memory address space.</p><p>In part I, you will make the Regfile and ALU. </p>
+
+<hr>
+
+  <div class="highlight">
+    <h3>IMPORTANT INFO - PLEASE READ</h3>
+
+    <ul>
+      <li>You are allowed to use any of Logisim's built-in blocks for all parts of this project.</li>
+      <li><b>LOGISM DISCLAIMER:</b>
+From past experience, it is best practice to put your project files under version control (Bitbucket). We have had students lose their work due to Logism incorrectly formatting their files. So please, use Bitbucket and commit your work every so often so you always have a backup for yourself and just in case something goes wrong. </li>
+      <li>Approach this project like you would any coding assignment: construct it piece by piece and test each component early and often! Use circuits as programming modules. Go to tab Project and click add circuit. <b>DO NOT</b> write your own .circ files and import as library. </li>
+      <li>Sample tests for a completed ALU and Regfile have been included in proj3-starter - just run the script <tt>./run-sanity-test.sh</tt>. We recommend running the sample tests locally, but they only work with <b>python 2.7</b>. As always, keep in mind that these tests are NOT comprehensive and you will need to do further testing on your own. There is also a script to help you write more tests for your ALU (see the Testing section).</li>
+      <li><b>MAKE SURE TO CHECK YOUR CIRCUITS WITH THE GIVEN HARNESSES TO SEE IF THEY FIT! YOU WILL FAIL ALL OUR TESTS IF THEY DO NOT.</b> <br/>(This also means that you should not be moving around given <b>inputs</b> and <b>outputs</b> in the circuits).</li>
+      <li>Because the files you are working on are not plain code and circuit schematics, they can't really be merged. <b>DO NOT WORK ON THE SAME FILE IN TWO PLACES AND TRY TO MERGE THEM. YOU WILL NOT BE ABLE TO MERGE THEM AND YOU WILL BE SAD.</b> </li>
+    </ul>
+
+  </div>
+
+</ul>
+
+<hr>
+
+
+    <h2>0) Obtaining the Files</h2>
+
+    <p>Similarly to other projects, we will be distributing the project files through Bitbucket. However, make sure that you are using your newly created project 3 repository! The repository that contains the starter code is named <tt>proj3-starter</tt>. It is important to make a repository in case you make any changes or delete files you don't want to delete!</p>
+
+    <p>An abridged version of the commands is reproduced below:</p>
+
+    <div class="highlight">
+        <code>
+            git clone https://bitbucket.org/mybitbucketusername/proj3-xxx.git <br />
+                # MAKE SURE TO REPLACE mybitbucketusername with your username and xxx with your three letter login. <br />
+            cd proj3-xxx <br />
+            git remote add proj3-starter https://github.com/61c-teach/sp18-proj3-starter.git <br />
+            git fetch proj3-starter <br />
+            git merge proj3-starter/part1 <br />
+        </code>
+    </div>
+    <h2> Details </h2>
+    <h2>1) Register File</h2>
+
+    <p>As you learned in class, RISC-V architecture has 32 registers. However, in this project, <b>You will only implement 10 of them (specified below)</b> to save you some repetitive work. This means your rs and rd signals would still be 5-bit, but we will only have the specified registers in our test. </p>
+
+    <p>Your regfile should be able to write to or read from these registers specified in a given RISC-V instruction without affecting any other registers. There is one notable exception: your regfile should NOT write to $0, even if an instruction try. Remember that the Zero Register should ALWAYS have the value 0x0. You should NOT gate the clock at any point in your regfile: the clock signal should ALWAYS connect directly to the clock input of the registers without passing through ANY combinational logic.</p>
+
+    <p> The registers and their corresponding numbers are listed below. </p>
+    <table>
+      <thead>
+        <tr>
+          <td>Register #</td>
+          <td>Register Name</td>
+        </tr>
+      </thead>
+        <tbody>
+            <tr>
+                <td>x0</td>
+                <td>zero</td>
+            </tr>
+            <tr>
+                <td>x1</td>
+                <td>ra</td>
+            </tr>
+            <tr>
+                <td>x2</td>
+                <td>sp</td>
+            </tr>
+            <tr>
+                <td>x5</td>
+                <td>t0</td>
+            </tr>
+            <tr>
+                <td>x6</td>
+                <td>t1</td>
+            </tr>
+            <tr>
+                <td>x7</td>
+                <td>t2</td>
+            </tr>
+            <tr>
+                <td>x8</td>
+                <td>s0</td>
+            </tr>
+            <tr>
+                <td>x9</td>
+                <td>s1</td>
+            </tr>
+            <tr>
+                <td>x10</td>
+                <td>a0</td>
+            </tr>
+            <tr>
+                <td>x11</td>
+                <td>a1</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <p> You are provided with the skeleton of a register file in <tt>regfile.circ</tt>. The register file circuit has six inputs:</p>
+    <table>
+      <thead>
+        <tr>
+          <td>Input Name</td>
+          <td>Bit Width</td>
+          <td>Description</td>
+        </tr>
+      </thead>
+        <tbody>
+            <tr>
+                <td>Clock</td>
+                <td>1</td>
+                <td>Input providing the clock. This signal can be sent into subcircuits or attached directly to the clock inputs of memory units in Logisim, but should not otherwise be gated (i.e., do not invert it, do not "and" it with anything, etc.).</td>
+            </tr>
+            <tr>
+                <td>Write Enable</td>
+                <td>1</td>
+                <td>Determines whether data is written on the next rising edge of the clock.</td>
+            </tr>
+            <tr>
+                <td>Read Register 1</td>
+                <td>5</td>
+                <td>Determines which register's value is sent to the Read Data 1 output, see below.</td>
+            </tr>
+            <tr>
+                <td>Read Register 2</td>
+                <td>5</td>
+                <td>Determines which register's value is sent to the Read Data 2 output, see below.</td>
+            </tr>
+            <tr>
+                <td>Write Register</td>
+                <td>5</td>
+                <td>Determines which register to set to the value of Write Data on the next rising edge of the clock, assuming that Write Enable is a 1.</td>
+            </tr>
+            <tr>
+                <td>Write Data</td>
+                <td>32</td>
+                <td>Determines what data to write to the register identified by the Write Register input on the next rising edge of the clock, assuming that Write Enable is 1.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p> The register file also has the following outputs:</p>
+
+    <table>
+      <thead>
+          <tr>
+            <td>Output Name</td>
+                <td>Bit Width</td>
+                <td>Description</td>
+            </tr>
+    </thead>
+        <tbody>
+            <tr>
+              <td>Read Data 1</td>
+            <td>32</td>
+                <td>Driven with the value of the register identified by the Read Register 1 input.</td>
+            </tr>
+            <tr>
+              <td>Read Data 2</td>
+            <td>32</td>
+                <td>Driven with the value of the register identified by the Read Register 2 input.</td>
+            </tr>
+            <tr>
+              <td><tt>ra</tt> Value</td>
+            <td>32</td>
+                <td>Always driven with the value of <tt>ra</tt> (This is a DEBUG/TEST output.)</td>
+            </tr>
+            <tr>
+              <td><tt>sp</tt> Value</td>
+            <td>32</td>
+                <td>Always driven with the value of <tt>sp</tt> (This is a DEBUG/TEST output.)</td>
+            </tr>
+            <tr>
+              <td><tt>t0</tt> Value</td>
+            <td>32</td>
+                <td>Always driven with the value of <tt>t0</tt> (This is a DEBUG/TEST output.)</td>
+            </tr>
+            <tr>
+              <td><tt>t1</tt> Value</td>
+            <td>32</td>
+                <td>Always driven with the value of <tt>t1</tt> (This is a DEBUG/TEST output.)</td>
+            </tr>
+            <tr>
+              <td><tt>t2</tt> Value</td>
+            <td>32</td>
+                <td>Always driven with the value of <tt>t2</tt> (This is a DEBUG/TEST output.)</td>
+            </tr>
+            <tr>
+              <td><tt>s0</tt> Value</td>
+            <td>32</td>
+                <td>Always driven with the value of <tt>s0</tt> (This is a DEBUG/TEST output.)</td>
+            </tr>
+            <tr>
+              <td><tt>s1</tt> Value</td>
+            <td>32</td>
+                <td>Always driven with the value of <tt>s1</tt> (This is a DEBUG/TEST output.)</td>
+            </tr>
+
+            <tr>
+              <td><tt>a0</tt> Value</td>
+            <td>32</td>
+                <td>Always driven with the value of <tt>a0</tt> (This is a DEBUG/TEST output.)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>The DEBUG/TEST outputs are present because those registers are more special than the others - they are for testing and debugging purposes, and will be used in the autograder tests! If you were implementing a real regfile, you would omit those outputs. In our case, be sure they are included correctly! If they are not, we won't be able to grade your submission.</p>
+
+    <p>You can make any modifications to <tt>regfile.circ</tt> you want, but the outputs must obey the behavior specified above. In addition, your <tt>regfile.circ</tt> that you submit <em><font color="red">must</font></em> fit into the <tt>regfile-harness.circ</tt> file we have provided for you. This means that you should take care to not reorder inputs or outputs. If you need more space, however, you can move them around if you are careful and maintain their relative positioning to each other. To verify your changes didn't break anything, simply open <tt>regfile-harness.circ</tt> and ensure there are no errors and the circuit functions well. We will be using a similar file to test your register file for grading, so you should download a fresh copy of <tt>regfile-harness.circ</tt> and make sure your <tt>regfile.circ</tt> is cleanly loaded before submitting.</p>
+
+    <p>HINTS: I would advise you not to use the enable input on your Muxes. In fact, you can turn that feature off. I would also advise you to also turn "three-state?" to off. Take a look at all the inputs to a logisim register and see what they all do. </p>
+
+  <h2>2) Arithmetic Logic Unit (ALU)</h2>
+
+  <p>Your second task is to create an ALU that supports all the operations needed by the instructions in our ISA (which is described in further detail in the next section). Please note that we treat overflow as RISC-V does with unsigned instructions, meaning that we ignore overflow.</p>
+
+
+    <p>We have provided a skeleton of an ALU for you in <tt>alu.circ</tt>. It has three inputs:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <td>Input Name</td>
+          <td>Bit Width</td>
+          <td>Description</td>
+        </tr>
+      </thead>
+        <tbody>
+            <tr>
+                <td>X</td>
+                <td>32</td>
+                <td>Data to use for X in the ALU operation.</td>
+            </tr>
+            <tr>
+                <td>Y</td>
+                <td>32</td>
+                <td>Data to use for Y in the ALU operation.</td>
+            </tr>
+            <tr>
+                <td>Switch</td>
+                <td>4</td>
+                <td>Selects what operation the ALU should perform </br>(see the list of operations with corresponding switch values below).</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>... and two outputs:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <td>Output Name</td>
+          <td>Bit Width</td>
+          <td>Description</td>
+        </tr>
+      </thead>
+        <tbody>
+            <tr>
+                <td>Equal</td>
+                <td>1</td>
+                <td>High iff the two inputs X and Y are equal; low otherwise.</td>
+            </tr>
+            <tr>
+                <td>Result</td>
+                <td>32</td>
+                <td>Result of the ALU Operation.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>And as previously promised, here is the list of operations that you need to implement (along with their associated Switch values). You are allowed and encouraged to use built-in logisim blocks to implement the arithmetic operations.</p>
+
+    <table>
+      <thead>
+          <tr>
+              <td>Switch Value</td>
+                <td>Instruction</td>
+              </tr>
+        </thead>
+        <tbody>
+          <tr>
+                <td class="center"> 0 </td>
+                <td> add: Result = X + Y </td>
+          </tr>
+          <tr>
+                <td class="center"> 1 </td>
+                <td> and: Result = X & Y</td>
+          </tr>
+          <tr>
+                <td class="center"> 2 </td>
+                <td> or: Result = X | Y</td>
+          </tr>
+          <tr>
+                <td class="center"> 3 </td>
+                <td> xor: Result = X^Y </td>
+          </tr>
+          <tr>
+                <td class="center"> 4 </td>
+                <td> srl: Result = (unsigned) X >> Y</td>
+            </tr>
+          <tr>
+                <td class="center"> 5 </td>
+                <td> sra: Result = (signed) X >> Y</td>
+            </tr>
+          <tr>
+                <td class="center"> 6 </td>
+                <td> sll: Result = X << Y</td>
+          </tr>
+          <tr>
+                <td class="center"> 7 </td>
+                <td> slt: Result = (X < Y) ? 1 : 0 Signed</td>
+            </tr>
+          <tr>
+                <td class="center"> 8 </td>
+                <td> div: Result = (unsigned) X / Y </td>
+          </tr>
+          <tr>
+                <td class="center"> 9 </td>
+                <td> rem: Result = X % Y </td>
+          </tr>
+          <tr>
+                <td class="center"> 10 </td>
+                <td> mult: Result = X*Y[31:0]</td>
+          </tr>
+          <tr>
+                <td class="center"> 11 </td>
+                <td> mulh: Result = X*Y[63:32]</td>
+          </tr>
+
+
+        </tbody>
+  </table>
+
+    <p>NOTE: The multiplier circuit built into logisim is signed (when operating on 32-bit numbers)! You are NOT expected to implement multiply from scratch.</p>
+    <p> Tl;dr: Use the built-in multiply blocks, and don't worry about it.</p>
+
+    <p>Some additional things to keep in mind:
+        <ul>
+            <li>The output <tt>Equal</tt>, which is true iff X and Y are equal, must always output the correct comparison result regardless of the <tt>Switch</tt> value.</li>
+            </ul>
+
+    <p> <strong>Note:</strong> Your ALU must be able to fit in the provided harness <tt>alu_harness.circ</tt>.
+    Follow the same instructions as the register file regarding rearranging inputs and outputs of the ALU. In particular, you should ensure that your ALU is correctly loaded by a fresh copy of <tt>alu-harness.circ</tt> before you submit.<br></p>
+
+    <hr>
+<!--
+        <h2>Instruction Set Architecture (ISA)</h2>
+
+        <p>Your CPU will support the instructions listed below. Since our new ISA does not directly correspond to the Green Sheet, the necessary information is instead presented below.
+
+    <table>
+  <thead>
+    <tr>
+      <td>Instruction</td>
+      <td>Format</td>
+      <td> Operation/Logic </td>
+      <td> Opcode/Funct (Hex) </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Add</td>
+      <td><span class="inst">add</span> <span class="rgtr">$rd</span>, <span class="rgtr">$rs</span>, <span class="rgtr">$rt</span></td>
+      <td> R[rd] = R[rs] + R[rt] </td>
+      <td> 0 </td>
+    </tr>
+    <tr>
+      <td>Add Immediate</td>
+      <td><span class="inst">addi</span> <span class="rgtr">$rt</span>, <span class="rgtr">$rs</span>, <span class="immd">immediate</span></td>
+    <tr>
+      <td>Add Immediate Unsigned</td>
+      <td><span class="inst">addiu</span> <span class="rgtr">$rt</span>, <span class="rgtr">$rs</span>, <span class="immd">immediate</span></td>
+    </tr>
+    <tr>
+      <td>Add Unsigned</td>
+      <td><span class="inst">addu</span> <span class="rgtr">$rd</span>, <span class="rgtr">$rs</span>, <span class="rgtr">$rt</span></td>
+    </tr>
+    <tr>
+      <td>And</td>
+      <td><span class="inst">and</span> <span class="rgtr">$rd</span>, <span class="rgtr">$rs</span>, <span class="rgtr">$rt</span></td>
+    </tr>
+    <tr>
+      <td>And Immediate</td>
+      <td><span class="inst">andi</span> <span class="rgtr">$rt</span>, <span class="rgtr">$rs</span>, <span class="immd">immediate</span></td>
+    </tr>
+    <tr>
+      <td>Branch on Equal</td>
+      <td><span class="inst">beq</span> <span class="rgtr">$rs</span>, <span class="rgtr">$rt</span>, <span class="label">label</span></td>
+    </tr>
+    <tr>
+      <td>Branch on Not Equal</td>
+      <td><span class="inst">bne</span> <span class="rgtr">$rs</span>, <span class="rgtr">$rt</span>, <span class="label">label</span></td>
+    </tr>
+    <tr>
+      <td>Jump</td>
+      <td><span class="inst">j</span> <span class="label">label</span></td>
+    </tr>
+    <tr>
+      <td>Jump and Link</td>
+      <td><span class="inst">jal</span> <span class="label">label</span></td>
+    </tr>
+    <tr>
+      <td>Jump Register</td>
+      <td><span class="inst">jr</span> <span class="rgtr">$rs</span></td>
+    </tr>
+    <tr>
+      <td>Load Upper Immediate</td>
+      <td><span class="inst">lui</span> <span class="rgtr">$rt</span>, <span class="immd">immediate</span></td>
+    </tr>
+    <tr>
+      <td>Load Word</td>
+      <td><span class="inst">lw</span> <span class="rgtr">$rt</span>, <span class="immd">offset</span>(<span class="rgtr">$rs</span>)</td>
+    </tr>
+    <tr>
+      <td>Or</td>
+      <td><span class="inst">or</span> <span class="rgtr">$rd</span>, <span class="rgtr">$rs</span>, <span class="rgtr">$rt</span></td>
+    </tr>
+    <tr>
+      <td>Or Immediate</td>
+      <td><span class="inst">ori</span> <span class="rgtr">$rt</span>, <span class="rgtr">$rs</span>, <span class="immd">immediate</span></td>
+    </tr>
+    <tr>
+      <td>Set Less Than</td>
+      <td><span class="inst">slt</span> <span class="rgtr">$rd</span>, <span class="rgtr">$rs</span>, <span class="rgtr">$rt</span></td>
+    </tr>
+    <tr>
+      <td>Set Less Than Immediate</td>
+      <td><span class="inst">slti</span> <span class="rgtr">$rt</span>, <span class="rgtr">$rs</span>, <span class="immd">immediate</span></td>
+    </tr>
+    <tr>
+      <td>Set Less Than Immediate Unsigned</td>
+      <td><span class="inst">sltiu</span> <span class="rgtr">$rt</span>, <span class="rgtr">$rs</span>, <span class="immd">immediate</span></td>
+    </tr>
+    <tr>
+      <td>Set Less Than Unsigned</td>
+      <td><span class="inst">sltu</span> <span class="rgtr">$rd</span>, <span class="rgtr">$rs</span>, <span class="rgtr">$rt</span></td>
+    </tr>
+    <tr>
+      <td>Shift Left Logical</td>
+      <td><span class="inst">sll</span> <span class="rgtr">$rd</span>, <span class="rgtr">$rt</span>, <span class="immd">shamt</span></td>
+    </tr>
+    <tr>
+      <td>Shift Right Arithmetic</td>
+      <td><span class="inst">sra</span> <span class="rgtr">$rd</span>, <span class="rgtr">$rt</span>, <span class="immd">shamt</span></td>
+    </tr>
+    <tr>
+      <td>Shift Right Logical</td>
+      <td><span class="inst">srl</span> <span class="rgtr">$rd</span>, <span class="rgtr">$rt</span>, <span class="immd">shamt</span></td>
+    </tr>
+    <tr>
+      <td>Sub</td>
+      <td><span class="inst">sub</span> <span class="rgtr">$rd</span>, <span class="rgtr">$rs</span>, <span class="rgtr">$rt</span></td>
+    </tr>
+    <tr>
+      <td>Sub Unsigned</td>
+      <td><span class="inst">subu</span> <span class="rgtr">$rd</span>, <span class="rgtr">$rs</span>, <span class="rgtr">$rt</span></td>
+    </tr>
+    <tr>
+      <td>Store Word</td>
+      <td><span class="inst">sw</span> <span class="rgtr">$rt</span>, <span class="immd">offset</span>(<span class="rgtr">$rs</span>)</td>
+    </tr>
+    <tr>
+      <td>Store Word and Increment <span class="warn">NEW!</span></td>
+      <td><span class="inst">swinc</span> <span class="rgtr">$rt</span>, <span class="immd">offset</span>(<span class="rgtr">$rs</span>)</td>
+  </tbody>
+</table>
+<br> -->
+
+    <h2>Logisim Notes</h2>
+
+    <p>If you are having trouble with Logisim, <b><i>RESTART IT and RELOAD your circuit!</i></b> Don't waste your time chasing a bug that is not your fault. However, if restarting doesn't solve the problem, it is more likely that the bug is a flaw in your project. Please post to Piazza about any crazy bugs that you find and we will investigate.</p>
+
+    <h3>Things to Look Out For</h3>
+    <ul>
+        <li>Use Library Reference! It is under Help tab and it tells you the specifications of each built-in component</li>
+        <li>Do <b>NOT</b> gate the clock! This is very bad design practice when making real circuits, so we will discourage you from doing this by heavily penalizing your project if you gate your clock.</li>
+        <li><span style="color:red; font-weight:bold;">BE CAREFUL with copying and pasting from different Logisim windows.</span> Logisim has been known to have trouble with this in the past.</li>
+        <li>When you import another file (Project <tt>--&gt;</tt> Load Library <tt>--&gt;</tt> Logisim Library...), it will appear as a folder in the left-hand viewing pane. The skeleton files should have already imported necessary files.</li>
+        <li>Changing attributes <em>before</em> placing a component changes the default settings for that component.  So if you are about to place many 32-bit pins, this might be desirable.  If you only want to change that particular component, place it first before changing the attributes.</li>
+        <li>When you change the inputs &amp; outputs of a sub-circuit that you have already placed in <tt>main</tt>, Logisim will automatically add/remove the ports when you return to <tt>main</tt> and this sometimes shifts the block itself.  If there were wires attached, Logisim will do its automatic moving of these as well, which can be extremely dumb in some cases.  Before you change the inputs and outputs of a block, it can sometimes be easier to first disconnect all wires from it.</li>
+        <li>Error signals (red wires) are obviously bad, but they tend to appear in complicated wiring jobs such as the one you will be implementing here.  It's good to be aware of the common causes while debugging:<br><br><img src="error_wire_2.png" width = 100%></li>
+    </ul>
+
+<h3>Logisim's Combinational Analysis Feature</h3>
+    <p>Logisim offers some functionality for automating circuit implementation given a truth table, or vice versa. Though not disallowed (enforcing such a requirement is impractical), use of this feature is discouraged. Remember that you will not be allowed to have a laptop running Logisim on the final.</p>
+
+    <hr>
+
+    <h2>Testing</h2>
+
+    <p>For part 1, we have provided you with a script for running tests on the ALU and regfile called "run_sanity_check.sh". Running <tt>./run_sanity_check.sh</tt> will copy your alu and regfile into the tests directory and run two ALU tests and two Regfile tests, which are stored in the tests directory as well. These tests drop in your work into a very slightly modified version of the harness and run it with a small set of inputs. The output is then compared against the provided reference.</p>
+
+    <p>If you fail a test and want to figure out what went wrong, you can go into your tests folder and open the harness corresponding to that test. Right click on your regfile or ALU and choose "view main." You can then see your regfile with the inputs provided by the test. Make sure your regfile or ALU behaves the way it ought to!</p>
+
+    <p>Keep in mind, as always, that the tests we provided are not comprehensive. Take a look at the file called TESTING INSTRUCTIONS to see how you can make your own tests. Basically, you'll want to come up with the values to put inside the different memory units to exercise different behaviors of the ALU and RegFile. You can modify the value in the memory units and probing the behavior of your ALU and regfile. </p>
+    <p><b>For example</b>, you make your own tests by making another .circ file that is very similar to ones we provided (e.g. alu-add.circ or regfile-insert.circ). Then you can modify the memory unit in your test file to feed different inputs to your circuit and verify that the output is what you would expect. Note that in the sanity tests, we compare your output to some reference .out files. The .out files contain values for all the outputs at every clock period through out the running of the test. It is not very wise to attempt creating your own .out files for testing purposes.</p>
+    <p><b>Note:</b> the autograder only works with python 2.7, so it may be easier to run it remotely off of the <tt>hive*</tt> servers if you haven't set up your python environments.</p>
+
+    <h2>Submission </h2>
+
+    <p>There are <strong>two</strong> steps required to submit proj3-1. Failure to perform both steps will result in loss of credit:</p>
+
+    <ol>
+        <li><p>First, you must submit using the standard unix submit program on the instructional servers. This assumes that you followed the earlier instructions and did all of your work inside of your <tt>git</tt> repository. To submit, follow these instructions after logging into your -XX class account:</p>
+        <div class="highlight">
+            <code>
+                cd ~/proj3-XXX                             # Or where your shared git repo is <br />
+                submit proj3-1
+            </code>
+        </div>
+            <p> Once you type "<tt>submit proj3-1</tt>", follow the prompts generated by the submission system. We will be looking for ONLY two files (alu.circ and regfile.circ) so make sure all your changes can be found in those two files. It will tell you when your submission has been successful and you can confirm this by looking at the output of <tt>glookup -t</tt>.</p>
+            <br />
+        </li>
+
+        <li><p>Additionally, you must submit proj3-1 to your Bitbucket repository:</p>
+        <div class="highlight">
+<pre>cd ~/proj3-xxx                               # Or where your shared git repo is
+git add -u
+git commit -m "project 3-1 submission"
+git tag "proj3-1-sub"                        # The tag MUST be "proj3-1-sub". Failure to do so will result in loss of credit
+git push origin proj3-1-sub                  # This tells git to push the commit tagged proj3-1-sub</pre>
+        </div>
+        </li>
+    </ol>
+
+    <h4>Resubmitting</h4>
+
+    <p>If you need to re-submit, you can follow the same set of steps that you would if you were submitting for the first time, but you will need to use the <tt>-f</tt> flag to tag and push to Bitbucket:</p>
+
+    <div class="highlight">
+        <code>
+            # Do everything as above until you get to tagging<br />
+            git tag -f "proj3-1-sub"<br />
+            git push -f origin proj3-1-sub
+        </code>
+    </div>
+
+    <p>Note that in general, force pushes should be used with caution. They will overwrite your remote repository with information from your local copy. As long as you have not damaged your local copy in any way, this will be fine.</p>
+
+    <h4>Deliverables</h4>
+    <ul>
+        <li><tt>regfile.circ</tt></li>
+        <li><tt>alu.circ</tt></li>
+    </ul>
+
+    <p> We will be using our own versions of the <tt>*-harness.circ</tt> files, so you do not need to submit those. In addition, you should not depend on any changes you make to those files.</p>
+
+<h2>Grading</h2>
+<p>This project will be graded in large part by an automated grading script, i.e. we will not look at your circuit. If you would like a regrade, we will give you a chance to request one, but we will also automatically deduct some percentage <!-- TODO decide this amount? --> from your final proj3-1 grade, unless it is an error with our test cases.</p>
+
+</div>
+</body>
+
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/projs/03-1/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:53 GMT -->
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec23/lec23 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Hashing Study Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Hashing Study Guide</header><div class="due-date">Author: Josh Hug</div><ul id="markdown-toc">
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#recommended-problems" id="markdown-toc-recommended-problems">Recommended Problems</a></li>
+  <li><a href="#example-implementations" id="markdown-toc-example-implementations">Example Implementations</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B level</a></li>
+      <li><a href="#a-level" id="markdown-toc-a-level">A level</a></li>
+      <li><a href="#a-level-1" id="markdown-toc-a-level-1">A+ level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Brute force approach.</strong> All data is just a sequence of bits. Can treat key as
+a gigantic number and use it as an array index. Requires exponentially large
+amounts of memory.</p>
+
+<p><strong>Hashing.</strong> Instead of using the entire key, represent entire key by a smaller
+value. In Java, we hash objects with a hashCode() method that returns an integer
+(32 bit) representation of the object.</p>
+
+<p><strong>hashCode() to index conversion.</strong> To use hashCode() results as an index, we
+must convert the hashCode() to a valid index. Modulus does not work since
+hashCode may be negative. Taking the absolute value then the modulus also
+doesn’t work since Math.abs(Integer.MIN_VALUE) is negative. Typical approach:
+use hashCode &amp; 0x7FFFFFFF instead before taking the modulus.</p>
+
+<p><strong>Hash function.</strong> Converts a key to a value between 0 and M-1. In Java, this means calling hashCode(), setting the sign bit to 0, then taking the modulus.</p>
+
+<p><strong>Designing good hash functions.</strong> Requires a blending of sophisticated
+mathematics and clever engineering; beyond the scope of this course. Most
+important guideline is to use all the bits in the key. If hashCode() is known
+and easy to invert, adversary can design a sequence of inputs that result in
+everything being placed in one bin. Or if hashCode() is just plain bad, same
+thing can happen.</p>
+
+<p><strong>Uniform hashing assumption.</strong> For our analyses below, we assumed that our hash
+function distributes all input data evenly across bins. This is a strong
+assumption and never exactly satisfied in practice.</p>
+
+<p><strong>Collision resolution.</strong> Two philosophies for resolving collisions discussed in
+class: Separate (a.k.a. external) chaining and ‘open addressing’.</p>
+
+<p><strong>Separate-chaining hash table.</strong> Key-value pairs are stored in a linked list of
+nodes of length M. Hash function tells us which of these linked lists to use.
+Get and insert both require potentially scanning through entire list.</p>
+
+<p><strong>Resizing separate chaining hash tables.</strong> Understand how resizing may lead to
+objects moving from one linked list to another. Primary goal is so that M is
+always proportional to N, i.e. maintaining a load factor bounded above by some
+constant.</p>
+
+<p><strong>Performance of separate-chaining hash tables.</strong> Cost of a given get, insert,
+or delete is given by number of entries in the linked list that must be
+examined.</p>
+
+<ul>
+  <li>The expected amortized search and insert time (assuming items are distributed
+evenly) is N / M, which is no larger than some constant (due to resizing).</li>
+</ul>
+
+<p><strong>Linear-probing hash tables.</strong> We didn’t go over this in detail in 61B, but
+it’s where you use empty array entries to handle collisions, e.g. linear
+probing. Not required for exam.</p>
+
+<h2 id="recommended-problems">Recommended Problems</h2>
+
+<h2 id="example-implementations">Example Implementations</h2>
+
+<p><a href="http://algs4.cs.princeton.edu/34hash/SeparateChainingHashST.java.html">External Chaining HT</a></p>
+
+<p><a href="http://algs4.cs.princeton.edu/34hash/LinearProbingHashST.java.html">Linear Probing HT</a></p>
+
+<h3 id="c-level">C level</h3>
+
+<ol>
+  <li>[Adapted from Textbook 3.4.5] Is the following implementation of hashCode()
+legal?
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kt">int</span> <span class="nf">hashCode</span><span class="o">()</span> <span class="o">{</span>
+     <span class="k">return</span> <span class="mi">17</span><span class="o">;</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>If so, describe the effect of using it. If not, explain why.</p>
+
+<h3 id="b-level">B level</h3>
+
+<ol>
+  <li><a href="https://d1b10bmlvqabco.cloudfront.net/attach/hx9h4t96ea8qv/h32s1vxe6mb5o0/i7vkubmrxjn0/fa14_mt2.pdf">Problem 2</a> of the Fall 2014 midterm.</li>
+</ol>
+
+<h3 id="a-level">A level</h3>
+
+<ol>
+  <li>
+    <p>One strategy discussed in class for hashing objects containing multiple
+pieces of data is as follows (in pseudocode), where <code class="highlighter-rouge">x.get(i)</code> returns the
+$i$-th piece of data in <code class="highlighter-rouge">x</code>. See Code 1.</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">hashCode</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+ <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">x</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">hashCode</span> <span class="o">*=</span> <span class="n">R</span><span class="o">;</span>
+    <span class="n">hashCode</span> <span class="o">+=</span> <span class="n">x</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">hashCode</span><span class="o">();</span>
+    <span class="n">hashCode</span> <span class="o">=</span> <span class="n">hashCode</span> <span class="o">%</span> <span class="n">M</span><span class="o">;</span>
+ <span class="o">}</span>
+ <span class="k">return</span> <span class="n">hashCode</span><span class="o">;</span>
+</code></pre></div>    </div>
+
+    <p>Effectively, we’re summing each piece of data multiplied by a different power
+of R. In class, we used R = 31, and M is the number of buckets. Explain why
+the idea above does not work well if M = 31 (or some power of 31).</p>
+  </li>
+  <li>
+    <p>If we start with a hash table of size 2 and double when the load factor
+exceeds some constant. Why is this procedure for setting sizes suboptimal
+from the perspective of utilizing all of the bits of the hashCode?</p>
+  </li>
+  <li>
+    <p>[Adapted from textbook 3.4.23] Suppose that we hash strings as described in
+A-level problem 1, using R = 256 and M = 255. Show that any permutation of
+letters within a string hashes to the same value. Why is this a bad thing?</p>
+  </li>
+  <li>
+    <p>Find 2 strings in Java that hash to the same value (writing code is probably
+best).</p>
+  </li>
+  <li>
+    <p><a href="http://inst.eecs.berkeley.edu/~cs61b/fa13/samples/test2.pdf">CS61B Fall 2009
+midterm</a>, #4
+(really beautiful problem)</p>
+  </li>
+  <li>
+    <p>Explan why the approach in A-level question 1 works better if we initially
+start the hashCode at 1 instead of 0.</p>
+  </li>
+</ol>
+
+<h3 id="a-level-1">A+ level</h3>
+
+<ol>
+  <li>Give a simple procedure that can be carried out by hand that takes a Java
+string X and finds another Java string Y with the same hashCode().</li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec23/lec23 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:25 GMT -->
+</html>

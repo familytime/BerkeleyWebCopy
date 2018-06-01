@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/proj/proj1gold/proj1gold by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Project 1 Gold: Autograding | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Project 1 Gold: Autograding</header><ul id="markdown-toc">
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#getting-the-skeleton-files" id="markdown-toc-getting-the-skeleton-files">Getting the Skeleton Files</a></li>
+  <li><a href="#randomized-testing" id="markdown-toc-randomized-testing">Randomized Testing</a></li>
+  <li><a href="#tips" id="markdown-toc-tips">Tips</a></li>
+  <li><a href="#frequently-asked-questions" id="markdown-toc-frequently-asked-questions">Frequently Asked Questions</a>    <ul>
+      <li><a href="#how-would-i-write-a-test-for-printdeque" id="markdown-toc-how-would-i-write-a-test-for-printdeque">How would I write a test for printDeque()?</a></li>
+      <li><a href="#im-getting-a-reference-to-assertequals-is-ambiguous-error" id="markdown-toc-im-getting-a-reference-to-assertequals-is-ambiguous-error">I’m getting a “reference to assertEquals is ambiguous” error.</a></li>
+      <li><a href="#i-keep-getting-nullpointerexceptions" id="markdown-toc-i-keep-getting-nullpointerexceptions">I keep getting NullPointerExceptions</a></li>
+      <li><a href="#the-autograder-is-complaining-about-my-failure-sequences" id="markdown-toc-the-autograder-is-complaining-about-my-failure-sequences">The autograder is complaining about my failure sequences.</a></li>
+      <li><a href="#the-autograder-is-still-complaining-about-my-failure-sequences" id="markdown-toc-the-autograder-is-still-complaining-about-my-failure-sequences">The autograder is still complaining about my failure sequences.</a></li>
+      <li><a href="#i-tried-all-that-and-the-autograder-is-still-complaining-about-my-failure-sequences" id="markdown-toc-i-tried-all-that-and-the-autograder-is-still-complaining-about-my-failure-sequences">I tried all that and the autograder is still complaining about my failure sequences.</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>This project is optional and worth a total of 12 gold points. In this project, you will build a rudimentary autograder for project 1A. This project may be quite challenging, and is considered extra credit, so will be lowest priority during office hours.</p>
+
+<p>In the skeleton, we have provided the following files for Project 1 Gold:</p>
+<ul>
+  <li><code class="highlighter-rouge">StudentArrayDeque.java</code>: A buggy implementation of ArrayDeque.</li>
+  <li><code class="highlighter-rouge">ArrayDequeSolution.java</code>: A correct implementation of ArrayDeque.</li>
+  <li><code class="highlighter-rouge">AssertEqualsStringDemo.java</code>: Demo of how to use assertEquals.</li>
+  <li><code class="highlighter-rouge">StudentArrayDequeLauncher.java</code>: Demo of how to use StudentArrayDeques.</li>
+</ul>
+
+<h2 id="getting-the-skeleton-files">Getting the Skeleton Files</h2>
+
+<p>As before, pull the skeleton using the command <code class="highlighter-rouge">git pull skeleton master</code>.</p>
+
+<h2 id="randomized-testing">Randomized Testing</h2>
+
+<p>Here’s a fun secret: The autograder project 1A largely relies on randomized tests. For example, our JUnit tests on gradescope simply call random methods of your <code class="highlighter-rouge">LinkedListDeque</code> class and our correct implementation <code class="highlighter-rouge">LinkedListDequeSolution</code> and as soon as we see any disagreement, the test fails and prints out a sequence of operations that caused the failure. In this part of the project, you’ll pretend you’re writing the autograder for the class using these same ideas.</p>
+
+<p>There will be two new ideas:</p>
+<ul>
+  <li>Randomized testing</li>
+  <li>JUnit message generation.</li>
+</ul>
+
+<p>To start off this project, you should start by making sure your IntelliJ has properly imported the project. To do this try running the <code class="highlighter-rouge">StudentArrayDequeLauncher.java</code> file. If it works you should see numbers printed by 0 and 9.</p>
+
+<p>Task I:</p>
+
+<p>Next, create a JUnit test file called <code class="highlighter-rouge">TestArrayDequeGold.java</code>. Start your file with the needed import statements:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import static org.junit.Assert.*;
+import org.junit.Test;
+</code></pre></div></div>
+
+<p>In this file, write a single JUnit test marked with the <code class="highlighter-rouge">@Test</code> annotation in lab3. The name of your test method does not matter. Your test should randomly call <code class="highlighter-rouge">StudentArrayDeque</code> and <code class="highlighter-rouge">ArrayDequeSolution</code> methods until they disagree on an output. You can generate random numbers using the <code class="highlighter-rouge">StdRandom</code> library (<a href="http://introcs.cs.princeton.edu/java/stdlib/javadoc/StdRandom.html">Documentation</a>). Use <code class="highlighter-rouge">StudentArrayDequeLauncher</code> as a guide, and if you copy and paste code from <code class="highlighter-rouge">StudentArrayDequeLauncher</code>, make sure to cite your source using an <code class="highlighter-rouge">@source</code> tag.</p>
+
+<p><strong>For this project, you must use Integer as your type for the Deque</strong>, i.e. <code class="highlighter-rouge">StudentArrayDeque&lt;Integer&gt;</code>. You should be able to find an error using only the <code class="highlighter-rouge">addFirst</code>, <code class="highlighter-rouge">addLast</code>, <code class="highlighter-rouge">removeFirst</code>, and <code class="highlighter-rouge">removeLast</code> methods, though you’re welcome to try out the other methods as well.</p>
+
+<p>Your test should NOT cause a NullPointerException. Make sure that you never try to remove from an empty <code class="highlighter-rouge">ArrayDeque</code>, since <code class="highlighter-rouge">Integer x = ad.removeFirst()</code> will cause a NullPointerException. Additionally, for this project always use <code class="highlighter-rouge">Integer</code> instead of <code class="highlighter-rouge">int</code> when you are retrieving values from the deques, i.e. <em>do not do</em> <code class="highlighter-rouge">int x = ad.removeFirst()</code>. For an explanation of why this causes problems, please read the “Frequently Asked Questions” below.</p>
+
+<p>Task II:</p>
+
+<p>Once you’ve managed to get the test consistently failing, the trickier part begins. Simply telling the student that their code fails is only going to lead to tears, sadness, confusion and late night Piazza posts. Thus, you’re going to modify your autograder so that it tells the student something useful.</p>
+
+<p>To do this, we’ll take advantage of the <code class="highlighter-rouge">assertEquals(message,  expected, actual)</code> [method](http://junit.sourceforge.net/javadoc/org/junit/Assert.html#assertEquals(java.lang.String, long, long)), which outputs a helpful message to the user.</p>
+
+<p>For an example of how this method works, see <code class="highlighter-rouge">AssertEqualsStringDemo.java</code> in the examples folder.</p>
+
+<p>Modify your <code class="highlighter-rouge">TestArrayDequeGold.java</code> so that the <code class="highlighter-rouge">message</code> parameter to <code class="highlighter-rouge">assertEquals</code> contains a list of operations that cause the <code class="highlighter-rouge">StudentArrayDeque</code> to output the wrong answer.</p>
+
+<p><strong>The string message provided to assertEquals must be a series of method calls, where the last call in the sequence yields an incorrect return value.</strong> For example, if adding 5 to the front, then 3 to the front, then removing from the front yields an incorrect value, then the String message passed to assertEquals should be <strong>exactly</strong> the following, with newlines in between each command.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>addFirst(5) 
+addFirst(3)
+removeFirst()
+</code></pre></div></div>
+
+<p>You do not need to supply the expected and actual values as part of the String message, since those are passed separately to the <code class="highlighter-rouge">assertEquals</code> statement as the <code class="highlighter-rouge">expected</code> and <code class="highlighter-rouge">actual</code> parameters. In other words, your message should NOT look like:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>addFirst(5) 
+addFirst(3)
+removeFirst(), student was 3, correct was 7
+</code></pre></div></div>
+
+<p>It should also not look like:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>addFirst(5) 
+addFirst(3)
+removeFirst(): 3
+removeLast(): 4
+</code></pre></div></div>
+
+<h2 id="tips">Tips</h2>
+
+<ul>
+  <li>
+    <p><strong>It’s probably not a good idea to write tests that compare entire Deques at once</strong>. Suppose you write a <code class="highlighter-rouge">compareDeques(studentDeque, solutionDeque)</code> method that returns false. Even if this function returns false, that doesn’t give you an operation that causes a failure. It’s much easier to test the output of single operations (e.g. student.removeFirst() vs. solution.removeFirst()).</p>
+  </li>
+  <li>
+    <p>If you insist on comparing entire Deques at once, <code class="highlighter-rouge">assertEquals</code> will not work the way you’d hope. For example assertEquals(deque1, deque2) will not return true if all the items are the same. You’ll need to write your own comparison method if you want to compare entire deques, though to be honest, there’s no reason to do this for this assignment.</p>
+  </li>
+  <li>
+    <p>The StdRandom class is the easiest way to generate random numbers. See <a href="http://introcs.cs.princeton.edu/java/stdlib/javadoc/StdRandom.html">the official documentation</a> for a list of methods.</p>
+  </li>
+  <li>
+    <p>There’s no need to do any exception catching or throwing on this assignment (we haven’t learned this in 61B yet).</p>
+  </li>
+  <li>
+    <p>Build a failure sequence as you perform operations! Don’t try to construct it only after a failure has been detected (this is really hard).</p>
+  </li>
+</ul>
+
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+
+<h4 id="how-would-i-write-a-test-for-printdeque">How would I write a test for printDeque()?</h4>
+
+<p>It would be rather involved, and our autograder autograder isn’t quite smart enough to be able to read your output anyway. Stick with the other methods. If you’re really truly curious, google “redirect standard output”.</p>
+
+<h4 id="im-getting-a-reference-to-assertequals-is-ambiguous-error">I’m getting a “reference to assertEquals is ambiguous” error.</h4>
+
+<p>Always try searching the web for mysterious error messages. Recall that self-sufficiency as a programmer is a major goal of 61B. I <em>think</em> the first hit on Google should be enough, but certainly post to Piazza if you’re still stuck.</p>
+
+<h4 id="i-keep-getting-nullpointerexceptions">I keep getting NullPointerExceptions</h4>
+
+<p>First, make sure you’re not trying to <code class="highlighter-rouge">get</code> from somewhere beyond the size of the list. Second, if you’re writing code like <code class="highlighter-rouge">int result = deque.removeFirst()</code>, instead write <code class="highlighter-rouge">Integer result = deque.removeFirst()</code>.</p>
+
+<p>This error happens because Java will freely convert from <code class="highlighter-rouge">Integer</code> (boxed type) to <code class="highlighter-rouge">int</code> (primitive type). This is called unboxing. However, only reference types can be null, so if you try to automatically convert a null <code class="highlighter-rouge">Integer</code> to an <code class="highlighter-rouge">int</code>, you’ll get a <code class="highlighter-rouge">NullPointerException</code> in your own code. The <code class="highlighter-rouge">StudentArrayDeque</code> is buggy and may return a null (incorrectly), which can trigger this problem in your code.</p>
+
+<h4 id="the-autograder-is-complaining-about-my-failure-sequences">The autograder is complaining about my failure sequences.</h4>
+
+<p>As you might imagine, the autograder for this gold project is a weirdly complex beast, as it is has to autograde autograder output. To keep things simple <em>the String argument to a failing assert must contain a failure sequence and ONLY a failure sequence</em>, and <em>all tests must fail due to a failing assert</em>. There should be no failures due to null pointer exceptions. The String argument to your assert statement must contain no extraneous information.</p>
+
+<h4 id="the-autograder-is-still-complaining-about-my-failure-sequences">The autograder is still complaining about my failure sequences.</h4>
+
+<p>You need to include the operation that caused the failure. For example, if <code class="highlighter-rouge">size()</code> returns the wrong value, you need to include <code class="highlighter-rouge">size()</code> in your failure sequence, since you’re required to provide “a series of method calls, where the last call in the sequence yields an incorrect return value”. Also make sure your failure sequence only appears once!</p>
+
+<h4 id="i-tried-all-that-and-the-autograder-is-still-complaining-about-my-failure-sequences">I tried all that and the autograder is still complaining about my failure sequences.</h4>
+
+<p>Copy the reported failure sequence from the online autograder, and write a simple file <code class="highlighter-rouge">Quick.java</code> which generates a studentDeque, applies the operations listed, and prints the result of the final step. Chances are you’ll find that the result is not the same as your test reported in the AG. Most likely you forgot to include an operation, or possibly added operations you didn’t actually make.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/proj/proj1gold/proj1gold by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:19 GMT -->
+</html>

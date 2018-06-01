@@ -1,0 +1,6 @@
+# HTTrack Website Copier Cookie File
+# This file format is compatible with Netscape cookies
+.mathjax.org	TRUE	/	FALSE	1999999999	__cfduid	d5662e4dc4c66c629d7e33addae91501c1526512646
+.mobygames.com	TRUE	/	FALSE	1999999999	__cfduid	dd0ef9325ffd335e8f7900ed913a19e5b1526512747
+upload.wikimedia.org	TRUE	/	FALSE	1999999999	WMF-Last-Access	16-May-2018
+

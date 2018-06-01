@@ -1,0 +1,82 @@
+This supplementary reading is taken from Jonathan Shewchuk's Spring 2014 61B course.
+
+CONDITIONALS
+============
+An "if" statement uses a boolean expression to decide whether to execute a set
+of statements.  The form is
+
+    if (boolValue) {
+      statements;
+    }
+
+The statements are executed if and only if "boolValue" is "true".  The
+parentheses around the boolean expression are required (for no good reason).
+
+    boolean pass = score >= 75;
+    if (pass) {
+      output("You pass CS 61B");
+    } else {
+      // The following line executes if and only if score < 75.
+      output("You are such an unbelievable loser");
+    }
+
+if-then-else clauses can be (1) nested and (2) daisy-chained.  Nesting allows
+you to build decision trees.  Daisy-chaining allows you to present more than
+two alternatives.  For instance, suppose you want to find the maximum of three
+numbers.
+
+    if (x > y) {
+      if (x > z) {
+        maximum = x;
+      } else {
+        maximum = z;
+      }
+    } else if (y > z) {
+      maximum = y;
+    } else {
+      maximum = z;
+    }
+
+Some long chains of if-then-else clauses can be simplified by using a "switch"
+statement.  "switch" is appropriate only if every condition tests whether a
+variable x is equal to some constant.
+
+    switch (month) {        |      if (month == 2) {                         
+    case 2:                 |        days = 28;                              
+      days = 28;            |      } else if ((month == 4) || (month == 6) ||
+      break;                |                 (month == 9) || (month == 11)) {
+    case 4:                 |        days = 30;                              
+    case 6:                 |      } else {                                  
+    case 9:                 |        days = 31;                              
+    case 11:                |      }                                         
+      days = 30;            |
+      break;
+    default:
+      days = 31;
+      break;
+    }                   //  These two code fragments do exactly the same thing.
+
+IMPORTANT:  "break" jumps to the end of the "switch" statement.  If you forget
+a break statement, the flow of execution will continue right through past the
+next "case" clause, which is why cases 4, 6, and 9 work right.  If month == 12
+in the following example, both Strings are printed.
+
+    switch (month) {
+    case 12:
+      output("It's December.");
+      // Just keep moving right on through.
+    case 1:
+    case 2:
+    case 11:
+      output("It's cold.");
+    }
+
+However, this is considered bad style, because it's hard to read and
+understand.  If there's any chance that other people will need to read or
+modify your code (which is the norm when you program for a business), don't
+code it like this.  Use break statements in the switch, and use subroutines to
+reuse code and clarify the control flow.
+
+Observe that the last example doesn't have a "default:" case.  If "month" is
+not 1 nor 2 nor 11 nor 12, Java jumps right to the end of the "switch"
+statement (just past the closing brace) and continues execution from there.

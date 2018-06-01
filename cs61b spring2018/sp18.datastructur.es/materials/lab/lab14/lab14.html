@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab14/lab14 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lab 14: Fractal Sound | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lab 14: Fractal Sound</header><ul id="markdown-toc">
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#skeleton-files" id="markdown-toc-skeleton-files">Skeleton Files</a></li>
+  <li><a href="#playing-with-the-sine-wave-generator" id="markdown-toc-playing-with-the-sine-wave-generator">Playing with the Sine Wave Generator</a>    <ul>
+      <li><a href="#creating-and-using-a-simple-generator" id="markdown-toc-creating-and-using-a-simple-generator">Creating and Using a Simple Generator</a></li>
+      <li><a href="#using-the-generator-visualizer" id="markdown-toc-using-the-generator-visualizer">Using the Generator Visualizer</a></li>
+      <li><a href="#using-the-generatoraudiovisualizer" id="markdown-toc-using-the-generatoraudiovisualizer">Using the GeneratorAudioVisualizer</a></li>
+      <li><a href="#using-the-generatoraudioanimator" id="markdown-toc-using-the-generatoraudioanimator">Using the GeneratorAudioAnimator</a></li>
+      <li><a href="#using-the-multigenerator" id="markdown-toc-using-the-multigenerator">Using the MultiGenerator</a></li>
+    </ul>
+  </li>
+  <li><a href="#task-1-generating-a-sawtooth" id="markdown-toc-task-1-generating-a-sawtooth">Task 1: Generating a SawTooth</a></li>
+  <li><a href="#task-2-generating-an-acceleratingsawtooth" id="markdown-toc-task-2-generating-an-acceleratingsawtooth">Task 2: Generating an AcceleratingSawTooth</a></li>
+  <li><a href="#task-3-generating-a-fractal-sound" id="markdown-toc-task-3-generating-a-fractal-sound">Task 3: Generating a Fractal Sound</a>    <ul>
+      <li><a href="#the--operation" id="markdown-toc-the--operation">The &amp; Operation</a></li>
+      <li><a href="#the-operation" id="markdown-toc-the-operation">The » Operation</a></li>
+      <li><a href="#generating-a-fractal-sound-using-bitwise-operations" id="markdown-toc-generating-a-fractal-sound-using-bitwise-operations">Generating a Fractal Sound Using Bitwise Operations</a></li>
+    </ul>
+  </li>
+  <li><a href="#bazaar" id="markdown-toc-bazaar">Bazaar</a>    <ul>
+      <li><a href="#logging-into-bazaar" id="markdown-toc-logging-into-bazaar">Logging into Bazaar</a></li>
+      <li><a href="#playing-fractal-sounds" id="markdown-toc-playing-fractal-sounds">Playing Fractal Sounds</a>        <ul>
+          <li><a href="#using-the-downloadsound-script" id="markdown-toc-using-the-downloadsound-script">Using the DownloadSound script</a></li>
+        </ul>
+      </li>
+      <li><a href="#selling-your-wares" id="markdown-toc-selling-your-wares">Selling your Wares</a>        <ul>
+          <li><a href="#1-picking-a-submission-title-and-assignment" id="markdown-toc-1-picking-a-submission-title-and-assignment">1. Picking a submission title and assignment</a></li>
+          <li><a href="#2-submission-description" id="markdown-toc-2-submission-description">2. Submission Description</a></li>
+          <li><a href="#3-submission-content" id="markdown-toc-3-submission-content">3. Submission Content</a></li>
+          <li><a href="#4-picking-a-thumbnail-and-submitting" id="markdown-toc-4-picking-a-thumbnail-and-submitting">4. Picking a Thumbnail and Submitting</a></li>
+        </ul>
+      </li>
+      <li><a href="#help-the-market-broke" id="markdown-toc-help-the-market-broke">Help! The Market Broke</a></li>
+      <li><a href="#please-be-nice" id="markdown-toc-please-be-nice">Please Be Nice</a></li>
+      <li><a href="#thank-you" id="markdown-toc-thank-you">Thank you!</a></li>
+    </ul>
+  </li>
+  <li><a href="#submission" id="markdown-toc-submission">Submission</a></li>
+  <li><a href="#ps" id="markdown-toc-ps">P.S.</a></li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>In this week’s lab, you’ll explore the world of building audio from scratch.</p>
+
+<h2 id="skeleton-files">Skeleton Files</h2>
+
+<p>After you pull from the skeleton repo, you’ll have a few key files:</p>
+<ul>
+  <li>lab14lib/Generator.java</li>
+  <li>lab14lib/GeneratorPlayer.java</li>
+  <li>lab14lib/GeneratorDrawer.java</li>
+  <li>lab14lib/GeneratorAudioVisualizer.java</li>
+  <li>lab14lib/MultiGenerator.java</li>
+  <li>lab14/SineWaveGenerator.java</li>
+  <li>lab14/SineWaveAnimation.java</li>
+  <li>lab14/PlayMajorChord.java</li>
+  <li>lab14/Main.java</li>
+</ul>
+
+<p>You’ll also need to pull updates from the library repo.  To do so, go to your cs61b-??? folder and navigate to the library-sp18 and run <code class="highlighter-rouge">git pull origin master</code>.</p>
+
+<p>Generator is an interface that defines the expected behavior of any Generator class. Each Generator needs a method <code class="highlighter-rouge">next</code> that returns the next <code class="highlighter-rouge">double</code>. <code class="highlighter-rouge">GeneratePlayer</code> plays the samples returned by the generator as sound. <code class="highlighter-rouge">GeneratorDrawer</code> draws the samples returned by the generator as a graph. <code class="highlighter-rouge">GeneratorAudioVisualizer</code> both plays and draws the samples. <code class="highlighter-rouge">MultiGenerator</code> provides a convenient way to play multiple waveforms at once. The other files are described below.</p>
+
+<h2 id="playing-with-the-sine-wave-generator">Playing with the Sine Wave Generator</h2>
+
+<h4 id="creating-and-using-a-simple-generator">Creating and Using a Simple Generator</h4>
+
+<p>Open up <code class="highlighter-rouge">Main.java</code>, and add the follow lines to main:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Generator generator = new SineWaveGenerator(440);
+    GeneratorPlayer gp = new GeneratorPlayer(generator);
+    gp.play(1000000);
+</code></pre></div></div>
+
+<p>What this does is:</p>
+
+<ul>
+  <li>Creates a SineWaveGenerator that outputs samples corresponding to a 440 Hz sine wave.</li>
+  <li>Creates a GeneratorPlayer that will play the SineWaveGenerator.</li>
+  <li>Tells the GeneratorPlayer to play the first one million samples from the generator as sound.</li>
+</ul>
+
+<p>Try compiling and running GeneratorPlayer, and you should hear a high pitched beep sound.</p>
+
+<p>Try changing the 440 to a 200 Hz, and you should hear a lower sound. Note that if you try even lower frequencies, your laptop speakers are likely too small to generate anything lower than ~60 Hz. However, if you use headphones or real speakers, you’ll be able to hear such low frequencies.</p>
+
+<h4 id="using-the-generator-visualizer">Using the Generator Visualizer</h4>
+
+<p>We can also visualize the output of a generator. Replace the main method of <code class="highlighter-rouge">Main.java</code> with the following:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Generator generator = new SineWaveGenerator(200);
+    GeneratorDrawer gd = new GeneratorDrawer(generator);
+    gd.draw(4096);
+</code></pre></div></div>
+
+<p>What this does is:</p>
+
+<ul>
+  <li>Creates a SineWaveGenerator that outputs samples corresponding to a 200 Hz sine wave.</li>
+  <li>Creates a GeneratorDrawer that will draw the GeneratorDrawer.</li>
+  <li>Tells the GeneratorDrawer to draw the first 4096 samples from the generator as a graph.</li>
+</ul>
+
+<p>Run this and you should see something like:</p>
+
+<p><img src="images/SineWaveVisualization.png" alt="SineWave" /></p>
+
+<h4 id="using-the-generatoraudiovisualizer">Using the GeneratorAudioVisualizer</h4>
+
+<p>In fact, we can do both playing and drawing using <code class="highlighter-rouge">GeneratorAudioVisualizer.java</code>. Replace the main method of <code class="highlighter-rouge">Main.java</code> with the following:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Generator generator = new SineWaveGenerator(200);
+    GeneratorAudioVisualizer gav = new GeneratorAudioVisualizer(generator);
+    gav.drawAndPlay(4096, 1000000);
+</code></pre></div></div>
+
+<p>Try this out, and you should see the first 4096 samples being drawn and the first 1,000,000 samples being played. The reason that we make these parameters different is that if we draw 1,000,000 samples, we won’t be able to see anything useful.</p>
+
+<h4 id="using-the-generatoraudioanimator">Using the GeneratorAudioAnimator</h4>
+
+<p>We have provided a version of the visualizer that produces real-time animations of your generator’s output: <code class="highlighter-rouge">GeneratorAudioAnimator.java</code>. Try out <code class="highlighter-rouge">SineWaveAnimation</code> to see it in action!</p>
+
+<h4 id="using-the-multigenerator">Using the MultiGenerator</h4>
+
+<p>As a last exercise in using the existing Generators, try the following out in <code class="highlighter-rouge">Main.java</code>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Generator g1 = new SineWaveGenerator(200);
+    Generator g2 = new SineWaveGenerator(201);
+
+    ArrayList&lt;Generator&gt; generators = new ArrayList&lt;Generator&gt;();
+    generators.add(g1);
+    generators.add(g2);
+    MultiGenerator mg = new MultiGenerator(generators);
+
+    GeneratorAudioVisualizer gav = new GeneratorAudioVisualizer(mg);
+    gav.drawAndPlay(500000, 1000000);
+</code></pre></div></div>
+
+<p>You should hear a neat sound – if you have better speakers, I recommend trying out 60 and 61 hz tones instead. This phenomenon of pulsing volume is known as a [beat](https://en.wikipedia.org/wiki/Beat_(acoustics).</p>
+
+<p>For another example of using the <code class="highlighter-rouge">MultiGenerator</code>, try out <code class="highlighter-rouge">PlayMajorChord</code>, which will play a C <a href="https://en.wikipedia.org/wiki/Major_chord">major chord</a> in sine waves.</p>
+
+<h2 id="task-1-generating-a-sawtooth">Task 1: Generating a SawTooth</h2>
+
+<p>Your first major goal is to generate a <code class="highlighter-rouge">SawToothGenerator</code> class. Given the method below:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Generator generator = new SawToothGenerator(512);
+    GeneratorAudioVisualizer gav = new GeneratorAudioVisualizer(generator);
+    gav.drawAndPlay(4096, 1000000);
+</code></pre></div></div>
+
+<p>It should draw the waveform below:</p>
+
+<p><img src="images/SawToothVisualization.png" alt="SawTooth" /></p>
+
+<p>Specifically, this waveform should start at -1.0 and linearly increase towards 1.0, before resetting back to -1.0. The argument to SawToothGenerator describes the period of the waveform, i.e. the number of samples before it resets back down to -1.0.</p>
+
+<p>For this task, you should create the <code class="highlighter-rouge">SawToothGenerator</code> class so that it behaves as above.</p>
+
+<p>Hints:</p>
+<ul>
+  <li>This should be relatively straightforward. Don’t overthink it.</li>
+  <li>You should use the % operator, with the period as the argument to the right of the %.</li>
+  <li>Your <code class="highlighter-rouge">SawToothGenerator</code> should have two instance variables of type int: period and state.</li>
+  <li>The argument for the <code class="highlighter-rouge">SawToothGenerator</code> should be an integer, not a double.</li>
+  <li>The argument for the <code class="highlighter-rouge">SawToothGenerator</code> constructor is the period, not the frequency.</li>
+  <li>There should not be any usage of <code class="highlighter-rouge">Math.PI</code> or <code class="highlighter-rouge">Math.sin</code> in your code.</li>
+  <li>The state of your generator should be an integer that increments by 1 each time.</li>
+  <li>Try creating a state variable that varies between 0 and period - 1, and write a helper function called <code class="highlighter-rouge">normalize</code> that converts values between 0 and period - 1 to values between -1.0 and 1.0.</li>
+</ul>
+
+<p>For extra fun, use the MultiGenerator to play multiple sawtooth or sine waves in combination with each other.</p>
+
+<h2 id="task-2-generating-an-acceleratingsawtooth">Task 2: Generating an AcceleratingSawTooth</h2>
+
+<p>Next, we’ll generate an <code class="highlighter-rouge">AcceleratingSawToothGenerator</code>. Given the method below:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Generator generator = new AcceleratingSawToothGenerator(200, 1.1);
+    GeneratorAudioVisualizer gav = new GeneratorAudioVisualizer(generator);
+    gav.drawAndPlay(4096, 1000000);
+</code></pre></div></div>
+
+<p>This code should draw the waveform below:</p>
+
+<p><img src="images/AcceleratingSawToothVisualization.png" alt="AcceleratingSawTooth" /></p>
+
+<p>Specifically, this waveform should start at -1.0 and linearly increase towards 1.0, before resetting back to -1.0. After resetting, the period should change by a factor of the second argument, rounded down. The first argument to SawToothGenerator still describes the period of the waveform, i.e. the number of samples before it resets back down to -1.0. So, in the example above, the period of the second sawtooth should be 220 samples, the 3rd should be 242 samples, the 4th should 266 (which is 266.2 with the 0.2 truncated off).</p>
+
+<p>Experiment with different period factors to see how the sound changes. Anything outside the range 0.9 to 1.1 isn’t going to sound particularly interesting since the period will change too quickly.</p>
+
+<h2 id="task-3-generating-a-fractal-sound">Task 3: Generating a Fractal Sound</h2>
+<p>One feature of Java that we haven’t discussed in 61B this semester are bitwise operations. These include <code class="highlighter-rouge">&amp;</code>, <code class="highlighter-rouge">|</code>, <code class="highlighter-rouge">&gt;&gt;</code>, <code class="highlighter-rouge">&gt;&gt;&gt;</code>, and <code class="highlighter-rouge">&lt;&lt;</code>. These operations take two integers and perform operations on those integers in a bitwise manner.</p>
+
+<h4 id="the--operation">The &amp; Operation</h4>
+
+<p>As an example of a bitwise operation, consider the following expression:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    int x = 231 &amp; 62;
+</code></pre></div></div>
+
+<p>After this expression executes, the integer x will be 38. The reason is that the <code class="highlighter-rouge">&amp;</code> operation generates a new integer where the ith bit is 1 if the ith bit of 231 is 1 AND the ith bit of 62 is 1, and 0 otherwise. Or written out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    231: 11100111
+    62:  00111110
+
+    x:   00100110
+</code></pre></div></div>
+
+<p>Note that x has a 1 only in positions where 231 and 62 have a 1. If we convert <code class="highlighter-rouge">00100110</code> from binary into decimal, we get 38, since 32 + 4 + 2 = 38.</p>
+
+<h4 id="the-operation">The » Operation</h4>
+
+<p>As another example, consider the expression:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    int x = 231 &gt;&gt;&gt; 3;
+</code></pre></div></div>
+
+<p>After this expression executes, the integer x will be 28. The reason is that the <code class="highlighter-rouge">&gt;&gt;&gt;</code> operation moves all bits in the number 3 bits to the right, filling in any top digits with zeros. Or written out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    231:       11100111
+    231 &gt;&gt;&gt; 1: 01110011
+    231 &gt;&gt;&gt; 2: 00111001
+    231 &gt;&gt;&gt; 3: 00011100
+</code></pre></div></div>
+
+<p>If we convert <code class="highlighter-rouge">00011100</code> from binary into decimal, we get 16 + 8 + 4 = 28.</p>
+
+<h4 id="generating-a-fractal-sound-using-bitwise-operations">Generating a Fractal Sound Using Bitwise Operations</h4>
+
+<p>Make a copy of your <code class="highlighter-rouge">SawToothGenerator.java</code> called <code class="highlighter-rouge">StrangeBitwiseGenerator.java</code>. This time, create a temporary variable that is the modulus of the state <code class="highlighter-rouge">&amp;</code> a copy of the the state right shifted by 3 places.</p>
+
+<p>For example (your instance variables may be differently named, and the order of your lines may be different):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    state = state + 1;
+    int weirdState = state &amp; (state &gt;&gt;&gt; 3) % period;
+</code></pre></div></div>
+
+<p>Important: Make sure you aren’t reassigning state to the result of your bitwise operations! Try playing/drawing weirdState (but <strong>normalized</strong> so that it fits <strong>in the range -1.0 to 1.0</strong>, as you did in <code class="highlighter-rouge">SawToothGenerator</code>), and you should see something like the following:</p>
+
+<p><img src="images/StrangeBitwiseVisualization.png" alt="StrangeBitwise" /></p>
+
+<p>Now try bitwise-ANDing the current time with a copy of the time right shifted by 3 places AND a copy of the time right shifted by 8 places.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    weirdState = state &amp; (state &gt;&gt; 3) &amp; (state &gt;&gt; 8) % period;
+</code></pre></div></div>
+
+<p>Try playing a normalized version of <code class="highlighter-rouge">weirdState</code>. You should hear something pretty amazing. Try experimenting by adding more shifted versions of the time, other bitwise operations, or even multigenerators. If you want to share your strange sounds with other people in the class then continue reading the section on Bazaar.</p>
+
+<p>Note that the period of this new audio signal is no longer given by the period variable. Instead, the period is somehow much longer. We will not explore the features of these strange fractal sounds, but you’re welcome to explore on your own if you’d like.</p>
+
+<h2 id="bazaar">Bazaar</h2>
+
+<p>This semester a few staff members have put together a web-tool called Bazaar that will let you share your assignment related work with other students in the course. You can visit the site by navigating <a href="http://bazaar.datastructur.es/">here</a>. If you decide to share your wares, then this section will tell you how to use this tool to share your sound generators with others.</p>
+
+<h4 id="logging-into-bazaar">Logging into Bazaar</h4>
+
+<p>Everyone in the course will already have their emails associated with an account on Bazaar. You can go to <a href="http://bazaar.datastructur.es/">http://bazaar.datastructur.es/</a> and login with your <strong>berkeley.edu</strong> account. Upon your first time logging in, you will be prompted to create your username.</p>
+
+<p><img src="images/BazaarCreateUsername.png" alt="Create username" /></p>
+
+<p>After picking your username, you will see your user profile and are now ready to use Bazaar to download fractal sounds from other students as well as share your own.</p>
+
+<h4 id="playing-fractal-sounds">Playing Fractal Sounds</h4>
+
+<p>Bazaar hosts sharable content related to CS61B assignments. For this lab, you can browse different sound generators that your classmates have created. Begin by heading to the home page where you can find a list of all assignments that are currently offered on Bazaar.</p>
+
+<p><img src="images/BazaarHome.png" alt="Homepage" /></p>
+
+<p>Clicking the assignment for Fractal Sound will bring you to a page which lists all the submissions that have already been posted.</p>
+
+<p><img src="images/BazaarAssignment.png" alt="Assignment" /></p>
+
+<p>You can browse a specific submission by clicking on the <code class="highlighter-rouge">Get Code</code> button. This will bring up a modal that contains the submission’s description, content, and links to the content and assets. If you like the submission then consider giving a thumbs-up so that others will take a look at it too. For the Fractal Sound lab, you will only need to worry about contents which contain Java code for fractal sound generators.</p>
+
+<p><img src="images/BazaarModal.png" alt="Modal" /></p>
+
+<p>You can play this sound by copying the contents pane to a <code class="highlighter-rouge">CLASSNAME.java</code> file in your lab 14 folder where <code class="highlighter-rouge">CLASSNAME</code> is the name of the sound generator class. You will need to change the line</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Generator generator = new &lt;GENERATOR CLASS&gt;(&lt;GENERATOR ARGUMENTS&gt;);
+</code></pre></div></div>
+
+<p>in <code class="highlighter-rouge">Main.java</code> according to the instructions provided in the submission. Afterwards, compile and run <code class="highlighter-rouge">Main.java</code> to play the downloaded sound.</p>
+
+<h6 id="using-the-downloadsound-script">Using the DownloadSound script</h6>
+
+<p>To make this process easier, we have also provided a <code class="highlighter-rouge">DownloadSound.java</code> script which will take the contents of the submission and download it to your lab 14 directory as a properly named <code class="highlighter-rouge">.java</code> file. To use the script, first compile <code class="highlighter-rouge">DownloadSound.java</code>. Navigate to the submission page and copy the content link by pressing the clip board button.</p>
+
+<p><img src="images/BazaarLinks.png" alt="Homepage" /></p>
+
+<p>Execute the script through command line by typing</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java DownloadSound &lt;content url&gt;
+</code></pre></div></div>
+
+<p>Or through intellij by specifying the content url as a program argument before running. This can be done by navigating to the Run &gt; Edit configurations menu item.</p>
+
+<h4 id="selling-your-wares">Selling your Wares</h4>
+
+<p>To share your work with other students, you can click the <code class="highlighter-rouge">sell</code> button at the top right corner of the page at any time. This will bring you to a page where you begin filling in the details of your new submission to Bazaar. Let’s step through an example of how to do this with the Fractal Sound lab.</p>
+
+<h6 id="1-picking-a-submission-title-and-assignment">1. Picking a submission title and assignment</h6>
+
+<p>The first two entries in the form will be the title of your submission and the assignment that it is classified under. Pick a title that you think reasonably reflects your sound (refer to the “Please Be Nice” section below on what constitutes as “reasonable”). For the assignment name, click the drop down menu and select the one for lab 14 Fractal Sound.</p>
+
+<p><img src="images/BazaarSubmission1.png" alt="Submission title and assignment" /></p>
+
+<h6 id="2-submission-description">2. Submission Description</h6>
+
+<p>Next provide a description of you submission. Please include instructions on how to instantiate your Fractal Sound generator as well as an explanation on how the generator works. For example,</p>
+
+<p><img src="images/BazaarSubmission2.png" alt="Submission description" /></p>
+
+<h6 id="3-submission-content">3. Submission Content</h6>
+
+<p>For this lab, you will be sharing the Java file containing the <code class="highlighter-rouge">Generator</code> class that you defined as a part of this lab. Copy all the contents from the Java file you wish to share and paste it into the box titled <code class="highlighter-rouge">content</code> like so:</p>
+
+<p><img src="images/BazaarSubmission3.png" alt="Submission content" /></p>
+
+<h6 id="4-picking-a-thumbnail-and-submitting">4. Picking a Thumbnail and Submitting</h6>
+
+<p>Finally, upload an image as a thumbnail that describes your submission and submit the form.</p>
+
+<p><img src="images/BazaarSubmission4.png" alt="Submission thumbnail" /></p>
+
+<p>Once done, you will be brought to a page with your submission!</p>
+
+<p><img src="images/BazaarSubmission5.png" alt="Submission page" /></p>
+
+<p>If you wish to change these details at any time, hover next to the submission name until a pencil icon pops up. Click the pencil icon to change the fields of your submission.</p>
+
+<h4 id="help-the-market-broke">Help! The Market Broke</h4>
+
+<p>Bazaar is a work in progress so it is highly likely you will find some bugs. If something is broken, find a small bug, or need help with your account then please email <code class="highlighter-rouge">cs61b-applications (at) berkeley.edu</code> with a description of the situation, and details on how to reproduce it. If you have general questions on how to use the application then please feel free to post a blurb at this pinned Piazza post <a href="https://piazza.com/class/j9j0udrxjjp758?cid=4386">here</a>.</p>
+
+<h4 id="please-be-nice">Please Be Nice</h4>
+
+<p>We designed Bazaar hoping to create a 61B community where students can share their work with other students. While taking a part in this community, please be reasonable in the actions that you take! This may include but are not limited to:</p>
+<ul>
+  <li>Picking a username that your grandparents would approve of.</li>
+  <li>Posting responsibly e.g. providing PG-13 submission title, descriptions and thumbnails.</li>
+  <li>Being nice towards those who post content on Bazaar.</li>
+</ul>
+
+<p>Staff will be moderating the page and failing to abide by any of this may result in punitive actions followed by a long winded email from grumpy sysadmins.</p>
+
+<h4 id="thank-you">Thank you!</h4>
+
+<p>Thank you using Bazaar. We appreciate your usage of our system of trading ideas and information. If you have any questions, comments, or concerns, feel free to email cs61b-applications (at) berkeley.edu or post on the piazza post mentioned above. We would appreciate your input on our current features as well as any functionality you would like to see in the future so we can make this app better for future students. Happy trading!</p>
+
+<h2 id="submission">Submission</h2>
+
+<p>Submit <code class="highlighter-rouge">SawToothGenerator.java</code>, <code class="highlighter-rouge">AcceleratingSawToothGenerator.java</code>, and <code class="highlighter-rouge">StrangeBitwiseGenerator.java</code> to Gradescope. The specifics of your <code class="highlighter-rouge">StrangeBitwiseGenerator</code> are not important (its output will not be tested), since its behavior is ill-defined.</p>
+
+<h2 id="ps">P.S.</h2>
+
+<p>P.S. For an Illuminati time, try running:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Generator generator = new StrangeBitwiseGenerator(1024);
+    GeneratorAudioVisualizer gav = new GeneratorAudioVisualizer(generator);
+    gav.drawAndPlay(128000, 1000000);
+</code></pre></div></div>
+
+<p>with</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    weirdState = state &amp; (state &gt;&gt; 7) % period;
+</code></pre></div></div>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab14/lab14 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:21:03 GMT -->
+</html>

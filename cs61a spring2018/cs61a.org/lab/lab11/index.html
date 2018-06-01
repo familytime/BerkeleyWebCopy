@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/lab/lab11/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+Lab 11: Iterators and Generators | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Lab 11: Iterators and Generators
+
+        
+        <ul class="inline-block list-inline">
+          <li><a href="lab11.zip" class="label label-outline">lab11.zip</a></li>
+        </ul>
+        
+      </h1>
+    </header>
+    
+
+<p><i>Due at 11:59pm on Friday, 04/13/2018.</i></p>
+
+
+<h2 id='starter-files'>Starter Files</h2>
+
+
+<p>Download <a href="lab11.zip">lab11.zip</a>.
+Inside the archive, you will find starter files for the questions in this lab,
+  along with a copy of the <a href="ok.zip">Ok</a> autograder.</p>
+
+
+<h2 id='submission'>Submission</h2>
+
+<p>By the end of this lab, you should have submitted the lab with
+<code>python3 ok --submit</code>. You may submit more than once before the
+deadline; only the final submission will be graded.
+Check that you have successfully submitted your code on
+<a href="https://okpy.org/">okpy.org</a>.</p>
+
+<ul>
+  <li>To receive credit for this lab, you must complete Questions 1-4 and submit
+  through OK. Started code for Questions 1-2 can be found in
+  <a href="lab11.py">lab11.py</a>.</li>
+  <li>Questions 5-9 are <em>extra practice</em>. They can be found in the
+  <a href="lab11_extra.py">lab11_extra.py</a> file. It is recommended that you complete
+  these problems on your own time.</li>
+</ul>
+
+
+
+    
+<h1 id="topics">Topics</h1>
+
+
+
+<h2 id="iterables-and-iterators">Iterables and Iterators</h2>
+
+
+<!-- In lecture, we studied several Python object interfaces, or _protocols_. In this
+lab, we will study a new protocol, the _iterator protocol_. Implementing this
+protocol allows us to use our objects in for loops! Remember the <code>for</code> loop?
+(We really hope so!) -->
+
+<p>Iterables are objects that can be iterated through. One construct that we can
+use to iterate through an iterable is a for loop:</p>
+
+<pre><code>for elem in iterable:
+    # do something</code></pre>
+
+<p><code>for</code> loops work on any object that is <em>iterable</em>. We previously described it as
+working with any sequence -- all sequences are iterable, but there are other
+objects that are also iterable! As it turns out, for loops are actually
+translated by the interpreter something similar to the following code:</p>
+
+<pre><code>iterator = iter(iterable)
+try:
+    while True:
+        elem = next(iterator)
+        # do something
+except StopIteration:
+    pass</code></pre>
+
+<p>Here's a breakdown of what's happening:</p>
+
+<ul>
+  <li>First, the built-in <code>iter</code> function is called on the iterable to create a
+  corresponding <em>iterator</em>, an object used to iterate through the iterable by
+  keeping track of which element is next in the sequence.</li>
+  <li>To get the next element in the sequence, the built-in <code>next</code> function is
+  called on this iterator.</li>
+  <li>When <code>next</code> is called but there are no elements left in the iterator, a
+  <code>StopIteration</code> error is raised. In the for loop construct, this exception is
+  caught and execution can continue.</li>
+</ul>
+
+<p>Calling <code>iter</code> on an iterable multiple times returns a new iterator each time
+with distinct states (otherwise, you'd never be able to iterate through a
+iterable more than once). You can also call <code>iter</code> on the iterator itself, which
+will just return the same iterator without changing its state. However, note
+that you cannot call <code>next</code> directly on an iterable.</p>
+
+<p>Let's see the <code>iter</code> and <code>next</code> functions in action with an iterable we're
+already familiar with -- a list.</p>
+
+<pre><code>&gt;&gt;&gt; lst = [1, 2, 3, 4]
+&gt;&gt;&gt; next(lst)
+TypeError: &#x27;list&#x27; object is not an iterator
+&gt;&gt;&gt; list_iter = iter(lst)
+&gt;&gt;&gt; list_iter
+&lt;list_iterator object ...&gt;
+&gt;&gt;&gt; next(list_iter)
+1
+&gt;&gt;&gt; next(list_iter)
+2
+&gt;&gt;&gt; next(iter(list_iter))   # Calling iter on an iterator returns itself
+3
+&gt;&gt;&gt; list_iter2 = iter(lst)
+&gt;&gt;&gt; next(list_iter2)        # Second iterator has new state
+1
+&gt;&gt;&gt; next(list_iter)         # First iterator is unaffected by second iterator
+4
+&gt;&gt;&gt; next(list_iter)         # No elements left!
+StopIteration
+&gt;&gt;&gt; lst                     # Original iterable is unaffected
+[1, 2, 3, 4]</code></pre>
+
+<p>Since you can call <code>iter</code> on iterators, this tells us that that they are also
+iterables. You can use iterators wherever you can use iterables, but note that
+since iterators keep their state, they're only good to iterate through once:</p>
+
+<pre><code>&gt;&gt;&gt; list_iter = iter([4, 3, 2, 1])
+&gt;&gt;&gt; for e in list_iter:
+...     print(e)
+4
+3
+2
+1
+&gt;&gt;&gt; next(list_iter)
+StopIteration</code></pre>
+
+<blockquote><p><strong>Analogy</strong>: An iterable is like a book (one can flip through the
+pages) and an iterator for a book would be a bookmark (saves the position and
+can locate the next page).  Calling <code>iter</code> on a book gives you a new bookmark
+independent of other bookmarks, but calling <code>iter</code> on a bookmark gives you the
+bookmark itself, without changing its position at all. Calling <code>next</code> on the
+bookmark moves it to the next page, but does not change the pages in the book.
+Calling <code>next</code> on the book wouldn't make sense semantically.</p></blockquote>
+
+
+<h3 id="iterable-uses">Iterable uses</h3>
+
+
+<p>We know that lists are one type of built-in iterable objects. You may
+have also encounter the <code>range(start, end)</code> function, which creates an iterable of
+ascending integers from start (inclusive) to end (exclusive).</p>
+
+<pre><code>&gt;&gt;&gt; for x in range(2, 6):
+...     print(x)
+...
+2
+3
+4
+5</code></pre>
+
+<p>Ranges are useful for many things, including performing some operations for a
+particular number of iterations or iterating through the indices of a list.</p>
+
+<p>There are also some built-in functions that take in iterables and return useful
+results:</p>
+
+<ul>
+  <li><code>map(f, iterable)</code> - Creates iterator over <code>f(x)</code> for <code>x</code> in iterable</li>
+  <li><code>filter(f, iterable)</code> - Creates iterator over <code>x</code> for <code>x</code> in iterable if
+  <code>f(x)</code></li>
+  <li><code>zip(iter1, iter2)</code> - Creates iterator over co-indexed pairs (x, y) from both
+  input iterables</li>
+  <li><code>reversed(iterable)</code> - Creates iterator sequence containing elements of
+  iterable in reverse order</li>
+  <li><code>list(iterable)</code> - Creates a list containing all x in iterable</li>
+  <li><code>tuple(iterable)</code> - Creates a tuple containing all x in iterable</li>
+  <li><code>sorted(iterable)</code> - Creates a sorted list containing all x in iterable</li>
+</ul>
+
+<!--
+How does <code>iter</code> work? It just calls the <code>__iter__</code> magic method on its argument,
+so <code>iter(something_iterable)</code> is equivalent to <code>something_iterable.__iter__()</code>.
+So, any object is iterable if it implements this magic method, and this method
+must return an iterator.
+
+How does <code>next</code> work? It just calls the <code>__next__</code> magic method on its argument,
+so <code>next(the_iterator)</code> is equivalent to <code>the_iterator.__next__()</code>. So, to
+implement the iterator protocol, we must implement this method. This method
+eithers returns the next element in our iteration (so it's usually non-pure!),
+or raises <code>StopIteration</code> when there are no elements left.-->
+
+<!--
+Here is a table summarizing the required methods on iterables and iterators.
+Python also has more
+<a href="https://docs.python.org/3/library/stdtypes.html#typeiter">documentation</a> about
+<a href="https://docs.python.org/3/glossary.html#term-iterable">iterable</a> and
+<a href="https://docs.python.org/3/glossary.html#term-iterator">iterator</a> types.
+
+<div class = "table-responsive">
+  <table class='table table-bordered'>
+    <tr>
+      <th>Iterable</th>
+      <th>Iterator</th>
+    </tr>
+    <tr>
+      <td><code>__iter__</code>: returns an iterator</td>
+      <td><code>__iter__</code>: returns an iterator, which is generally itself</td>
+    <tr>
+      <td><code>__next__</code>: (optional) need not be defined </td>
+      <td><code>__next__</code>: returns the next element, or raises
+      <code>StopIteration</code> if no more values left to produce</td>
+    </tr>
+  </table>
+</div>
+
+-->
+
+<!--
+Normally, when implementing a protocol, we create objects that are *both*
+iterable and an iterator, so it will have both the <code>__iter__</code> and <code>__next__</code>
+methods implemented. This is more convenient than creating two separate objects,
+so it is good to do this whenever possible. Here is an example of a class
+definition for an object that implements both the iterable and iterator
+interfaces:
+
+<pre><code>class Skipper:
+    def __init__(self, seq):
+        self.seq = seq
+        self.step = 1
+        self.current = 0
+
+    def __next__(self):
+        if self.current &gt;= len(self.seq):
+            raise StopIteration
+        val = self.seq[self.current]
+        self.current += self.step
+        self.step += 1
+        return val
+
+    def __iter__(self):
+        return self</code></pre>
+
+Let's go ahead and try out our new toy.
+
+<pre><code>&gt;&gt;&gt; for num in Skipper([3, 4, 5, 6, 7, 8, 9, 10]):
+...     print(num)
+3
+4
+6
+9</code></pre>
+
+That is, we skip through the elements of some sequence in ever-larger steps.
+-->
+
+<!--
+We can also use <code>Skipper</code> to create a new kind of iterable list:
+
+<pre><code>class SkippingList(list):
+
+    def __iter__(self):
+        return Skipper(self)</code></pre>
+
+and now we can write:
+
+<pre><code>&gt;&gt;&gt; aList = SkippingList([3, 4, 5, 6, 7, 8, 9, 10])
+&gt;&gt;&gt; for num in aList:
+...     print(num)
+3
+4
+6
+9</code></pre>
+
+-->
+
+
+<h2 id="generators">Generators</h2>
+
+
+<p>A generator function returns a special type of iterator called a <strong>generator</strong>.
+Generator functions have <code>yield</code> statements within the body of the function
+instead of <code>return</code> statements.  Calling a generator function will return a
+generator object and will <em>not</em> execute the body of the function.</p>
+
+<p>For example, let's consider the following generator function:</p>
+
+<pre><code>def countdown(n):
+    print(&quot;Beginning countdown!&quot;)
+    while n &gt;= 0:
+        yield n
+        n &#x2d;= 1
+    print(&quot;Blastoff!&quot;)</code></pre>
+
+<p>Calling <code>countdown</code> will return a generator object that counts down from <code>n</code> to 0.
+Since generators are iterators, we can call <code>iter</code> on the resulting object,
+which will simply return the same object.  Note that the body is not executed
+at this point; nothing is printed and no numbers are output.</p>
+
+<pre><code>&gt;&gt;&gt; c = countdown(5)
+&gt;&gt;&gt; c
+&lt;generator object countdown ...&gt;
+&gt;&gt;&gt; c is iter(c)
+True</code></pre>
+
+<p>So how is the counting done? Again, since generators are a type of iterator, we
+can also call <code>next</code> on them!  The first time <code>next</code> is called, execution
+begins at the first line of the function body and continues until the <code>yield</code>
+statement is reached. The result of evaluating the expression in the <code>yield</code>
+statement is returned.  The following interactive session continues from the
+one above.</p>
+
+<pre><code>&gt;&gt;&gt; next(c)
+Beginning countdown!
+5</code></pre>
+
+<p>Unlike functions we've seen before in this course, generator functions can
+remember their state. On any consecutive calls to <code>next</code>, execution picks up
+from the line after the <code>yield</code> statement that was previously executed. Like
+the first call to <code>next</code>, execution will continue until the next <code>yield</code>
+statement is reached.</p>
+
+<pre><code>&gt;&gt;&gt; next(c)
+4
+&gt;&gt;&gt; next(c)
+3</code></pre>
+
+<p>Can you predict what would happen if we continue to call <code>next</code> on <code>c</code> 4 more
+times?</p>
+
+<div class="solution solution-1">
+The next 3 calls to <code>next</code> will continue to yield consecutive descending
+integers until 0.  On the following call, a <code>StopIteration</code> error will be
+raised because there are no more values to yield (i.e. the end of the function
+body was reached before hitting a <code>yield</code> statement).
+
+<pre><code>&gt;&gt;&gt; next(c)
+2
+&gt;&gt;&gt; next(c)
+1
+&gt;&gt;&gt; next(c)
+0
+&gt;&gt;&gt; next(c)
+Blastoff!
+StopIteration</code></pre>
+
+</div>
+        <button id='solution-1' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Separate calls to <code>countdown</code> will create distinct generator objects with their
+own state. Usually, generators shouldn't restart. If you'd like to reset the
+sequence, create another generator object by calling the generator function
+again.</p>
+
+<pre><code>&gt;&gt;&gt; c1, c2 = countdown(5), countdown(5)
+&gt;&gt;&gt; c1 is c2
+False
+&gt;&gt;&gt; next(c1)
+5
+&gt;&gt;&gt; next(c2)
+5</code></pre>
+
+<p>Here is a summary of the above:</p>
+
+<ul>
+  <li>A generator function has a <code>yield</code> statement and returns a generator object.</li>
+  <li>Calling the <code>iter</code> function on a generator object returns the same object
+  without modifying its current state.</li>
+  <li>The body of a generator function is not evaluated until <code>next</code> is called on
+  a resulting generator object. Calling the <code>next</code> function on a generator
+  object computes and returns the next object in its sequence. If the sequence
+  is exhausted, <code>StopIteration</code> is raised.</li>
+  <li><p>A generator "remembers" its state for the next <code>next</code> call. Therefore,</p>
+
+  <ul>
+    <li><p>the first <code>next</code> call works like this:</p>
+
+    <ol>
+      <li>Enter the function and run until the line with <code>yield</code>.</li>
+      <li>Return the value in the <code>yield</code> statement, but remember the state of the
+      function for future <code>next</code> calls.</li>
+    </ol></li>
+    <li><p>And subsequent <code>next</code> calls work like this:</p>
+
+    <ol>
+      <li>Re-enter the function, start at <strong>the line after <code>yield</code></strong>, and run until
+      the next <code>yield</code> statement.</li>
+      <li>Return the value in the <code>yield</code> statement, but remember the state of the
+      function for future <code>next</code> calls.</li>
+    </ol></li>
+  </ul></li>
+  <li>A generator should not restart unless it's defined that way. But
+  calling the generator function returns a brand new generator object (like
+  calling <code>iter</code> on an iterable object).</li>
+</ul>
+
+<p>Another useful tool for generators is the <code>yield from</code> statement (introduced in
+Python 3.3). <code>yield from</code> will yield all values from an iterator or iterable.</p>
+
+<pre><code>&gt;&gt;&gt; def gen_list(lst):
+...     yield from lst
+...
+&gt;&gt;&gt; g = gen_list([1, 2, 3, 4])
+&gt;&gt;&gt; next(g)
+1
+&gt;&gt;&gt; next(g)
+2
+&gt;&gt;&gt; next(g)
+3
+&gt;&gt;&gt; next(g)
+4
+&gt;&gt;&gt; next(g)
+StopIteration</code></pre>
+
+
+<h1 id="required-questions">Required Questions</h1>
+
+
+
+<h2 id="wwpd">WWPD</h2>
+
+
+<h3 class="question" id="q1">Q1: WWPD: Iterators</h3>
+
+<blockquote><p>Use Ok to test your knowledge with the following "What Would Python Display?"
+questions:</p>
+
+<pre><code>python3 ok &#x2d;q iterators &#x2d;u</code></pre>
+
+<p>Enter <code>Error</code> if you believe an error occurs, <code>StopIteration</code> if a
+<code>StopIteration</code> exception is raised, and <code>Iterator</code> if the output is a
+iterator object.</p></blockquote>
+
+<pre><code>&gt;&gt;&gt; s = [1, 2, 3, 4]
+&gt;&gt;&gt; t = iter(s)
+&gt;&gt;&gt; next(s)
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x54;&#x79;&#x70;&#x65;&#x45;&#x72;&#x72;&#x6f;&#x72;</div>
+&gt;&gt;&gt; next(t)
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x31;</div>
+&gt;&gt;&gt; next(t)
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x32;</div>
+&gt;&gt;&gt; iter(s)
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x49;&#x74;&#x65;&#x72;&#x61;&#x74;&#x6f;&#x72;</div>
+&gt;&gt;&gt; next(iter(s))
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x31;</div>
+&gt;&gt;&gt; next(iter(t))
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x33;</div>
+&gt;&gt;&gt; next(iter(s))
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x31;</div>
+&gt;&gt;&gt; next(iter(t))
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x34;</div>
+&gt;&gt;&gt; next(t)
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x53;&#x74;&#x6f;&#x70;&#x49;&#x74;&#x65;&#x72;&#x61;&#x74;&#x69;&#x6f;&#x6e;</div></code></pre>
+        <button id='prompt-1' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<pre><code>&gt;&gt;&gt; r = range(6)
+&gt;&gt;&gt; r_iter = iter(r)
+&gt;&gt;&gt; next(r_iter)
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x30;</div>
+&gt;&gt;&gt; [x + 1 for x in r]
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x5b;&#x31;&#x2c;&#x20;&#x32;&#x2c;&#x20;&#x33;&#x2c;&#x20;&#x34;&#x2c;&#x20;&#x35;&#x2c;&#x20;&#x36;&#x5d;</div>
+&gt;&gt;&gt; [x + 1 for x in r_iter]
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x5b;&#x32;&#x2c;&#x20;&#x33;&#x2c;&#x20;&#x34;&#x2c;&#x20;&#x35;&#x2c;&#x20;&#x36;&#x5d;</div>
+&gt;&gt;&gt; next(r_iter)
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x53;&#x74;&#x6f;&#x70;&#x49;&#x74;&#x65;&#x72;&#x61;&#x74;&#x69;&#x6f;&#x6e;</div>
+&gt;&gt;&gt; list(range(&#x2d;2, 4))   # Converts an iterable into a list
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x5b;&#x2d;&#x32;&#x2c;&#x20;&#x2d;&#x31;&#x2c;&#x20;&#x30;&#x2c;&#x20;&#x31;&#x2c;&#x20;&#x32;&#x2c;&#x20;&#x33;&#x5d;</div></code></pre>
+        <button id='prompt-2' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<pre><code>&gt;&gt;&gt; map_iter = map(lambda x : x + 10, range(5))
+&gt;&gt;&gt; next(map_iter)
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x31;&#x30;</div>
+&gt;&gt;&gt; next(map_iter)
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x31;&#x31;</div>
+&gt;&gt;&gt; list(map_iter)
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x5b;&#x31;&#x32;&#x2c;&#x20;&#x31;&#x33;&#x2c;&#x20;&#x31;&#x34;&#x5d;</div>
+&gt;&gt;&gt; for e in filter(lambda x : x % 2 == 0, range(1000, 1008)):
+...     print(e)
+...
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x31;&#x30;&#x30;&#x30;&#xa;&#x31;&#x30;&#x30;&#x32;&#xa;&#x31;&#x30;&#x30;&#x34;&#xa;&#x31;&#x30;&#x30;&#x36;</div>
+&gt;&gt;&gt; [x + y for x, y in zip([1, 2, 3], [4, 5, 6])]
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x5b;&#x35;&#x2c;&#x20;&#x37;&#x2c;&#x20;&#x39;&#x5d;</div>
+&gt;&gt;&gt; for e in zip([10, 9, 8], range(3)):
+...   print(tuple(map(lambda x: x + 2, e)))
+...
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x28;&#x31;&#x32;&#x2c;&#x20;&#x32;&#x29;&#xa;&#x28;&#x31;&#x31;&#x2c;&#x20;&#x33;&#x29;&#xa;&#x28;&#x31;&#x30;&#x2c;&#x20;&#x34;&#x29;</div></code></pre>
+        <button id='prompt-3' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<!--
+<pre><code>&gt;&gt;&gt; s = [1, [2, [3, [4]]]]
+&gt;&gt;&gt; t = iter(s)
+&gt;&gt;&gt; next(t)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">&#x31;</div>
+&gt;&gt;&gt; next(iter(next(t)))
+<div class="alt prompt-4">______</div><div class="solution prompt-4">&#x32;</div>
+&gt;&gt;&gt; list(t)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">&#x5b;&#x5d;</div>
+&gt;&gt;&gt; next(map(lambda x: x * x, filter(lambda y: y &gt; 4, range(10))))
+<div class="alt prompt-4">______</div><div class="solution prompt-4">&#x32;&#x35;</div>
+&gt;&gt;&gt; r = iter(reversed(range(10000)))
+&gt;&gt;&gt; next(r) &#x2d; next(r)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">&#x31;</div>
+&gt;&gt;&gt; xs = [2, 3, 4, 5]
+&gt;&gt;&gt; y, z = iter(xs), iter(xs)
+&gt;&gt;&gt; next(zip(y, z))
+<div class="alt prompt-4">______</div><div class="solution prompt-4">&#x28;&#x32;&#x2c;&#x20;&#x32;&#x29;</div>
+&gt;&gt;&gt; next(zip(y, y))
+<div class="alt prompt-4">______</div><div class="solution prompt-4">&#x28;&#x33;&#x2c;&#x20;&#x34;&#x29;</div></code></pre>
+        <button id='prompt-4' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+-->
+<h3 class="question" id="q2">Q2: WWPD: Generators</h3>
+
+<blockquote><p>Use Ok to test your knowledge with the following What would Python Display
+questions:</p>
+
+<pre><code>python3 ok &#x2d;q generators &#x2d;u</code></pre>
+
+<p>Enter <code>Error</code> if you believe an error occurs, <code>Function</code> if the output is a
+function object, and <code>Generator</code> if the output is a generator object.</p></blockquote>
+
+<pre><code>def gen():
+    print(&quot;Starting here&quot;)
+    i = 0
+    while i &lt; 6:
+        print(&quot;Before yield&quot;)
+        yield i
+        print(&quot;After yield&quot;)
+        i += 1</code></pre>
+
+<pre><code>&gt;&gt;&gt; next(gen)
+<div class="alt prompt-5">______</div><div class="solution prompt-5">&#x54;&#x79;&#x70;&#x65;&#x45;&#x72;&#x72;&#x6f;&#x72;</div>
+&gt;&gt;&gt; gen
+<div class="alt prompt-5">______</div><div class="solution prompt-5">&#x3c;&#x66;&#x75;&#x6e;&#x63;&#x74;&#x69;&#x6f;&#x6e;&#x20;&#x67;&#x65;&#x6e;&#x20;&#x2e;&#x2e;&#x2e;&#x3e;</div>
+&gt;&gt;&gt; g = gen()
+&gt;&gt;&gt; g
+<div class="alt prompt-5">______</div><div class="solution prompt-5">&#x3c;&#x67;&#x65;&#x6e;&#x65;&#x72;&#x61;&#x74;&#x6f;&#x72;&#x20;&#x6f;&#x62;&#x6a;&#x65;&#x63;&#x74;&#x20;&#x67;&#x65;&#x6e;&#x20;&#x2e;&#x2e;&#x2e;&#x3e;</div>
+&gt;&gt;&gt; g == iter(g)
+<div class="alt prompt-5">______</div><div class="solution prompt-5">&#x54;&#x72;&#x75;&#x65;</div>
+&gt;&gt;&gt; next(g)
+<div class="alt prompt-5">______</div><div class="solution prompt-5">&#x53;&#x74;&#x61;&#x72;&#x74;&#x69;&#x6e;&#x67;&#x20;&#x68;&#x65;&#x72;&#x65;&#xa;&#x42;&#x65;&#x66;&#x6f;&#x72;&#x65;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#xa;&#x30;</div>
+&gt;&gt;&gt; next(g)
+<div class="alt prompt-5">______</div><div class="solution prompt-5">&#x41;&#x66;&#x74;&#x65;&#x72;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#xa;&#x42;&#x65;&#x66;&#x6f;&#x72;&#x65;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#xa;&#x31;</div>
+&gt;&gt;&gt; next(g)
+<div class="alt prompt-5">______</div><div class="solution prompt-5">&#x41;&#x66;&#x74;&#x65;&#x72;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#xa;&#x42;&#x65;&#x66;&#x6f;&#x72;&#x65;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#xa;&#x32;</div>
+&gt;&gt;&gt; g2 = gen()
+&gt;&gt;&gt; next(g2)
+<div class="alt prompt-5">______</div><div class="solution prompt-5">&#x53;&#x74;&#x61;&#x72;&#x74;&#x69;&#x6e;&#x67;&#x20;&#x68;&#x65;&#x72;&#x65;&#xa;&#x42;&#x65;&#x66;&#x6f;&#x72;&#x65;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#xa;&#x30;</div>
+&gt;&gt;&gt; iter(g2)
+<div class="alt prompt-5">______</div><div class="solution prompt-5">&#x3c;&#x67;&#x65;&#x6e;&#x65;&#x72;&#x61;&#x74;&#x6f;&#x72;&#x20;&#x6f;&#x62;&#x6a;&#x65;&#x63;&#x74;&#x20;&#x67;&#x65;&#x6e;&#x20;&#x2e;&#x2e;&#x2e;&#x3e;</div>
+&gt;&gt;&gt; next(iter(g))
+<div class="alt prompt-5">______</div><div class="solution prompt-5">&#x41;&#x66;&#x74;&#x65;&#x72;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#xa;&#x42;&#x65;&#x66;&#x6f;&#x72;&#x65;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#xa;&#x33;</div>
+&gt;&gt;&gt; next(gen())
+<div class="alt prompt-5">______</div><div class="solution prompt-5">&#x53;&#x74;&#x61;&#x72;&#x74;&#x69;&#x6e;&#x67;&#x20;&#x68;&#x65;&#x72;&#x65;&#xa;&#x42;&#x65;&#x66;&#x6f;&#x72;&#x65;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#xa;&#x30;</div></code></pre>
+        <button id='prompt-5' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<!--
+Trace through the code and make sure you know where and why each
+statement is printed.
+
+You might remember from when we studied iterators that iterator classes that
+don't define a <code>__next__</code> method cannot run in a <code>for</code> loop. However, with
+generators we can get around this.
+
+<pre><code>class IterGen:
+    def __init__(self):
+        self.start = 5
+
+    def __iter__(self):
+        while self.start &lt; 10:
+            self.start += 1
+            yield self.start
+
+for i in IterGen():
+    print(i)</code></pre>
+
+Why does this iterable work without defining a <code>__next__</code> method?
+
+<div class="solution toggle-1">
+
+<p>The <code>for</code> loop only expects the object returned by <code>__iter__</code> to have a
+<code>__next__</code> method. The <code>__iter__</code> method is a generator function because of the
+<code>yield</code> statement in the body. Therefore, when <code>__iter__</code> is called, it returns
+a generator object, which you can call <code>__next__</code> on.</p>
+
+</div>
+        <button id='toggle-1' class='btn btn-outline btn-lg toggle toggle'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+-->
+
+
+<h2 id="coding-practice">Coding Practice</h2>
+
+
+<h3 class="question" id="q3">Q3: Scale</h3>
+
+<p>Implement the generator function <code>scale(s, k)</code>, which yields elements of the
+given iterable <code>s</code>, scaled by <code>k</code>. As an extra challenge, try writing this
+function using a <code>yield from</code> statement!</p>
+
+
+
+<pre><code>def scale(s, k):
+    &quot;&quot;&quot;Yield elements of the iterable s scaled by a number k.
+
+    &gt;&gt;&gt; s = scale([1, 5, 2], 5)
+    &gt;&gt;&gt; type(s)
+    &lt;class &#x27;generator&#x27;&gt;
+    &gt;&gt;&gt; list(s)
+    [5, 25, 10]
+
+    &gt;&gt;&gt; m = scale(naturals(), 2)
+    &gt;&gt;&gt; [next(m) for _ in range(5)]
+    [2, 4, 6, 8, 10]
+    &quot;&quot;&quot;
+<div class="alt solution-2">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-2">&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x65;&#x6c;&#x65;&#x6d;&#x20;&#x69;&#x6e;&#x20;&#x73;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#x20;&#x65;&#x6c;&#x65;&#x6d;&#x20;&#x2a;&#x20;&#x6b;&#xa;&#xa;&#x23;&#x20;&#x41;&#x6c;&#x74;&#x65;&#x72;&#x6e;&#x61;&#x74;&#x65;&#x20;&#x73;&#x6f;&#x6c;&#x75;&#x74;&#x69;&#x6f;&#x6e;&#xa;&#x64;&#x65;&#x66;&#x20;&#x73;&#x63;&#x61;&#x6c;&#x65;&#x28;&#x73;&#x2c;&#x20;&#x6b;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#x20;&#x66;&#x72;&#x6f;&#x6d;&#x20;&#x6d;&#x61;&#x70;&#x28;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x20;&#x78;&#x3a;&#x20;&#x78;&#x2a;&#x6b;&#x2c;&#x20;&#x73;&#x29;</div></code></pre>
+
+
+        <button id='solution-2' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q scale</code></pre>
+<h3 class="question" id="q4">Q4: Trap</h3>
+
+<p>Write a generator function that yields the first <code>k</code> values in iterable <code>s</code>, but
+raises a <code>ValueError</code> exception if any more values are requested. You may assume that 
+<code>s</code> has at least <code>k</code> values.</p>
+
+
+
+<pre><code>def trap(s, k):
+    &quot;&quot;&quot;Return a generator that yields the first K values in iterable S,
+    but raises a ValueError exception if any more values are requested.
+
+    &gt;&gt;&gt; t = trap([3, 2, 1], 2)
+    &gt;&gt;&gt; next(t)
+    3
+    &gt;&gt;&gt; next(t)
+    2
+    &gt;&gt;&gt; next(t)
+    ValueError
+    &gt;&gt;&gt; list(trap(range(5), 5))
+    ValueError
+    &gt;&gt;&gt; t2 = trap(map(abs, reversed(range(&#x2d;6, &#x2d;4))), 2)
+    &gt;&gt;&gt; next(t2)
+    5
+    &gt;&gt;&gt; next(t2)
+    6
+    &gt;&gt;&gt; next(t2)
+    ValueError
+    &quot;&quot;&quot;
+<div class="alt solution-3">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-3">&#x20;&#x20;&#x20;&#x20;&#x74;&#x20;&#x3d;&#x20;&#x69;&#x74;&#x65;&#x72;&#x28;&#x73;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x77;&#x68;&#x69;&#x6c;&#x65;&#x20;&#x6b;&#x20;&#x3e;&#x20;&#x30;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#x20;&#x6e;&#x65;&#x78;&#x74;&#x28;&#x74;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x6b;&#x20;&#x2d;&#x3d;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x61;&#x69;&#x73;&#x65;&#x20;&#x56;&#x61;&#x6c;&#x75;&#x65;&#x45;&#x72;&#x72;&#x6f;&#x72;&#x28;&#x22;&#x49;&#x74;&#x27;&#x73;&#x20;&#x61;&#x20;&#x74;&#x72;&#x61;&#x70;&#x21;&#x22;&#x29;</div></code></pre>
+
+
+        <button id='solution-3' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q trap</code></pre>
+
+
+<h1 id="optional-questions">Optional Questions</h1>
+
+
+<h3 class="question" id="q5">Q5: Hailstone</h3>
+
+<p>Write a generator that outputs the hailstone sequence from homework 1.</p>
+
+<p>Here's a quick reminder of how the hailstone sequence is defined:</p>
+
+<ol>
+  <li>Pick a positive integer <code>n</code> as the start.</li>
+  <li>If <code>n</code> is even, divide it by 2.</li>
+  <li>If <code>n</code> is odd, multiply it by 3 and add 1.</li>
+  <li>Continue this process until <code>n</code> is 1.</li>
+</ol>
+
+
+
+<pre><code>def hailstone(n):
+    &quot;&quot;&quot;
+    &gt;&gt;&gt; for num in hailstone(10):
+    ...     print(num)
+    ...
+    10
+    5
+    16
+    8
+    4
+    2
+    1
+    &quot;&quot;&quot;
+<div class="alt solution-4">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-4">&#x20;&#x20;&#x20;&#x20;&#x77;&#x68;&#x69;&#x6c;&#x65;&#x20;&#x6e;&#x20;&#x3e;&#x20;&#x31;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#x20;&#x6e;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6e;&#x20;&#x25;&#x20;&#x32;&#x20;&#x3d;&#x3d;&#x20;&#x30;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x6e;&#x20;&#x2f;&#x2f;&#x3d;&#x20;&#x32;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x6e;&#x20;&#x3d;&#x20;&#x6e;&#x20;&#x2a;&#x20;&#x33;&#x20;&#x2b;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#x20;&#x6e;</div></code></pre>
+
+
+        <button id='solution-4' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q hailstone</code></pre>
+<h3 class="question" id="q6">Q6: Repeated</h3>
+
+<p>Implement a function (not a generator function) that returns the first value in
+iterable <code>t</code> that appears <code>k</code> times in a row.</p>
+
+
+
+<pre><code>def repeated(t, k):
+    &quot;&quot;&quot;Return the first value in iterable T that appears K times in a row.
+
+    &gt;&gt;&gt; s = [3, 2, 1, 2, 1, 4, 4, 5, 5, 5]
+    &gt;&gt;&gt; repeated(trap(s, 7), 2)
+    4
+    &gt;&gt;&gt; repeated(trap(s, 10), 3)
+    5
+    &gt;&gt;&gt; print(repeated([4, None, None, None], 3))
+    None
+    &quot;&quot;&quot;
+    assert k &gt; 1
+<div class="alt solution-5">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-5">&#x20;&#x20;&#x20;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x3d;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x6c;&#x61;&#x73;&#x74;&#x5f;&#x69;&#x74;&#x65;&#x6d;&#x20;&#x3d;&#x20;&#x4e;&#x6f;&#x6e;&#x65;&#xa;&#xa;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x69;&#x74;&#x65;&#x6d;&#x20;&#x69;&#x6e;&#x20;&#x74;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x69;&#x74;&#x65;&#x6d;&#x20;&#x3d;&#x3d;&#x20;&#x6c;&#x61;&#x73;&#x74;&#x5f;&#x69;&#x74;&#x65;&#x6d;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x2b;&#x3d;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x6c;&#x61;&#x73;&#x74;&#x5f;&#x69;&#x74;&#x65;&#x6d;&#x20;&#x3d;&#x20;&#x69;&#x74;&#x65;&#x6d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x3d;&#x20;&#x31;&#xa;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x3d;&#x3d;&#x20;&#x6b;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x69;&#x74;&#x65;&#x6d;</div></code></pre>
+
+
+        <button id='solution-5' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q repeated</code></pre>
+<h3 class="question" id="q7">Q7: Merge</h3>
+
+<p>Implement <code>merge(s0, s1)</code>, which takes two iterables <code>s0</code> and <code>s1</code> whose
+elements are ordered. <code>merge</code> yields elements from <code>s0</code> and <code>s1</code> in sorted
+order, eliminating repetition.  You may assume <code>s0</code> and <code>s1</code> themselves do not
+contain repeats, and that none of the elements of either are <code>None</code>.
+You may <strong>not</strong> assume that the iterables are finite; either may produce an infinite
+stream of results.</p>
+
+<p>You will probably find it helpful to use the two-argument version of the built-in
+<code>next</code> function: <code>next(s, v)</code> is the same as <code>next(s)</code>, except that instead of
+raising <code>StopIteration</code> when <code>s</code> runs out of elements, it returns <code>v</code>.</p>
+
+<p>See the doctest for examples of behavior.</p>
+
+
+
+<pre><code>def merge(s0, s1):
+    &quot;&quot;&quot;Yield the elements of strictly increasing iterables s0 and s1, removing
+    repeats. Assume that s0 and s1 have no repeats. s0 or s1 may be infinite
+    sequences.
+
+    &gt;&gt;&gt; m = merge([0, 2, 4, 6, 8, 10, 12, 14], [0, 3, 6, 9, 12, 15])
+    &gt;&gt;&gt; type(m)
+    &lt;class &#x27;generator&#x27;&gt;
+    &gt;&gt;&gt; list(m)
+    [0, 2, 3, 4, 6, 8, 9, 10, 12, 14, 15]
+    &gt;&gt;&gt; def big(n):
+    ...    k = 0
+    ...    while True: yield k; k += n
+    &gt;&gt;&gt; m = merge(big(2), big(3))
+    &gt;&gt;&gt; [next(m) for _ in range(11)]
+    [0, 2, 3, 4, 6, 8, 9, 10, 12, 14, 15]
+    &quot;&quot;&quot;
+    i0, i1 = iter(s0), iter(s1)
+    e0, e1 = next(i0, None), next(i1, None)
+<div class="alt solution-6">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-6">&#x20;&#x20;&#x20;&#x20;&#x77;&#x68;&#x69;&#x6c;&#x65;&#x20;&#x54;&#x72;&#x75;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x65;&#x30;&#x20;&#x69;&#x73;&#x20;&#x4e;&#x6f;&#x6e;&#x65;&#x20;&#x61;&#x6e;&#x64;&#x20;&#x65;&#x31;&#x20;&#x69;&#x73;&#x20;&#x4e;&#x6f;&#x6e;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x69;&#x66;&#x20;&#x65;&#x30;&#x20;&#x69;&#x73;&#x20;&#x4e;&#x6f;&#x6e;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#x20;&#x65;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x31;&#x20;&#x3d;&#x20;&#x6e;&#x65;&#x78;&#x74;&#x28;&#x69;&#x31;&#x2c;&#x20;&#x4e;&#x6f;&#x6e;&#x65;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x69;&#x66;&#x20;&#x65;&#x31;&#x20;&#x69;&#x73;&#x20;&#x4e;&#x6f;&#x6e;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#x20;&#x65;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x30;&#x20;&#x3d;&#x20;&#x6e;&#x65;&#x78;&#x74;&#x28;&#x69;&#x30;&#x2c;&#x20;&#x4e;&#x6f;&#x6e;&#x65;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#x20;&#x6d;&#x69;&#x6e;&#x28;&#x65;&#x30;&#x2c;&#x20;&#x65;&#x31;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x65;&#x30;&#x20;&#x3c;&#x20;&#x65;&#x31;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x30;&#x20;&#x3d;&#x20;&#x6e;&#x65;&#x78;&#x74;&#x28;&#x69;&#x30;&#x2c;&#x20;&#x4e;&#x6f;&#x6e;&#x65;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x69;&#x66;&#x20;&#x65;&#x31;&#x20;&#x3c;&#x20;&#x65;&#x30;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x31;&#x20;&#x3d;&#x20;&#x6e;&#x65;&#x78;&#x74;&#x28;&#x69;&#x31;&#x2c;&#x20;&#x4e;&#x6f;&#x6e;&#x65;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x30;&#x2c;&#x20;&#x65;&#x31;&#x20;&#x3d;&#x20;&#x6e;&#x65;&#x78;&#x74;&#x28;&#x69;&#x30;&#x2c;&#x20;&#x4e;&#x6f;&#x6e;&#x65;&#x29;&#x2c;&#x20;&#x6e;&#x65;&#x78;&#x74;&#x28;&#x69;&#x31;&#x2c;&#x20;&#x4e;&#x6f;&#x6e;&#x65;&#x29;</div></code></pre>
+
+
+        <button id='solution-6' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q merge</code></pre>
+<h3 class="question" id="q8">Q8: Remainder Generator</h3>
+Like functions,
+generators can also be <em>higher-order</em>. For this
+problem, we will be writing <code>remainders_generator</code>, which yields a
+series of generator objects.
+
+<p><code>remainders_generator</code> takes in an integer <code>m</code>, and yields <code>m</code> different
+generators. The first generator is a generator of multiples of <code>m</code>, i.e. numbers
+where the remainder is 0. The second, a generator of natural numbers with
+remainder 1 when divided by <code>m</code>. The last generator yield natural numbers with
+remainder <code>m &#x2d; 1</code> when divided by <code>m</code>.</p>
+
+
+
+<pre><code>def remainders_generator(m):
+    &quot;&quot;&quot;
+    Takes in an integer m, and yields m different remainder groups
+    of m.
+
+    &gt;&gt;&gt; remainders_mod_four = remainders_generator(4)
+    &gt;&gt;&gt; for rem_group in remainders_mod_four:
+    ...     for _ in range(3):
+    ...         print(next(rem_group))
+    0
+    4
+    8
+    1
+    5
+    9
+    2
+    6
+    10
+    3
+    7
+    11
+    &quot;&quot;&quot;
+<div class="alt solution-7">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-7">&#x20;&#x20;&#x20;&#x20;&#x64;&#x65;&#x66;&#x20;&#x72;&#x65;&#x6d;&#x61;&#x69;&#x6e;&#x64;&#x65;&#x72;&#x5f;&#x67;&#x72;&#x6f;&#x75;&#x70;&#x28;&#x72;&#x65;&#x6d;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x73;&#x74;&#x61;&#x72;&#x74;&#x20;&#x3d;&#x20;&#x72;&#x65;&#x6d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x77;&#x68;&#x69;&#x6c;&#x65;&#x20;&#x54;&#x72;&#x75;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#x20;&#x73;&#x74;&#x61;&#x72;&#x74;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x73;&#x74;&#x61;&#x72;&#x74;&#x20;&#x2b;&#x3d;&#x20;&#x6d;&#xa;&#xa;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x72;&#x65;&#x6d;&#x20;&#x69;&#x6e;&#x20;&#x72;&#x61;&#x6e;&#x67;&#x65;&#x28;&#x6d;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#x20;&#x72;&#x65;&#x6d;&#x61;&#x69;&#x6e;&#x64;&#x65;&#x72;&#x5f;&#x67;&#x72;&#x6f;&#x75;&#x70;&#x28;&#x72;&#x65;&#x6d;&#x29;</div></code></pre>
+
+
+        <button id='solution-7' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Note that if you have implemented this correctly, each of the
+generators yielded by <code>remainder_generator</code> will be <em>infinite</em> - you
+can keep calling <code>next</code> on them forever without running into a
+<code>StopIteration</code> exception.</p>
+
+<p><strong>Hint</strong>: Consider defining an inner generator function. What arguments
+should it take in? Where should you call it?</p>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q remainders_generator</code></pre>
+<h3 class="question" id="q9">Q9: Zip Generator</h3>
+
+<p>For this problem, we will be writing <code>zip_generator</code>, which yields a
+series of lists, each containing the nth items of each iterable.
+It should stop when the smallest iterable runs out of elements.</p>
+
+
+
+<pre><code>def zip_generator(*iterables):
+    &quot;&quot;&quot;
+    Takes in any number of iterables and zips them together.
+    Returns a generator that outputs a series of lists, each
+    containing the nth items of each iterable.
+    &gt;&gt;&gt; z = zip_generator([1, 2, 3], [4, 5, 6], [7, 8])
+    &gt;&gt;&gt; for i in z:
+    ...     print(i)
+    ...
+    [1, 4, 7]
+    [2, 5, 8]
+    &quot;&quot;&quot;
+<div class="alt solution-8">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-8">&#x20;&#x20;&#x20;&#x20;&#x69;&#x74;&#x65;&#x72;&#x61;&#x74;&#x6f;&#x72;&#x73;&#x20;&#x3d;&#x20;&#x5b;&#x69;&#x74;&#x65;&#x72;&#x28;&#x69;&#x74;&#x65;&#x72;&#x61;&#x62;&#x6c;&#x65;&#x29;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x69;&#x74;&#x65;&#x72;&#x61;&#x62;&#x6c;&#x65;&#x20;&#x69;&#x6e;&#x20;&#x69;&#x74;&#x65;&#x72;&#x61;&#x62;&#x6c;&#x65;&#x73;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x77;&#x68;&#x69;&#x6c;&#x65;&#x20;&#x54;&#x72;&#x75;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x79;&#x69;&#x65;&#x6c;&#x64;&#x20;&#x5b;&#x6e;&#x65;&#x78;&#x74;&#x28;&#x69;&#x74;&#x65;&#x72;&#x61;&#x74;&#x6f;&#x72;&#x29;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x69;&#x74;&#x65;&#x72;&#x61;&#x74;&#x6f;&#x72;&#x20;&#x69;&#x6e;&#x20;&#x69;&#x74;&#x65;&#x72;&#x61;&#x74;&#x6f;&#x72;&#x73;&#x5d;</div></code></pre>
+
+
+        <button id='solution-8' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q zip_generator</code></pre>
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#topics">Topics</a></li>
+  <ul>
+    <li><a href="#iterables-and-iterators">Iterables and Iterators</a></li>
+    <ul>
+      <li><a href="#iterable-uses">Iterable uses</a></li>
+    </ul>
+    <li><a href="#generators">Generators</a></li>
+  </ul>
+  <li><a href="#required-questions">Required Questions</a></li>
+  <ul>
+    <li><a href="#wwpd">WWPD</a></li>
+    <ul>
+      <li><a href="#q1">Q1: WWPD: Iterators</a></li>
+      <li><a href="#q2">Q2: WWPD: Generators</a></li>
+    </ul>
+    <li><a href="#coding-practice">Coding Practice</a></li>
+    <ul>
+      <li><a href="#q3">Q3: Scale</a></li>
+      <li><a href="#q4">Q4: Trap</a></li>
+    </ul>
+  </ul>
+  <li><a href="#optional-questions">Optional Questions</a></li>
+  <ul>
+    <li><a href="#q5">Q5: Hailstone</a></li>
+    <li><a href="#q6">Q6: Repeated</a></li>
+    <li><a href="#q7">Q7: Merge</a></li>
+    <li><a href="#q8">Q8: Remainder Generator</a></li>
+    <li><a href="#q9">Q9: Zip Generator</a></li>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+
+<script type="text/javascript" src="../../assets/js/config.js"></script>
+<script>
+  $(function() {
+    var staging_domains = ['staging.cs61a.org', 'solutions.cs61a.org', 'localhost', '127.0.0.1'];
+    var host = window.location.hostname;
+    var staging = staging_domains.indexOf(host) != -1;
+    staging = staging || (host.endsWith('.pullrequests.cs61a.org') && !host.startsWith('last-build.'));
+
+    var after_due_date = new Date("04/14/2018") < new Date();
+    var before_end_date = new Date() <= new Date(endDate);
+    var release_solutions = (staging || after_due_date) && before_end_date;
+
+    if (release_solutions) {
+      $('.toggle').css('display', 'inline-block');
+      $('.toggle').click(function() {
+        var solution_id = $(this).attr('id');
+        $('div.' + solution_id).slideToggle(600);
+      });
+    }
+  });
+</script>
+
+
+  </body>
+
+<!-- Mirrored from cs61a.org/lab/lab11/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:37:05 GMT -->
+</html>

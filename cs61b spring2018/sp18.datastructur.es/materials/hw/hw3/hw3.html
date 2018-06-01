@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/hw/hw3/hw3 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>HW 3: Hashing | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">HW 3: Hashing</header><ul id="markdown-toc">
+  <li><a href="#getting-the-skeleton-files" id="markdown-toc-getting-the-skeleton-files">Getting the Skeleton Files</a></li>
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#simple-oomage" id="markdown-toc-simple-oomage">Simple Oomage</a>    <ul>
+      <li><a href="#equals" id="markdown-toc-equals">equals</a></li>
+      <li><a href="#a-simple-hashcode" id="markdown-toc-a-simple-hashcode">A Simple hashCode</a></li>
+      <li><a href="#testhashcodeperfect" id="markdown-toc-testhashcodeperfect">testHashCodePerfect</a></li>
+      <li><a href="#a-perfect-hashcode" id="markdown-toc-a-perfect-hashcode">A Perfect hashCode</a></li>
+      <li><a href="#evaluating-the-perfect-hashcode-in-junit" id="markdown-toc-evaluating-the-perfect-hashcode-in-junit">Evaluating the perfect hashCode in JUnit</a></li>
+      <li><a href="#evaluating-the-perfect-hashcode-visually" id="markdown-toc-evaluating-the-perfect-hashcode-visually">Evaluating the perfect hashCode Visually</a></li>
+      <li><a href="#experiment-with-the-visualizer-optional" id="markdown-toc-experiment-with-the-visualizer-optional">Experiment With the Visualizer (Optional)</a></li>
+    </ul>
+  </li>
+  <li><a href="#complex-oomage" id="markdown-toc-complex-oomage">Complex Oomage</a>    <ul>
+      <li><a href="#evaluating-the-complexoomage-hashcode" id="markdown-toc-evaluating-the-complexoomage-hashcode">Evaluating the ComplexOomage hashCode</a></li>
+      <li><a href="#testwithdeadlyparams-and-binary-representations" id="markdown-toc-testwithdeadlyparams-and-binary-representations">testWithDeadlyParams and binary representations</a></li>
+      <li><a href="#fix-the-hashcode-optional" id="markdown-toc-fix-the-hashcode-optional">Fix the hashCode (optional)</a></li>
+    </ul>
+  </li>
+  <li><a href="#submission" id="markdown-toc-submission">Submission</a></li>
+  <li><a href="#faq" id="markdown-toc-faq">FAQ</a>    <ul>
+      <li><a href="#im-failing-the-hashtablevisualizer-test" id="markdown-toc-im-failing-the-hashtablevisualizer-test">I’m failing the HashTableVisualizer test!</a></li>
+      <li><a href="#why-cant-i-just-use-mathabs-or-mathfloormod" id="markdown-toc-why-cant-i-just-use-mathabs-or-mathfloormod">Why can’t I just use Math.abs or Math.floorMod?</a></li>
+      <li><a href="#what-does-k--0x7fffffff-do" id="markdown-toc-what-does-k--0x7fffffff-do">What does k &amp; 0x7FFFFFFF do?</a></li>
+      <li><a href="#im-getting-errors-like-file-does-not-contain-class-hw3hashhashtablevisualizer-in-the-autograder" id="markdown-toc-im-getting-errors-like-file-does-not-contain-class-hw3hashhashtablevisualizer-in-the-autograder">I’m getting errors like file does not contain class hw3.hash.HashTableVisualizer in the autograder.</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="getting-the-skeleton-files">Getting the Skeleton Files</h2>
+
+<p>As usual, run <code class="highlighter-rouge">git pull skeleton master</code> to get the skeleton files.</p>
+
+<h2 id="introduction">Introduction</h2>
+<p>In this lightweight HW, we’ll work to better our understanding of hash tables. Given that we have a midterm the day after this homework is due, we’ve tried to keep this homework very short and to the point. Make sure you’re spending your extra time going through study guides, preferably by working through problems with other students in the class!</p>
+
+<h2 id="simple-oomage">Simple Oomage</h2>
+
+<p>Your goal in this part of the assignment will be to write an <code class="highlighter-rouge">equals</code> and <code class="highlighter-rouge">hashCode</code> method for the <code class="highlighter-rouge">SimpleOomage</code> class, as well as tests for the <code class="highlighter-rouge">hashCode</code> method in the <code class="highlighter-rouge">TestSimpleOomage</code> class.</p>
+
+<p>To get started on this assignment, open up the class <code class="highlighter-rouge">SimpleOomage</code> and take a quick look around. A <code class="highlighter-rouge">SimpleOomage</code> has three properties: <code class="highlighter-rouge">red</code>, <code class="highlighter-rouge">green</code>, and <code class="highlighter-rouge">blue</code>, and each may have any value that is a multiple of 5 between 0 and 255. For example, a <code class="highlighter-rouge">SimpleOomage</code> with <code class="highlighter-rouge">red=35</code>, <code class="highlighter-rouge">green=90</code>, and <code class="highlighter-rouge">blue=215</code> would be valid, since all of these are multiples of 5 between 0 and 255. <strong>Try running <code class="highlighter-rouge">SimpleOomage</code></strong> and you’ll see four random Oomages drawn to the screen.</p>
+
+<h4 id="equals">equals</h4>
+
+<p><strong>Start by running <code class="highlighter-rouge">TestSimpleOomage</code>.</strong> You’ll see that you fail the <code class="highlighter-rouge">testEquals</code> test. The problem is that two <code class="highlighter-rouge">SimpleOomage</code> objects are not considered equal, even if they have the same <code class="highlighter-rouge">red</code>, <code class="highlighter-rouge">green</code>, and <code class="highlighter-rouge">blue</code> values. This is because <code class="highlighter-rouge">SimpleOomage</code> is using the default <code class="highlighter-rouge">equals</code> method, which simply checks to see if the the <code class="highlighter-rouge">ooA</code> and <code class="highlighter-rouge">ooA2</code> references point to the same memory location.</p>
+
+<p>Your first task for this homework is to write an <code class="highlighter-rouge">equals</code> method.</p>
+
+<p>As mentioned in class, writing a proper <code class="highlighter-rouge">equals</code> method is a little tricker than it might sound at first blush. According to the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html#equals-java.lang.Object-">Java language specification</a>, your <code class="highlighter-rouge">equals</code> method should have the following properties to be in compliance:</p>
+<ul>
+  <li>Reflexive: <code class="highlighter-rouge">x.equals(x)</code> must be true for any non-null <code class="highlighter-rouge">x</code>.</li>
+  <li>Symmetric: <code class="highlighter-rouge">x.equals(y)</code> must be the same as <code class="highlighter-rouge">y.equals(x)</code> for any non-null <code class="highlighter-rouge">x</code> and <code class="highlighter-rouge">y</code>.</li>
+  <li>Transitive: if <code class="highlighter-rouge">x.equals(y)</code> and <code class="highlighter-rouge">y.equals(z)</code>, then <code class="highlighter-rouge">x.equals(z)</code> for any non-null <code class="highlighter-rouge">x</code>, <code class="highlighter-rouge">y</code>, and <code class="highlighter-rouge">z</code>.</li>
+  <li>Consistent: <code class="highlighter-rouge">x.equals(y)</code> must return the same result if called multiple times, so long as the object referenced by <code class="highlighter-rouge">x</code> and <code class="highlighter-rouge">y</code> do not change.</li>
+  <li>Not-equal-to-null: <code class="highlighter-rouge">x.equals(null)</code> should be false for any non-null <code class="highlighter-rouge">x</code>.</li>
+</ul>
+
+<p>One particularly vexing issue is that the argument passed to the equals method is of type <code class="highlighter-rouge">Object</code>, not of type <code class="highlighter-rouge">SimpleOomage</code>, so you will need to do a cast. However, doing a cast without verifying that the Object is a <code class="highlighter-rouge">SimpleOomage</code> wont’ work, because you don’t want your code to crash if someone calls <code class="highlighter-rouge">.equals</code> with an argument that is not a <code class="highlighter-rouge">SimpleOomage</code>. Thus, we’ll need to use a new method of the Object class called <code class="highlighter-rouge">getClass</code>. For an example of a correct implementation of <code class="highlighter-rouge">equals</code>, see <a href="http://algs4.cs.princeton.edu/12oop/Date.java.html">http://algs4.cs.princeton.edu/12oop/Date.java.html</a>.</p>
+
+<p>Override the <code class="highlighter-rouge">equals</code> method so that it works properly. Make sure to test your <code class="highlighter-rouge">equals</code> method by running the test again. After fixing equals, your code should now pass the test.</p>
+
+<h4 id="a-simple-hashcode">A Simple hashCode</h4>
+
+<p><strong>In Java, it is critically important that if you override <code class="highlighter-rouge">equals</code> that you also override <code class="highlighter-rouge">hashCode</code>.</strong> Uncomment the <code class="highlighter-rouge">testHashCodeAndEqualsConsistency</code> method in <code class="highlighter-rouge">TestSimpleOomage</code>. Run it, and you’ll see that it fails. The reason is that we’ve overridden <code class="highlighter-rouge">equals</code> but not <code class="highlighter-rouge">hashCode</code>.</p>
+
+<p>To understand more deeply why this failure occurs, consider the code shown below.</p>
+
+<p>Two questions to ponder when reading this code:</p>
+<ul>
+  <li>What <em>should</em> each print statement output?</li>
+  <li>
+    <p>What <em>will</em> each print statement output?</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public void testHashCodeAndEqualsConsistency() {
+     SimpleOomage ooA = new SimpleOomage(5, 10, 20);
+     SimpleOomage ooA2 = new SimpleOomage(5, 10, 20);
+
+     System.out.println(ooA.equals(ooA2));
+
+     HashSet&lt;SimpleOomage&gt; hashSet = new HashSet&lt;SimpleOomage&gt;();
+     hashSet.add(ooA);
+     System.out.println(hashSet.contains(ooA2));
+ }
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>Answers:</p>
+<ul>
+  <li>The first print statement <em>should</em> and <em>will</em> output true, according to the definition of <code class="highlighter-rouge">equals</code> that we created in the previous part of the assignment.</li>
+  <li>The final print statement <em>should</em> output true. The HashSet does contain a <code class="highlighter-rouge">SimpleOomage</code> with r/g/b values of 5/10/20!</li>
+  <li>The final print statement <em>will</em>  print false. When the HashSet checks to see if <code class="highlighter-rouge">ooA2</code> is there, it will first compute <code class="highlighter-rouge">ooA2.hashCode</code>, which for our code will be the default <code class="highlighter-rouge">hashCode()</code>, which is just the memory address. Since <code class="highlighter-rouge">ooA</code> and <code class="highlighter-rouge">ooA2</code> have different addresses, their hashCodes will be different, and thus the HashSet will be unable to find an <code class="highlighter-rouge">Oomage</code> with r/g/b value of 5/10/20 in that bucket.</li>
+</ul>
+
+<p>The Java specification for <code class="highlighter-rouge">equals</code> mentions this danger as well: “Note that it is generally necessary to override the <code class="highlighter-rouge">hashCode</code>method whenever the <code class="highlighter-rouge">equals</code> method is overridden, so as to maintain the general contract for the <code class="highlighter-rouge">hashCode</code> method, which states that equal objects must have equal hash codes.”</p>
+
+<p><strong>Uncomment the given <code class="highlighter-rouge">hashCode</code> method in <code class="highlighter-rouge">SimpleOomage</code></strong>, which will return a hashCode equal to <code class="highlighter-rouge">red + green + blue</code>. Note that this <code class="highlighter-rouge">hashCode</code> is now consistent with equals, so you should now pass all of the <code class="highlighter-rouge">TestSimpleOomage</code> tests.</p>
+
+<h4 id="testhashcodeperfect">testHashCodePerfect</h4>
+
+<p>While the given <code class="highlighter-rouge">hashCode</code> method is okay, in the sense that it is consistent with equals and thus will pass <code class="highlighter-rouge">testHashCodeAndEqualsConsistency</code>, it is only using a tiny fraction of the possible space of hash codes, meaning it will have many unnecessary collisions.</p>
+
+<p>Our next goal for the <code class="highlighter-rouge">SimpleOomage</code> class will be to write a <em>perfect</em> <code class="highlighter-rouge">hashCode</code> function. By perfect, we mean that two <code class="highlighter-rouge">SimpleOomage</code>s may only have the same hashCode only if they have the exact same red, green, and blue values.</p>
+
+<p><strong>…but before we write it, fill in the <code class="highlighter-rouge">testHashCodePerfect</code> of <code class="highlighter-rouge">TestSimpleOomage</code> with code that tests to see if the <code class="highlighter-rouge">hashCode</code> function is perfect.</strong> Hint: Try out every possible combination of red, green, and blue values and ensure that you never see the same value more than once. Feel free to use any data structure you want.</p>
+
+<p>Run this test and it should fail, since the provided <code class="highlighter-rouge">hashCode</code> method is not perfect.</p>
+
+<h4 id="a-perfect-hashcode">A Perfect hashCode</h4>
+
+<p>To make the <code class="highlighter-rouge">hashCode</code> perfect, <strong>set the <code class="highlighter-rouge">USE_PERFECT_HASH</code> variable to true in <code class="highlighter-rouge">SimpleOomage</code> and in your hashCode() method, replace <code class="highlighter-rouge">return 0</code> with a new hash code calculation that is perfect</strong>. Finally, run <code class="highlighter-rouge">TestSimpleOomage</code> and verify that your perfect <code class="highlighter-rouge">hashCode</code> method passes your test. Your <code class="highlighter-rouge">TestSimpleOomage</code> test might take a few seconds to complete execution.</p>
+
+<h4 id="evaluating-the-perfect-hashcode-in-junit">Evaluating the perfect hashCode in JUnit</h4>
+
+<p>Fill in the <code class="highlighter-rouge">haveNiceHashCodeSpread(List&lt;Oomage&gt; oomages, int M)</code> method in the <code class="highlighter-rouge">OomageTestUtility</code> method so that it returns true if the given Oomages would have a nice spread if thrown into M buckets using their hashCodes. We define a nice spread as:</p>
+<ul>
+  <li>No bucket has fewer than N / 50 oomages.</li>
+  <li>No bucket has more than N / 2.5 oomages.
+, where N is the number of oomages.</li>
+</ul>
+
+<p>In other words, the number of oomages per bucket has to be within the range (N / 50, N / 2.5).</p>
+
+<p>For the purposes of converting an Oomage’s hashCode to a bucket number, you should compute <code class="highlighter-rouge">bucketNum = (o.hashCode() &amp; 0x7FFFFFFF) % M</code>, where <code class="highlighter-rouge">o</code> is an Oomage. You should not use <code class="highlighter-rouge">Math.abs</code> or <code class="highlighter-rouge">Math.floorMod</code>. See the FAQ for why.</p>
+
+<p>Once you’ve written this method, try running <code class="highlighter-rouge">TestJankyOomage</code> and it should fail. Try running <code class="highlighter-rouge">TestNiceSpreadOomage</code> and it should pass.</p>
+
+<p>Now uncomment <code class="highlighter-rouge">testRandomOomagesHashCodeSpread</code> in <code class="highlighter-rouge">TestSimpleOomage</code> and make sure <code class="highlighter-rouge">USE_PERFECT_HASH</code> is true in your <code class="highlighter-rouge">SimpleOomage</code> class. Most likely, your hash code will fail this test, even though it is perfect. To understand why, let’s turn to visualiation. If by some chance your hash code passes, that’s fine, you should still use the visualizer to see how your hashCode performs visually in the next section.</p>
+
+<h4 id="evaluating-the-perfect-hashcode-visually">Evaluating the perfect hashCode Visually</h4>
+
+<p>To get a better understanding of how hash tables work, we will use a hash table visualizer. Specifically, we’ve provided a method with the signature <code class="highlighter-rouge">visualize(List&lt;Oomage&gt; oomages, int M, double scale)</code> that shows the distribution of the given oomages across the M buckets according to their hashcodes (and <code class="highlighter-rouge">scale</code> is a special parameter that controls the size of some aspects of the drawing).</p>
+
+<!-- OPTIONAL, IF THIS HW ISN't DUE RIGHT BEFORE A MIDTERM
+
+All you need to do is fill in the `visualize(List<Oomage> oomages, int M, double scale)` method of `HashTableVisualizer`. What it's supposed to do is take a list of Oomages and visualize where they'd end up if they all got put into a hash table of M buckets (with the drawing scaled in size by the given scale factor).
+
+We don't want you to spend a ton of time figuring out how to design a visualizer, so we've provided a bunch of code to do the tedious stuff for you in `HashTableDrawingUtility` and in the `draw` method of the `Oomage` interface. The pseudocode for your visualizer should look like this:
+
+        HashTableDrawingUtility.drawLabels(M);
+
+        /* bucketCounts[i] is how many items in bucket i so far*/
+        bucketCounts = array of length M
+
+        for (Oomage s : set) {
+            calculate hashCode of s
+            bucketNum = convert hashCode to bucket num
+            x = HashTableDrawingUtility.xCoord(bucketCounts[bucketNum])
+            y = HashTableDrawingUtility.yCoord(bucketNum)
+            bucketCounts[bucketNum] = bucketCounts[bucketNum] + 1;
+            s.draw(x, y, scale);
+        }
+
+One potential ambiguity is how to convert hash codes to bucket numbers. While there are many ways to do this, we'll use the technique from the optional textbook, where we calculate `bucketNum = (hashCode & 0x7FFFFFFF) % M`. You should not use `Math.abs(hashCode) % M`. Likewise, you should not use `floorMod(hashCode, M)`. See the FAQ for why.-->
+
+<p>To try it out, try running the <code class="highlighter-rouge">HashTableVisualizer</code> provided. Your visualization will probably look like this (if your hash code fails the <code class="highlighter-rouge">testRandomOomagesHashCodeSpread</code> test from the previous section):</p>
+
+<p><img src="images/visualizer2.png" alt="visualizer" /></p>
+
+<p>Or if your hash code is already good enough that everything spreads out nicely, it’ll look like this:</p>
+
+<p><img src="images/visualizer.png" alt="visualizer" /></p>
+
+<p>If you’re getting a figure similar the first where everything is in two buckets, here’s why: Even though your hashCode is perfect, it’s always returning a multiple of 5. Try changing M to 9 in <code class="highlighter-rouge">HashTableVisualizer</code>, and you should see a nice spread of values. Understanding why this is happening is a great idea.</p>
+
+<p>If you’d like to make your hashCodes work well for any number of buckets, you should ensure that it is not always a multiple of any number. One way to do this is to divide the red, green, and blue values by 5 before computing the hash code.</p>
+
+<!--
+For those who are interested in digging deeper, `HashTableDrawingUtility` has the following API:
+
+    public class HashTableDrawingUtility {
+        public static void setScale(double sf)
+        public static void drawLabels(int M) 
+        public static double yCoord(int bucketNum, int M)
+        public static double xCoord(int bucketPos)        
+    }
+
+Where the methods work as follows:
+  
+    setScale(sf):         Sets the scaling factor for the drawing. Set 
+                          to numbers less than 1 to fit more stuff on the
+                          screen. 
+    drawLabels(M):        Draws numerical labels for each bucket, where M
+                          is the number of buckets.
+    yCoord(bucketNum, M): Returns the StdDraw Y coordinate of an item in
+                          the given bucket number.
+    xCoord(bucketPos):    Returns the StdDraw X coodinate of an item at 
+                          the given position in a bucket.
+    main(args):           Shows a visualization of N oomages across M buckets,
+                          using hardwired constants in the main method
+
+For example, if we have a `SimpleOomage` called `someOomage`, and it is in position number 3 of bucket number 9 out of 16 buckets, then `xCoord(3)` would give us the desired x coordinate and `yCoord(9, 16)` would give us the desired y coordinate. Thus, we'd call `someOomage.draw(xCoord(3), yCoord(9, 16), scale)` to visualize the `SimpleOomage` as it appears in the hash table with the scaling factor `scale`. Note the distinction between bucketPos and bucketNum.
+
+
+
+-->
+
+<h4 id="experiment-with-the-visualizer-optional">Experiment With the Visualizer (Optional)</h4>
+
+<p>Once you’ve got a nice spread, try out the visualizer with <code class="highlighter-rouge">scale = 0.5, N = 2000, M = 100</code>.</p>
+
+<p>Try messing around with N and M and see how the visualizer behaves on your <code class="highlighter-rouge">SimpleOomage</code> class. If there isn’t enough room to fit everything on screen, try resetting the scaling factor to a number less than one. Compare the distribution of items for the perfect vs. imperfect vs. default hashCodes. Does what you see match what you expect?</p>
+
+<h2 id="complex-oomage">Complex Oomage</h2>
+
+<p>The <code class="highlighter-rouge">ComplexOomage</code> class is a more sophisticated beast. Instead of three instance variables representing <code class="highlighter-rouge">red</code>, <code class="highlighter-rouge">green</code>, and <code class="highlighter-rouge">blue</code> values, each <code class="highlighter-rouge">ComplexOomage</code> has an entire a list of ints between 0 and 255 (not necessarily multiples of 5). This list may be of any length.</p>
+
+<p>This time, you won’t change the <code class="highlighter-rouge">ComplexOomage</code> class at all. Instead, your job will be to write tests to find the flaw in the <code class="highlighter-rouge">hashCode</code> function.</p>
+
+<h4 id="evaluating-the-complexoomage-hashcode">Evaluating the ComplexOomage hashCode</h4>
+
+<p>The provided <code class="highlighter-rouge">hashCode</code> is valid, but it does a potentially bad job of distributing items in a hash table.</p>
+
+<p>Start by visualizing the spread of random <code class="highlighter-rouge">ComplexOomage</code> objects using the visualizer. Use the <code class="highlighter-rouge">randomComplexOomage</code> method to generate random <code class="highlighter-rouge">ComplexOomage</code>s. You should find that this visual test shows no apparent problem in the distribution of <code class="highlighter-rouge">randomComplexOomages</code>.</p>
+
+<p>Also try uncommenting <code class="highlighter-rouge">testRandomOomagesHashCodeSpread</code> in <code class="highlighter-rouge">TestComplexOomage</code>. You’ll see that it passes <code class="highlighter-rouge">testRandomOomagesHashCodeSpread</code> just fine, reinforcing what you just saw in the visualizer. For totally random <code class="highlighter-rouge">ComplexOomages</code>, everything is fine.</p>
+
+<h4 id="testwithdeadlyparams-and-binary-representations">testWithDeadlyParams and binary representations</h4>
+
+<p>In this case, we need to look at the <code class="highlighter-rouge">hashCode</code> to find the problem. Fill in the test <code class="highlighter-rouge">testWithDeadlyParams</code> such that the provided <code class="highlighter-rouge">hashCode</code> function fails due to poor distribution of <code class="highlighter-rouge">ComplexOomage</code> objects.</p>
+
+<p>Given what we’ve learned in 61B so far, this is a really tricky problem! Consider how Java represents integers in binary (see <a href="https://docs.google.com/presentation/d/1hRUkaONWvWP7IZbINLP-G6uOyyulDqury5kop7638co/edit">lecture 23</a> for a review). For a hint, see Hint.java.</p>
+
+<p>Your test should not fail due to an IllegalArgumentException.</p>
+
+<p>Once you’ve written this test and <code class="highlighter-rouge">ComplexOomage</code> fails it, you’re done with HW3!</p>
+
+<h4 id="fix-the-hashcode-optional">Fix the hashCode (optional)</h4>
+
+<p>Consider how you might change the <code class="highlighter-rouge">hashCode</code> method of <code class="highlighter-rouge">ComplexOomage</code> so that <code class="highlighter-rouge">testWithDeadlyParams</code> passes. Are there other deadly parameters that might strike your <code class="highlighter-rouge">hashCode</code> method?</p>
+
+<h2 id="submission">Submission</h2>
+
+<p>To give you some small amount of flexibility in the problems you want to focus on, we’ve set up the AG to give you full credit so long as you pass all but one test. Thus if you’re having trouble with any particular part of the HW, feel free to skip it at no penalty.</p>
+
+<h2 id="faq">FAQ</h2>
+
+<h4 id="im-failing-the-hashtablevisualizer-test">I’m failing the HashTableVisualizer test!</h4>
+
+<p>You must convert from hashCode to bucket number using <code class="highlighter-rouge">(hashCode &amp; 0x7FFFFFFF) % M</code>. You should not use <code class="highlighter-rouge">Math.abs(hashCode) % M</code>.</p>
+
+<h4 id="why-cant-i-just-use-mathabs-or-mathfloormod">Why can’t I just use Math.abs or Math.floorMod?</h4>
+
+<p><code class="highlighter-rouge">Math.abs</code> is bad because of what happens if you do Math.abs(-2147483648). Try it out. <code class="highlighter-rouge">Math.floorMod</code> is fine, but we wanted to give you a chance to see how the optional algorithms textbook does things, and also give you an example of a bitwise operation (0x7FFFFFFF), we’ll talk about these much later in the course towards the very end.</p>
+
+<h4 id="what-does-k--0x7fffffff-do">What does k &amp; 0x7FFFFFFF do?</h4>
+
+<p>It returns an integer equal to k, but with the top bit set to zero. We’ll talk more about this at the very end of class.</p>
+
+<h4 id="im-getting-errors-like-file-does-not-contain-class-hw3hashhashtablevisualizer-in-the-autograder">I’m getting errors like file does not contain class hw3.hash.HashTableVisualizer in the autograder.</h4>
+
+<p>Your code must be part of the hw3.hash package, with the appropriate declaration at the top of the file.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/hw/hw3/hw3 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:25 GMT -->
+</html>

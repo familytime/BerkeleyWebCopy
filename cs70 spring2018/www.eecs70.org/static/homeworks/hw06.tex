@@ -1,0 +1,103 @@
+
+\Question{Secret Sharing with Spies}
+
+An officer stored an important letter in her safe. In case she is
+killed in battle, she decides to share the password (which is a number)
+with her troops. However, everyone knows that there are 3 spies among
+the troops, but no one knows who they are except for the three spies
+themselves. The 3 spies can coordinate with each other and they will
+either lie and make people not able to open the safe, or will open the
+safe themselves if they can. Therefore, the officer would like a
+scheme to share the password that satisfies the following conditions:
+\begin{itemize}
+	\item When $M$ of them get together, they are guaranteed to be
+          able to open the safe even if they have spies among them.
+	\item The 3 spies must not be able to open the safe all by themselves.
+\end{itemize}
+
+Please help the officer to design a scheme to share her password. What
+is the scheme? What is the smallest $M$? Show your work and argue why
+your scheme works and any smaller $M$ couldn't work. (The troops only 
+have one chance to open the safe; if they fail the safe will 
+self-destruct.)
+
+
+\Question{Error-Correcting Polynomials}
+
+\begin{Parts}
+\Part
+Alice has a length 8 message to Bob. There are 2 communication channels available. When $n$ packets are fed through channel A, the channel will only deliver 5 packets (picked at random). Similarity, channel B will only deliver 5 packets (picked at random), but it will also corrupt (change the value) of one of the delivered packets. All channels can only work if at least 10 packets are sent through it. Using the 2 channels, how can Alice send the message to Bob?
+
+\Part Alice wishes to send a message to Bob as the coefficients of a degree 2 polynomial $P$. For a message [$m_1, m_2, m_3$], she creates polynomial $P = m_1x^2 + m_2x + m_3$ and sends 5 packets: $(0, P(0)), (1, P(1)), (2, P(2)), (3, P(3)), (4, P(4))$. However, Eve interferes and changes one of the values of a packet before it reaches Bob. If Bob receives
+    \begin{align*}
+      (0, 3), (1, 0), (2, 3), (3, 0), (4, 3),
+    \end{align*}
+    and knows Alice's encoding scheme and that Eve changed one of the packets, can he still figure out what the original message was? If so find it as well as the $x$-value of the packet that Eve changed, if not, explain why he can not. (Work in mod 11.)
+
+\Part Alice decides that putting the message as the coefficients of a polynomial is too inefficient for long messages because the degree of the polynomial grows quite large. Instead, she decides to encode the message as values in a degree 2 polynomial. For a 5 length message [$m_0, m_1, m_2, m_3, m_4$], she creates a degree 2 polynomial $P$ such that $P(0) = m_0, P(1) = m_1, P(2) = m_2, P(3) = m_3, P(4) = m_4$. (Alice makes sure to choose her message in such a way that it can be encoded in a polynomial of degree 2.) She then sends the length 5 message directly to Bob as 5 packets: $(0, m_0), (1, m_1), (2, m_2), (3, m_3), (4, m_4)$. Eve again interfere and changes the value of a packet before it reaches Bob. If Bob receives $(0, 0), (1, 3), (2, 0), (3, 3), (4, 0)$ and knows Alice's encoding scheme and that Eve changed one of the packets, can he still figure out what the original message was? If so find it as well as the $x$-value of the packet that Eve changed, if not, explain why he can not. (Work in mod 11.)
+
+\Part After getting tired of decoding degree 2 polynomials, Bob convinces Alice to send messages using a degree 1 polynomial instead. To be on the safer side, Alice decides to continue to send 5 points on the polynomial even though it is only degree 1. She encodes and sends a length 5 message in the same way as part (c) (except using a degree 1 polynomial). Eve however, decides to change 2 of the packets. After Eve interferes, Bob receives $(0, -3), (1, -1), (2, x), (3, -3), (4, 5)$. If Alice sent $(0, -3), (1, -1), (2, 1), (3, 3), \\ (4, 5)$, for what values of $x$ will Bob not be able to uniquely determine the Alice's message? (Assume Bob knows that Eve changed 2 of the packets and \textbf{work in mod 13.})
+\end{Parts}
+
+
+\Question{Distance Properties}
+Imagine that you want to send a message $x$ of length $n$ over the binary alphabet $\{0, 1\}$. However, you want to prepare for the possibility that one of your bits will be corrupted. You therefore send a codeword $y$ of length $m > n$ given by an encoding function $E: y = E(x)$. The encoding function is one-to-one (or else there would be ambiguity in which message you sent), and furthermore the encoding function has the property that for any two distinct codewords $y_1, y_2$ in the range of $E$, $y_1$ and $y_2$ have a Hamming distance of at least 3 (this ensures that you can correct for a corruption of at most one bit).
+
+Prove that $m \ge n + \log_2(m+1)$, that is, the number of extra bits that you have to send is at least logarithmic in your original message length.
+
+\underline{Hint}: Try a counting approach. For each codeword $y$, let $B_y$ be the set of length-$m$ strings with a Hamming distance of at most 1 away from $y$. Observe that for distinct codewords $y_1$ and $y_2$, $B_{y_1}$ and $B_{y_2}$ do not overlap.
+
+
+\Question{Error-Correcting Codes}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+\item 
+Recall from class the error-correcting code for erasure errors, which
+protects against up to $k$ lost packets by sending a total of $n+k$ packets
+(where $n$ is the number of packets in the original message).  Often the number
+of packets lost is not some fixed number $k$, but rather a \emph{fraction} of
+the number of packets sent.  Suppose we wish to protect against a fraction
+$\alpha$ of lost packets (where $0 < \alpha < 1$).  At least how many packets do 
+we need to send (as a function of $n$ and $\alpha$)?
+
+\item 
+Repeat part (a) for the case of general errors.
+
+\end{enumerate}
+
+\Question{More Countability}
+
+Given:
+\begin{itemize}
+\item $A$ is a countable, non-empty set. For all $i \in A$, $S_i$ is an uncountable set.
+\item $B$ is an uncountable set. For all $i \in B$, $Q_i$ is a countable set.
+\end{itemize}
+
+For each of the following, decide if the expression is
+"Always Countable", "Always Uncountable", "Sometimes Countable,
+Sometimes Uncountable".
+
+For the "Always" cases, prove your claim. For the "Sometimes" case, provide
+two examples -- one where the expression is countable, and one where
+the expression is uncountable.
+
+\begin{Parts}
+
+\Part $A \cap B$
+
+\Part $A \cup B$
+	
+\Part $\bigcup_{i \in A} S_i$
+
+\Part $\bigcap_{i \in A} S_i$
+
+\Part $\bigcup_{i \in B} Q_i$
+
+\Part $\bigcap_{i \in B} Q_i$
+
+
+
+\end{Parts}
+
+

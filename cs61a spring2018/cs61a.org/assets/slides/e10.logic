@@ -1,0 +1,138 @@
+; Dogs
+
+(fact (parent abraham barack))
+(fact (parent abraham clinton))
+(fact (parent delano herbert))
+(fact (parent fillmore abraham))
+(fact (parent fillmore delano))
+(fact (parent fillmore grover))
+(fact (parent eisenhower fillmore))
+
+(query (parent abraham ?child))
+
+
+; Compound facts
+
+(fact (child ?c ?p) (parent ?p ?c))
+
+(query (child ?child fillmore))
+(query (child herbert delano))
+(query (child eisenhower ?parent))
+
+
+; Recursive facts
+
+(fact (ancestor ?a ?y) (parent ?a ?y))
+(fact (ancestor ?a ?y) (parent ?a ?z) (ancestor ?z ?y))
+
+(query (ancestor ?a herbert))
+(query (ancestor ?a barack) (ancestor ?a herbert))
+
+(fact (descendant ?y ?a) (ancestor ?a ?y))
+(query (descendant ?y fillmore))
+(query (descendant ?y eisenhower))
+
+
+; Hierarchical facts
+
+(fact (dog (name abraham) (color white)))
+(fact (dog (name barack) (color tan)))
+(fact (dog (name clinton) (color white)))
+(fact (dog (name delano) (color white)))
+(fact (dog (name eisenhower) (color tan)))
+(fact (dog (name fillmore) (color gray)))
+(fact (dog (name grover) (color tan)))
+(fact (dog (name herbert) (color gray)))
+
+(query (dog (name clinton) (color ?color)))
+(query (dog (name clinton) ?info))
+
+(query (dog (name ?name) (color ?color))
+       (ancestor ?ancestor ?name)
+       (dog (name ?ancestor) (color ?color)))
+
+
+; Building relations
+
+(fact (ancestry ?name) (dog (name ?name) . ?details))
+(fact (ancestry ?child ?parent . ?rest)
+      (parent ?parent ?child)
+      (ancestry ?parent . ?rest))
+
+(query (ancestry barack . ?lineage))
+
+(query (ancestor ?a clinton)
+       (ancestor ?a ?gray-dog)
+       (dog (name ?gray-dog) (color gray)))
+; Append
+
+(fact (append-to-form () ?x ?x))
+(fact (append-to-form (?a . ?r) ?y (?a . ?z))
+      (append-to-form       ?r  ?y       ?z))
+
+(query (append-to-form (a b c) (d e) ?result))
+(query (append-to-form ?left ?right (a b c d e)))
+
+(fact (append-3 ?x ?y ?z ?xyz)
+      (append-to-form ?x ?y ?xy)
+      (append-to-form ?xy ?z ?xyz))
+
+(query (append-3 (c s) (6 1) (a) ?course))
+(query (append-3 ?x ?y ?z (a b c d e)))
+
+(fact (append-non-empty (?a) (?b . ?rest) (?a ?b . ?rest)))
+(fact (append-non-empty (?a . ?r) ?y (?a . ?z))
+      (append-non-empty       ?r  ?y       ?z))
+
+(query (append-non-empty ?left ?right (a b c d e)))
+
+(fact (segment ?whole ?whole))
+(fact (segment ?whole ?first . ?rest)
+      (append-non-empty ?first ?combined ?whole)
+      (segment ?combined . ?rest))
+
+(query (segment (a b c d e) . ?parts))
+
+
+; Anagrams
+
+(fact (insert ?a ?r (?a . ?r)))
+(fact (insert ?a (?b . ?r) (?b . ?s))
+      (insert ?a       ?r        ?s))
+
+(query (insert 1 (- - - - - -) ?result))
+(query (insert 1 (- - - - - -) ?r1) (insert 2 ?r1 ?r2))
+
+(fact (anagram () ()))
+(fact (anagram (?a . ?r) ?b) (insert ?a ?s ?b) (anagram ?r ?s))
+
+(query (anagram ?x (s t a r)))
+
+
+; Addition
+
+(fact (increment 1 2))
+(fact (increment 2 3))
+(fact (increment 3 4))
+(fact (increment 4 5))
+(fact (increment 5 6))
+
+(fact (add       1 ?x ?x+1)
+      (increment ?x ?x+1))
+(fact (add       ?x+1 ?y ?z+1)
+      (increment ?x ?x+1)
+      (increment ?z ?z+1)
+      (add       ?x ?y ?z))
+
+(query (add 2 3 ?z))
+(query (add ?x ?y 5))
+
+(fact (eval ?x ?x) (increment ?x ?_))
+(fact (eval (+ ?operand0 ?operand1) ?val)
+      (add ?arg0 ?arg1 ?val)
+      (eval ?operand0 ?arg0)
+      (eval ?operand1 ?arg1))
+
+(query (eval (+ 2 (+ 1 1)) ?value))
+(query (eval ?exp 4))
+

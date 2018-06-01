@@ -1,0 +1,401 @@
+<!DOCTYPE HTML>
+<html>
+
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/projs/05-02/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:54:28 GMT -->
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css", media="screen" href="style.css">
+    <style type="text/css">
+        table{background:#cdc;border-collapse:collapse;font-family:monospace}td{border:0.125em solid #aba;padding:0.25em}thead{background:#676;color:#fff;text-transform:uppercase}
+    td{font-size: 1.2em;}
+        span.inst{color:#d00}span.rgtr{color:#00a}span.immd{color:#a0a}span.label{color:#666}
+        div.highlight{background:#cdc;padding:1em}
+        span.warn{color:#f00;font-weight:bold;}
+        table.colonly{display:inline-block;vertical-align:top;}table.colonly td{border-top:0em;border-bottom:0em;padding-top:0.1em;padding-bottom:0.1em;}td.center{text-align:center}
+			img {
+					display: block;
+					margin-left: auto;
+					margin-right: auto;
+			}
+    </style>
+<title>Project 5: Microservices in Go - Part 2: The testening</title>
+
+</head>
+
+<body>
+<div class='header'>
+  <h1>CS61C Spring 2018 Project 5: Microservices in Go - Part 2: The testening</h1>
+  <br>
+  <big>TA: Nathan Pemberton</big><br>
+  <big>Parts 1 and 2 both Due 4/30 @ 23:59:59</big>
+</div>
+
+<div class='content'>
+
+    <h2>Overview</h2>
+    <p> First: Please make sure you've read the instructions for <a
+      href="../05-01/index-2.html">part 1</a> before starting part 2</p>
+
+    <p>Writing a bunch of code is useless if it doesn't work. In the second
+    part of this project we will be focusing on testing our memoizer to make
+    sure it works as expected. You should expect to have significantly more
+    test code than application code by the end of this. While it may seem like
+    the memoizer is a fairly simple program, it turns out that there are a
+    surprising number of ways it can fail, especially if we can't just give up
+    when a service we depend on fails.</p>
+
+    <h2>Setup</h2>
+    <p><b><font color="red">Important: This part of the project does not
+    support windows. You will only be able to run the provided tests on osx
+    or linux. It is strongly recommended that you do most of your work on
+    hive.</font></b></p> 
+    
+    <p>This project relies on some newer features of Go. Before continuing,
+    make sure that you are using Go version 1.10 or higher. To do this,
+    run:</p>
+    <pre>go version</pre> 
+    
+    <p>You should see a number at least as big as 1.10. This is the default on
+    the hive machines, but depending on how you installed Go, it might be
+    older. Once you've made sure you have a recent version of Go, you'll need
+    to download some helper code.</p>
+
+    <h3> Update the proj5 package </h3>
+    <p> We have made some modifications and additions to the proj5 repo, please
+    update to the latest version: </p>
+    <pre>go get -u github.com/61c-teach/sp18-proj5</pre>
+
+    <p>Take a look inside, you'll see that there is a new file called err.go.
+    This file contains a specialized error type (as opposed to the generic
+    "error" that MnistResp currently passes) called MemErr. Of particular
+    interest here is the use of memoizer-specific error condition codes (e.g.
+    MemErr_serErr). These types let our memoizer be more specific about what
+    went wrong, and allows upstream code to programatically handle different
+    conditions. Without these, a human might need to look at the error
+    descriptions to figure out what happened which could take hours instead of
+    nanoseconds.  This MemErrCause type acts much like an enum in C (see this
+    <a
+    href="http://golang-basic.blogspot.com/2014/07/step-by-step-guide-to-declaring-enums.html">link</a>
+    for more details on golang-style enums).</p>
+
+    <p>You should create this type using the "CreateMemErr" method only and
+    read its cause using "GetErrCause" only. See test_helpers.go for an
+    example of using GetErrCause. In test_helpers.go, the "validateResp"
+    function uses GetErrCause to find the cause of resp.Err. What is
+    interesting here is that resp.Err is of type "error" not "MemErr". This is
+    a form of polymorphism (like inheritance in Java). Don't worry though, as
+    long as your memoizer only produces errors of type MemErr, and you only
+    ever read causes using GetErrCause, you shouldn't have to worry too much
+    about it.</p>
+
+    <p><i>Hint: If you get errors that are similar to "panic: interface
+    conversion: error is *errors.errorString, not proj5.MemErr", you're
+    probably returning an error instead of a MemErr somewhere in your
+    memoizer.</i></p>
+
+    <h3>Get the memoizer_testing package</h3>
+    <p>We have provided a new testing harness to make it a bit easier for you
+    to write tests. You'll need to download <a href="proj5-testing.tar">this
+    tarball</a> and unpack it in your $GOPATH/src/bitbucket.org/USER/proj5-xxx
+    directory. You're project directory should look someting like:</p>
+    <pre>
+-proj5-xxx/
+  -data/
+  -proj5-testing/
+      -data/
+      -mock_test.go
+      -run_buggy.py
+      -test_framework.go
+  -memoizer.go
+  -memoizer_test.go
+  -env.sh
+  ...</pre>
+
+    <p><i>Hint: the "wget" command downloads a file from a url into the current
+      directory. You can use it to easily get the tarballs into your hive
+      machines. Just "cd" to the desired directory and run "wget
+    https://inst.eecs.berkeley.edu/~cs61c/sp18/projs/05-02/proj5-testing.tar"</i></p>
+
+    <p>We'll have more on how to use this framework later. For now, cd into the
+    proj5-testing directory and <b>change the "memoizer" import path</b> in
+    test_framework.go to point to your proj5-xxx directory. The new import path
+    should look something like:<p>
+<b>test_framework.go</b>
+    <pre>
+package memoizer_testing
+
+import (
+  "testing"
+  "time"
+
+  //memoizer "github.com/61c-teach/proj5-impls/memoizer_good"
+  memoizer "bitbucket.org/YOUR_USER/proj5-xxx
+  <b>...</b></pre>
+
+    <p>This tells the test framework to use the implementation of memoizer
+    located in "$GOPATH/src/bitbucket.org/YOUR_USER/proj5-xxx" for its tests.
+    Later, we will install a few more versions of memoizer for you to test, you
+    can try them out by changing this import path again. Check if you've done
+    this correctly by running <code>go test</code>. You should see tests
+    running, but you might not be passing them all right now. This is fine for
+    now, you'll fix the errors later.</p> 
+    
+   <h3>Get the reference memoizer implementations</h3>
+    <p>To aid you in testing, we are providing you with pre-compiled versions of
+    our staff memoizer solution. One of these solutions is fully correct (as
+    far as we know), but the rest have a specific bug introduced. You will need
+    to write tests that discover these bugs. For now, let's just get them
+    installed and make sure they run.</p>
+
+    <p>Download <a href="proj5-impls.tar">the proj5-impls.tar</a> file and
+    place it in your $GOPATH directory. <b><font color="red">Very Important:
+    You must place proj5-impls.tar in your $GOPATH directory and have your CWD (current working directory)
+    be in $GOPATH for the following to work</font></b>. To ensure you are set up
+    for the next step, run the following:</p>
+    
+    <pre>cd $GOPATH
+ls</pre>
+    <p>You should see something like:</p>
+    <pre>bin  pkg proj5-impls.tar src</pre>
+
+    <p>Now from within your $GOPATH directory, unpack the tar file:</p>
+    <pre>tar -xf proj5-impls.tar</pre>
+
+    <p>You should now have the binary package installed. Check your
+    src/github.com/61c-teach/ directory, there should be an entry for
+    proj5-impls/.</p>
+
+    <p><i>Note: What just happened? The proj5-impls.tar file implements an
+    "overlay". It packages up a whole directory tree that matches the
+    directory structure of your Go workspace. By unpacking it, tar copies
+    files far down in the directory structure, creating any intermediate
+    directories as needed.  The reason we ask you to be so careful is that
+    these types of tarballs can cause all sorts of problems if you accidently
+    unpack them in a directory structure that they were not expecting. This
+    technique is used a lot in the linux world to install packages and
+    perform system upgrades.</i></p>
+
+    <p>Now lets test one of them out! Go back to your proj5-testing directory
+    and replace the import for memoizer (in test_framework.go) with
+    "github.com/61c-teach/proj5-impls/memoizer_classID" and run "go test"
+    again. You should see this test failing. This is good! The implementation
+    of Memoizer in memoizer_classID has a bug where it returns a bad message ID
+    to the client if the classifier gives it a bad message ID. Now try changing the
+    import to "github.com/61c-teach/proj5-impls/memoizer_classErr" and run
+    "go test" again. This one passes. This is bad! memoizer_classErr has a bug
+    where the memoizer reports the wrong sort of MemErrCause when the
+    classifier returns an error, but our tests aren't good enough to catch it.
+    You're main task in part-2 will be to write better tests that catch all
+    these bugs.</p>
+
+    <h2>Using Mocks for Testing</h2>
+    
+    <p>If you take a look at the errors in "Formal Memoizer Requirements"
+    below, you'll notice that most of the errors involve what the memoizer
+    should do if one of the other services misbehaves somehow. The problem is
+    that (we hope) we gave you fairly reliable implementations for them, they
+    don't really cause the sorts of problems that you're supposed to handle.
+    How can you test your code's response to a buggy classifier without a buggy
+    classifier? The answer is that you just need to write your own classifier,
+    with blackjack and...ahem, I mean...with specific bugs and predictable
+    behavior. This technique of creating a fake version of some dependency is
+    called "Mocking" ("mock" is another word for fake).</p>
+    
+    <p>Take a look in mock_test.go. You'll see that it defines a bunch of
+    functions called things like mockClassifierGood and others called
+    checkFullMock. The first implement the mock services (mockClassifierGood
+    acts like a classifier that doesn't cause any errors, and always classifies
+    images using the <code>lblIm</code> function). The second function is a checker.
+    Checkers pretend to be the client of your service, they send it requests
+    and make sure that the responses they get are correct. checkFullMock
+    ensures that the memoizer behaves correctly when it's given known good
+    caches and classifiers (where the classifiers use lblIm to label images).
+    The test framework handles the running of mocks and checkers for you, just
+    follow the lead of the TestMocks function.</p>
+    
+    <p><i>Note: For the curious, the t.Run(label, func) function runs a subtest
+      named "label" using the function "func". Subtests get reported
+      independently when you do "go test -v" and can fail independently. In
+      this case, func is actually a "closure" which is a one-off function (like
+      python's "lambda") that calls into our framework to launch your mocks and
+      checker. The runMockTest function spins up your mocks and whichever
+      memoizer its import path is currently pointing to as goroutines, and then
+      runs the checker with the handle of the memoizer.</i></p> 
+
+    <h3>run_buggy.py: Evaluating your tests</h3>
+    <p>Once you've written some mocks, the first step is to make sure your
+    memoizer passes your tests, but how do you know you've written enough
+    tests? In the real-world, this is a very hard problem, but we've gotchu.
+    We've provided you with a bunch of slightly broken implementations of the
+    memoizer in proj5-impls. All but Memoizer_good ought to fail a good test
+    suite, but most of them pass the starter code we gave you.<p>
+
+    <p>To run these tests, you can change the import path for the memoizer in
+    test_framework.go to point to one. To run them all, you can run the
+    run_buggy.py python script which will run them all at once and report which
+    passed/failed.</p>
+
+    <p><b>Warning: I tried to make the run_buggy.py script fairly robust, but
+      there are no guarantees. We strongly suggest that you commit often, and
+      don't make any modifications (other than changing the import path) to
+    test_framework.go.</b></p>
+
+    <h3>Deep Dive into a Mock: Classifier BadID</h3>
+    <p>We've included a mock for you to help inspire your own designs. Open up
+    mock_test.go and search for where the test called "ClassBadID" is run. This
+    test uses the following mocks (search for them lower down in
+    mock_test.go):</p>
+    <ul>
+      <li><b>mockClassifierBadID:</b> This classifier acts just like
+        mockClassifierGood most of the time, but on the <code>whenFail</code>'th request
+        (<code>whenFail</code> is a constant defined at the top of the file), it returns a
+        bogus ID (see the line that has <code>if reqCount == whenFail</code>), then
+        it goes back to returning the correct ID</li>
+      <li><b>mockCacheGood:</b> This cache behaves normally, but it performs a
+        few extra checks on IDs to make sure your memoizer is using it
+        correctly.</li>
+      <li><b>checkClassBadId:</b> This checker makes sure that the memoizer handles a bad ID from the classifier correctly. It does this by:</li>
+      <ol>
+        <li>Sending the first <code>whenFail-1</code> images to your memoizer and checking
+          them using the proj5.CheckImages routine that you've seen before.
+          Notice how it computes the "expects" array using the <code>lblIm</code> function
+          instead of looking at the real labels. Unlike the real classifier, we
+          know what the label should be for each image so we can double check
+          that the memoizer hasn't messed with them. These should work since
+          the classifier behaves normally for the first <code>whenFail-1</code> requests.</li>
+        <li>Sending the <code>whenFail</code>'th message directly instead of using
+          <code>proj5.CheckImage</code>. This is because this request is supposed to fail
+          (our mock classifier returns a bogus ID on this request). We then
+          check that the response from the memoizer contains an error, and that
+          the error cause is <code>MemErr_serCorrupt</code> (indicating that one of the
+          memoizer's services corrupted a request).</li>
+        <li>Retrying the request. Our mock is designed to respond normally to
+          all requests after the <code>whenFail</code>'th, so this ought to succeed. We can
+          use proj5.CheckImage for requests that we expect to succeed.</li>
+      </ol>
+    </ul>
+
+    <p>You are encouraged to use this as a starting point for writing more unit
+    tests. For example, what else could the classifier do on the
+    <code>whenFail</code>'th request? How you might write a version of the
+    cache that fails on the <code>whenFail</code>'th request? How can you
+    control which messages go to the cache vs the classifier?</p>
+
+    <h2>Code Coverage: Do my tests test my program?</h2>
+    <p>You've now written some tests that were targeted to the memoizer
+    specification. But how can you be sure that your tests cover all the
+    different behaviors your code might exhibit? Might there be some bug
+    lurking in your program? Have you tested all the different parts? To answer
+    these questions, we need the concept of code coverage. Code coverage refers
+    to what percentage of your program actually ran during the tests. For
+    instance, if you have an if/else statement, you would want to have one test
+    that tries the TRUE case, and another that tests the FALSE case.</p>
+
+    <p>Go provides some excellent tools on measuring code coverage. We
+    recommend reading through <a href="https://blog.golang.org/cover">this blog
+    entry</a> and trying out the examples before continuing.</p>
+
+    <p>Since our tester is in a different package than our memoizer code
+    (notice that mock_test.go is in package proj5_testing), we'll need to use a
+    slightly different coverage command. First, make sure that
+    test_framework.go is importing your implementation of the memoizer. Now run
+    the following commands from the proj5-testing directory:</p>
+    
+    <pre>go test -coverprofile=coverage.out -coverpkg "bitbucket.org/USER/proj5-xxx"
+go tool cover -func=coverage.out</pre>
+
+    <p>The first command runs your code with profiling enabled and saves the
+    log of the run in coverage.out. The "go tool cover" command reads this file
+    and presents the information in interesting ways. The "-func" version
+    prints a simple coverage summary. A much more interesting way is to use
+    "-html=coverage.out", this will open an html page with a visual
+    representation of the coverage.</p>
+
+    <p><i>Hint: If you're working remotely (e.g. on the hive machines) and you
+      still want to see the html output, you can use the command "go tool cover
+      -html=coverage.out -o coverage.html". This will save the output in a file
+    called coverage.html that you can then scp to you local machine for
+    viewing.</i></p>
+
+    <p>Depending on your code and the tests you've written, you might have very
+    high code-coverage right now. While this is good, it doesn't necessarily
+    mean that your tests are perfect, it just means that they test the
+    functionality that you have right now. For instance, a test that does
+    nothing but fail immediately would have 100% code coverage! As you add
+    checks in your memoizer to deal with bugs, you should re-run coverage to
+    make sure your test covers the new code you added.</p>
+  
+    <h2>Requirements and Scoring</h2>
+    <p>The points will be divided 70/30 between part 1 and part 2.</p>
+    <h3>Part 1 Requirements (70pts)</h3>
+    To get full points on part 1, you must pass both the original unit tests as
+    well as the new mock tests that we provided to you. There will not be any hidden tests.
+    
+    <h3>Part 2 Requirements (30pts)</h3>
+    <p>There will be three main components to your score on this part of equal
+    weight (10pts each):</p>
+    <ul>
+      <li><b>Catching Known Bugs:</b> Your mocks should catch the bugs in the
+        provided proj5-impls (except Memoizer_good which, hopefully, doesn't
+        have any bugs). You must catch all the bugs for full points, but you'll
+        only lose one or two points for missing some.</p></li>
+      <li><b>Passing Tests:</b> Your memoizer should pass all of your own
+        tests, and most of our tests. Our tests are sufficient to catch all the
+        bugs in proj5-impls, but don't test much beyond that. If you catch all
+        those bugs, and pass your own tests, you'll get full points on this
+        part.</p></li>
+      <li><b>Code Coverage:</b> Your tests should acheive 100% code coverage on
+        your memoizer. Coverage of instructor-provided helper functions is not
+        necessary.</b></li>
+    </ul>
+
+    <h2>Formal Memoizer Requirements</h2>
+    <p>To help you get a sense for what bugs to look for, and to understand
+    what bugs the buggy implementations are experiencing, we provide here a
+    formal list or requirements. The memoizer:</p>
+    <ul>
+      <li>Should exit and close its respQ when the client closes the reqQ</li>
+      <li>Should close cache and classifier reqQs when it exits</li>
+      <li>May not send duplicate IDs to the classifier</li>
+      <li>May not send duplicate IDs for reads to the cache (writes are OK)</li>
+      <li>Bad behavior from the cache should be ignored (use classifier
+        instead). Bad behavior from the cache includes (but isn't limited
+        to):</li>
+      <ul>
+        <li>Bad message IDs</li>
+        <li>Crashed. You may assume that the cache will close its respQ if it
+          crashes.</li>
+      </ul>
+      <li>Bad behavior from Classifier should only cause an error if the cache
+        does not have the requested label (or has crashed/erred). In this case,
+        the memoizer should return an error of type MemErr to the client with
+        the appropriate error cause. Bad behavior from the classifier includes
+        (but isn't limited to):</li>
+      <ul>
+        <li>Bad message IDs (cause=MemErr_serCorrupt)</li>
+        <li>Arbitrary error messages (cause=MemErr_serErr, the MemErr
+          should also contain the original error from the classifier in its
+          serErr field)</li>
+        <li>Crashed. You may assume that the classifier will close its respQ if it
+          crashes. (cause=MemErr_serCrash)</li>
+      </ul>
+      <li>All errors reported by the memoizer (in the MnistResp.Err field) must
+        be of type MemErr and must have the correct MemErrCause (see the
+        comments in err.go for error codes and their meanings). Note that the
+        "serErr" field of MemErr should be set to "nil" except when the cause
+        is MemErr_serErr (it should be set to the error returned by the
+        classifier in this case).</li>
+    </ul>
+
+    <p><i>Note: We allow you to assume that a crashed service will politely
+      close its respQ before crashing. In reality, failures can be much more
+      subtle. Sometimes a service could just stop responding forever, other
+      times it could just stop for a while and then come back, other times it
+      just runs extra slow. We encourage you to think about how you might deal
+      with those sorts of crashes (but you won't need to in this project).</i></p>
+    
+    <h2>Submission</h2>
+    <p>Parts 1 and 2 will be submitted together (as one project) so the
+    submission instructions from part 1 still apply. However, be sure to commit
+    the proj5-testing directory to your repository.</p>

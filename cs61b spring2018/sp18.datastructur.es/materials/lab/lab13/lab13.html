@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab13/lab13 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lab 13: Radix Sorts | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lab 13: Radix Sorts</header><ul id="markdown-toc">
+  <li><a href="#prelude" id="markdown-toc-prelude">Prelude</a></li>
+  <li><a href="#counting-sort" id="markdown-toc-counting-sort">Counting Sort</a></li>
+  <li><a href="#radix-sort" id="markdown-toc-radix-sort">Radix Sort</a></li>
+  <li><a href="#deliverables" id="markdown-toc-deliverables">Deliverables</a></li>
+  <li><a href="#submission" id="markdown-toc-submission">Submission</a></li>
+</ul>
+
+<h2 id="prelude">Prelude</h2>
+
+<p>This week in lab you are going to be implementing counting sort and a form of radix sort. This lab includes material drawn from the summer CS 61BL labs to reinforce the lecture material and background of radix-based sorts. If you’re not interested in reading the background, or if you already feel comfortable with the material, feel free to scroll to the <a href="#submission">Submission</a> section at the bottom of the lab to know what you need to turn in.</p>
+
+<h2 id="counting-sort">Counting Sort</h2>
+
+<p>Suppose you have an array of one million strings, but you happen to know that there are only three unique string values in it: “cat”, “dog”, and “person”. How would you sort the array into lexicographical order? If you used merge sort or quicksort, your runtime would be proportional to N log N, where N is ~one million. Can you do better?</p>
+
+<p>We think you can. What’s the simplest thing you could do? Take a step back and don’t think too hard about it. All we need is an array of “cat” strings followed by “dog” strings followed by “person” strings.</p>
+
+<p>We propose an algorithm called <em>counting sort</em>. For the above example, it works like this:</p>
+
+<ol>
+  <li>
+    <p>First create an int array of size three. Call it the <code class="highlighter-rouge">counts</code> array. It will count the total number of each type of String.</p>
+  </li>
+  <li>
+    <p>Iterate through your array. Every time you find a cat, increment <code class="highlighter-rouge">counts[0]</code> by 1. Every time you find a dog, increment <code class="highlighter-rouge">counts[1]</code> by 1. Every time you find a person, increment <code class="highlighter-rouge">counts[2]</code> by 1. As an example, the result could be this:</p>
+
+    <p><img src="countsArray.jpg" alt="countsArray.jpg" /></p>
+  </li>
+  <li>
+    <p>Next, create a new array that will be your sorted array. Call it <code class="highlighter-rouge">sorted</code>.</p>
+
+    <p><img src="sortedArray.jpg" alt="sortedArray.jpg" /></p>
+  </li>
+  <li>
+    <p>Think about it: based on your <code class="highlighter-rouge">counts</code> array, can you tell where the first “dog” would go in the new array? The first “person”? Create a new array, called <code class="highlighter-rouge">starts</code>, that holds this information. For our example, the result is:</p>
+
+    <p><img src="startsArray.jpg" alt="startsArray.jpg" /></p>
+  </li>
+  <li>
+    <p>Now iterate through all of your Strings, and put them into the right spot. When I find the first “cat”, it goes in <code class="highlighter-rouge">sorted[starts[0]]</code>. When I find the first “dog”, it goes in <code class="highlighter-rouge">sorted[starts[1]]</code>. What about when I find the second “dog”? It goes in <code class="highlighter-rouge">sorted[starts[1]+1]</code>, of course. Or, an alternative: I can just increment <code class="highlighter-rouge">starts[1]</code> every time I place a “dog”. Then the next “dog” will always go in <code class="highlighter-rouge">sorted[starts[1]]</code>.</p>
+  </li>
+</ol>
+
+<p>Here’s what everything would look like after completing the algorithm. Notice that the values of <code class="highlighter-rouge">starts</code> have been incremented along the way.</p>
+
+<p><img src="doneArray.jpg" alt="doneArray.jpg" /></p>
+
+<p>Does the written explanation of counting sort seem complicated? <a href="https://www.cs.usfca.edu/~galles/visualization/CountingSort.html">Here</a> is a pretty cool animated version of it that might make it more intuitive.</p>
+
+<p>In this example we arbitrarily decided which index represented “cat” and “dog” and “person”, but is there a systematic way to do this? If you are guaranteed to only be sorting non-negative integers, the answer is yes: count the occurences of <code class="highlighter-rouge">i</code> in <code class="highlighter-rouge">counts[i]</code>.</p>
+
+<p>Note that if you’re only dealing with primitives, you can simply skip step 4 and 5, and iterate over <code class="highlighter-rouge">counts</code> placing, in sorted order, how many of each element you’d expect in the sorted array based. This works because all primitives with the same value are equal to each other and so we can just place new copies of each element. However this does not apply to objects, where we’d actually have to iterate over the original array instead in order to copy over the actual instances from the original array!</p>
+
+<p>In <code class="highlighter-rouge">CountingSort.java</code>, we’ve given you an implementation of this type of non-negative integer counting sort. Look at and try running <code class="highlighter-rouge">CountingSortTester</code> and you’ll see that the provided <code class="highlighter-rouge">naiveCountingSort</code> cannot handle an array with negative numbers.</p>
+
+<p>Fill in the <code class="highlighter-rouge">betterCountingSort</code> method so that it still does a counting based sort, but also handles negative numbers gracefully.</p>
+
+<p>We’ve given you some tests in <code class="highlighter-rouge">CountingSortTester</code>, but optionally, you can try writing a test that causes your <code class="highlighter-rouge">betterCountingSort</code> to fail if you are interested.</p>
+
+<p>We’ll now try to extend this type of example to more general cases where we might not know the contents of the list, but we do know the nature of its contents.</p>
+
+<h2 id="radix-sort">Radix Sort</h2>
+
+<p>The <em>radix</em> of a numeral system is the number of values a single digit can take on. Binary numbers form a radix-2 system since each bit in a number can either be 0 or 1; decimal numbers are radix-10 since each digit in a number can take on values between 0 and 9. Words formed from the lowercase English alphabet are part of a radix-26 number system (yes, words can be enumerated).</p>
+
+<p>Given a collection of elements all from the same radix numeral system, you can sort it using a radix sort. A radix sort examines elements in passes, one pass for each place in the elements. In other words, a radix sort would make a pass for the rightmost digit, one for the next-to-rightmost digit, and so on. In contrast, comparison based sorts (of which all the sorts you’ve learned already belong to), compare elements in pairs in order to sort.</p>
+
+<p>A key realization is the following: given two three-digit numbers (say, 536 and 139), it is possible to sort these numbers using a subroutine that sorts one digits-place at a time. There are two ways to do this:</p>
+
+<ul>
+  <li>
+    <p>First use the subroutine to sort everything on the least important (right-most) digit. Then sort everything on the next digit to the left. Continue, until you reach the left-most digit. This strategy requires the subroutine sorts to be stable.</p>
+  </li>
+  <li>
+    <p>First sort everything on the most-important (left-most) place and group all the items into buckets according to the value they take on in that digit. Recursively sort each bucket on the next highest digit. After your buckets have been sorted, concatenate your buckets back together.</p>
+  </li>
+</ul>
+
+<p>Here’s an example of using the first strategy. Imagine we have the following numbers we wish to sort:</p>
+
+<p>356, 112, 904, 294, 209, 820, 394, 810</p>
+
+<p>First we sort them by the first digit:</p>
+
+<p>82<strong>0</strong>, 81<strong>0</strong>, 11<strong>2</strong>, 90<strong>4</strong>, 29<strong>4</strong>, 39<strong>4</strong>, 35<strong>6</strong>, 20<strong>9</strong></p>
+
+<p>Then we sort them by the second digit, keeping numbers with the same second digit in the same relative order from the previous step:</p>
+
+<p>9<strong>0</strong>4, 2<strong>0</strong>9, 8<strong>1</strong>0, 1<strong>1</strong>2, 8<strong>2</strong>0, 3<strong>5</strong>6, 2<strong>9</strong>4, 3<strong>9</strong>4</p>
+
+<p>Finally, we sort by the third digit, keeping numbers with the same third digit in their order from the previous step:</p>
+
+<p><strong>1</strong>12, <strong>2</strong>09, <strong>2</strong>94, <strong>3</strong>56, <strong>3</strong>94, <strong>8</strong>10, <strong>8</strong>20, <strong>9</strong>04</p>
+
+<p>All done!</p>
+
+<p>Hopefully it’s not hard to see how these can be extended to more than three digits. The first strategy is known as <em>LSD radix sort</em>, and the second strategy is called <em>MSD radix sort</em>. LSD and MSD stand for <em>least significant digit</em> and <em>most significant digit</em> respectively, reflecting the order in which the digits are considered. Here’s some pseudocode for the first strategy:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static void LSDRadixSort(int[] arr) {
+    for (int d = 0; d &lt; numDigitsInAnInteger; d++) {
+        stableSortOnDigit(arr, d);
+    }
+}
+</code></pre></div></div>
+
+<p>The 0th digit is the smallest digit, or the one furthest to the right in the number, and our subroutine is <code class="highlighter-rouge">stableSortOnDigit</code>.</p>
+
+<p>The pseudocode for the second strategy isn’t so clean to write, but its easy to see how it works in practice. Let’s sort that same list above by MSD RadixSort. Note how our sort-on-digit doesn’t have to be stable this time.</p>
+
+<p>356, 112, 904, 294, 209, 820, 394, 810</p>
+
+<p>First we sort them by the first digit, splitting the list into “buckets” representing numbers with the same value in the digit we sorted on:</p>
+
+<p>[<strong>1</strong>12], [<strong>2</strong>94, <strong>2</strong>09], [<strong>3</strong>56, <strong>3</strong>94], [<strong>8</strong>20, <strong>8</strong>10], [<strong>9</strong>04]</p>
+
+<p>For each bucket, recursively do the same thing on the next less significant digit. For purposes of clarity, let’s just look at the 200s bucket. Which is:</p>
+
+<p>294, 209</p>
+
+<p>This now gets sorted and bucketed by the second-most significant digit:</p>
+
+<p>[2<strong>0</strong>9], [2<strong>9</strong>4]</p>
+
+<p>Finally, we concatenate together and return the concatenated list. MSD is a little easier to conceptualize, but turns out to be a little tougher to implement, especially if you care about efficiency.</p>
+
+<p>Note that both LSD and MSD radix sorts employ some sort of subroutine to sort based on a digit. If you look closely enough, you’ll realize the subroutine can be a form of counting sort.</p>
+
+<p>It is important to note that the time Radix Sort takes depends on the width of the longest element it has to sort. Radix sort is considered to run in linear time for a list of integers in Java since integers in Java have a fixed/maximum number of digits.
+For Strings, the sort runs in <code class="highlighter-rouge">O(N*M)</code> time where <code class="highlighter-rouge">N</code> is the number of Strings and <code class="highlighter-rouge">M</code> is the length of the longest String. We omit the <code class="highlighter-rouge">R</code> radix value in the runtime seen in lecture because it is constant for sorting within the the same radix system.</p>
+
+<p><a href="https://www.cs.usfca.edu/~galles/visualization/RadixSort.html">Here</a> is a great tool for seeing how Radix sort works visually.</p>
+
+<h2 id="deliverables">Deliverables</h2>
+
+<p>In this part of lab you’ll write an implementation of radix sort for ASCII Strings. Normally, if we just had decimal numbers, we would say that we would have a radix of 10 (R = 10) since there are 10 possible digits at each index, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]. ASCII Strings have 256 possible characters (numbered 0-255 with the radix R = 256) and are of variable length. In Java, you can get the ASCII value for a character by casting the <code class="highlighter-rouge">char</code> to an <code class="highlighter-rouge">int</code> (<code class="highlighter-rouge">int i = (int)'a'</code>), and get the character from the ASCII value by casting the other way (<code class="highlighter-rouge">char a = (char)97</code>).</p>
+
+<p>Write the method <code class="highlighter-rouge">sort</code> in <code class="highlighter-rouge">RadixSort.java</code> that returns a sorted copy of the input list of ASCII Strings. Make sure the method is NON-destructive (the original list cannot be modified).</p>
+
+<p>Implement your radix sort as an LSD (least significant digit) sort rather than an MSD (most significant digit). MSD Radix is conceptually simpler, but a bit uglier and more difficult to code (and slower in practice). LSD Radix is relatively harder to understand intuitively, but easier to implement (and faster in practice). If you would like, you can implement MSD radix sort as extra practice.</p>
+
+<p>Note: A difference between sorting numbers and strings using a radix sort is that we naturally sort Strings lexicographically (a.k.a. dictionary order; “2” is after “100” so “2” is considered equivalently as “2__”, where “_” is a placeholder that comes before any other character), but sort numbers in numerically ascending order (2 is before 100 and is considered equivalently as 002). In other words, to sort Strings, we would pad them on the right with empty values, but to sort numbers, we would pad them on the left with empty values.</p>
+
+<p>Tip: Remember ASCII codes start from 0, not 1.</p>
+
+<p>Extra for experts (optional): Implement an MSD radix sort; Compare the runtime of your Radix sort compared to <code class="highlighter-rouge">Arrays.sort</code>. Which is faster for short arrays? Long arrays? Do the values in the array matter?</p>
+
+<h2 id="submission">Submission</h2>
+
+<p>Implement <code class="highlighter-rouge">betterCountingSort</code> in <code class="highlighter-rouge">CountingSort.java</code> and <code class="highlighter-rouge">sort</code> in <code class="highlighter-rouge">RadixSort.java</code>. If you’re feeling like that was easy, definitely try implementing alternative forms of radix sort (like MSD)!</p>
+
+<p>Note that both sorting algorithms are non destructive!!!</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab13/lab13 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:44 GMT -->
+</html>

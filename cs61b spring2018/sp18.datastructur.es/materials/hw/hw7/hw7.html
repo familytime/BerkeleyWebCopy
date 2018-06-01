@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/hw/hw7/hw7 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:21:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>HW 7: Huffman Coding | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">HW 7: Huffman Coding</header><ul id="markdown-toc">
+  <li><a href="#getting-the-skeleton-files" id="markdown-toc-getting-the-skeleton-files">Getting the Skeleton Files</a></li>
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#binarytrie" id="markdown-toc-binarytrie">BinaryTrie</a></li>
+  <li><a href="#huffmanencoder" id="markdown-toc-huffmanencoder">HuffmanEncoder</a></li>
+  <li><a href="#huffmandecoder" id="markdown-toc-huffmandecoder">HuffmanDecoder</a></li>
+  <li><a href="#faq" id="markdown-toc-faq">FAQ</a></li>
+  <li><a href="#submission" id="markdown-toc-submission">Submission</a></li>
+</ul>
+
+<h2 id="getting-the-skeleton-files">Getting the Skeleton Files</h2>
+
+<p>As usual, run <code class="highlighter-rouge">git pull skeleton master</code> to get the skeleton files.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>In this homework, you’ll implement a Huffman encoder and decoder, as described
+in <a href="https://docs.google.com/presentation/d/1EwG6-GUomcbvJISW0YrXGDMpB17_VFWDKRMhWmo9A6A/edit#slide=id.g409413421_0637">lecture
+38</a>.</p>
+
+<p>The majority of the work will be in building the Huffman decoding trie. For the
+purposes of this homework, the “less frequent” branch of your Huffman coding
+trie should always be the ‘0’ side, and the more common side should always be
+the ‘1’ side.</p>
+
+<p>For example, suppose we have the file below:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>abbccccdddddeeeeee
+</code></pre></div></div>
+
+<p>This file has 1 a, 2 b’s, 4 c’s, 5 d’s, and 6 e’s. The unique Huffman decoding trie
+for this file is as shown below. For example, the letter b corresponds to the
+binary seqeuence <code class="highlighter-rouge">001</code>.</p>
+
+<p><img src="BinaryTrie.png" alt="BinaryTrie" /></p>
+
+<h2 id="binarytrie">BinaryTrie</h2>
+
+<p>Create a class BinaryTrie that obeys the API below. The vast majority of the
+work for this homework is in creating this class.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BinaryTrie</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">BinaryTrie</span><span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">Character</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">frequencyTable</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">Match</span> <span class="nf">longestPrefixMatch</span><span class="o">(</span><span class="n">BitSequence</span> <span class="n">querySequence</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Character</span><span class="o">,</span> <span class="n">BitSequence</span><span class="o">&gt;</span> <span class="nf">buildLookupTable</span><span class="o">()</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>Constructor.</strong> Given a frequency table which maps symbols of type V to their
+relative frequencies, the constructor should build a Huffman decoding trie
+according to the procedure discussed in class. You may find implementations of
+Huffman codes on the web useful for inspiration, e.g.
+<a href="http://algs4.cs.princeton.edu/55compression/Huffman.java.html">this
+implementation</a>.</p>
+
+<p><strong>longestPrefixMatch.</strong> The <code class="highlighter-rouge">longestPrefixMatch</code> method finds the longest prefix
+that matches the given <code class="highlighter-rouge">querySequence</code> and returns a Match object for that
+Match. The Match class is a simple container class with the following API:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Match</span> <span class="o">{</span>        
+    <span class="kd">public</span> <span class="nf">Match</span><span class="o">(</span><span class="n">BitSequence</span> <span class="n">sequence</span><span class="o">,</span> <span class="kt">char</span> <span class="n">symbol</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">char</span> <span class="nf">getSymbol</span><span class="o">()</span>
+    <span class="kd">public</span> <span class="n">BitSequence</span> <span class="nf">getSequence</span><span class="o">()</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">longestPrefixMatch</code> class takes as an argument objects of type
+<code class="highlighter-rouge">BitSequence</code>, described in more detail below.</p>
+
+<p>For example, for the example Trie given in the introduction, if we call
+<code class="highlighter-rouge">trie.longestPrefixMatch(new BitSequence("0011010001"))</code>, then we will get back
+a Match object containing <code class="highlighter-rouge">b</code> as the symbol and <code class="highlighter-rouge">001</code> as the BitSequence. The
+method is called <code class="highlighter-rouge">longestPrefixMatch</code> because <code class="highlighter-rouge">001</code> is the longest prefix of
+<code class="highlighter-rouge">0011010001</code> that is a match inside our decoding binary trie.</p>
+
+<p><strong>buildLookupTable.</strong> The <code class="highlighter-rouge">buildLookupTable</code> method returns the inverse of the
+coding trie. For example, for the example Trie given in the introduction, this
+method should return the same map as:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">HashMap</span><span class="o">&lt;</span><span class="n">Character</span><span class="o">,</span> <span class="n">BitSequence</span><span class="o">&gt;</span> <span class="n">expected</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">Character</span><span class="o">,</span> <span class="n">BitSequence</span><span class="o">&gt;();</span>
+<span class="n">expected</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'a'</span><span class="o">,</span> <span class="k">new</span> <span class="n">BitSequence</span><span class="o">(</span><span class="s">"000"</span><span class="o">));</span>
+<span class="n">expected</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'b'</span><span class="o">,</span> <span class="k">new</span> <span class="n">BitSequence</span><span class="o">(</span><span class="s">"001"</span><span class="o">));</span>
+<span class="n">expected</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'c'</span><span class="o">,</span> <span class="k">new</span> <span class="n">BitSequence</span><span class="o">(</span><span class="s">"01"</span><span class="o">));</span>
+<span class="n">expected</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'d'</span><span class="o">,</span> <span class="k">new</span> <span class="n">BitSequence</span><span class="o">(</span><span class="s">"10"</span><span class="o">));</span>
+<span class="n">expected</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'e'</span><span class="o">,</span> <span class="k">new</span> <span class="n">BitSequence</span><span class="o">(</span><span class="s">"11"</span><span class="o">));</span>
+</code></pre></div></div>
+
+<p>This is because the character <code class="highlighter-rouge">a</code> corresponds to the bitSequence <code class="highlighter-rouge">000</code>, the
+character <code class="highlighter-rouge">b</code> corresponds to the bitSequence <code class="highlighter-rouge">001</code> and so forth.</p>
+
+<p><strong>Testing.</strong> We have provided a client side test called <code class="highlighter-rouge">TestBinaryTrie</code> that
+you should use to make sure you understand your objectives, and also to test
+your code.</p>
+
+<h2 id="huffmanencoder">HuffmanEncoder</h2>
+
+<p>Once you’ve written AND tested your BinaryTrie, implement the class
+HuffmanEncoder, with the following API:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HuffmanEncoder</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Character</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">buildFrequencyTable</span><span class="o">(</span><span class="kt">char</span><span class="o">[]</span> <span class="n">inputSymbols</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> 
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>buildFrequencyTable.</strong> The <code class="highlighter-rouge">buildFrequencyTable</code> method should map characters
+to their counts. For example, suppose we have the character array [‘a’, ‘b’,
+‘b’, ‘c’, ‘c’ , ‘c’, ‘c’, d’, ‘d’, ‘d’, ‘d’, ‘d’, e’, ‘e’, ‘e’, ‘e’, ‘e’, ‘e’],
+then this method should return a map from ‘a’ to 1, ‘b’ to 2, and so forth.</p>
+
+<p><strong>The main method.</strong> The main method should open the file given as the 0th
+command line argument (<code class="highlighter-rouge">args[0]</code>), and write a new file with the name <code class="highlighter-rouge">args[0] +
+".huf"</code> that contains a huffman encoded version of the original file. For
+example <code class="highlighter-rouge">java HuffmanEncoder watermelonsugar.txt</code> should generate a new Huffman
+encoded version of <code class="highlighter-rouge">watermelonsugar.txt</code> that contains
+<code class="highlighter-rouge">watermelonsugar.txt.huf</code>.</p>
+
+<p>Pseudocode for the Huffman encoding process is given below:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1: Read the file as 8 bit symbols.
+2: Build frequency table.
+3: Use frequency table to construct a binary decoding trie.
+4: Write the binary decoding trie to the .huf file.
+5: (optional: write the number of symbols to the .huf file)
+6: Use binary trie to create lookup table for encoding.
+7: Create a list of bitsequences.
+8: For each 8 bit symbol:
+    Lookup that symbol in the lookup table.
+    Add the appropriate bit sequence to the list of bitsequences.
+9: Assemble all bit sequences into one huge bit sequence.
+10: Write the huge bit sequence to the .huf file.
+</code></pre></div></div>
+
+<p>Some of these tasks are tricky and require knowledge of special libraries. To save time, we have provided a number of utility methods to make this process easier for you. Using these methods is optional.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1: char[] FileUtils.readFile(String filename)
+4/5/10: ObjectWriter's writeObject method.
+9: BitSequence BitSequence.assemble(List&lt;BitSequence&gt;)
+</code></pre></div></div>
+
+<p>See <code class="highlighter-rouge">ObjectWritingAndReadingDemo.java</code> for a demo of how to use the
+<code class="highlighter-rouge">ObjectWriter</code> and <code class="highlighter-rouge">ObjectReader</code> classes to write Java objects to files for
+later loading.</p>
+
+<p>Important: Do not call writeObject once for each symbol! This will result in
+huge files, very slow performance, and a very complex decoder! For your sanity,
+use <code class="highlighter-rouge">BitSequence.assemble</code>!</p>
+
+<p>Try running your file on the provided text files: <code class="highlighter-rouge">watermelonsugar.txt</code> and
+<code class="highlighter-rouge">signalalarm.txt</code>. You should see a modest decrease in file size for both. Your
+code should take no more than seconds to execute. There are no tests for
+<code class="highlighter-rouge">HuffmanEncoder</code> because the precise behavior is not specified.</p>
+
+<h2 id="huffmandecoder">HuffmanDecoder</h2>
+
+<p>Once you’ve written HuffmanEncoder and verified that it is able to generate
+files that are smaller than the ones passed in, write a class <code class="highlighter-rouge">HuffmanDecoder</code>
+that reverses the process, with the following API:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HuffmanDecoder</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>The main method.</strong> The main method should open the file given as the 0th
+command line argument (<code class="highlighter-rouge">args[0]</code>), decode it, and and write a new file with the
+name given as <code class="highlighter-rouge">args[1]</code>. For example <code class="highlighter-rouge">java HuffmanDecoder
+watermelonsugar.txt.huf originalwatermelon.txt</code> should decode the contents of
+<code class="highlighter-rouge">watermelonsugar.txt.huf</code> and write them into <code class="highlighter-rouge">originalwatermelon.txt</code>.</p>
+
+<p>Pseudocode for the Huffman decoding process is given below:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1: Read the Huffman coding trie.
+2: If applicable, read the number of symbols.
+3: Read the massive bit sequence corresponding to the original txt.
+4: Repeat until there are no more symbols:
+    4a: Perform a longest prefix match on the massive sequence.
+    4b: Record the symbol in some data structure.
+    4c: Create a new bit sequence containing the remaining unmatched bits.
+5: Write the symbols in some data structure to the specified file.
+</code></pre></div></div>
+
+<p>As above, we have provided utility methods to make your life easier:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1/2/3: ObjectReader's readObject method.
+4c: BitSequence has methods that may be useful to you.
+5: FileUtils.writeCharArray(String filename, char[] chars)
+</code></pre></div></div>
+
+<p>Your <code class="highlighter-rouge">HuffmanDecoder</code> should <strong>perfectly</strong> decode the output of your
+<code class="highlighter-rouge">HuffmanEncoder</code>. For example, if we run the following commands:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java HuffmanEncoder watermelonsugar.txt
+java HuffmanDecoder watermelonsugar.txt.huf originalwatermelon.txt
+diff watermelonsugar.txt originalwatermelon.txt
+</code></pre></div></div>
+
+<p>Then the output of the <code class="highlighter-rouge">diff</code> command should be nothing. This is because <code class="highlighter-rouge">diff</code>
+is a command line tool that compares two files, and prints out any differences.
+If the files have no differences, nothing is output.</p>
+
+<p>Your <code class="highlighter-rouge">HuffmanEncoder</code> and <code class="highlighter-rouge">HuffmanDecoder</code> should work for ANY file, not just
+English text, and even if the input isn’t a text file at all!</p>
+
+<h2 id="faq">FAQ</h2>
+
+<p>Coming soon in response to questions.</p>
+
+<h2 id="submission">Submission</h2>
+<p>You should submit the usual way, by pushing to GitHub and then submitting on
+Gradescope.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/hw/hw7/hw7 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:21:03 GMT -->
+</html>

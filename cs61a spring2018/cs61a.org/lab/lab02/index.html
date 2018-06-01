@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/lab/lab02/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:35:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+Lab 2: Lambda Expressions and Higher-Order Functions | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Lab 2: Lambda Expressions and Higher-Order Functions
+
+        
+        <ul class="inline-block list-inline">
+          <li><a href="lab02.zip" class="label label-outline">lab02.zip</a></li>
+        </ul>
+        
+      </h1>
+    </header>
+    
+
+<p><i>Due at 11:59pm on Friday, 02/02/2018.</i></p>
+
+
+<h2 id='starter-files'>Starter Files</h2>
+
+
+<p>Download <a href="lab02.zip">lab02.zip</a>.
+Inside the archive, you will find starter files for the questions in this lab,
+  along with a copy of the <a href="ok.zip">Ok</a> autograder.</p>
+
+
+<h2 id='submission'>Submission</h2>
+
+<p>By the end of this lab, you should have submitted the lab with
+<code>python3 ok --submit</code>. You may submit more than once before the
+deadline; only the final submission will be graded.
+Check that you have successfully submitted your code on
+<a href="https://okpy.org/">okpy.org</a>.</p>
+
+<ul>
+  <li>Questions 1-3 must be completed in order to receive credit for
+  this lab. Starter code for question 3 is in <a href="lab02.py">lab02.py</a>.</li>
+  <li>Questions 4 and 5 (Environment Diagrams) are <strong>optional</strong>, but highly recommended.
+  Try to work on at least one of these if you finish the required section early.</li>
+  <li>Questions 6, 7, and 8 are also <strong>optional</strong>. <em>It is recommended that you complete
+  these problems on your own time.</em> Starter code for the questions are in
+  <a href="lab02_extra.py">lab02_extra.py</a>.</li>
+</ul>
+
+
+
+    
+<h1 id="topics">Topics</h1>
+
+
+<p>Consult this section if you need a refresher on the material for this lab. It's
+okay to skip directly to <a href="#required-questions">the questions</a> and refer back
+here should you get stuck.</p>
+
+
+<h2 id="lambda-expressions">Lambda Expressions</h2>
+
+
+<p>Lambda expressions are one-line functions that specify two things:
+the parameters and the return expression.</p>
+
+<pre><code>lambda &lt;parameters&gt;: &lt;return expression&gt;</code></pre>
+
+<p>While both <code>lambda</code> and <code>def</code> create function objects, there are some notable
+differences. <code>lambda</code> expressions work like other expressions; much like a
+mathematical expression just evaluates to a number and does not alter the current
+environment, a <code>lambda</code> expression evaluates to a function without
+changing the current environment. Let's take a closer look.</p>
+
+<div class="table-responsive">
+  <table class="table table-bordered">
+      <tr>
+          <th></th>
+          <th>lambda</th>
+          <th>def</th>
+      </tr>
+      <tr>
+          <td>Type</td>
+          <td><i>Expression</i> that evaluates to a value</td>
+          <td><i>Statement</i> that alters the environment</td>
+      </tr>
+      <tr>
+          <td>Effect on the environment</td>
+          <td>Evaluating a <code>lambda</code> expression does <i>not</i> create or
+          modify any variables.</td>
+          <td>Executing a <code>def</code> statement both creates a new function
+          object <i>and</i> binds it to a name in the current environment.</td>
+      </tr>
+      <tr>
+          <td>Usage</td>
+          <td>Because a <code>lambda</code> expression doesn't bind the created
+          function object to any name, it must be used within a statement or a call
+          expression to actually do something interesting in the program. See the
+          examples below.</td>
+          <td>After executing a <code>def</code> statement, the created function is
+          ready to use. You can refer to it with the name given in the
+          <code>def</code> statement header.</td>
+      </tr>
+      <tr>
+          <td>Example</td>
+          <td>
+<pre><code># A lambda expression by itself does not alter
+# the environment
+lambda x: x * x
+
+# We can use lambda expressions in assignment
+# statements to give the function a name
+square = lambda x: x * x
+square(3)
+
+# We can pass lambda expressions as arguments
+# into call expressions
+negate = lambda f, x: -f(x)
+negate(lambda x: x * x, 3)</code></pre></td>
+          <td><pre><code>def square(x):
+    return x * x
+
+# A function created by a def statement
+# can be referred to by its intrinsic name
+square(3)</code></pre></td>
+      </tr>
+  </table>
+</div>
+
+
+<h2 id="higher-order-functions">Higher Order Functions</h2>
+
+
+<p>A higher order function is a function that manipulates other functions by taking
+in functions as arguments, returning a function, or both. We will be exploring
+many applications of higher order functions.</p>
+
+
+<h3 id="functions-as-arguments">Functions as arguments</h3>
+
+
+<p>In Python, function objects are values that can be passed around. We know that one
+way to create functions is by using a <code>def</code> statement:</p>
+
+<pre><code>def square(x):
+    return x * x</code></pre>
+
+<p>The above statement created a function object with the intrinsic name <code>square</code> as
+well as binded it to the name <code>square</code> in the current environment. Now let's try
+passing it as an argument.</p>
+
+<p>First, let's write a function that takes in another function as an argument:</p>
+
+<pre><code>def scale(f, x, k):
+    &quot;&quot;&quot; Returns the result of f(x) scaled by k. &quot;&quot;&quot;
+    return k * f(x)</code></pre>
+
+<p>We can now call <code>scale</code> on <code>square</code> and some other arguments:</p>
+
+<pre><code>&gt;&gt;&gt; scale(square, 3, 2) # Double square(3)
+18
+&gt;&gt;&gt; scale(square, 2, 5) # 5 times 2 squared
+20</code></pre>
+
+<p>Note that in the body of the call to <code>scale</code>, the function object with the intrinsic
+name <code>square</code> is bound to the parameter <code>f</code>. Then, we call <code>square</code> in the body of
+<code>scale</code> by calling <code>f(x)</code>.</p>
+
+<p>As we saw in the above section on lambda expressions, we can also pass <code>lambda</code>
+functions into call expressions!</p>
+
+<pre><code>&gt;&gt;&gt; scale(lambda x: x + 10, 5, 2)
+30</code></pre>
+
+<p>In the frame for this call expression, the name <code>f</code> is bound to the function created
+by the lambda expression <code>lambda x: x + 10</code>.</p>
+
+
+<h3 id="functions-that-return-functions">Functions that return functions</h3>
+
+
+<p>Because functions are values, you can also return them in other functions! Here's an example:</p>
+
+<pre><code>def multiply_by(m):
+    def multiply(n):
+        return n * m
+    return multiply</code></pre>
+
+<p>In this particular case, we defined the function <code>multiply</code> within the body of <code>multiply_by</code>
+and then returned it. Let's see it in action:</p>
+
+<pre><code>&gt;&gt;&gt; multiply_by(3)
+&lt;function multiply_by.&lt;locals&gt;.multiply at ...&gt;
+&gt;&gt;&gt; multiply(4)
+Traceback (most recent call last):
+File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+NameError: name &#x27;multiply&#x27; is not defined</code></pre>
+
+<p>A call to <code>multiply_by</code> returns a function, as expected. However, calling <code>multiply</code>
+errors, even though that's the name we gave the inner function. This is because the
+name <code>multiply</code> only exists within the frame where we evaluate the body of
+<code>multiply_by</code>.</p>
+
+<p>So how do we actually use the inner function? Here are two ways:</p>
+
+<pre><code>&gt;&gt;&gt; times_three = multiply_by(3) # Assign the result of the call expression to a name
+&gt;&gt;&gt; times_three(5) # Call the inner function with its new name
+15
+&gt;&gt;&gt; multiply_by(3)(10) # Chain together two call expressions
+30</code></pre>
+
+<p>The point is, because <code>multiply_by</code> returns a function, you can use its return value
+just like you would use any other function!</p>
+
+<p>Here's what <code>multiply_by</code> would look like if we wrote it with a lambda expression:</p>
+
+<pre><code>def multiply_by(m):
+    return lambda n: n * m</code></pre>
+
+<p>As you can see, lambda expressions make writing higher order functions much cleaner.</p>
+
+
+<h2 id="environment-diagrams">Environment Diagrams</h2>
+
+
+<p>Environment diagrams are one of the best learning tools for understanding <code>lambda</code>
+expressions and higher order functions because you're able to keep track of all
+the different names, function objects, and arguments to functions. We highly
+recommend drawing environment diagrams or using <a href="http://tutor.cs61a.org/">Python tutor</a>
+if you get stuck doing the WWPD problems below. Here are the rules as a refresher.</p>
+
+
+<h3 id="def-statements">def Statements</h3>
+
+
+<ol>
+  <li>Draw the function object with its intrinsic name, formal parameters, and parent
+  frame. A function's parent frame is the frame in which the function was defined.</li>
+  <li>Write the intrinsic name of the function in the current frame and bind it to the
+  newly created function object.</li>
+</ol>
+
+
+<h3 id="call-expressions">Call expressions</h3>
+
+
+<ol>
+  <li>Evaluate the operator, whose value should be a function.</li>
+  <li>Evaluate the operands left to right.</li>
+  <li>Open a new frame. Label it with the sequential frame number, the intrinsic name of
+  the function, and its parent.</li>
+  <li>Bind the formal parameters of the function to the arguments whose values you
+  found in step 2.</li>
+  <li>Execute the body of the function in the new environment.</li>
+</ol>
+
+
+<h3 id="assignment-statements">Assignment Statements</h3>
+
+
+<ol>
+  <li>Evaluate the expression on the right hand side of the <code>=</code> sign.</li>
+  <li>Write the name found on the left hand side of the <code>=</code> sign in the current frame
+  and bind the <em>value</em> obtained in step 1 to this name.</li>
+</ol>
+
+
+<h1 id="required-questions">Required Questions</h1>
+
+
+
+<h2 id="what-would-python-display">What Would Python Display?</h2>
+
+
+<h3 class="question" id="q1">Q1: WWPD: Lambda the Free</h3>
+
+<blockquote><p>Use Ok to test your knowledge with the following "What Would Python Display?"
+questions:</p>
+
+<pre><code>python3 ok &#x2d;q lambda &#x2d;u</code></pre>
+
+<p>For all WWPD questions, type <code>Function</code> if you believe the answer
+is <code>&lt;function...&gt;</code>, > <code>Error</code> if it errors, and <code>Nothing</code> if nothing is displayed.</p></blockquote>
+
+<pre><code>&gt;&gt;&gt; lambda x: x  # A lambda expression with one parameter x
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x3c;&#x66;&#x75;&#x6e;&#x63;&#x74;&#x69;&#x6f;&#x6e;&#x20;&#x3c;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x3e;&#x20;&#x61;&#x74;&#x20;&#x2e;&#x2e;&#x2e;&#x3e;</div>
+&gt;&gt;&gt; a = lambda x: x  # Assigning the lambda function to the name a
+&gt;&gt;&gt; a(5)
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x35;</div>
+&gt;&gt;&gt; (lambda: 3)()  # Using a lambda expression as an operator in a call exp.
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x33;</div>
+&gt;&gt;&gt; b = lambda x: lambda: x  # Lambdas can return other lambdas!
+&gt;&gt;&gt; c = b(88)
+&gt;&gt;&gt; c
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x3c;&#x66;&#x75;&#x6e;&#x63;&#x74;&#x69;&#x6f;&#x6e;&#x20;&#x3c;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x3e;&#x20;&#x61;&#x74;&#x20;&#x2e;&#x2e;&#x2e;</div>
+&gt;&gt;&gt; c()
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x38;&#x38;</div>
+&gt;&gt;&gt; d = lambda f: f(4)  # They can have functions as arguments as well.
+&gt;&gt;&gt; def square(x):
+...     return x * x
+&gt;&gt;&gt; d(square)
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x31;&#x36;</div></code></pre>
+        <button id='prompt-1' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<pre><code>&gt;&gt;&gt; z = 3
+&gt;&gt;&gt; e = lambda x: lambda y: lambda: x + y + z
+&gt;&gt;&gt; e(0)(1)()
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x34;</div>
+&gt;&gt;&gt; f = lambda z: x + z
+&gt;&gt;&gt; f(3)
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x4e;&#x61;&#x6d;&#x65;&#x45;&#x72;&#x72;&#x6f;&#x72;&#x3a;&#x20;&#x6e;&#x61;&#x6d;&#x65;&#x20;&#x27;&#x78;&#x27;&#x20;&#x69;&#x73;&#x20;&#x6e;&#x6f;&#x74;&#x20;&#x64;&#x65;&#x66;&#x69;&#x6e;&#x65;&#x64;</div></code></pre>
+        <button id='prompt-2' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<!--
+<pre><code>&gt;&gt;&gt; x, y, z = 1, 2, 3
+&gt;&gt;&gt; a = lambda b: x + y + z
+&gt;&gt;&gt; x += y
+&gt;&gt;&gt; y &#x2d;= z
+&gt;&gt;&gt; a(&#x27;lambdas are fun!&#x27;)
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x35;</div></code></pre>
+        <button id='prompt-3' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+-->
+
+<pre><code>&gt;&gt;&gt; higher_order_lambda = lambda f: lambda x: f(x)
+&gt;&gt;&gt; g = lambda x: x * x
+&gt;&gt;&gt; higher_order_lambda(2)(g)  # Which argument belongs to which function call?
+<div class="alt prompt-4">______</div><div class="solution prompt-4">&#x45;&#x72;&#x72;&#x6f;&#x72;</div>
+&gt;&gt;&gt; higher_order_lambda(g)(2)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">&#x34;</div>
+&gt;&gt;&gt; call_thrice = lambda f: lambda x: f(f(f(x)))
+&gt;&gt;&gt; call_thrice(lambda y: y + 1)(0)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">&#x33;</div>
+&gt;&gt;&gt; print_lambda = lambda z: print(z)  # When is the return expression of a lambda expression executed?
+&gt;&gt;&gt; print_lambda
+<div class="alt prompt-4">______</div><div class="solution prompt-4">&#x46;&#x75;&#x6e;&#x63;&#x74;&#x69;&#x6f;&#x6e;</div>
+&gt;&gt;&gt; one_thousand = print_lambda(1000)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">&#x31;&#x30;&#x30;&#x30;</div>
+&gt;&gt;&gt; one_thousand
+<div class="alt prompt-4">______</div><div class="solution prompt-4">&#x23;&#x20;&#x70;&#x72;&#x69;&#x6e;&#x74;&#x5f;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x65;&#x64;&#x20;&#x4e;&#x6f;&#x6e;&#x65;&#x2c;&#x20;&#x73;&#x6f;&#x20;&#x6e;&#x6f;&#x74;&#x68;&#x69;&#x6e;&#x67;&#x20;&#x67;&#x65;&#x74;&#x73;&#x20;&#x64;&#x69;&#x73;&#x70;&#x6c;&#x61;&#x79;&#x65;&#x64;</div></code></pre>
+        <button id='prompt-4' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<!--
+<pre><code>&gt;&gt;&gt; bar = lambda y: lambda x: pow(x, y)
+&gt;&gt;&gt; bar()(15)
+<div class="alt prompt-5">______</div><div class="solution prompt-5">&#x54;&#x79;&#x70;&#x65;&#x45;&#x72;&#x72;&#x6f;&#x72;&#x3a;&#x20;&#x3c;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x3e;&#x28;&#x29;&#x20;&#x6d;&#x69;&#x73;&#x73;&#x69;&#x6e;&#x67;&#x20;&#x31;&#x20;&#x72;&#x65;&#x71;&#x75;&#x69;&#x72;&#x65;&#x64;&#x20;&#x70;&#x6f;&#x73;&#x69;&#x74;&#x69;&#x6f;&#x6e;&#x61;&#x6c;&#x20;&#x61;&#x72;&#x67;&#x75;&#x6d;&#x65;&#x6e;&#x74;&#x3a;&#x20;&#x27;&#x79;&#x27;</div>
+&gt;&gt;&gt; foo = lambda: 32
+&gt;&gt;&gt; foobar = lambda x, y: x // y
+&gt;&gt;&gt; a = lambda x: foobar(foo(), bar(4)(x))
+&gt;&gt;&gt; a(2)
+<div class="alt prompt-5">______</div><div class="solution prompt-5">&#x32;</div>
+&gt;&gt;&gt; b = lambda x, y: print(&#x27;summer&#x27;)
+<div class="alt prompt-5">______</div><div class="solution prompt-5">&#x23;&#x20;&#x4e;&#x6f;&#x74;&#x68;&#x69;&#x6e;&#x67;&#x20;&#x67;&#x65;&#x74;&#x73;&#x20;&#x70;&#x72;&#x69;&#x6e;&#x74;&#x65;&#x64;&#x20;&#x62;&#x79;&#x20;&#x74;&#x68;&#x65;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x70;&#x72;&#x65;&#x74;&#x65;&#x72;</div>
+&gt;&gt;&gt; c = b(4, &#x27;dog&#x27;)
+<div class="alt prompt-5">______</div><div class="solution prompt-5">&#x73;&#x75;&#x6d;&#x6d;&#x65;&#x72;</div>
+&gt;&gt;&gt; print(c)
+<div class="alt prompt-5">______</div><div class="solution prompt-5">&#x4e;&#x6f;&#x6e;&#x65;</div></code></pre>
+        <button id='prompt-5' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<pre><code>&gt;&gt;&gt; a = lambda b: b * 2
+<div class="alt prompt-6">______</div><div class="solution prompt-6">&#x23;&#x20;&#x4e;&#x6f;&#x74;&#x68;&#x69;&#x6e;&#x67;&#x20;&#x67;&#x65;&#x74;&#x73;&#x20;&#x70;&#x72;&#x69;&#x6e;&#x74;&#x65;&#x64;&#x20;&#x62;&#x79;&#x20;&#x74;&#x68;&#x65;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x70;&#x72;&#x65;&#x74;&#x65;&#x72;</div>
+&gt;&gt;&gt; a
+<div class="alt prompt-6">______</div><div class="solution prompt-6">&#x46;&#x75;&#x6e;&#x63;&#x74;&#x69;&#x6f;&#x6e;</div>
+&gt;&gt;&gt; a(a(a()))
+<div class="alt prompt-6">______</div><div class="solution prompt-6">&#x54;&#x79;&#x70;&#x65;&#x45;&#x72;&#x72;&#x6f;&#x72;&#x3a;&#x20;&#x3c;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x3e;&#x28;&#x29;&#x20;&#x6d;&#x69;&#x73;&#x73;&#x69;&#x6e;&#x67;&#x20;&#x31;&#x20;&#x72;&#x65;&#x71;&#x75;&#x69;&#x72;&#x65;&#x64;&#x20;&#x70;&#x6f;&#x73;&#x69;&#x74;&#x69;&#x6f;&#x6e;&#x61;&#x6c;&#x20;&#x61;&#x72;&#x67;&#x75;&#x6d;&#x65;&#x6e;&#x74;&#x3a;&#x20;&#x27;&#x62;&#x27;</div>
+&gt;&gt;&gt; a(a(a(2)))
+<div class="alt prompt-6">______</div><div class="solution prompt-6">&#x31;&#x36;</div>
+&gt;&gt;&gt; def d():
+...     print(None)
+...     print(&#x27;whoo&#x27;)
+&gt;&gt;&gt; b = d()
+<div class="alt prompt-6">______</div><div class="solution prompt-6">&#x4e;&#x6f;&#x6e;&#x65;&#xa;&#x77;&#x68;&#x6f;&#x6f;</div>
+&gt;&gt;&gt; b
+<div class="alt prompt-6">______</div><div class="solution prompt-6">&#x23;&#x20;&#x4e;&#x6f;&#x74;&#x68;&#x69;&#x6e;&#x67;&#x20;&#x67;&#x65;&#x74;&#x73;&#x20;&#x70;&#x72;&#x69;&#x6e;&#x74;&#x65;&#x64;&#x20;&#x62;&#x79;&#x20;&#x74;&#x68;&#x65;&#x20;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x70;&#x72;&#x65;&#x74;&#x65;&#x72;</div></code></pre>
+        <button id='prompt-6' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+-->
+
+<h3 class="question" id="q2">Q2: WWPD: Higher Order Functions</h3>
+
+<blockquote><p>Use Ok to test your knowledge with the following "What Would Python Display?"
+questions:</p>
+
+<pre><code>python3 ok &#x2d;q hof &#x2d;u</code></pre>
+
+<p>For all WWPD questions, type <code>Function</code> if you believe the answer
+is <code>&lt;function...&gt;</code>, > <code>Error</code> if it errors, and <code>Nothing</code> if nothing is displayed.</p></blockquote>
+
+<pre><code>&gt;&gt;&gt; def even(f):
+...     def odd(x):
+...         if x &lt; 0:
+...             return f(&#x2d;x)
+...         return f(x)
+...     return odd
+&gt;&gt;&gt; steven = lambda x: x
+&gt;&gt;&gt; stewart = even(steven)
+&gt;&gt;&gt; stewart
+<div class="alt prompt-7">______</div><div class="solution prompt-7">&#x3c;&#x66;&#x75;&#x6e;&#x63;&#x74;&#x69;&#x6f;&#x6e;&#x20;&#x2e;&#x2e;&#x2e;&#x3e;&#x20;</div>
+&gt;&gt;&gt; stewart(61)
+<div class="alt prompt-7">______</div><div class="solution prompt-7">&#x36;&#x31;</div>
+&gt;&gt;&gt; stewart(&#x2d;4)
+<div class="alt prompt-7">______</div><div class="solution prompt-7">&#x34;</div></code></pre>
+        <button id='prompt-7' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<pre><code>&gt;&gt;&gt; def cake():
+...    print(&#x27;beets&#x27;)
+...    def pie():
+...        print(&#x27;sweets&#x27;)
+...        return &#x27;cake&#x27;
+...    return pie
+&gt;&gt;&gt; chocolate = cake()
+<div class="alt prompt-8">______</div><div class="solution prompt-8">&#x62;&#x65;&#x65;&#x74;&#x73;</div>
+&gt;&gt;&gt; chocolate
+<div class="alt prompt-8">______</div><div class="solution prompt-8">&#x46;&#x75;&#x6e;&#x63;&#x74;&#x69;&#x6f;&#x6e;</div>
+&gt;&gt;&gt; chocolate()
+<div class="alt prompt-8">______</div><div class="solution prompt-8">&#x73;&#x77;&#x65;&#x65;&#x74;&#x73;&#xa;&#x27;&#x63;&#x61;&#x6b;&#x65;&#x27;</div>
+&gt;&gt;&gt; more_chocolate, more_cake = chocolate(), cake
+<div class="alt prompt-8">______</div><div class="solution prompt-8">&#x73;&#x77;&#x65;&#x65;&#x74;&#x73;</div>
+&gt;&gt;&gt; more_chocolate
+<div class="alt prompt-8">______</div><div class="solution prompt-8">&#x27;&#x63;&#x61;&#x6b;&#x65;&#x27;</div>
+&gt;&gt;&gt; def snake(x, y):
+...    if cake == more_cake:
+...        return lambda y: x + y
+...    else:
+...        return x + y
+&gt;&gt;&gt; snake(10, 20)
+<div class="alt prompt-8">______</div><div class="solution prompt-8">&#x46;&#x75;&#x6e;&#x63;&#x74;&#x69;&#x6f;&#x6e;</div>
+&gt;&gt;&gt; snake(10, 20)(30)
+<div class="alt prompt-8">______</div><div class="solution prompt-8">&#x34;&#x30;</div>
+&gt;&gt;&gt; cake = &#x27;cake&#x27;
+&gt;&gt;&gt; snake(10, 20)
+<div class="alt prompt-8">______</div><div class="solution prompt-8">&#x33;&#x30;</div></code></pre>
+        <button id='prompt-8' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+
+<h2 id="coding-practice">Coding Practice</h2>
+
+
+<h3 class="question" id="q3">Q3: Lambdas and Currying</h3>
+
+<p>We can transform multiple-argument functions into a chain of
+single-argument, higher order functions by taking advantage of lambda
+expressions. This is useful when dealing with functions that take only
+single-argument functions. We will see some examples of these later
+on.</p>
+
+<p>Write a function <code>lambda_curry2</code> that will curry any two argument function using
+lambdas. See the doctest or refer to the
+<a href="http://composingprograms.com/pages/16-higher-order-functions.html#currying">textbook</a>
+if you're not sure what this means.</p>
+
+
+
+<pre><code>def lambda_curry2(func):
+    &quot;&quot;&quot;
+    Returns a Curried version of a two&#x2d;argument function FUNC.
+    &gt;&gt;&gt; from operator import add
+    &gt;&gt;&gt; curried_add = lambda_curry2(add)
+    &gt;&gt;&gt; add_three = curried_add(3)
+    &gt;&gt;&gt; add_three(5)
+    8
+    &quot;&quot;&quot;
+<div class="alt solution-1">    "*** YOUR CODE HERE ***"
+    return ______
+</div><div class="solution solution-1">&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x20;&#x61;&#x72;&#x67;&#x31;&#x3a;&#x20;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x20;&#x61;&#x72;&#x67;&#x32;&#x3a;&#x20;&#x66;&#x75;&#x6e;&#x63;&#x28;&#x61;&#x72;&#x67;&#x31;&#x2c;&#x20;&#x61;&#x72;&#x67;&#x32;&#x29;</div></code></pre>
+
+
+        <button id='solution-1' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q lambda_curry2</code></pre>
+
+
+<h1 id="optional-questions">Optional Questions</h1>
+
+
+
+<h2 id="environment-diagram-practice">Environment Diagram Practice</h2>
+
+
+<h3 class="question" id="q4">Q4: Lambda the Environment Diagram</h3>
+
+<p>Try drawing an environment diagram for the following code and predict what
+Python will output.</p>
+
+<p><strong>You do not need to submit or unlock this question through Ok.</strong>
+Instead, you can check your work with the <a href="http://tutor.cs61a.org/">Online Python
+Tutor</a>, but try drawing it yourself first!</p>
+
+<pre><code>&gt;&gt;&gt; a = lambda x: x * 2 + 1
+&gt;&gt;&gt; def b(b, x):
+...     return b(x + a(x))
+&gt;&gt;&gt; x = 3
+&gt;&gt;&gt; b(a, x)
+<div class="alt prompt-9">______</div><div class="solution prompt-9">&#x32;&#x31;</div></code></pre>
+        <button id='prompt-9' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<h3 class="question" id="q5">Q5: Make Adder</h3>
+
+<p>Draw the environment diagram for the following code:</p>
+
+<pre><code>n = 9
+def make_adder(n):
+    return lambda k: k + n
+add_ten = make_adder(n+1)
+result = add_ten(n)</code></pre>
+
+<p>There are 3 frames total (including the Global frame). In addition, consider
+the following questions:</p>
+
+<ol>
+  <li>In the Global frame, the name <code>add_ten</code> points to a function object. What is
+  the intrinsic name of that function object, and what frame is its parent?</li>
+  <li>In frame <code>f2</code>, what name is the frame labeled with (<code>add_ten</code> or &lambda;)?
+  Which frame is the parent of <code>f2</code>?</li>
+  <li>What value is the variable <code>result</code> bound to in the Global frame?</li>
+</ol>
+
+<div class="solution solution-2">
+
+<p>You can try out the environment diagram at <a href="http://tutor.cs61a.org/">tutor.cs61a.org</a>.</p>
+
+<ol>
+  <li>The intrinsic name of the function object that <code>add_ten</code> points to is
+  &lambda; (specifically, the lambda whose parameter is <code>k</code>). The parent frame
+  of this lambda is <code>f1</code>.</li>
+  <li><code>f2</code> is labeled with the name &lambda; the parent frame of <code>f2</code> is <code>f1</code>,
+  since that is where &lambda; is defined.</li>
+  <li>The variable <code>result</code> is bound to 19.</li>
+</ol>
+
+</div>
+        <button id='solution-2' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+
+<h2 id="more-coding-practice">More Coding Practice</h2>
+
+
+<blockquote><p><strong>Note</strong>: The following questions are in <a href="lab02_extra.py">lab02_extra.py</a>.</p></blockquote>
+
+<h3 class="question" id="q6">Q6: Composite Identity Function</h3>
+
+<p>Write a function that takes in two single-argument functions, <code>f</code> and <code>g</code>, and
+returns another <strong>function</strong> that has a single parameter <code>x</code>. The returned
+function should return <code>True</code> if <code>f(g(x))</code> is equal to <code>g(f(x))</code>. You can
+assume the output of <code>g(x)</code> is a valid input for <code>f</code> and vice versa.
+You may use the <code>compose1</code> function defined below.</p>
+
+
+
+<pre><code>def compose1(f, g):
+    &quot;&quot;&quot;Return the composition function which given x, computes f(g(x)).
+
+    &gt;&gt;&gt; add_one = lambda x: x + 1        # adds one to x
+    &gt;&gt;&gt; square = lambda x: x**2
+    &gt;&gt;&gt; a1 = compose1(square, add_one)   # (x + 1)^2
+    &gt;&gt;&gt; a1(4)
+    25
+    &gt;&gt;&gt; mul_three = lambda x: x * 3      # multiplies 3 to x
+    &gt;&gt;&gt; a2 = compose1(mul_three, a1)    # ((x + 1)^2) * 3
+    &gt;&gt;&gt; a2(4)
+    75
+    &gt;&gt;&gt; a2(5)
+    108
+    &quot;&quot;&quot;
+    return lambda x: f(g(x))
+
+def composite_identity(f, g):
+    &quot;&quot;&quot;
+    Return a function with one parameter x that returns True if f(g(x)) is
+    equal to g(f(x)). You can assume the result of g(x) is a valid input for f
+    and vice versa.
+
+    &gt;&gt;&gt; add_one = lambda x: x + 1        # adds one to x
+    &gt;&gt;&gt; square = lambda x: x**2
+    &gt;&gt;&gt; b1 = composite_identity(square, add_one)
+    &gt;&gt;&gt; b1(0)                            # (0 + 1)^2 == 0^2 + 1
+    True
+    &gt;&gt;&gt; b1(4)                            # (4 + 1)^2 != 4^2 + 1
+    False
+    &quot;&quot;&quot;
+<div class="alt solution-3">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-3">&#x20;&#x20;&#x20;&#x20;&#x64;&#x65;&#x66;&#x20;&#x69;&#x64;&#x65;&#x6e;&#x74;&#x69;&#x74;&#x79;&#x28;&#x78;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x63;&#x6f;&#x6d;&#x70;&#x6f;&#x73;&#x65;&#x31;&#x28;&#x66;&#x2c;&#x20;&#x67;&#x29;&#x28;&#x78;&#x29;&#x20;&#x3d;&#x3d;&#x20;&#x63;&#x6f;&#x6d;&#x70;&#x6f;&#x73;&#x65;&#x31;&#x28;&#x67;&#x2c;&#x20;&#x66;&#x29;&#x28;&#x78;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x69;&#x64;&#x65;&#x6e;&#x74;&#x69;&#x74;&#x79;&#xa;&#xa;&#x20;&#x20;&#x20;&#x20;&#x23;&#x20;&#x41;&#x6c;&#x74;&#x65;&#x72;&#x6e;&#x61;&#x74;&#x69;&#x76;&#x65;&#x20;&#x73;&#x6f;&#x6c;&#x75;&#x74;&#x69;&#x6f;&#x6e;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x20;&#x78;&#x3a;&#x20;&#x66;&#x28;&#x67;&#x28;&#x78;&#x29;&#x29;&#x20;&#x3d;&#x3d;&#x20;&#x67;&#x28;&#x66;&#x28;&#x78;&#x29;&#x29;</div></code></pre>
+
+
+        <button id='solution-3' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q composite_identity</code></pre>
+
+<h3 class="question" id="q7">Q7: Count van Count</h3>
+
+<p>Consider the following implementations of <code>count_factors</code> and <code>count_primes</code>:</p>
+
+<pre><code>def count_factors(n):
+    &quot;&quot;&quot;Return the number of positive factors that n has.&quot;&quot;&quot;
+    i, count = 1, 0
+    while i &lt;= n:
+        if n % i == 0:
+            count += 1
+        i += 1
+    return count
+
+def count_primes(n):
+    &quot;&quot;&quot;Return the number of prime numbers up to and including n.&quot;&quot;&quot;
+    i, count = 1, 0
+    while i &lt;= n:
+        if is_prime(i):
+            count += 1
+        i += 1
+    return count
+
+def is_prime(n):
+    return count_factors(n) == 2 # only factors are 1 and n</code></pre>
+
+<p>The implementations look quite similar! Generalize this logic by writing a
+function <code>count_cond</code>, which takes in a two-argument predicate function <code>condition(n,
+i)</code>. <code>count_cond</code> returns a one-argument function that counts all the numbers
+from 1 to <code>n</code> that satisfy <code>condition</code>.</p>
+
+
+
+<pre><code>def count_cond(condition):
+    &quot;&quot;&quot;Returns a function with one parameter N that counts all the numbers from
+    1 to N that satisfy the two&#x2d;argument predicate function CONDITION.
+
+    &gt;&gt;&gt; count_factors = count_cond(lambda n, i: n % i == 0)
+    &gt;&gt;&gt; count_factors(2)   # 1, 2
+    2
+    &gt;&gt;&gt; count_factors(4)   # 1, 2, 4
+    3
+    &gt;&gt;&gt; count_factors(12)  # 1, 2, 3, 4, 6, 12
+    6
+
+    &gt;&gt;&gt; is_prime = lambda n, i: count_factors(i) == 2
+    &gt;&gt;&gt; count_primes = count_cond(is_prime)
+    &gt;&gt;&gt; count_primes(2)    # 2
+    1
+    &gt;&gt;&gt; count_primes(3)    # 2, 3
+    2
+    &gt;&gt;&gt; count_primes(4)    # 2, 3
+    2
+    &gt;&gt;&gt; count_primes(5)    # 2, 3, 5
+    3
+    &gt;&gt;&gt; count_primes(20)   # 2, 3, 5, 7, 11, 13, 17, 19
+    8
+    &quot;&quot;&quot;
+<div class="alt solution-4">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-4">&#x20;&#x20;&#x20;&#x20;&#x64;&#x65;&#x66;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x65;&#x72;&#x28;&#x6e;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x2c;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x3d;&#x20;&#x31;&#x2c;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x77;&#x68;&#x69;&#x6c;&#x65;&#x20;&#x69;&#x20;&#x3c;&#x3d;&#x20;&#x6e;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x63;&#x6f;&#x6e;&#x64;&#x69;&#x74;&#x69;&#x6f;&#x6e;&#x28;&#x6e;&#x2c;&#x20;&#x69;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x2b;&#x3d;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x20;&#x2b;&#x3d;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x65;&#x72;</div></code></pre>
+
+
+        <button id='solution-4' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q count_cond</code></pre>
+
+<h3 class="question" id="q8">Q8: I Heard You Liked Functions...</h3>
+
+<p>Define a function <code>cycle</code> that takes in three functions <code>f1</code>, <code>f2</code>,
+<code>f3</code>, as arguments. <code>cycle</code> will return another function that should
+take in an integer argument <code>n</code> and return another function.  That
+final function should take in an argument <code>x</code> and cycle through
+applying <code>f1</code>, <code>f2</code>, and <code>f3</code> to <code>x</code>, depending on what <code>n</code>
+was. Here's what the final function should do to <code>x</code> for a few
+values of <code>n</code>:</p>
+
+<ul>
+  <li><code>n = 0</code>, return <code>x</code></li>
+  <li><code>n = 1</code>, apply <code>f1</code> to <code>x</code>, or return <code>f1(x)</code></li>
+  <li><code>n = 2</code>, apply <code>f1</code> to <code>x</code> and then <code>f2</code> to the result of that, or
+  return <code>f2(f1(x))</code></li>
+  <li><code>n = 3</code>, apply <code>f1</code> to <code>x</code>, <code>f2</code> to the result of applying <code>f1</code>,
+  and then <code>f3</code> to the result of applying <code>f2</code>, or <code>f3(f2(f1(x)))</code></li>
+  <li><code>n = 4</code>, start the cycle again applying <code>f1</code>, then <code>f2</code>, then <code>f3</code>,
+  then <code>f1</code> again, or <code>f1(f3(f2(f1(x))))</code></li>
+  <li>And so forth.</li>
+</ul>
+
+<p><em>Hint</em>: most of the work goes inside the most nested function.</p>
+
+
+
+<pre><code>def cycle(f1, f2, f3):
+    &quot;&quot;&quot;Returns a function that is itself a higher&#x2d;order function.
+
+    &gt;&gt;&gt; def add1(x):
+    ...     return x + 1
+    &gt;&gt;&gt; def times2(x):
+    ...     return x * 2
+    &gt;&gt;&gt; def add3(x):
+    ...     return x + 3
+    &gt;&gt;&gt; my_cycle = cycle(add1, times2, add3)
+    &gt;&gt;&gt; identity = my_cycle(0)
+    &gt;&gt;&gt; identity(5)
+    5
+    &gt;&gt;&gt; add_one_then_double = my_cycle(2)
+    &gt;&gt;&gt; add_one_then_double(1)
+    4
+    &gt;&gt;&gt; do_all_functions = my_cycle(3)
+    &gt;&gt;&gt; do_all_functions(2)
+    9
+    &gt;&gt;&gt; do_more_than_a_cycle = my_cycle(4)
+    &gt;&gt;&gt; do_more_than_a_cycle(2)
+    10
+    &gt;&gt;&gt; do_two_cycles = my_cycle(6)
+    &gt;&gt;&gt; do_two_cycles(1)
+    19
+    &quot;&quot;&quot;
+<div class="alt solution-5">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-5">&#x20;&#x20;&#x20;&#x20;&#x64;&#x65;&#x66;&#x20;&#x72;&#x65;&#x74;&#x5f;&#x66;&#x6e;&#x28;&#x6e;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x64;&#x65;&#x66;&#x20;&#x72;&#x65;&#x74;&#x28;&#x78;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x20;&#x3d;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x77;&#x68;&#x69;&#x6c;&#x65;&#x20;&#x69;&#x20;&#x3c;&#x20;&#x6e;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x69;&#x20;&#x25;&#x20;&#x33;&#x20;&#x3d;&#x3d;&#x20;&#x30;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x78;&#x20;&#x3d;&#x20;&#x66;&#x31;&#x28;&#x78;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x69;&#x66;&#x20;&#x69;&#x20;&#x25;&#x20;&#x33;&#x20;&#x3d;&#x3d;&#x20;&#x31;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x78;&#x20;&#x3d;&#x20;&#x66;&#x32;&#x28;&#x78;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x78;&#x20;&#x3d;&#x20;&#x66;&#x33;&#x28;&#x78;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x20;&#x2b;&#x3d;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x78;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x72;&#x65;&#x74;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x72;&#x65;&#x74;&#x5f;&#x66;&#x6e;</div></code></pre>
+
+
+        <button id='solution-5' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q cycle</code></pre>
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#topics">Topics</a></li>
+  <ul>
+    <li><a href="#lambda-expressions">Lambda Expressions</a></li>
+    <li><a href="#higher-order-functions">Higher Order Functions</a></li>
+    <ul>
+      <li><a href="#functions-as-arguments">Functions as arguments</a></li>
+      <li><a href="#functions-that-return-functions">Functions that return functions</a></li>
+    </ul>
+    <li><a href="#environment-diagrams">Environment Diagrams</a></li>
+    <ul>
+      <li><a href="#def-statements">def Statements</a></li>
+      <li><a href="#call-expressions">Call expressions</a></li>
+      <li><a href="#assignment-statements">Assignment Statements</a></li>
+    </ul>
+  </ul>
+  <li><a href="#required-questions">Required Questions</a></li>
+  <ul>
+    <li><a href="#what-would-python-display">What Would Python Display?</a></li>
+    <ul>
+      <li><a href="#q1">Q1: WWPD: Lambda the Free</a></li>
+      <li><a href="#q2">Q2: WWPD: Higher Order Functions</a></li>
+    </ul>
+    <li><a href="#coding-practice">Coding Practice</a></li>
+    <ul>
+      <li><a href="#q3">Q3: Lambdas and Currying</a></li>
+    </ul>
+  </ul>
+  <li><a href="#optional-questions">Optional Questions</a></li>
+  <ul>
+    <li><a href="#environment-diagram-practice">Environment Diagram Practice</a></li>
+    <ul>
+      <li><a href="#q4">Q4: Lambda the Environment Diagram</a></li>
+      <li><a href="#q5">Q5: Make Adder</a></li>
+    </ul>
+    <li><a href="#more-coding-practice">More Coding Practice</a></li>
+    <ul>
+      <li><a href="#q6">Q6: Composite Identity Function</a></li>
+      <li><a href="#q7">Q7: Count van Count</a></li>
+      <li><a href="#q8">Q8: I Heard You Liked Functions...</a></li>
+    </ul>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+
+<script type="text/javascript" src="../../assets/js/config.js"></script>
+<script>
+  $(function() {
+    var staging_domains = ['staging.cs61a.org', 'solutions.cs61a.org', 'localhost', '127.0.0.1'];
+    var host = window.location.hostname;
+    var staging = staging_domains.indexOf(host) != -1;
+    staging = staging || (host.endsWith('.pullrequests.cs61a.org') && !host.startsWith('last-build.'));
+
+    var after_due_date = new Date("02/03/2018") < new Date();
+    var before_end_date = new Date() <= new Date(endDate);
+    var release_solutions = (staging || after_due_date) && before_end_date;
+
+    if (release_solutions) {
+      $('.toggle').css('display', 'inline-block');
+      $('.toggle').click(function() {
+        var solution_id = $(this).attr('id');
+        $('div.' + solution_id).slideToggle(600);
+      });
+    }
+  });
+</script>
+
+
+  </body>
+
+<!-- Mirrored from cs61a.org/lab/lab02/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:35:51 GMT -->
+</html>

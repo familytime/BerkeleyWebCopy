@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec4/lec4 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lists2 Study Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lists2 Study Guide</header><div class="due-date">Author: Wayne Li and Kartik Kapur</div><ul id="markdown-toc">
+  <li><a href="#lecture-code" id="markdown-toc-lecture-code">Lecture Code</a></li>
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#exercises" id="markdown-toc-exercises">Exercises</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C Level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B Level</a></li>
+      <li><a href="#a-level" id="markdown-toc-a-level">A level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="lecture-code">Lecture Code</h2>
+
+<p>Code from this lecture available at <a href="https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/lists2">https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/lists2</a>.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Naked Data Structures</strong> <code class="highlighter-rouge">IntLists</code> are hard to use. In order to use an
+<code class="highlighter-rouge">IntList</code> correctly, the programmer must understand and utilize recursion even
+for simple list related tasks.</p>
+
+<p><strong>Adding Clothes</strong> First, we will turn the <code class="highlighter-rouge">IntList</code> class into an <code class="highlighter-rouge">IntNode</code>
+class. Then, we will delete any methods in the <code class="highlighter-rouge">IntNode</code> class. Next, we will
+create a new class called <code class="highlighter-rouge">SLList</code>, which contains the instance variable
+<code class="highlighter-rouge">first</code>, and this variable should be of type <code class="highlighter-rouge">IntNode</code>. In essence, we have
+“wrapped” our <code class="highlighter-rouge">IntNode</code> with an <code class="highlighter-rouge">SLList</code>.</p>
+
+<p><strong>Using SLList</strong> As a user, to create a list, I call the constructor for
+<code class="highlighter-rouge">SLList</code>, and pass in the number I wish to fill my list with. The <code class="highlighter-rouge">SLList</code>
+constructor will then call the <code class="highlighter-rouge">IntList</code> constructor with that number, and set
+<code class="highlighter-rouge">first</code> to point to the <code class="highlighter-rouge">IntList</code> it just created.</p>
+
+<p><strong>Improvement</strong> Notice that when creating a list with one value, we wrote
+<code class="highlighter-rouge">SLList list = new SLList(1)</code>. We did not have to worry about passing in a null
+value like we did with our <code class="highlighter-rouge">IntList</code>. Essentially, the SLList class acts as a
+middleman between the list user and the naked <code class="highlighter-rouge">IntList</code>.</p>
+
+<p><strong>Public vs. Private</strong> We want users to modify our list via <code class="highlighter-rouge">SLList</code> methods
+only, and not by directly modifying <code class="highlighter-rouge">first</code>. We can prevent other users from
+doing so by setting our variable access to <code class="highlighter-rouge">private</code>. Writing <code class="highlighter-rouge">private IntNode
+first;</code> prevents code in other classes from accessing and modifying <code class="highlighter-rouge">first</code>
+(while the code inside the class can still do so).</p>
+
+<p><strong>Nested Classes</strong> We can also move classes into classes to make nested
+classes! You can also declare the nested classes to be private as well; this
+way, other classes can never use this nested class.</p>
+
+<p><strong>Static Nested Classes</strong> If the <code class="highlighter-rouge">IntNode</code> class never uses any variable or
+method of the <code class="highlighter-rouge">SLList</code> class, we can turn this class static by adding the
+“static” keyword.</p>
+
+<p><strong>Recursive Helper Methods</strong> If we want to write a recursive method in
+<code class="highlighter-rouge">SLList</code>, how would we go about doing that? After all, the <code class="highlighter-rouge">SLList</code> is not a
+naturally recursive data structure like the <code class="highlighter-rouge">IntNode</code>. A common idea is to
+write an outer method that users can call. This method calls a private helper
+method that takes <code class="highlighter-rouge">IntNode</code> as a parameter. This helper method will then
+perform the recursion, and return the answer back to the outer method.</p>
+
+<p><strong>Caching</strong> Previously, we calculated the size of our <code class="highlighter-rouge">IntList</code> recursively by
+returning 1 + the size of the rest of our list. This becomes really slow if our
+list becomes really big, and we repeatedly call our size method. Now that we
+have an <code class="highlighter-rouge">SLList</code>, lets simply cache the size of our list as an instance
+variable! Note that we could not do this before with out <code class="highlighter-rouge">IntList</code>.</p>
+
+<p><strong>Empty Lists</strong> With an<code class="highlighter-rouge">SLList</code>, we can now represent an empty list. We simply
+set <code class="highlighter-rouge">first</code> to <code class="highlighter-rouge">null</code> and <code class="highlighter-rouge">size</code> to <code class="highlighter-rouge">0</code>. However, we have introduced some bugs;
+namely, because <code class="highlighter-rouge">first</code> is now <code class="highlighter-rouge">null</code>, any method that tries to access a
+property of <code class="highlighter-rouge">first</code> (like <code class="highlighter-rouge">first.item</code>) will return a <code class="highlighter-rouge">NullPointerException</code>.
+Of course, we can fix this bug by writing code that handles this special case.
+But there may be many special cases. Is there a better solution?</p>
+
+<p><strong>Sentinel Nodes</strong> Lets make all <code class="highlighter-rouge">SLList</code> objects, even empty lists, the same.
+To do this, lets give each SLList a sentinel node, a node that is always there.
+Actual elements go after the sentinel node, and all of our methods should
+respect the idea that sentinel is always the first element in our list.</p>
+
+<p><strong>Invariants</strong> An invariant is a fact about a data structure that is guaranteed
+to be true (assuming there are no bugs in your code). This gives us a
+convenient checklist every time we add a feature to our data structure. Users
+are also guaranteed certain properties that they trust will be maintained. For
+example, an <code class="highlighter-rouge">SLList</code> with a sentinel node has at least the following
+invariants:</p>
+<ul>
+  <li>The sentinel reference always points to a sentinel node.</li>
+  <li>The front item (if it exists), is always at sentinel.next.item.</li>
+  <li>The size variable is always the total number of items that have been added.</li>
+</ul>
+
+<h2 id="exercises">Exercises</h2>
+
+<h3 id="c-level">C Level</h3>
+
+<ol>
+  <li>
+    <p>Complete the exercises from the <a href="https://joshhug.gitbooks.io/hug61b/content/chap2/chap22.html">online
+textbook</a>.</p>
+  </li>
+  <li>
+    <p>Reexplain what the sentinel node is and why it’s important. Ask yourself
+if your code would error if you removed the sentinel. Is the sentinel
+a necessary component of your IntList?</p>
+  </li>
+  <li>
+    <p>What is the downside of not having a size variable and rather just calculate
+the size each time?</p>
+  </li>
+</ol>
+
+<h3 id="b-level">B Level</h3>
+
+<ol>
+  <li>
+    <p>Starting from the copy of SLList.java provided to you in the lecture code
+repository, implement the method <code class="highlighter-rouge">deleteFirst</code>, which deletes the first element
+in your SLList. Don’t forget to maintain the three invariants discussed above.</p>
+  </li>
+  <li>
+    <p>Starting from the copy of SLList.java provided to you in the lecture code
+repository, implement a second constructor that takes in an array of integers,
+and creates an SLList with those integers. Again, remember to maintain your
+invariants.</p>
+  </li>
+  <li>
+    <p>If the sentinel node was a null node, would it change anything or would
+the Intlist be able to function?</p>
+  </li>
+</ol>
+
+<h3 id="a-level">A level</h3>
+<ol>
+  <li>
+    <p>Do problem 5 from midterm 1 in Kartik’s <a href="http://www.kartikkapur.com/documents/mt1.pdf#page=7">textbook</a></p>
+  </li>
+  <li>
+    <p>Modify the Intlist class so that every time you add a value you “square”
+the IntList. For example, upon the insertion of 5, the below IntList
+would transform from:</p>
+
+    <p>1 =&gt; 2 to 1 =&gt; 1 =&gt; 2 =&gt; 4 =&gt; 5</p>
+
+    <p>and if 7 was added to the latter IntList, it would become</p>
+
+    <p>1 =&gt; 1 =&gt; 1 =&gt; 1 =&gt; 2 =&gt; 4 =&gt; 4 =&gt; 16 =&gt; 5 =&gt; 25 =&gt; 7</p>
+
+    <p>Additionally, you are provided the constraint that you can only access
+ the size() function one time during the entire process of adding a node.</p>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec4/lec4 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:15 GMT -->
+</html>

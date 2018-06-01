@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab2/lab2 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:10 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lab 2: Unit Testing with JUnit and IntLists | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lab 2: Unit Testing with JUnit and IntLists</header><ul id="markdown-toc">
+  <li><a href="#pre-lab" id="markdown-toc-pre-lab">Pre-lab</a></li>
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#debugger-basics" id="markdown-toc-debugger-basics">Debugger Basics</a>    <ul>
+      <li><a href="#breakpoints-and-step-into" id="markdown-toc-breakpoints-and-step-into">Breakpoints and Step Into</a></li>
+      <li><a href="#step-over-and-step-out" id="markdown-toc-step-over-and-step-out">Step Over and Step Out</a>        <ul>
+          <li><a href="#further-guidance-for-those-who-want-it" id="markdown-toc-further-guidance-for-those-who-want-it">Further Guidance (for those who want it)</a></li>
+        </ul>
+      </li>
+      <li><a href="#conditional-breakpoints-and-resume" id="markdown-toc-conditional-breakpoints-and-resume">Conditional Breakpoints and Resume</a></li>
+      <li><a href="#recap-debugging" id="markdown-toc-recap-debugging">Recap: Debugging</a></li>
+    </ul>
+  </li>
+  <li><a href="#application-intlists" id="markdown-toc-application-intlists">Application: IntLists</a>    <ul>
+      <li><a href="#introductionreview-of-intlists" id="markdown-toc-introductionreview-of-intlists">Introduction/Review of IntLists</a></li>
+      <li><a href="#destructive-vs-non-destructive" id="markdown-toc-destructive-vs-non-destructive">Destructive vs. Non-Destructive</a>        <ul>
+          <li><a href="#dsquarelist-implementation" id="markdown-toc-dsquarelist-implementation">dSquareList Implementation</a></li>
+          <li><a href="#non-destructive-squaring" id="markdown-toc-non-destructive-squaring">Non-destructive Squaring</a></li>
+          <li><a href="#test-code" id="markdown-toc-test-code">Test Code</a></li>
+        </ul>
+      </li>
+      <li><a href="#implementing-destructive-vs-non-destructive-methods" id="markdown-toc-implementing-destructive-vs-non-destructive-methods">Implementing Destructive vs. Non-destructive Methods</a></li>
+      <li><a href="#complete-and-submit-lab-2" id="markdown-toc-complete-and-submit-lab-2">Complete and Submit Lab 2</a></li>
+    </ul>
+  </li>
+  <li><a href="#full-recap" id="markdown-toc-full-recap">Full Recap</a></li>
+  <li><a href="#faq-and-common-issues" id="markdown-toc-faq-and-common-issues">FAQ and Common Issues</a>    <ul>
+      <li><a href="#things-like-string-or-stringequals-are-red" id="markdown-toc-things-like-string-or-stringequals-are-red">Things like String or String.equals() are red!</a></li>
+      <li><a href="#things-like-test-are-red" id="markdown-toc-things-like-test-are-red">Things like @Test are red!</a></li>
+      <li><a href="#console-button-isnt-showing-up" id="markdown-toc-console-button-isnt-showing-up">Console button isn’t showing up!</a></li>
+      <li><a href="#java-files-have-a-red-circle-with-a-j-inside-the-circle-next-to-the-file-icon" id="markdown-toc-java-files-have-a-red-circle-with-a-j-inside-the-circle-next-to-the-file-icon">Java files have a red circle, with a J inside the circle, next to the file icon</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="pre-lab">Pre-lab</h2>
+
+<p>Josh note: This lab is in beta, but the final lab will be very similar to this. Apologies for any typos or errors. I decided to do a major last minute revision of lab 2 to make it practical, and also had jury duty so that made it tough to complete in a timely fashion. Hope you like it.</p>
+
+<ul>
+  <li>Run <code class="highlighter-rouge">git pull skeleton master</code> in your repo. You should get a <code class="highlighter-rouge">lab2/</code> folder.</li>
+  <li><a href="../lab2setup/lab2setup.html">Lab 2 Setup</a></li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+<p>In this lab, you will learn about basic IntelliJ features, Destructive vs
+NonDestructive methods, and IntLists.</p>
+
+<p>Your job for this assignment is to run through the debugging exercises and to
+create methods for <code class="highlighter-rouge">IntList.java</code>.</p>
+
+<!--
+Command Line Arguments
+--------------------------------
+In lab 1, to run LeapYear.java you ran `java LeapYear 2000`. In lab 2 setup, you
+saw how to run a program but not how to input 2000 as an argument. To do so, we
+simply need to edit the run configuration. From the run menu, click on Edit
+Configurations.
+
+![Edit Configs](/materials/lab/lab2/img/edit_configs.png)
+
+From the following menu, Make sure that your main class is LeapYear. Put in 2000
+into the program arguments field. Click ok then run the program.
+
+![LeapYear Args](/materials/lab/lab2/img/year_args.png)
+-->
+
+<h2 id="debugger-basics">Debugger Basics</h2>
+<p>Repeat the project setup process from lab 2 setup. However, this time, you should import from your <code class="highlighter-rouge">lab2</code> directory instead of your <code class="highlighter-rouge">lab2setup</code> directory. This includes adding the <code class="highlighter-rouge">library-sp18/javalib</code> to your libraries again. Yes, it’s a lot of clicks, but you’ll get used to it, and it builds character.</p>
+
+<p>After importing, your IntelliJ should look something like the following:
+<img src="img/1_after_import.png" alt="folder structure" /></p>
+
+<h3 id="breakpoints-and-step-into">Breakpoints and Step Into</h3>
+
+<p>We’ll start by running the main method in <code class="highlighter-rouge">DebugExerciseOne</code>. Open up this file in IntelliJ and click the run button. You should see three statements printed to the console, one of which should strike you as incorrect (note: if your code says round(10/2) three times, you have an old version of the skeleton, use <code class="highlighter-rouge">git pull skeleton master</code> again). If you’re not sure how to run <code class="highlighter-rouge">DebugExerciseOne</code>, right click on it in the list of files and click the <code class="highlighter-rouge">Run DebugExercise1.main</code> button as shown below:
+<img src="img/2_run_button.png" alt="folder structure" /></p>
+
+<p>Somewhere in our code there is a bug, but don’t go carefully reading the code for it! While you might be able to spot this particular bug, often bugs are nearly impossible to see without actually trying to run the code and probe what’s going on as it executes.</p>
+
+<p>Many of you have had lots of experience with using print statements to probe what a program is thinking as it runs. While print statements can be very useful for debugging, they have a few disadvantages: They require you to modify your code (to add print statements). They require you to explicitly state what you want to know (since you have to say precisely what you want to print). And they provide their results in a format that can be hard to read, since it’s just a big blob of text in the execution window.</p>
+
+<p>Often (but not always) it takes less time and mental effort to find a bug if you use a debugger. The IntelliJ debugger allows you to pause the code in the middle of execution, step the code line by line, and even visualize the organization of complex data structures like linked lists.</p>
+
+<p>While they are powerful, debuggers have to be used properly to gain any advantage. We encourage you to do what one might call “scientific debugging”, that is, debugging by using something quite similar to the scientific method!</p>
+
+<p>Generally speaking, you should formulate hypotheses about how segments of your code should behave, and then use the debugger to resolve whether those hypotheses are true. With each new piece of evidence, you will refine your hypotheses, until finally, you cannot help but stumble right into the bug.</p>
+
+<p>Our first exercise introduces us to two of our core tools, the <code class="highlighter-rouge">breakpoint</code> and the
+<code class="highlighter-rouge">step over</code> button. In the left-hand Project view, right click (or two finger click) on the
+<code class="highlighter-rouge">DebugExerciseOne</code> file and this time select the <code class="highlighter-rouge">Debug</code> option rather than the <code class="highlighter-rouge">Run</code> option. If the
+Debug option doesn’t appear, it’s because you didn’t properly import your lab2
+project (see steps 1-10 of lab2setup).
+<img src="img/3_debug_button.png" alt="folder structure" /></p>
+
+<p>You’ll see that the program simply runs again, with no apparent difference! That’s because we haven’t give the debugger anything interesting to do. Let’s fix that by “setting a breakpoint”. To do so, scroll to the line that says <code class="highlighter-rouge">int t3 = 3;</code>, then left click just to the right of the line number. You should see a red dot appear that vaguely resembles a stop sign, which means we have now set a breakpoint. If we run the program in debug mode again it’ll stop at that line. If you’d prefer to avoid right-clicking to run your program again, you can click the bug icon in the top right of the screen instead. An animated gif showing off the steps in this paragraph is available <a href="https://gfycat.com/ThickBarrenFrogmouth">at this link</a>.</p>
+
+<p>If the text console (that says things like “round(10/2)”) does not appear when you click the debug button, you may need to perform one additional step before proceeding. At the top left of the information window in the bottom panel, you should see two tabs labeled “debugger” and “console”. Click and drag the “console” window to the far right of the bottom panel. This will allow you to show both the debugger and the console at the same time. An animated gif showing off this process is available <a href="https://gfycat.com/SmugAbleAustraliankelpie">at this link</a>.</p>
+
+<p>Once you’ve clicked the debug button (and made your console window visible if necessary), you should see that the program has paused at the line at which you set a breakpoint, and you should also see a list of all the variables at the bottom, including <code class="highlighter-rouge">t</code>, <code class="highlighter-rouge">b</code>, <code class="highlighter-rouge">result</code>, <code class="highlighter-rouge">t2</code>, <code class="highlighter-rouge">b2</code>, and <code class="highlighter-rouge">result2</code>. We can advance the program one step by clicking on the “step into” button, which is an arrow that points down and to the left as shown on the next line:</p>
+
+<p><img src="img/step_into.png" alt="step_into" /></p>
+
+<p>We’ll discuss the other buttons later in this lab. <strong>Make sure you’re pressing ‘step into’ rather than ‘step over’.</strong> Step-into points down and to the right, whereas step-over points straight down.</p>
+
+<p>Each time you click this button, the program will advance one step. <strong>Before you click each time, formulate a hypothesis about how the variables should change.</strong> Repeat this process until you find a line where the result does not match your expectations or the expectations of the person who wrote the code. Try and figure out why the line doesn’t do what you expect. If you miss the bug the first time, click the stop button (red square), and then the debug button to start back over. Optionally, you may fix the bug once you’ve found it.</p>
+
+<h3 id="step-over-and-step-out">Step Over and Step Out</h3>
+
+<p>Just as we rely on layering abstractions to construct and compose programs, we should also rely on abstraction to debug our programs. The “step over” button in IntelliJ makes this possible. Whereas the “step into” from the previous exercise shows the literal next step of the program, the “step over” button allows us to complete a function call without showing the function executing.</p>
+
+<p>The main method in <code class="highlighter-rouge">DebugExerciseTwo</code> is supposed to take two arrays, compute the element-wise max of those two arrays, and then sum the resulting maxes. For example, suppose the two arrays are <code class="highlighter-rouge">{2, 0, 10, 14}</code> and <code class="highlighter-rouge">{-5, 5, 20, 30}</code>. The element-wise max is <code class="highlighter-rouge">{2, 5, 20, 30}</code>, e.g. in the second position, the larger of “0” and “5” is 5. The sum of this element-wise max is 2 + 5 + 20 + 30 = 57.</p>
+
+<p>There are two different bugs in the provided code. Your job for this exercise is to fix the two bugs, with one special rule: <strong>You should NOT step into the <code class="highlighter-rouge">max</code> or <code class="highlighter-rouge">add</code> functions or even try to understand them.</strong> These are very strange functions that use syntax (and bad style) to do easy tasks in an incredibly obtuse way. If you find yourself accidentally stepping into one of these two functions, use the “step out” button (an upwards pointing arrow) to escape.</p>
+
+<p>Even without stepping INTO these functions, you should be able to tell whether they have a bug or not. That’s the glory of abstraction! Even if I don’t know how a fish works at a molecular level, there are some cases where I can clearly tell that a fish is dead.</p>
+
+<p>If you find that one of these functions has a bug, you should completely rewrite it rather than trying to fix it.</p>
+
+<p>Now that we’ve told you what “step over” does, try exploring how it works exactly and try to find the two bugs. <strong>If you’re having the issue that the using run (or debug) button in the top right keeps running DebugExercise1, right click on DebugExercise2 to run it instead.</strong></p>
+
+<p>If you get stuck or just want more guidance, read the directions below.</p>
+
+<h4 id="further-guidance-for-those-who-want-it">Further Guidance (for those who want it)</h4>
+
+<p>To start, try running the program. The <code class="highlighter-rouge">main</code> method will compute and print an answer to the console. Try manually computing the answer, and you’ll see that the printed answer is incorrect. If you don’t know how to manually compute the answer, reread the description of what the function is supposed to do above, or read the comments in the provided code.</p>
+
+<p>Next, set a breakpoint to the line in <code class="highlighter-rouge">main</code> that calls <code class="highlighter-rouge">sumOfElementwiseMaxes</code>. Then use the debug button, followed by the step-into function to reach the first line of <code class="highlighter-rouge">sumOfElementWiseMaxes</code>. Then use the “step over” button on the line that calls <code class="highlighter-rouge">arrayMax</code>. What is wrong with the output (if anything), i.e. how does it fail to match your expectations? Note that to see the contents of an array, you may need to click the rightward pointing triangle next to the variable name in the variables tab of the debugger window in the bottom panel.</p>
+
+<p>If you feel that there is a bug, step into <code class="highlighter-rouge">arrayMax</code> (instead of over it) and try to find the bug. Reminder: do not step into <code class="highlighter-rouge">max</code>. You should be able to tell if <code class="highlighter-rouge">max</code> has a bug using step over. If <code class="highlighter-rouge">max</code> has a bug, replace it completely.</p>
+
+<p>Repeat the same process with <code class="highlighter-rouge">arraySum</code> and <code class="highlighter-rouge">add</code>. Once you’ve fixed both bugs, double check that the <code class="highlighter-rouge">sumOfElementwiseMaxes</code> method works correctly for the provided inputs. Note: This is not proof that <code class="highlighter-rouge">sumOfElementwiseMaxes</code> is correct, but it’s not necessary to write any additional tests to help verify this fact (that will be coming next week).</p>
+
+<h3 id="conditional-breakpoints-and-resume">Conditional Breakpoints and Resume</h3>
+
+<p>Sometimes it’s handy to be able to set a breakpoint and return to it over and over. In this final debugging exercise, we’ll see how to do this and why it is useful.</p>
+
+<p>Try running <code class="highlighter-rouge">DebugPractice3</code>, which attempts to count the number of turnips available from all grocery stores nearby. It does this by reading in <code class="highlighter-rouge">foods.csv</code>, which provides information about foods available, where each line of the file corresponds to a single product available at a single store. Feel free to open the file to see what it looks like. Strangely, the number of turnips seems to be negative.</p>
+
+<p>Set a breakpoint on the line where <code class="highlighter-rouge">totalTurnips = newTotal</code> occurs, and you’ll see that if you “step over”, the total number of turnips is incremented as you’d expect. One approach to debugging would be to keep clicking “step over” repeatedly until finally something goes wrong. However, this is too slow. One way we can speed things up is to click on the “resume” button (just down and to the left from the step-over button), which looks like a green triangle pointing to the right. Repeat this and you’ll see the turnip count incrementing repeatedly until something finally goes wrong.</p>
+
+<p>An even faster approach is to make our breakpoint conditional. To do this, right (or two-finger) click on the red breakpoint dot. Here, you can set a condition for when you want to stop. In the condition box, enter “newTotal &lt; 0”, stop your program, and try clicking “debug” again. You’ll see that you land right where you want to be.</p>
+
+<p>See if you can figure out the problem. If you can’t figure it out, talk to your neighbors or a TA or a lab assistant.</p>
+
+<h3 id="recap-debugging">Recap: Debugging</h3>
+<p>By this point you should understand the following tools:</p>
+
+<ul>
+  <li>Breakpoints</li>
+  <li>Stepping over</li>
+  <li>Stepping into</li>
+  <li>Stepping out (though you might not have actually used this feature for this lab)</li>
+  <li>Conditional breakpoints</li>
+  <li>Resuming</li>
+</ul>
+
+<p>However, this is simply scratching the surface of the features of the debugger!
+Feel free to experiment. Remember that watches tab? Why not read into what that
+does? Or the evaluate expressions button (the last button on the row of step
+into/over/out buttons)? There might be a cheeky way to cheat my games if you use
+that. Or perhaps look deeper into breakpoints. I personally find conditional
+breakpoints useful from time to time. In lab 3, we will try out a couple of
+these features.</p>
+
+<h2 id="application-intlists">Application: IntLists</h2>
+
+<h3 id="introductionreview-of-intlists">Introduction/Review of IntLists</h3>
+
+<p>As discussed in Monday’s lecture, an <code class="highlighter-rouge">IntList</code> is our CS61B implementation for a
+naked recursive linked list of integers. Each <code class="highlighter-rouge">IntList</code> has a <code class="highlighter-rouge">first</code> and <code class="highlighter-rouge">rest</code> variable. The <code class="highlighter-rouge">first</code> is
+the <code class="highlighter-rouge">int</code> element contained by the node, and the <code class="highlighter-rouge">rest</code> is the next chain in the
+list (another <code class="highlighter-rouge">IntList</code>!).</p>
+
+<p>In the IntList directory for this lab, we’ve provided a much larger <code class="highlighter-rouge">IntList.java</code> than the one we created in class. It has five important new static methods, two of which you’ll fill in:</p>
+<ul>
+  <li><code class="highlighter-rouge">void dSquareList(IntList L)</code>: modifies the list so that all of its elements are squared.</li>
+  <li><code class="highlighter-rouge">IntList squareListIterative(IntList L)</code>: returns a version of the list with all elements squared, using iteration. The list is not modified.</li>
+  <li><code class="highlighter-rouge">IntList squareListRecursive(IntList L)</code>: returns a version of the list with all elements squared, using recursion. The list is not modified.</li>
+  <li><code class="highlighter-rouge">dcatenate(IntList A, IntList B)</code>: returns a list consisting of all elements of A, followed by all elements of B. May modify A. To be completed by you.</li>
+  <li><code class="highlighter-rouge">catenate(IntList A, IntList B)</code>: returns a list consisting of all elements of A, followed by all elements of B. May not modify A. To be completed by you.</li>
+</ul>
+
+<p>The class also includes additional methods that you are not supposed to read or understand. They are omitted from being described in this lab.</p>
+
+<h3 id="destructive-vs-non-destructive">Destructive vs. Non-Destructive</h3>
+
+<p>For a given piece of desired functionality, there are often many ways to write the same function. For example, consider the task of squaring every item in a list of numbers. In the provided <code class="highlighter-rouge">IntList</code> java.</p>
+
+<p>Let’s consider a method <code class="highlighter-rouge">dSquareList</code> that will “destructively” square every item
+in a list (similar to the extra problem from discussion in week 2.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">IntList</span> <span class="n">origL</span> <span class="o">=</span> <span class="n">Intlist</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+<span class="n">dSquareList</span><span class="o">(</span><span class="n">origL</span><span class="o">);</span>
+<span class="c1">// origL is now (1, 4, 9)</span>
+</code></pre></div></div>
+
+<p>By destructive, we mean that the original list changes. The term “mutative” is also sometimes used (as in discussion from week 2). By contrast a non-destructive method like <code class="highlighter-rouge">squareListIterative</code> does not affect the original list, e.g.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">IntList</span> <span class="n">origL</span> <span class="o">=</span> <span class="n">Intlist</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+<span class="n">IntList</span> <span class="n">squaredList</span> <span class="o">=</span> <span class="n">squareListIterative</span><span class="o">(</span><span class="n">origL</span><span class="o">);</span>
+<span class="c1">// origL is still (1, 2, 3)</span>
+<span class="c1">// squaredList is (1, 4, 9)</span>
+</code></pre></div></div>
+
+<h4 id="dsquarelist-implementation">dSquareList Implementation</h4>
+
+<p>Here is one possible implementation of <code class="highlighter-rouge">dSquareList()</code>, along with a call to <code class="highlighter-rouge">dSquareList</code>:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">dSquareList</span><span class="o">(</span><span class="n">IntList</span> <span class="n">L</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">L</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">L</span><span class="o">.</span><span class="na">first</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="na">first</span> <span class="o">*</span> <span class="n">L</span><span class="o">.</span><span class="na">first</span><span class="o">;</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="na">rest</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="n">IntList</span> <span class="n">origL</span> <span class="o">=</span> <span class="n">Intlist</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+<span class="n">dSquareList</span><span class="o">(</span><span class="n">origL</span><span class="o">);</span>
+<span class="c1">// origL is now (1, 4, 9)</span>
+</code></pre></div></div>
+
+<p>The reason that <code class="highlighter-rouge">dSquareList</code> is destructive is because we change the values of
+the <strong>original input <code class="highlighter-rouge">IntList</code></strong>. As we go along, we square each value, and the
+action of changing the internal data persists.</p>
+
+<p>It is also important to observe that the bits in the <code class="highlighter-rouge">origL</code> box do not change, i.e. the variable still points to exactly the same object in memory when <code class="highlighter-rouge">dSquareList</code> completes.</p>
+
+<p>To ensure that these ideas all make sense, set a breakpoint in <code class="highlighter-rouge">dSquareList</code> and run the <code class="highlighter-rouge">IntListTest</code> class. <strong>Use the Java Visualizer</strong> (provided as part of the 61B plugin) <strong>to visualize the IntList</strong>. The visualizer is an icon of a blue cup with glasses, and is below the resume button. See the <a href="../../guides/plugin.html#using-the-plugin">61B plugin guide</a> if you can’t figure out how to get the visualizer to show.</p>
+
+<p>If you don’t understand how the <code class="highlighter-rouge">dSquareList</code> method works, ask a TA or lab assistant for help. They are here to help you! Pointers
+and IntLists might seem confusing at first, but it’s important that you
+understand these concepts!</p>
+
+<p>NOTE: The choice to return void rather than a pointer to <code class="highlighter-rouge">L</code> was an
+arbitrary decision. Different languages and libraries use different conventions
+(and people get quite grumpy about which is the “right” one).</p>
+
+<h4 id="non-destructive-squaring">Non-destructive Squaring</h4>
+
+<p>The provided <code class="highlighter-rouge">squareListIterative()</code> and <code class="highlighter-rouge">squareListRecursive()</code> methods 
+are both <em>non-destructive</em>. That is, the underlying <code class="highlighter-rouge">IntList</code> passed into the
+methods does <strong>not</strong> get modified, and instead a fresh new copy is modified and
+returned.</p>
+
+<p>Look at <code class="highlighter-rouge">squareListIterative</code> and <code class="highlighter-rouge">squareListRecursive</code>. Ideally, you should spend some time trying to really understand them, including possibly using the visualizer. However, if you don’t have time this iterative version is much messier.</p>
+
+<p>The iterative version of a non-destructive
+method is often (but not always) quite a bit messier than the recursive version, since it takes
+some careful pointer action to create a new <code class="highlighter-rouge">IntList</code>, build it up, and return
+it.</p>
+
+<h4 id="test-code">Test Code</h4>
+
+<p>Optionally, look at the test method <code class="highlighter-rouge">testDSquareList</code> in <code class="highlighter-rouge">IntListTest.java</code>. This gives you a feeling for how tests will be written in this course moving forwards, and we’ll be requiring you to write tests starting in next week’s lab. You might also find them handy when writing your project 1A next week.</p>
+
+<p>One major difference that the tests rely upon is that we’ve added a method to our <code class="highlighter-rouge">IntList</code> class called <code class="highlighter-rouge">of</code> that makes it easier to create
+IntLists. For example, to create an <code class="highlighter-rouge">IntList</code> containing the numbers 0, 1, 2,
+and 3, we could use the method as follows:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">IntList</span> <span class="n">myList</span> <span class="o">=</span> <span class="n">IntList</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+<span class="c1">// Creates the IntList 0 -&gt; 1 -&gt; 2 -&gt; 3 -&gt; null</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="highlighter-rouge">myList.first</code> returns 0</li>
+  <li><code class="highlighter-rouge">myList.rest</code> returns 1 -&gt; 2 -&gt; 3 -&gt; null</li>
+  <li><code class="highlighter-rouge">myList.rest.rest.rest</code> returns 3 -&gt; null</li>
+  <li><code class="highlighter-rouge">myList.rest.rest.rest.rest</code> returns null</li>
+  <li>Pop quiz: what happens for <code class="highlighter-rouge">myList.rest.rest.rest.rest.rest</code>? (Hint: it
+doesn’t successfully return something)</li>
+</ul>
+
+<p>Observe that the <code class="highlighter-rouge">IntList.of()</code> method makes it much easier to create IntLists
+compared to the brute force approach.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">IntList</span> <span class="n">myList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntList</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+<span class="n">myList</span><span class="o">.</span><span class="na">rest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+<span class="n">myList</span><span class="o">.</span><span class="na">rest</span><span class="o">.</span><span class="na">rest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntList</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+<span class="n">myList</span><span class="o">.</span><span class="na">rest</span><span class="o">.</span><span class="na">rest</span><span class="o">.</span><span class="na">rest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntList</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+<span class="c1">// One line of using IntList.of() can do the job of four lines!</span>
+</code></pre></div></div>
+
+<h3 id="implementing-destructive-vs-non-destructive-methods">Implementing Destructive vs. Non-destructive Methods</h3>
+
+<p>To complete the lab, you should write methods <code class="highlighter-rouge">dcatenate</code> and <code class="highlighter-rouge">catenate</code> as described below. You may find the squaring methods from above to be useful as you write your code.</p>
+
+<p>Both methods take in two IntLists, and concatenate them together. So
+<code class="highlighter-rouge">catenate(IntList A, IntList B)</code> and <code class="highlighter-rouge">dcatenate(IntList A, IntList B)</code> both
+result in an <code class="highlighter-rouge">IntList</code> which contains the elements of <code class="highlighter-rouge">A</code> followed by the
+elements of <code class="highlighter-rouge">B</code>.</p>
+
+<p>The only difference between these two methods is that <code class="highlighter-rouge">dcatenate</code> modifies the
+original <code class="highlighter-rouge">IntList A</code> (i.e. it’s destructive) and <code class="highlighter-rouge">catenate</code> does not.</p>
+
+<p>To complete the lab:</p>
+
+<ul>
+  <li>Fill in one of <code class="highlighter-rouge">dcatenate()</code> or <code class="highlighter-rouge">catenate()</code>, and run them against our
+tests. Revise your code until it passes our tests.</li>
+  <li>Repeat for the method you haven’t yet completed. (We recommend you do one
+first and finish it before you start the next, because then you’ll be able to
+take advantage of the similar logic).</li>
+</ul>
+
+<p><code class="highlighter-rouge">IntList</code> problems can be tricky to think about, and there are always several
+approaches which can work. Don’t be afraid to pull out pen and paper or go to
+the whiteboard and work out some examples! If you get stuck, drawing out the
+pointers can probably stimulate you back onto the path of progress. And, as
+always, the debugger is a great option!</p>
+
+<p>Feel free to use either recursion or iteration. For extra practice, try both!</p>
+
+<p>It’s also often useful to first think about base cases (when <code class="highlighter-rouge">A</code> is <code class="highlighter-rouge">null</code>, for
+example) - this works especially well for building up a recursive solution. In
+other words, write up a solution that would work for the base case, then stop
+and think about how to expand this solution into something that works for other
+bigger cases.</p>
+
+<h3 id="complete-and-submit-lab-2">Complete and Submit Lab 2</h3>
+<p>To complete this lab, you will submit IntList.java. Follow the <a href="../lab1/lab1-2.html#e-complete-and-submit-lab-1">submission
+instructions</a> at the bottom of
+Lab 1.</p>
+
+<h2 id="full-recap">Full Recap</h2>
+<p>In this lab, we went over:</p>
+
+<ul>
+  <li>Stepping into, over, and out inside the IntelliJ debugger (this will be handy
+for projects!)</li>
+  <li>Non-destructive vs. destructive methods</li>
+  <li>IntLists and pointers</li>
+  <li>Writing <code class="highlighter-rouge">IntList</code> methods destructively, non-destructively, recursively, and
+iteratively</li>
+</ul>
+
+<h2 id="faq-and-common-issues">FAQ and Common Issues</h2>
+
+<h3 id="things-like-string-or-stringequals-are-red">Things like String or String.equals() are red!</h3>
+<p>This is a JDK issue, go to File &gt; Project Structure &gt; Project &gt; Project SDK to
+troubleshoot. If your Java version is 9.0, then you should have a 9.0 SDK and a
+Level 9 language level.</p>
+
+<h3 id="things-like-test-are-red">Things like @Test are red!</h3>
+<p>You forgot to add your libraries. You have to add your libraries <strong>every time</strong>
+you start a new project!</p>
+
+<h3 id="console-button-isnt-showing-up">Console button isn’t showing up!</h3>
+<p>That’s because you didn’t compile successfully. Usually, it’s because you did not
+add your libraries.</p>
+
+<h3 id="java-files-have-a-red-circle-with-a-j-inside-the-circle-next-to-the-file-icon">Java files have a red circle, with a J inside the circle, next to the file icon</h3>
+<p>Right-click the folder containing that Java file &gt; Mark as &gt; Sources Root.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab2/lab2 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:11 GMT -->
+</html>

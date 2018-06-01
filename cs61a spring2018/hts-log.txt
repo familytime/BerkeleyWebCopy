@@ -1,0 +1,30 @@
+HTTrack3.49-1+htsswf+htsjava launched on Wed, 16 May 2018 19:29:57 at https://cs61a.org +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(winhttrack -qwC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2A25000%f#f -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2014], %s -->" -%l "en, *" https://cs61a.org -O1 "C:\Users\yzkti\Desktop\cs61a spring2018" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+19:38:44	Error: 	"Not Found" (404) at link https://cs61a.org/HEAD (from https://cs61a.org/)
+19:38:46	Error: 	"Not Found" (404) at link https://cs61a.org/derrickxzy.github.io (from https://cs61a.org/staff.html)
+19:38:56	Error: 	"Not Found" (404) at link https://cs61a.org/assets/pdfs/61a-final-study-guide.pdf (from https://cs61a.org/exams/final.html)
+19:38:56	Error: 	"Not Found" (404) at link https://cs61a.org/exams/cs61a@berkeley.edu (from https://cs61a.org/exams/final.html)
+19:40:26	Error: 	"Not Found" (404) at link https://cs61a.org/hw/sol-hw01/hw01.zip (from https://cs61a.org/hw/sol-hw01/)
+19:40:26	Error: 	"Not Found" (404) at link https://cs61a.org/hw/sol-hw02/hw02.zip (from https://cs61a.org/hw/sol-hw02/)
+19:40:26	Error: 	"Not Found" (404) at link https://cs61a.org/hw/sol-hw03/hw03.zip (from https://cs61a.org/hw/sol-hw03/)
+19:40:26	Error: 	"Not Found" (404) at link https://cs61a.org/hw/sol-hw04/hw04.zip (from https://cs61a.org/hw/sol-hw04/)
+19:40:26	Error: 	"Not Found" (404) at link https://cs61a.org/hw/sol-hw05/hw05.zip (from https://cs61a.org/hw/sol-hw05/)
+19:42:33	Error: 	"Not Found" (404) at link https://cs61a.org/hw/sol-hw06/hw06.zip (from https://cs61a.org/hw/sol-hw06/)
+19:42:33	Error: 	"Not Found" (404) at link https://cs61a.org/hw/sol-hw07/hw07.zip (from https://cs61a.org/hw/sol-hw07/)
+19:42:33	Error: 	"Not Found" (404) at link https://cs61a.org/hw/sol-hw08/hw08.zip (from https://cs61a.org/hw/sol-hw08/)
+19:42:33	Error: 	"Not Found" (404) at link https://cs61a.org/hw/sol-hw09/hw09.zip (from https://cs61a.org/hw/sol-hw09/)
+19:42:33	Error: 	"Not Found" (404) at link https://cs61a.org/hw/sol-hw10/hw10.zip (from https://cs61a.org/hw/sol-hw10/)
+19:42:33	Error: 	"Not Found" (404) at link https://cs61a.org/hw/sol-hw11/hw11.zip (from https://cs61a.org/hw/sol-hw11/)
+19:42:33	Error: 	"Not Found" (404) at link https://cs61a.org/hw/sol-hw12/hw12.zip (from https://cs61a.org/hw/sol-hw12/)
+19:42:33	Error: 	"Not Found" (404) at link https://cs61a.org/lab00/ (from https://cs61a.org/articles/atom.html)
+19:42:33	Warning: 	Retry after error -4 (Incorrect length (1804541 Bytes, 2374231 expected)) at link sachachua.com/blog/wp-content/uploads/2013/05/How-to-Learn-Emacs-v2-Large.png (from https://cs61a.org/articles/emacs.html)
+19:42:33	Warning: 	Retry after error -4 (Incorrect length (1276303 Bytes, 1696025 expected)) at link sachachua.com/blog/wp-content/uploads/2013/08/20130830-Emacs-Newbie-How-to-Learn-Emacs-Keyboard-Shortcuts.png (from https://cs61a.org/articles/emacs.html)
+
+HTTrack Website Copier/3.49-1 mirror complete in 13 minutes 18 seconds : 736 links scanned, 716 files written (208562743 bytes overall) [182175902 bytes received at 228290 bytes/sec], 38791871 bytes transferred using HTTP compression in 227 files, ratio 31%, 1.0 requests per connection
+(17 errors, 2 warnings, 0 messages)

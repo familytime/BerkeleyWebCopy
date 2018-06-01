@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec6/lec6 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lists4 Study Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lists4 Study Guide</header><div class="due-date">Author: Wayne Li</div><ul id="markdown-toc">
+  <li><a href="#lecture-code" id="markdown-toc-lecture-code">Lecture Code</a></li>
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#exercises" id="markdown-toc-exercises">Exercises</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C Level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B Level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="lecture-code">Lecture Code</h2>
+
+<p>Code from this lecture available at</p>
+
+<p><a href="https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/lists4">https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/lists4</a>.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Lists vs. Arrays</strong> Our <code class="highlighter-rouge">DLList</code> has a drawback. Getting the ith item is slow;
+we have to scan through each item in the list, starting from the beginning or
+the end, until we reach the ith item. For an array named <code class="highlighter-rouge">A</code>, however, we can
+quickly access the ith item using bracket notation, <code class="highlighter-rouge">A[i]</code>. Thus, our goal is
+to implement a list with an array.</p>
+
+<p><strong>AList</strong> The <code class="highlighter-rouge">AList</code> will have the same API has our <code class="highlighter-rouge">DLList</code>, meaning it will
+have the same methods as <code class="highlighter-rouge">DLList</code> (<code class="highlighter-rouge">addLast()</code>, <code class="highlighter-rouge">getLast()</code>, <code class="highlighter-rouge">removeLast()</code>,
+and <code class="highlighter-rouge">get(int i)</code>). The <code class="highlighter-rouge">AList</code> will also have a <code class="highlighter-rouge">size</code> variable that tracks its
+size.</p>
+
+<p><strong>AList Invariants</strong> There are a few invariants for our <code class="highlighter-rouge">AList</code>.</p>
+<ul>
+  <li><code class="highlighter-rouge">addLast</code>: The next item we want to add, will go into position <code class="highlighter-rouge">size</code>.</li>
+  <li><code class="highlighter-rouge">getLast</code>: The item we want to return is in position <code class="highlighter-rouge">size - 1</code>.</li>
+  <li><code class="highlighter-rouge">size</code>: The number of items in the list should be <code class="highlighter-rouge">size</code>.</li>
+</ul>
+
+<p><strong>Implementing AList</strong> Each <code class="highlighter-rouge">AList</code> has an <code class="highlighter-rouge">int[]</code> called <code class="highlighter-rouge">items</code>.</p>
+<ul>
+  <li>For <code class="highlighter-rouge">addLast</code>, we place our item in <code class="highlighter-rouge">items[size]</code>.</li>
+  <li>For <code class="highlighter-rouge">getLast</code>, we simply return <code class="highlighter-rouge">items[size - 1]</code>.</li>
+  <li>For <code class="highlighter-rouge">removeLast</code>, we simply decrement <code class="highlighter-rouge">size</code> (we don’t need to change <code class="highlighter-rouge">items</code>).
+Thus, if <code class="highlighter-rouge">addLast</code> is called next, it simply overwrites the old value, because
+size was decremented. <strong>However, it is good practice to null out objects when
+they are removed, as this will save memory.</strong>
+Notice how closely these methods were related to the invariants.</li>
+</ul>
+
+<p><strong>Abstraction</strong> One key idea of this course is that the implementation details
+can be hidden away from the users. For example, a user may want to use a list,
+but we, as implementers, can give them any implementation of a list, as long
+as it meets their specifications. A user should have no knowledge of the inner
+workings of our list.</p>
+
+<p><strong>Array Resizing</strong> When the array gets too full, we can resize the array. However,
+we have learned that array size cannot change. The solution is, instead, to create
+a new array of a larger size, then copy our old array values to the new array.
+Now, we have all of our old values, but we have more space to add items.</p>
+
+<p><strong>Resizing Speed</strong> In the lecture video, we started off resizing the array by one
+more each time we hit our array size limit. This turns out to be extremely slow,
+because copying the array over to the new array means we have to perform the copy
+operation for each item. The worst part is, since we only resized by one extra box,
+if we choose to add another item, we have to do this again each time we add to the
+array.</p>
+
+<p><strong>Improving Resize Performance</strong> Instead of adding by an extra box, we can instead
+create a new array with <code class="highlighter-rouge">size * FACTOR</code> items, where <code class="highlighter-rouge">FACTOR</code> could be any number,
+like 2 for example. We will discuss why this is fast later in the course.</p>
+
+<p><strong>Downsizing Array Size</strong> What happens if we have a 1 million length array, but
+we remove 990,000 elements of the array? Well, similarly, we can downsize our
+array by creating an array of half the size, if we reach 250,000 elements, for
+example. Again, we will discuss this more rigorously later in the course.</p>
+
+<p><strong>Aside: Breaking Code Up</strong> Sometimes, we write large methods that do multiple
+things. A better way is to break our large methods up into many smaller methods.
+One advantage of this is that we can test our code in parts.</p>
+
+<p><strong>Generic AList</strong> Last time, we discussed how to make a generic <code class="highlighter-rouge">DLList</code>. We can
+do something similar for <code class="highlighter-rouge">AList</code>. But we find that we error out on array creation.
+Our problem is that generic arrays are not allowed in Java. Instead, we will
+change the line:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>items = new Item[100];
+</code></pre></div></div>
+
+<p>to:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>items = (Item[]) new Object[100];
+</code></pre></div></div>
+
+<p>This is called a cast, and we will learn about it in the future.</p>
+
+<h2 id="exercises">Exercises</h2>
+
+<h3 id="c-level">C Level</h3>
+
+<ol>
+  <li>Complete the exercises from the online textbook
+<a href="https://joshhug.gitbooks.io/hug61b/content/chap2/chap25.html">here</a>.</li>
+</ol>
+
+<h3 id="b-level">B Level</h3>
+
+<ol>
+  <li>
+    <p>We did not touch upon the method <code class="highlighter-rouge">addFirst</code> for an <code class="highlighter-rouge">AList</code>. Think of some of
+the problems you would experience in writing an <code class="highlighter-rouge">addFirst</code> method, and think
+of some potential solutions. If you think you’ve got a good one, write it out.</p>
+  </li>
+  <li>
+    <p>Do the bonus question from this <a href="https://docs.google.com/presentation/d/14i5toLPeke_oREN5SIp2pQMvnU06XQvMjUK2IC-akbw/edit#slide=id.g1c42a46f23_4_396">slide</a></p>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec6/lec6 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:15 GMT -->
+</html>

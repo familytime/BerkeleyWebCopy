@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/proj/proj2/proj2checkoff by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:21:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Project 2 Lab Demo Checkoff Script | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Project 2 Lab Demo Checkoff Script</header><p><strong>Before starting the checkoff, the student should have Intellij open with their project code</strong></p>
+
+<ul>
+  <li>The Instructor will first check that the code open in Intellij is opened from their local repo.</li>
+  <li>Then the Instructor will check the local Git history to see if it matches the Github history, and to make sure the latest commit is before the due date.
+    <ul>
+      <li>The due date is the same as the due date for Phase 2 on Gradescope</li>
+      <li>If the commit date is late, the student receives a 50% point deduction on the lab demo checkoff grade.</li>
+    </ul>
+  </li>
+  <li>Each requirement can either be evaluated as full points, half points, or zero points</li>
+</ul>
+
+<h3 id="basic-game-functionality-39-points-total">Basic Game Functionality (39 points total)</h3>
+
+<ul>
+  <li>The Instructor will ask the student to run their project and will check for the following features
+    <ul>
+      <li>Game has a main menu screen with a New Game, Load, and Quit option (1 point)</li>
+      <li>The Instructor should hit “n” and check that the game prompts for a seed (1 point)</li>
+      <li>The Instructor should type in a few random numbers and hit “s” which should immediately start the game (2 points)</li>
+    </ul>
+  </li>
+  <li>At this point the game should be running and there should be a visible world
+    <ul>
+      <li>World has visually distinct walls and floors (2 points)</li>
+      <li>World has hallways which are 1 or 2 tiles wide with at least 1 containing a turn in it (3 points)</li>
+      <li>World has some number of rooms that are connected via hallways (6 points)</li>
+    </ul>
+  </li>
+  <li>The Instructor will now try the basic commands that should be available during gameplay
+    <ul>
+      <li>Instructor should hit WASD randomly and check the player movement is consistent with the key pressed (2 points)</li>
+      <li>Instructor should hover 3 different tiles and make sure their names show up somewhere on screen and the names make sense (5 points)</li>
+      <li>Instructor should move into a wall and make sure the player stops at the wall instead of moving into it (2 points)</li>
+      <li>Instructor should type “:q” which should quit the game and close the program. Instructor should remember world layout at this point (2 points)</li>
+    </ul>
+  </li>
+  <li>The program is now closed and we will test the load feature
+    <ul>
+      <li>Student should run the game again after it has been closed and the main menu should appear</li>
+      <li>Instructor should hit “l” and the game should immediately start (2 points)</li>
+      <li>Instructor should check that the world layout is exactly as it was before closing the game (6 points)</li>
+      <li>Instructor will run through the basic commands again (listed above) to make sure the game still works (5 points)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="randomness-21-points-total">Randomness (21 points total)</h3>
+
+<ul>
+  <li>The Instructor should close the game again and will begin testing to see if worlds are randomly generated.</li>
+  <li>The student should explain to the Instructor where they are making use of randomness and make mention of any pieces of their world which is consistent across all seeds
+    <ul>
+      <li>Instructor should check that the use of randomness does not lead to a severe limitation on the variety of worlds (ie. randomly choosing a world layout from a finite set of worlds)</li>
+    </ul>
+  </li>
+  <li>The Instructor should open the game 3-5 times, making sure to use a different seed each time
+    <ul>
+      <li>The Instructor will be looking for your game’s ability to generate variety in both world structure and player experience while exploring that world. What this means is when two different seeds are used to generate new games, these games should not feel identical (or close to identical).</li>
+    </ul>
+  </li>
+  <li>The grading breakdown is as follows:
+    <ul>
+      <li>21 points: The worlds are mainly randomly, as described by the above section.</li>
+      <li>10.5 points: The world exhibits a few random elements, but generally looks the same</li>
+      <li>0 points: The world contains no random elements.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="ambition-points-20-points-max">Ambition Points (20 points max)</h3>
+<ul>
+  <li>The student should state and demonstrate the features that are in the Ambition category
+    <ul>
+      <li>In the space below, the Instructor should write in the features the student successfully demonstrated and their point values based on the spec</li>
+      <li>The list of possible ambition points can be found <a href="proj2.html#ambition-score">here</a></li>
+    </ul>
+  </li>
+</ul>
+
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/proj/proj2/proj2checkoff by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:21:22 GMT -->
+</html>

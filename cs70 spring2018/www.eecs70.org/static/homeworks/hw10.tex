@@ -1,0 +1,80 @@
+
+\Question{Fundamentals}
+True or false?
+For the following statements, provide either a proof or a simple counterexample.
+Let $X, Y, Z$ be arbitrary random variables.
+\begin{Parts}
+        \Part If $(X, Y)$ are independent and $(Y, Z)$ are independent, then
+        $(X, Z)$ are independent.
+
+        \Part If $(X, Y)$ are dependent and $(Y, Z)$ are dependent, then
+        $(X, Z)$ are dependent.
+
+        
+        \Part Assume $X$ is discrete.
+        If $\Var{X} = 0$, then $X$ is a constant.
+
+        \Part $\E[X]^4 \leq \E[X^4]$
+\end{Parts}
+
+\Question{Balls and Bins}
+
+Throw $n$ balls into $m$ bins, where $m$ and $n$ are positive integers. Let $X$ be the number of bins with exactly one ball. Compute $\var X$.
+
+
+\Question{Proof with Indicators}
+
+Let $n \in \Z_+$.
+Let $\alpha_1, \dotsc, \alpha_n \in \R$ and let $A_1, \dotsc, A_n$ be events.
+Prove that $\sum_{i=1}^n \sum_{j=1}^n \alpha_i \alpha_j \Pr(A_i \cap A_j) \ge 0$. Note that $\alpha_i$ can be less than $0$.
+\nosolspace{5cm}
+
+
+\Question{Boutique Store}
+
+\begin{Parts}
+    \Part Consider a boutique store in a busy shopping mall. Every hour, a large number of people visit the mall, and each independently enters the boutique store with some small probability. The store owner decides to model $X$, the number of customers that enter her store during a particular hour, as a Poisson random variable with mean $\lambda$.
+    Suppose that whenever a customer enters the boutique store, they leave the shop without buying anything with probability $p$. Assume that customers act independently, i.e.~you can assume that they each simply flip a biased coin to decide whether to buy anything at all. Let us denote the number of customers that buy something as $Y$ and the number of them that do not buy anything as $Z$ (so $X = Y+Z$). 
+    What is the probability that $Y=k$ for a given $k$? How about $\Pr[Z=k]$? Prove that $Y$ and $Z$ are Poisson random variables themselves.
+
+    \textit{Hint}: You can use the identity
+    \begin{align*}
+        \e^x=\sum_{k=0}^{\infty}\frac{x^k}{k!}.
+    \end{align*}
+
+    \Part Prove that $Y$ and $Z$ are independent.
+\end{Parts}
+
+
+\Question{Ordering Random Variables}
+
+Here we will investigate the properties of \textit{ordered collections} of identically distributed (not identical!) random variables. The techniques in this problem can be applied to any kind of distribution, but here we will consider a specific case. Let $X_1, X_2, \ldots, X_n$ be $\mathrm{iid}$ geometric with parameter $p$. 
+\begin{Parts}
+    \Part Find $\Pr[X_i > k]$ and $\Pr[X_i < k]$ for all $i$ and $k$ 
+
+    \Part Let $X_{(1)}, X_{(2)}, \ldots X_{(n)}$ be the random variables corresponding to the \textit{ordered} collection from above. In other words, consider the set of random variables $S = \{ X_i \mid 1 \leq i \leq n\}$, and let $X_{(j)}$ be the $j$th smallest element in that set. 
+    
+    What is $X_{(1)}$, as a function of $X_1 \ldots X_n$? (We're just looking to see that you understand the definition. No work necessary)
+    
+    \Part Find $\Pr[X_{(1)} \leq k]$.
+    \Part Find $\Pr[X_{(i)} \leq k]$. 
+
+    Hint: There are no tricks to simplify it, like the last case. You will end up with a sum. First try to translate ``$X_{(i)} \leq k$" into a statement about all of $X_{(1)}$ through $X_{(n)}$ (what do we know about each if $X_{(i)} \leq k$?). Then relate this statement to events involving $X_1, \ldots X_n$. 
+    
+    \Part Calculate $\Pr[X_{(1)} = k_1, X_{(2)} = k_2, \ldots, X_{(n)} = k_n]$ using symmetry arguments, assuming all the $k_i$ are distinct. That is, assume $k_1 \neq k_2 \cdots \neq k_n$.
+
+    \Part The probabilities in the previous part are associated with the \textit{joint distribution} of $X_{(1)}, X_{(2)}, \ldots, X_{(n)}$. If we want to completely specify the joint distribution, we cannot limit ourselves to only cases where the $k_i$ are distinct. 
+
+    How would you modify your calculation to account for the possibility that not all the $k_i$ are distinct? Either an explanation in words or an explicit calculation is fine.
+    
+\end{Parts}
+
+\Question{Geometric and Poisson}
+Let $X$ be geometric with parameter $p$, $Y$ be Poisson with parameter $\lambda$, and $Z=\max(X,Y)$. For each of the following parts, your final answers should not have summations.
+
+\begin{Parts}
+    \Part Compute $P(X>Y)$.
+    \Part Compute $P(Z\geq X)$.
+    \Part Compute $P(Z\leq Y)$.
+\end{Parts}
+

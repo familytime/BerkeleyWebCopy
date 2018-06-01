@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab9/lab9 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lab 9: Tree Maps vs. Hash Maps | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lab 9: Tree Maps vs. Hash Maps</header><ul id="markdown-toc">
+  <li><a href="#1-bstmap" id="markdown-toc-1-bstmap">1: BSTMap</a></li>
+  <li><a href="#2-myhashmap" id="markdown-toc-2-myhashmap">2: MyHashMap</a></li>
+  <li><a href="#3-ta-overview" id="markdown-toc-3-ta-overview">3: TA Overview</a></li>
+</ul>
+
+<p>In this lab, you’ll create <strong>BSTMap</strong>, a BST-based implementation of the Map61B interface, which represents a basic map. Then, you’ll create <strong>MyHashMap</strong>, another implementation of the Map61B interface, which instead represents a Hash Map rather than a Tree Map. This lab is pretty long, so it’s unlikely you’ll finish in the allotted time. Don’t worry, though, the autograder is friendly, and you shouldn’t stress about completing every last part, though doing so is great midterm practice.</p>
+
+<h1 id="1-bstmap">1: BSTMap</h1>
+
+<p>The skeleton provides a <strong>BSTMap</strong> that implements the <strong>Map61B</strong> interface using a BST (Binary Search Tree) as its core data structure in a file named <code class="highlighter-rouge">BSTMap.java</code>. We provide instance variables, a constructor, and a <code class="highlighter-rouge">clear</code> method. Your goal is to implement <code class="highlighter-rouge">get</code>, <code class="highlighter-rouge">put</code>, and <code class="highlighter-rouge">size</code>. Other methods such as <code class="highlighter-rouge">remove</code>, <code class="highlighter-rouge">keySet</code>, and <code class="highlighter-rouge">iterator</code> are optional for this lab, and by default should throw an <code class="highlighter-rouge">UnsupportedOperationException</code> unless you choose to implement them.</p>
+
+<p>For <code class="highlighter-rouge">get</code> and <code class="highlighter-rouge">put</code>, you may find it useful to use the <code class="highlighter-rouge">putHelper</code> and <code class="highlighter-rouge">getHelper</code> helper methods we’ve provided you in the skeleton. We recommend that you work on methods in the order they appear int he file.</p>
+
+<p>Note that the BSTMap class is declared such that the generic keys extend <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html">Comparable&lt;K&gt;</a>, so you should use the <code class="highlighter-rouge">compareTo</code> method found in the <code class="highlighter-rouge">Comparable</code> interface to compare keys.</p>
+
+<p>The following resources might prove useful:</p>
+
+<ul>
+  <li>BST code from <a href="http://algs4.cs.princeton.edu/32bst/BST.java.html">our optional textbook</a>.</li>
+  <li>Pages 396-405 from our optional Algorithms textbook.</li>
+  <li><code class="highlighter-rouge">ULLMap.java</code> (provided), a working unordered linked list based <strong>Map61B</strong> implementation.</li>
+  <li>Lecture 21 <a href="https://docs.google.com/presentation/d/1rEHpAx8Xu2LnJBWsRPWy8blL20qb96Q5UhdZtQYFkBI/edit#slide=id.g8dd5cb732_01550">slides</a>.</li>
+  <li>BST code from pages 109 and 111 of <a href="http://www-inst.eecs.berkeley.edu/~cs61b/fa14/book2/data-structures.pdf">Data Structures Into Java</a>, from our course references page.</li>
+</ul>
+
+<p>You can test your implementation using the <code class="highlighter-rouge">TestBSTMap</code> class in the <code class="highlighter-rouge">lab9tester</code> package. If you fail tests, we recommend creating a very short main method and using the visualizer, e.g.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">BSTMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">bstmap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BSTMap</span><span class="o">&lt;&gt;();</span>
+        <span class="n">bstmap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"hello"</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+        <span class="n">bstmap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"cat"</span><span class="o">,</span> <span class="mi">10</span><span class="o">);</span>
+        <span class="n">bstmap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"fish"</span><span class="o">,</span> <span class="mi">22</span><span class="o">);</span>
+        <span class="n">bstmap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"zebra"</span><span class="o">,</span> <span class="mi">90</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h1 id="2-myhashmap">2: MyHashMap</h1>
+
+<p>The skeleton provides a <strong>MyHashMap</strong> that implements the <strong>Map61B</strong> interface in a file named <code class="highlighter-rouge">MyHashMap.java</code>. Your implementation is required to implement <code class="highlighter-rouge">get</code>, <code class="highlighter-rouge">put</code>, and <code class="highlighter-rouge">size</code>. Other methods such as <code class="highlighter-rouge">remove</code>, <code class="highlighter-rouge">keySet</code>, and <code class="highlighter-rouge">iterator</code> are optional for this lab, and by default should throw an <code class="highlighter-rouge">UnsupportedOperationException</code> unless you choose to implement them. We’ve provided instance variables for you.</p>
+
+<p>We provide the following constructors:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nf">MyHashMap</span><span class="o">();</span>
+<span class="kd">public</span> <span class="nf">MyHashMap</span><span class="o">(</span><span class="kt">int</span> <span class="n">initialSize</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>We also provide the <code class="highlighter-rouge">clear</code> method and a private <code class="highlighter-rouge">hash</code> method that computes the hash function of a key.</p>
+
+<p>Unlike lecture (where each bucket was represented as a naked recursive linked list), each bucket in this lab is implemented as an <code class="highlighter-rouge">ArrayMap</code>, similar to what we developed in <a href="https://docs.google.com/presentation/d/1ErQkzJ33ojYtvji8q9mdqKhU7JqvqNreqZL4LH8J5uI/edit#slide=id.g119f90db17_5_11">lecture 13</a>. Because our bucket class is so powerful, your <code class="highlighter-rouge">get</code> and <code class="highlighter-rouge">put</code> methods will be very short (our <code class="highlighter-rouge">get</code> method is only 2 lines, and our <code class="highlighter-rouge">put</code> method isn’t many more).</p>
+
+<p>While using such a sophisticated bucket class seems like cheating, it’s not. Delegating work to a helper class is a very important way to manage complexity, and there’s really no reason that the <code class="highlighter-rouge">MyHashMap</code> class should be doing things like manually scanning through buckets – that’s the bucket’s job!</p>
+
+<p>Start by implementing <code class="highlighter-rouge">get</code>, <code class="highlighter-rouge">put</code>, and <code class="highlighter-rouge">size</code> with no resizing. After you’ve made figured these out, modify <code class="highlighter-rouge">put</code> so that it resizes. You should resize the array of buckets anytime the load factor exceeds <code class="highlighter-rouge">MAX_LF</code>, and you should resize multiplicatively (e.g. doubling the number of buckets) rather than arithmetically (e.g. adding 100 new buckets).</p>
+
+<p>You can test your implementation using the <code class="highlighter-rouge">TestMyHashMap</code> class in the
+<code class="highlighter-rouge">lab9tester</code> package.</p>
+
+<p>You may find the following resources useful:</p>
+
+<ul>
+  <li>Chapter 3.4 of our optional Algorithms textbook.</li>
+  <li>HashTable code code from <a href="http://algs4.cs.princeton.edu/34hash/SeparateChainingHashST.java.html">our optional
+textbook</a>.</li>
+  <li><code class="highlighter-rouge">ULLMap.java</code> (provided), a working unordered linked list based <strong>Map61B</strong>
+implementation.</li>
+  <li>Lecture 23 <a href="https://docs.google.com/presentation/d/1hRUkaONWvWP7IZbINLP-G6uOyyulDqury5kop7638co">slides</a>.</li>
+  <li>Hash table code from pages 136 and 137 of <a href="http://www-inst.eecs.berkeley.edu/~cs61b/fa14/book2/data-structures.pdf">Data Structures Into
+Java</a>,
+from our course references page.</li>
+</ul>
+
+<h1 id="3-ta-overview">3: TA Overview</h1>
+
+<p>At the end of lab, your TA will go over our solutions for <code class="highlighter-rouge">BSTMap</code> and <code class="highlighter-rouge">MyHashMap</code>.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab9/lab9 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:25 GMT -->
+</html>

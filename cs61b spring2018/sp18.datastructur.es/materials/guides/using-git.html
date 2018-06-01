@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/guides/using-git by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:21:09 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Using Git | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../assets/css/lab.css">
+    
+
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../assets/js/script.js"></script>
+    <script src="../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Using Git</header><div class="due-date">Author: Sarah Kim, with revisions by Josh Hug (mostly the narrative starter example)</div><ul id="markdown-toc">
+  <li><a href="#a-intro-to-version-control-systems" id="markdown-toc-a-intro-to-version-control-systems">A. Intro to Version Control Systems</a>    <ul>
+      <li><a href="#intro-to-git" id="markdown-toc-intro-to-git">Intro to Git</a></li>
+    </ul>
+  </li>
+  <li><a href="#b-local-repositories-narrative-introduction" id="markdown-toc-b-local-repositories-narrative-introduction">B. Local Repositories (Narrative Introduction)</a></li>
+  <li><a href="#c-local-repositories-technical-overview" id="markdown-toc-c-local-repositories-technical-overview">C. Local Repositories (Technical Overview)</a>    <ul>
+      <li><a href="#initializing-local-repositories" id="markdown-toc-initializing-local-repositories">Initializing Local Repositories</a></li>
+      <li><a href="#tracked-vs-untracked-files" id="markdown-toc-tracked-vs-untracked-files">Tracked vs. Untracked Files</a></li>
+      <li><a href="#staging--committing" id="markdown-toc-staging--committing">Staging &amp; Committing</a></li>
+      <li><a href="#undoing-changes" id="markdown-toc-undoing-changes">Undoing Changes</a></li>
+    </ul>
+  </li>
+  <li><a href="#d-remote-repositories" id="markdown-toc-d-remote-repositories">D. Remote Repositories</a></li>
+  <li><a href="#e-git-branching-advanced-git-optional" id="markdown-toc-e-git-branching-advanced-git-optional">E. Git Branching (advanced Git) (optional)</a>    <ul>
+      <li><a href="#reasons-for-branching" id="markdown-toc-reasons-for-branching">Reasons for Branching</a></li>
+      <li><a href="#an-example-scenario" id="markdown-toc-an-example-scenario">An Example Scenario</a></li>
+      <li><a href="#creating-deleting--switching-branches" id="markdown-toc-creating-deleting--switching-branches">Creating, Deleting, &amp; Switching Branches</a></li>
+      <li><a href="#merging" id="markdown-toc-merging">Merging</a></li>
+      <li><a href="#merge-conflicts" id="markdown-toc-merge-conflicts">Merge Conflicts</a></li>
+      <li><a href="#resolving-merge-conflicts" id="markdown-toc-resolving-merge-conflicts">Resolving Merge Conflicts</a></li>
+    </ul>
+  </li>
+  <li><a href="#f-other-git-features" id="markdown-toc-f-other-git-features">F. Other Git Features</a></li>
+  <li><a href="#g-remote-repositories-advanced" id="markdown-toc-g-remote-repositories-advanced">G. Remote Repositories (Advanced)</a>    <ul>
+      <li><a href="#private-vs-public-repos" id="markdown-toc-private-vs-public-repos">Private vs. Public Repos</a></li>
+      <li><a href="#adding-remotes" id="markdown-toc-adding-remotes">Adding Remotes</a></li>
+      <li><a href="#renaming-deleting--listing-remotes" id="markdown-toc-renaming-deleting--listing-remotes">Renaming, Deleting, &amp; Listing Remotes</a></li>
+      <li><a href="#cloning-a-remote" id="markdown-toc-cloning-a-remote">Cloning a Remote</a></li>
+      <li><a href="#pushing-commits" id="markdown-toc-pushing-commits">Pushing Commits</a></li>
+      <li><a href="#fetching--pulling-commits" id="markdown-toc-fetching--pulling-commits">Fetching &amp; Pulling Commits</a></li>
+    </ul>
+  </li>
+  <li><a href="#h-remote-repository-exercise" id="markdown-toc-h-remote-repository-exercise">H. Remote Repository Exercise</a></li>
+  <li><a href="#i-conclusion" id="markdown-toc-i-conclusion">I. Conclusion</a>    <ul>
+      <li><a href="#more-with-remotes" id="markdown-toc-more-with-remotes">More with Remotes</a></li>
+      <li><a href="#extra-reading" id="markdown-toc-extra-reading">Extra Reading</a></li>
+    </ul>
+  </li>
+  <li><a href="#j-advanced-git-features" id="markdown-toc-j-advanced-git-features">J. Advanced Git Features</a>    <ul>
+      <li><a href="#rebasing" id="markdown-toc-rebasing">Rebasing</a></li>
+      <li><a href="#squashing-commits" id="markdown-toc-squashing-commits">Squashing Commits</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>Preface: This guide assumes a basic understanding of the command line on your
+computer. If you’ve never used the command line, consider reading the section B (“Learn to Use the Terminal”)
+of the <a href="../lab/lab1setup/lab1setup-2.html">lab 1 setup</a>.</p>
+
+<h2 id="a-intro-to-version-control-systems">A. Intro to Version Control Systems</h2>
+
+<p><em>Version control systems</em> are tools to keep track of changes to files over time.
+Version control allows you to view or revert back to previous iterations of
+files. Some aspects of version control are actually built into commonly used
+applications. Think of the <code class="highlighter-rouge">undo</code> command or how you can see the revision
+history of a Google document.</p>
+
+<p>In the context of coding, version control systems can track the history of code
+revisions, from the current state of the code all the way back until it was
+first tracked. This allows users to reference older versions of their work and
+share code changes with other people, like fellow developers.</p>
+
+<p>Version control has become a backbone of software development and collaboration
+in industry. In this class, we will be using <a href="http://git-scm.com/">Git</a>. Git has
+excellent <a href="http://git-scm.com/documentation">documentation</a> so we highly
+encourage those who are interested to read more about what will be summarized in
+the rest of this guide.</p>
+
+<h4 id="intro-to-git">Intro to Git</h4>
+
+<p>Git it a <a href="http://en.wikipedia.org/wiki/Distributed_revision_control">distributed version control
+system</a> as opposed to
+a centralized version control system. This means that every developer’s computer
+stores the entire history (including all old versions) of the entire project!
+This is rather unlike tools like Dropbox, where old versions are stored on a
+remote server owned by someone else. We call the entire history of an entire
+project a “repository”. The fact that the repository is stored locally leads to
+our ability to use Git locally on our own computers, even without an internet
+connection.</p>
+
+<p>The lab computers already have Git installed on the command line, and the <a href="../lab/lab1setup/lab1setup-2.html">lab 1
+setup</a> guide explains how to install git on your own computer.
+In addition to the text based interface that we’ll learning to use in this
+guide, there is also a <a href="http://git-scm.com/downloads/guis">Git GUI (Graphical User
+Interface)</a>. We will not officially upport
+usage of the graphical GUI.</p>
+
+<h2 id="b-local-repositories-narrative-introduction">B. Local Repositories (Narrative Introduction)</h2>
+
+<p>Let’s go through a narrative example of how we might use git. We’ll be using
+lots of unfamiliar terms and ideas in this story. For a video version of this
+narrative example, see <a href="https://www.youtube.com/watch?v=KoPxeLqWRTY">this video</a>.</p>
+
+<p>Suppose we want to store recipes of various kinds on our computer, and also want
+to keep track of the history of these recipes as we change them. We might start
+by creating directories for both seitan and tofu recipes, then creating each
+recipe using sublime (invoked using the subl command on my computer).</p>
+
+<p>We’re assuming that you’re just reading this, rather than trying the commands
+out yourself. If you’d like to follow along by typing everything out, you’ll
+need to use a text editor installed on your computer instead of <code class="highlighter-rouge">subl</code>.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">cd</span> /users/sandra
+<span class="nv">$ </span>mkdir recipes
+<span class="nv">$ </span><span class="nb">cd </span>recipes
+<span class="nv">$ </span>mkdir seitan
+<span class="nv">$ </span>mkdir tofu
+<span class="nv">$ </span><span class="nb">cd </span>seitan
+<span class="nv">$ </span>subl smoky_carrot_tahini_seitan_slaw.txt
+<span class="nv">$ </span>subl boiled_seitan.txt
+<span class="nv">$ </span><span class="nb">cd</span> ../tofu
+<span class="nv">$ </span>subl kung_pao_tofu.txt
+<span class="nv">$ </span>subl basil_ginger_tofu.txt
+</code></pre></div></div>
+
+<p>Now we have four recipes, two for tofu, and two for seitan. To set up our git
+repository to store the histories of our recipes as they evolve, we’d use the
+following commands:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">cd</span> /users/sandra/recipes
+<span class="nv">$ </span>git init
+</code></pre></div></div>
+
+<p>What git init does is tells the git version control system that we want to track
+the history of the current directory, in this case “/users/sandra/recipes”.
+However, at this point <em>NOTHING IS STORED IN THE REPOSITORY</em>. It’s like we’ve
+purchased a safe, but we haven’t put anything in it yet.</p>
+
+<p>To store everything in the repository, we need to first add files. For example,
+we might do the following:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add ./tofu/kung_pao_tofu.txt
+</code></pre></div></div>
+
+<p>Now here’s where git is going to start seeming weird. Even after calling the add
+command, we <em>still</em> haven’t stored our recipe in the repository (i.e. in the
+safe).</p>
+
+<p>Instead, what we’ve done is added <code class="highlighter-rouge">kung_pao_tofu.txt</code> to the list of files to
+track (i.e. to be added to the safe later). The idea is that you might not want
+to necessarily track every single file in the /users/sandra/recipes folder, so
+the add command tells git which ones it should be tracking. We can see the
+effect of this command by using the git status command.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git status
+</code></pre></div></div>
+
+<p>In which case, you’d see the following in response:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>On branch master
+
+Initial commit
+
+Changes to be committed:
+  <span class="o">(</span>use <span class="s2">"git rm --cached &lt;file&gt;..."</span> to unstage<span class="o">)</span>
+
+    new file:   tofu/kung_pao_tofu.txt
+
+Untracked files:
+  <span class="o">(</span>use <span class="s2">"git add &lt;file&gt;..."</span> to include <span class="k">in </span>what will be committed<span class="o">)</span>
+
+    seitan/
+    tofu/basil_ginger_tofu.txt
+</code></pre></div></div>
+
+<p>The “changes to be committed” portion of the output lists all files that are
+currently being tracked and whose changes are ready be committed (i.e. that are
+ready to be put in the safe). We also see that there are some untracked files,
+namely the seitan folder, and the <code class="highlighter-rouge">tofu/basil_ginger_tofu.txt</code> file. These are
+untracked because we have not added them using <code class="highlighter-rouge">git add</code>.</p>
+
+<p>Let’s try adding <code class="highlighter-rouge">tofu/basil_ginger_tofu.txt</code>, and check the status once more:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git add ./tofu/basil_ginger_tofu.txt
+<span class="nv">$ </span>git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  <span class="o">(</span>use <span class="s2">"git rm --cached &lt;file&gt;..."</span> to unstage<span class="o">)</span>
+
+    new file:   tofu/basil_ginger_tofu.txt
+    new file:   tofu/kung_pao_tofu.txt
+
+Untracked files:
+  <span class="o">(</span>use <span class="s2">"git add &lt;file&gt;..."</span> to include <span class="k">in </span>what will be committed<span class="o">)</span>
+
+    seitan/
+</code></pre></div></div>
+
+<p>We see that both tofu recipes are tracked, but neither seitan recipe is tracked. We will next use the <code class="highlighter-rouge">commit</code> command to stick copies of our tofu recipes into the repository
+(i.e. into the safe). To do this, we use the git commit command, as shown below:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git commit <span class="nt">-m</span> <span class="s2">"added tofu recipes"</span>
+</code></pre></div></div>
+
+<p>When executed, the commit command stores a snapshot of all added files (i.e.
+current tofu recipes) into the repository. Because we did not use <code class="highlighter-rouge">git add</code> on the seitan recipes, they were not included in the snapshot that was placed in the repository. This snapshot of our work is now safe
+forever and ever (as long as our computer’s hard drive doesn’t fail or we don’t
+damage the secret repository files).  The -m command lets us add a message to
+the commit, so we can remember what was most important about this commit.</p>
+
+<p>As another analogy, you can think of the whole process like taking a panoramic
+picture on a camera. The add command captures one portion of the image, and the
+commit command stitches all “added” items together into a single panorama and
+throws this panorama into a safe. And just as a panorama only includes things
+you point at (not the entire 360 degree circle around you), the commit command only
+ensafes those files which have been added using the add command (and not all
+files in the recipes directory).</p>
+
+<p>After using commit, you’ll note that <code class="highlighter-rouge">git status</code> no longer lists files under “changes to
+be committed.” This is similar to how after you finish taking a panoramic photo,
+all of the temporary tiny image files are thrown away. The result of <code class="highlighter-rouge">git status</code> at this point is shown below:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git status
+On branch master
+Untracked files:
+  <span class="o">(</span>use <span class="s2">"git add &lt;file&gt;..."</span> to include <span class="k">in </span>what will be committed<span class="o">)</span>
+
+    seitan/
+
+nothing added to commit but untracked files present <span class="o">(</span>use <span class="s2">"git add"</span> to track<span class="o">)</span>
+</code></pre></div></div>
+
+<p>If you go looking at the files in the tofu folder, you’ll see that the commit
+process did NOT affect the original files on our computer. This is much like how
+when you take a panoramic photo of your friends, they do not get sucked into a
+cyber hellscape inside your phone.</p>
+
+<p>We can see evidence of our snapshot by using the special <code class="highlighter-rouge">git log</code> command.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git log
+
+commit 9f955d85359fc8e4504d7220f13fad34f8f2c62b
+Author: Sandra Upson &lt;sandra@Sandras-MacBook-Air.local&gt;
+Date:   Sun Jan 17 19:06:48 2016 <span class="nt">-0800</span>
+
+    added tofu recipes
+</code></pre></div></div>
+
+<p>That giant string of characters 9f955d85359fc8e4504d7220f13fad34f8f2c62b is the
+ID of the commit. We can use the <code class="highlighter-rouge">git show</code> command to peek inside of this
+commit.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git show 9f955d85359fc8e4504d7220f13fad34f8f2c62b
+
+commit 9f955d85359fc8e4504d7220f13fad34f8f2c62b
+Author: Sandra Upson &lt;sandra@Sandras-MacBook-Air.local&gt;
+Date:   Sun Jan 17 19:06:48 2016 <span class="nt">-0800</span>
+
+    added tofu recipes
+
+diff <span class="nt">--git</span> a/tofu/basil_ginger_tofu.txt b/tofu/basil_ginger_tofu.txt
+new file mode 100644
+index 0000000..9a56e7a
+<span class="nt">---</span> /dev/null
++++ b/tofu/basil_ginger_tofu.txt
+@@ <span class="nt">-0</span>,0 +1,3 @@
++basil
++ginger
++tofu
+diff <span class="nt">--git</span> a/tofu/kung_pao_tofu.txt b/tofu/kung_pao_tofu.txt
+new file mode 100644 index
+0000000..dad9bd9
+<span class="nt">---</span> /dev/null
++++ b/tofu/kung_pao_tofu.txt
+@@ <span class="nt">-0</span>,0 +1,3 @@
++szechuan peppers
++tofu
++peanuts
++kung
++pao
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">git show</code> command lets us peer right into the beating heart of a commit. We
+don’t expect all of its innards to make sense to you, but you can maybe glean
+that the commit is a snapshot of both the names and contents of the files. Note:
+You will rarely use the <code class="highlighter-rouge">git show</code> command in real life or in 61B, but it’s useful here for peeking inside a commit to get a better sense of what they are.</p>
+
+<p>Suppose we now want to revise our kung pao recipe, because we decided it should
+have bok choy in it.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>subl ./tofu/kung_pao_tofu.txt
+</code></pre></div></div>
+
+<p>The changes we just made to <code class="highlighter-rouge">kung_pao_tofu.txt</code> are not saved in the repository.
+In fact, if we do git status again, we’ll get:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git status
+
+On branch master
+Changes not staged <span class="k">for </span>commit:
+  <span class="o">(</span>use <span class="s2">"git add &lt;file&gt;..."</span> to update what will be committed<span class="o">)</span>
+  <span class="o">(</span>use <span class="s2">"git checkout -- &lt;file&gt;..."</span> to discard changes <span class="k">in </span>working directory<span class="o">)</span>
+
+    modified:   tofu/kung_pao_tofu.txt
+
+Untracked files:
+  <span class="o">(</span>use <span class="s2">"git add &lt;file&gt;..."</span> to include <span class="k">in </span>what will be committed<span class="o">)</span>
+
+    seitan/
+</code></pre></div></div>
+
+<p>You might think to yourself “OK, we’ll I’ll just do commit again”. However, if
+we try to commit, git will say that there’s nothing to do:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git commit <span class="nt">-m</span> <span class="s2">"added bok choy"</span>
+
+On branch master
+Changes not staged <span class="k">for </span>commit:
+    modified:   tofu/kung_pao_tofu.txt
+
+Untracked files:
+    seitan/
+
+no changes added to commit
+</code></pre></div></div>
+
+<p>This is because even though <code class="highlighter-rouge">kung_pao_tofu.txt</code> is being tracked, we have not
+staged our changes for commit. To store our changes in the repository, we first
+need to use the add command again, which will stage the changes for commit (or
+in other words, we need to take a picture of our new <code class="highlighter-rouge">kung_pao_tofu.txt</code> before
+we can create the new panorama that we want to put in the safe).</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git add ./tofu/kung_pao_tofu.txt
+<span class="nv">$ </span>git status
+
+On branch master
+Changes to be committed:
+  <span class="o">(</span>use <span class="s2">"git reset HEAD &lt;file&gt;..."</span> to unstage<span class="o">)</span>
+
+    modified:   tofu/kung_pao_tofu.txt
+
+Untracked files:
+  <span class="o">(</span>use <span class="s2">"git add &lt;file&gt;..."</span> to include <span class="k">in </span>what will be committed<span class="o">)</span>
+
+    seitan/
+</code></pre></div></div>
+
+<p>We see that our change to <code class="highlighter-rouge">kung_pao_tofu.txt</code> is now “to be committed”, meaning
+that the next commit will include changes to this file. We commit just like
+before, and use git log to see the list of all snapshots that have been taken.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git commit <span class="nt">-m</span> <span class="s2">"added bok choy"</span>
+<span class="nv">$ </span>git log
+
+commit cfcc8cbd88a763712dec2d6bd541b2783fa1f23b
+Author: Sandra Upson &lt;sandra@Sandras-MacBook-Air.local&gt;
+Date:   Sun Jan 17 19:24:45 2016 <span class="nt">-0800</span>
+
+    added bok choy
+
+commit 9f955d85359fc8e4504d7220f13fad34f8f2c62b
+Author: Sandra Upson &lt;sandra@Sandras-MacBook-Air.local&gt;
+Date:   Sun Jan 17 19:06:48 2016 <span class="nt">-0800</span>
+
+    added tofu recipes
+</code></pre></div></div>
+
+<p>We now see that there are TWO commits. We could again use show to see what
+changed in cfcc8cbd88a763712dec2d6bd541b2783fa1f23b, but we won’t in this guide.</p>
+
+<p>Suppose we later decide bok choy is gross. We can roll back our files using the
+checkout command, as shown below:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git checkout 9f955d85359fc8e4504d7220f13fad34f8f2c62b ./recipes/tofu
+</code></pre></div></div>
+
+<p>Think of the checkout command as a robot that goes to our safe, figures out what
+the tofu recipe looked like back when the newest panorama was
+9f955d85359fc8e4504d7220f13fad34f8f2c62b, and finally rearranges everything in
+the actual recipes/tofu folder so that it is exactly like it was at the time
+snapshot 9f955d85359fc8e4504d7220f13fad34f8f2c62b was created. If we now look at
+the contents of <code class="highlighter-rouge">recipes/tofu/kung_pao_tofu.txt</code> after running this command,
+we’ll see that bok choy is gone (phew)!</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>szechuan
+peppers
+tofu
+peanuts
+kung
+pao
+</code></pre></div></div>
+
+<p><em>Important: The checkout command does not change the commit history!</em> Or in
+other words, the safe containing our panoramic photos is entirely unaffected by
+the checkout command. The entire point of git is to create a log of everything
+that has EVER happened to our files. In other words, if you took a panoramic
+photo of your room in 2014 and in 2015 and put them in a safe, then decided in
+2016 to put it exactly back like it was in 2014, you would not set the panoramic
+photo from the year 2015 on fire. Nor would you a picture of it in 2016
+magically appear inside your safe. If you wanted to record what it looked like
+in 2016, you’d need to take another photo (with the appropriate -m message to
+remember what you just did).</p>
+
+<p><em>Also important:</em> Make sure to specify a file (or directory) when you use
+checkout. Otherwise, you’re using a more powerful version of checkout that will
+probably confuse you. If that should happen, see the <a href="git-wtfs-2.html">61B
+git-WTFS</a> (git weird technical failure scenarios).</p>
+
+<p>If we want to actually commit a snapshot of the newest kung pao tofu (which no
+longer has bok choy), we’d have to commit:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git commit <span class="nt">-m</span> <span class="s2">"went back to the original recipe with no bok choy"</span>
+<span class="nv">$ </span>git log
+
+commit 4be06747886d0a270bf1d618d58f3273f0219a69
+Author: Sandra Upson &lt;sandra@Sandras-MacBook-Air.local&gt;
+Date:   Sun Jan 17 19:32:37 2016 <span class="nt">-0800</span>
+
+    went back to the original recipe with no bok choy
+
+commit cfcc8cbd88a763712dec2d6bd541b2783fa1f23b
+Author: Sandra Upson &lt;sandra@Sandras-MacBook-Air.local&gt;
+Date:   Sun Jan 17 19:24:45 2016 <span class="nt">-0800</span>
+
+    added bok choy
+
+commit 9f955d85359fc8e4504d7220f13fad34f8f2c62b
+Author: Sandra Upson &lt;sandra@Sandras-MacBook-Air.local&gt;
+Date:   Sun Jan 17 19:06:48 2016 <span class="nt">-0800</span>
+
+    added tofu recipes
+</code></pre></div></div>
+
+<p>We could then use show to see the contents of this most recent commit.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git show 4be06747886d0a270bf1d618d58f3273f0219a69
+
+commit 4be06747886d0a270bf1d618d58f3273f0219a69
+Author: Sandra Upson &lt;sandra@Sandras-MacBook-Air.local&gt;
+Date:   Sun Jan 17 19:32:37 2016 <span class="nt">-0800</span>
+
+    took boy choy out gross
+
+diff <span class="nt">--git</span> a/tofu/kung_pao_tofu.txt b/tofu/kung_pao_tofu.txt
+index 35a9e71..dad9bd9 100644
+<span class="nt">---</span> a/tofu/kung_pao_tofu.txt
++++ b/tofu/kung_pao_tofu.txt
+@@ <span class="nt">-1</span>,4 +1,3 @@
+szechuan
+peppers
+tofu
+peanuts
+kung
+pao
+<span class="nt">-bok</span> choy
+<span class="se">\ </span>No newline at end of file
+</code></pre></div></div>
+
+<p>Not very important note: The very attentive reader may have noticed that I did
+not use <code class="highlighter-rouge">git add</code> before I committed the removal of bok choy. This is because of
+the funny fact that checkout actually also does an automatic <code class="highlighter-rouge">git add</code> on any files that
+change as a result of the rollback.</p>
+
+<p>This is the foundation of git. To summarize, using our photo analogy:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">git init</code>: Creates a box in which to permanently store panoramic pictures.</li>
+  <li><code class="highlighter-rouge">git add</code>: Takes a temporary photo of one thing that can be assembled into a
+panoramic photo later.</li>
+  <li><code class="highlighter-rouge">git commit</code>: Assembles all available temporary photos into a panoramic
+photo. Also destroys all temporary photos.</li>
+  <li><code class="highlighter-rouge">git log</code>: Lists all the panoramic photos we’ve ever taken.</li>
+  <li><code class="highlighter-rouge">git show</code>: Looks at what is in a particular panoramic photo.</li>
+  <li><code class="highlighter-rouge">git checkout</code>: Rearranges files back to how they looked in a given panoramic
+photo. Does not affect the panormiac photos in your box in any way.</li>
+</ul>
+
+<p>There’s more to learn about git, but before we get there, let’s give a more
+formal explanation of what we’ve just done.</p>
+
+<h2 id="c-local-repositories-technical-overview">C. Local Repositories (Technical Overview)</h2>
+
+<h4 id="initializing-local-repositories">Initializing Local Repositories</h4>
+
+<p>Let’s first start off with the <em>local repository</em>. As mentioned above, a
+repository stores files as well as the history of changes to those files. In
+order to begin, you must initialize a Git repository by typing the following
+command into your terminal <em>while in the directory whose history you want to
+store in a local repository</em>. If you’re using Windows, you should be using a Git
+Bash terminal window while you type these commands. Reminder: If you’re unsure of how to
+use a terminal window, consider checking out section B of the
+<a href="../lab/lab1setup/lab1setup-2.html">lab 1 setup</a>.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git init
+</code></pre></div></div>
+
+<p>Extra for experts: When you initialize a Git repository, Git creates a <code class="highlighter-rouge">.git</code>
+subdirectory. Inside this directory it will store a bunch of metadata, as well
+as old the actual snapshots of the files.  However, you’ll never need to
+actually open the contents of this .git directory, and you should DEFINITELY not
+change anything inside directly!</p>
+
+<p>Depending on your operating system, you may not see the folder, because folders
+whose names start with “.” are not shown by your OS by defaut.  The UNIX command
+<code class="highlighter-rouge">ls -la</code> will list all directories, including your <code class="highlighter-rouge">.git</code> directory, so you can
+use this command to check that your repo has been initialized properly.</p>
+
+<h4 id="tracked-vs-untracked-files">Tracked vs. Untracked Files</h4>
+
+<p>Git repos start off not tracking any files. In order to save the revision
+history of a file, you need to track it. The Git documentation has an excellent
+section on <a href="http://git-scm.com/book/en/Git-Basics-Recording-Changes-to-the-Repository">recording
+changes</a>.
+An image from that section is placed here for your convenience:</p>
+
+<p><img src="img/file-status.png" alt="File Status Lifecyle" /></p>
+
+<p>As this figure shows, files fall into two main categories:</p>
+
+<ol>
+  <li>
+    <p><em>untracked</em> files: These files have either never been tracked or were removed
+from tracking. Git is not maintaining history for these files.</p>
+  </li>
+  <li>
+    <p><em>tracked</em> files: These files have been added to the Git repository and can be
+in various stages of modification: unmodified, modified, or staged.</p>
+
+    <ol>
+      <li>
+        <p>An <em>unmodified</em> file is one that has had no new changes since the last
+ version of the files was added to the Git repo.</p>
+      </li>
+      <li>
+        <p>A <em>modified</em> file is one that is different from the last one Git has
+ saved.</p>
+      </li>
+      <li>
+        <p>A <em>staged</em> file is one that a user has designated as part of a future
+ commit (usually through use of the <code class="highlighter-rouge">git add</code> command). We can think of these as files which have lights shining upon them.</p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<p>The following Git command allows you see the status of each file, i.e. whether it is untracked, unmodified, modified, or stageds:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git status
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">git status</code> command is extremely useful for determining the exact status of
+each file in your repository. If you are confused about what has changed and
+what needs to be committed, it can remind you of what to do next.</p>
+
+<h4 id="staging--committing">Staging &amp; Committing</h4>
+
+<p>A <em>commit</em> is a specific snapshot of your working directory at a particular
+time.  Users must specify what exactly composes the snapshot by <em>staging</em> files.</p>
+
+<p>The <code class="highlighter-rouge">add</code> command lets you stage a file (called <code class="highlighter-rouge">FILE</code> in the example below).</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git add FILE
+</code></pre></div></div>
+
+<p>Once you have staged all the files you would like to include in your snapshot,
+you can commit them as one block with a message.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git commit <span class="nt">-m</span> MESSAGE
+</code></pre></div></div>
+
+<p>Your message should be descriptive and explain what changes your commit makes to
+your code. You may want to quickly describe bug fixes, implemented classes, etc.
+so that your messages are helpful later when looking through your commit log.</p>
+
+<p>In order to see previous commits, you can use the log command:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git log
+</code></pre></div></div>
+
+<p>The Git reference guide has a helpful section on <a href="http://git-scm.com/book/en/Git-Basics-Viewing-the-Commit-History">viewing commit
+history</a> and
+filtering log results when searching for particular commits. It might also be
+worth checking out <code class="highlighter-rouge">gitk</code>, which is a GUI prompted by the command line.</p>
+
+<p>As a side note on development workflow, it is a good idea to commit your code as
+often as possible. Whenever you make significant (or even minor) changes to your
+code, make a commit. If you are trying something out that you might not stick
+with, commit it (perhaps to a different branch, which will be explained below).</p>
+
+<p><strong>Rule of Thumb</strong>: If you commit, you can always revert your code or change it.
+However, if you don’t commit, you won’t be able to get old versions back. So
+commit often!</p>
+
+<h4 id="undoing-changes">Undoing Changes</h4>
+
+<p>The Git reference has a great section on <a href="http://git-scm.com/book/en/Git-Basics-Undoing-Things">undoing
+things</a>.  Please note that
+while Git revolves around the concept of history, it is possible to lose your
+  work if you revert with some of these undo commands. Thus, be careful and read
+  about the effects of your changes before undoing your work.</p>
+
+<ul>
+  <li>
+    <p>Unstage a file that you haven’t yet committed:</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>git reset HEAD <span class="o">[</span>file]
+</code></pre></div>    </div>
+
+    <p>This will take the file’s status back to modified, leaving changes intact.
+  Don’t worry about this command undoing any work. This command is the
+  equivalent of deleting one of the temporary images that you’re going to
+  combine into a panorama.</p>
+
+    <p>Why might we need to use this command? Let’s say you accidentally started
+  tracking a file that you didn’t want to track. (an embarrassing video of yourself, for instance.)
+  Or you were made some changes to a file that you thought you would commit but no longer want
+  to commit quite yet.</p>
+  </li>
+  <li>Amend latest commit (changing commit message or add forgotten files):
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>git add <span class="o">[</span>forgotten-file]
+  <span class="nv">$ </span>git commit <span class="nt">--amend</span>
+</code></pre></div>    </div>
+
+    <p>Please note that this new amended commit will replace the previous commit.</p>
+  </li>
+  <li>
+    <p>Revert a file to its state at the time of the most recent commit:</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>git checkout <span class="nt">--</span> <span class="o">[</span>file]
+</code></pre></div>    </div>
+
+    <p>This next command is useful if you would like to actually undo your work.
+  Let’s say that you have modified a certain <code class="highlighter-rouge">file</code> since committing
+  previously, but you would like your file back to how it was before your
+  modifications.</p>
+
+    <p><strong>Note</strong>: This command is potentially quite dangerous because any changes
+  you made to the file since your last commit will be removed. Use this with
+  caution!</p>
+  </li>
+</ul>
+
+<p><strong>If you’re working on lab 1, it’s time to return and do the git exercise.</strong></p>
+
+<h2 id="d-remote-repositories">D. Remote Repositories</h2>
+
+<p>One especially handy feature of git is the ability to store copies of your
+repository on computers other than your own. Recall that our snapshots are all
+stored on our computer in a secret folder. That means if our computer is damaged
+or destroyed, so are all our snapshots.</p>
+
+<p>Suppose we wanted to push our tofu and seitan recipes to another computer, we’d
+typically use the following command.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git push origin master
+</code></pre></div></div>
+
+<p>However, if we tried that out, we’d simply get the message below:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fatal: <span class="s1">'origin'</span> does not appear to be a git repository
+fatal: Could not <span class="nb">read </span>from remote repository.
+
+Please make sure you have the correct access rights and the repository exists.
+</code></pre></div></div>
+
+<p>This is because we have not yet told git where to send the files. As it happens,
+there is a for-profit private company called GitHub that has made a business out
+of storing copies of people’s repositories. Their business model is simple: You
+pay them to store your repositories (though they let you have free repositories
+if you leave it open to the world, or if you arrange a special freebie discount
+like we had to for 61B).</p>
+
+<p>In 61B, we’ll use GitHub to store our repositories. To create a repository on
+GitHub, you’d probably use their web interface. However, we’ve already done this
+for you. Your repository will have the same name as your instructional account
+login.</p>
+
+<p>The most important remote repository commands are listed below, along with a technical description that might not make sense yet. If you’re
+working on lab 1, head back to the lab to learn more about these commands.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">git clone [remote-repo-URL]</code>: Makes a copy of the specified repository, but
+ on your local computer. Also creates a working directory that has files
+ arranged exactly like the most recent snapshot in the download repository.
+ Also records the URL of the remote repository for subsequent network data
+ transfers, and gives it the special remote-repo-name “origin”.</li>
+  <li><code class="highlighter-rouge">git remote add [remote-repo-name] [remote-repo-URL]</code>: Records a new location
+ for network data transfers.</li>
+  <li><code class="highlighter-rouge">git remote -v</code>: Lists all locations for network data transfers.</li>
+  <li><code class="highlighter-rouge">git pull [remote-repo-name] master</code>: Get the most recent copy of the files
+ as seen in remote-repo-name</li>
+  <li><code class="highlighter-rouge">git push [remote-repo-name] master</code>: Pushes the most recent copy of your
+ files to the remote-repo-name.</li>
+</ul>
+
+<h2 id="e-git-branching-advanced-git-optional">E. Git Branching (advanced Git) (optional)</h2>
+
+<p>Everything below this line is optional for 61B.</p>
+
+<p><img src="img/graph1.svg" alt="Simple Git" /></p>
+
+<p>Every command that we’ve covered so far was working with the default branch.
+This branch is conventionally called the <code class="highlighter-rouge">master</code> branch. However, there are
+cases when you may want to create branches in your code.</p>
+
+<p>Branches allow you to keep track of multiple different versions of your work
+simultaneously. One way to think of branches are as alternate dimensions.
+Perhaps one branch is the result of choosing to use a linked list while another
+branch is the result of choosing to use an array.</p>
+
+<p><img src="img/graph2.svg" alt="Git with feature branch" /></p>
+
+<h4 id="reasons-for-branching">Reasons for Branching</h4>
+
+<p>Here are some cases when it may be a good idea to branch.</p>
+
+<ul>
+  <li>
+    <p>You may want to make a dramatic change to your existing code (called
+refactoring) but it will break other parts of your project. But you want to be
+able to simultaneously work on other parts or you have partners, and you don’t
+want to break the code for them.</p>
+  </li>
+  <li>
+    <p>You want to start working on a new part of the project, but you aren’t sure
+yet if your changes will work and make it to the final product.</p>
+  </li>
+  <li>
+    <p>You are working with partners and don’t want to mix up your current work with
+theirs, even if you want to bring your work together later in the future.</p>
+  </li>
+</ul>
+
+<p>Creating a branch will let you keep track of multiple different versions of your
+code, and you can easily switch between versions and merge branches together
+once you’ve finished working on a section and want it to join the rest of your
+code.</p>
+
+<h4 id="an-example-scenario">An Example Scenario</h4>
+
+<p>For example, let’s say that you’ve finished half of a project so far. There is a
+difficult part still left to do, and you’re not sure how to do it. Perhaps you
+have three different ideas for how to do it, and you’re not sure which will
+work. At this point, it might be a good idea to create a branch off of <code class="highlighter-rouge">master</code>
+and try out your first idea.</p>
+
+<ul>
+  <li>
+    <p>If your code works, you can merge the branch back to your main code (on the
+<code class="highlighter-rouge">master</code> branch) and submit your project.</p>
+  </li>
+  <li>
+    <p>If your code doesn’t work, don’t worry about reverting your code and having to
+manipulate Git history. You can simply switch back to <code class="highlighter-rouge">master</code>, which won’t
+have any of your changes, create another branch, and try out your second idea.</p>
+  </li>
+</ul>
+
+<p>This can continue till you figure out the best way to write you code, and you
+only need to merge the branches that work back into <code class="highlighter-rouge">master</code> in the end.</p>
+
+<p>The Git reference has a section on <a href="http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging">branching and
+merging</a>
+with some figures of how branches are represented in Git’s underlying data
+structure. It turns out that Git keeps track of commit history as a graph with
+branch pointers and commits as nodes within the graph. (Hence the tree-related
+terminology.)</p>
+
+<h4 id="creating-deleting--switching-branches">Creating, Deleting, &amp; Switching Branches</h4>
+
+<p>A special branch pointer called the <code class="highlighter-rouge">HEAD</code> references the branch you currently
+have as your working directory. Branching instructions modify branches and
+change what your <code class="highlighter-rouge">HEAD</code> points to so that you see a different version of your
+files.</p>
+
+<ul>
+  <li>
+    <p>The following command will create a branch off of your current branch.</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>git branch <span class="o">[</span>new-branch-name]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>This command lets you switch from one branch to another by changing which
+branch your <code class="highlighter-rouge">HEAD</code> pointer references.</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>git checkout <span class="o">[</span>destination-branch]
+</code></pre></div>    </div>
+
+    <p>By default, your initial branch is called <code class="highlighter-rouge">master</code>. It is advised that you
+  stick with this convention. Every other branch, however, can be named
+  whatever you’d like. It’s generally a good idea to call your branch
+  something descriptive like <code class="highlighter-rouge">fixing-ai-heuristics</code> so that you can remember
+  what commits it contains.</p>
+  </li>
+  <li>
+    <p>You can combine the previous two commands on creating a new branch and then
+checking it out with this single command:</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>git checkout <span class="nt">-b</span> <span class="o">[</span>new-branch-name]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>You can delete branches with the following command:</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>git branch <span class="nt">-d</span> <span class="o">[</span>branch-to-delete]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>You can easily figure out which branch you are on with this command:</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>git branch <span class="nt">-v</span>
+</code></pre></div>    </div>
+
+    <p>More particular, the <code class="highlighter-rouge">-v</code> flag will list the last commit on each branch as
+  well.</p>
+  </li>
+</ul>
+
+<h4 id="merging">Merging</h4>
+
+<p>There are often times when you’d like to merge one branch into another. For
+example, let’s say that you like the work you’ve done on <code class="highlighter-rouge">fixing-ai-heuristics</code>.
+Your AI is now super-boss, and you’d like your <code class="highlighter-rouge">master</code> branch to see the
+commits you’ve made on <code class="highlighter-rouge">fixing-ai-heuristics</code> and delete the
+<code class="highlighter-rouge">fixing-ai-heuristics</code> branch.</p>
+
+<p><img src="img/graph3.svg" alt="Git with fixing-ai-heuristics branch" /></p>
+
+<p>In this case, you should checkout the <code class="highlighter-rouge">master</code> branch and merge
+<code class="highlighter-rouge">fixing-ai-heuristics</code> into <code class="highlighter-rouge">master</code>.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git checkout master
+<span class="nv">$ </span>git merge fixing-ai-heuristics
+</code></pre></div></div>
+
+<p>This <code class="highlighter-rouge">merge</code> command will create a new commit that joins the two branches
+together and change each branch’s pointer to reference this new commit. While
+most commits have only one parent commit, this new merge commit has two parent
+commits. The commit on the <code class="highlighter-rouge">master</code> branch is called its <em>first parent</em> and the
+commit on the <code class="highlighter-rouge">fixing-ai-heuristics</code> branch is called its <em>second parent</em>.</p>
+
+<p><img src="img/graph4.svg" alt="Git with fixing-ai-heuristics branch merged into master" /></p>
+
+<h4 id="merge-conflicts">Merge Conflicts</h4>
+
+<p>It may happen that two branches you are trying to merge have conflicting
+information. This can occur if commits on the two branches changed the same
+files. Git is sophisticated enough to resolve many changes, even when they occur
+in the same file (though distinct places).</p>
+
+<p>However, there are times that conflicts cannot be resolved by Git because
+changes impact the same methods/lines of code. In these cases, it will present
+both changes from the different branches to you as a <em>merge conflict</em>.</p>
+
+<h4 id="resolving-merge-conflicts">Resolving Merge Conflicts</h4>
+
+<p>Git will tell you which files have conflicts. You need to open the files that
+have conflicts and resolve them manually. After doing this, you must commit to
+complete the merge of the two branches.</p>
+
+<p>The files with conflicts will contain segments that look something like this:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> <span class="n">HEAD</span>
+<span class="nf">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">results</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">results</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">"FIX ME!"</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="o">=======</span>
+<span class="kt">int</span><span class="o">[]</span> <span class="kd">final</span> <span class="o">=</span> <span class="kt">int</span><span class="o">[</span><span class="n">results</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">results</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="kd">final</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">results</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="n">println</span><span class="o">(</span><span class="kd">final</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+<span class="o">}</span>
+<span class="o">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span> <span class="n">fixing</span><span class="o">-</span><span class="n">ai</span><span class="o">-</span><span class="n">heuristics</span>
+</code></pre></div></div>
+
+<p>Basically, you’ll see two segments with similar pieces of code:</p>
+
+<ol>
+  <li>
+    <p>The top code snippet is from the branch you originally had checked out when
+you ran the <code class="highlighter-rouge">merge</code> command. It’s called <code class="highlighter-rouge">HEAD</code> because the <code class="highlighter-rouge">HEAD</code> pointer was
+referencing this branch at the time of the <code class="highlighter-rouge">merge</code>. Continuing our example
+above, this code would be from the <code class="highlighter-rouge">master</code> branch.</p>
+  </li>
+  <li>
+    <p>The bottom code snippet is from the branch you were merging into your checked
+out branch. This is why it shows that the code is from <code class="highlighter-rouge">fixing-ai-heuristics</code>.</p>
+  </li>
+</ol>
+
+<p>Basically, you’ll need to go through all marked sections and pick which snippet
+of code you’d like to keep.</p>
+
+<p>In the previous example, I like the bottom piece of code better because I just
+fixed the AI while the top piece still prints “FIX ME!” Thus, I will delete the
+top segment as well as the extraneous lines to get this:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span><span class="o">[]</span> <span class="kd">final</span> <span class="o">=</span> <span class="kt">int</span><span class="o">[</span><span class="n">results</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">results</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="kd">final</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">results</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="n">println</span><span class="o">(</span><span class="kd">final</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><em>Random Note: I have no idea how this code supposedly fixes the AI heuristics.
+Don’t use it for your project! It is useless, I tell you. Useless!</em></p>
+
+<p>Doing this for all segments demarcated by conflict-resolution markers resolves
+your conflict. After doing this for all conflicting files, you can commit.  This
+will complete your merge.</p>
+
+<h2 id="f-other-git-features">F. Other Git Features</h2>
+
+<p>There are tons of other cool Git commands. Unfortunately, we need to continue on
+to discuss remote repositories. Thus, this segment will just list some other
+interesting features that you are encouraged to explore in your own time:</p>
+
+<ul>
+  <li>
+    <p><a href="http://git-scm.com/book/en/Git-Tools-Stashing">Stashing</a></p>
+
+    <p>Stashing allows you to save your changes onto a stack without making a more
+  permanent commit. It is equivalent to picking up your work-in-progress and
+  placing it in a box to get back to later. In the meantime, your desk is now
+  clean.</p>
+
+    <p>Why might you want to use this?</p>
+
+    <ul>
+      <li>
+        <p>Your files may be in a disorganized state, and you don’t want to commit
+yet, but you also don’t want to get rid of your changes.</p>
+      </li>
+      <li>
+        <p>You modified multiple files, but you dislike your changes and you would
+just like to get things back to how they were after your most recent
+commit. Then you can <code class="highlighter-rouge">stash</code> your code and then drop that stash rather
+than having to manually revert multiple files. (Be careful with this
+usage!)</p>
+      </li>
+      <li>
+        <p>You modified files but accidentally modified them on the wrong branch.
+Then you can <code class="highlighter-rouge">stash</code> your changes, switch branches, and unstash your
+changes so that they are all in the new branch.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><a href="http://git-scm.com/book/en/Git-Tools-Rewriting-History">Rewriting History</a></p>
+
+    <p>Let’s say you want to do more than change your last commit or drop changes
+  to your files before your most recent commit. What if you want to do
+  something crazy like rewrite history? You can change multiple commit
+  messages, splits one commits into two, and reorder commits.</p>
+  </li>
+  <li>
+    <p><a href="http://git-scm.com/book/en/Git-Branching-Rebasing">Rebasing</a></p>
+
+    <p>Rebasing changes the parent commit of a specific commit. In doing this, it
+  changes the commits so that it is no longer the same.</p>
+
+    <p><code class="highlighter-rouge">Rebase</code> can be used as an alternative to <code class="highlighter-rouge">merge</code> for integrating changes
+  from one branch to another. It is quite different from <code class="highlighter-rouge">merge</code> in that
+  <code class="highlighter-rouge">merge</code> creates a new commit that has both parent branch commits as parents.
+  Rebasing takes one set of commits from a branch and places them all at the
+  end of the other branch.</p>
+
+    <p>There are different reasons why you would want to use <code class="highlighter-rouge">merge</code> versus
+  <code class="highlighter-rouge">rebase</code>.  One of these reasons is that <code class="highlighter-rouge">rebase</code> leads to a cleaner history
+  when working with many different branches and team members.</p>
+  </li>
+  <li>
+    <p><a href="http://git-scm.com/docs/git-reset.html">Reset</a></p>
+
+    <p>Perhaps you decide that you want things to be how they were a certain number
+  of commits ago. You can use <code class="highlighter-rouge">reset</code> if you are absolutely sure that you
+  don’t want the last few commits. <code class="highlighter-rouge">Reset</code> is quite a nuanced command, so read
+  carefully before attempting use.</p>
+
+    <ul>
+      <li><a href="http://stackoverflow.com/questions/2530060/can-you-explain-what-git-reset-does-in-plain-english">Stack Overflow on git
+reset</a></li>
+      <li><a href="http://git-scm.com/blog/2011/07/11/reset.html">Reset Demystified</a></li>
+    </ul>
+  </li>
+  <li>
+    <p><a href="http://git-scm.com/docs/git-revert.html">Revert</a></p>
+
+    <p><code class="highlighter-rouge">Revert</code> allows you to reverse the changes introduced by certain commits by
+  recording new commits to undo the changes. This is a safer option that
+  simply throwing away past commits. But again, use this with caution.</p>
+  </li>
+  <li>
+    <p><a href="http://git-scm.com/docs/git-cherry-pick.html">Cherry Pick</a></p>
+
+    <p><code class="highlighter-rouge">Cherry pick</code> allows you to apply the changes introduced by some existing
+  commits. For example, if you have two different branches, and your current
+  branch lacks one or two commits that would be helpful but are only in the
+  other branch, then you can <code class="highlighter-rouge">cherry pick</code> to grab those commits without
+  merging or rebasing to get all the commits.</p>
+  </li>
+</ul>
+
+<p>There are far more features and commands not mentioned here. Feel free to
+explore more and search for answers. There most likely exists a Git command for
+nearly everything you would want to do.</p>
+
+<h2 id="g-remote-repositories-advanced">G. Remote Repositories (Advanced)</h2>
+
+<h4 id="private-vs-public-repos">Private vs. Public Repos</h4>
+
+<p>By default, repositories on GitHub are public, rather than private. This means
+that anyone on the Internet can view the code in a public repo. <u>For all class
+assignments, you are required to use private repositories</u>.</p>
+
+<p>Hosting school code in a public repo is a violation of the academic honesty
+policies of this class (and most other Berkeley EECS classes). Please keep this
+in mind when using sites like GitHub for collaboration.</p>
+
+<p>You can request an education discount to get free private repos through <a href="https://education.github.com/">GitHub
+Education</a>.  <a href="https://bitbucket.org/">Bitbucket</a>
+is also a great alternative to GitHub as it provides unlimited private code
+repos.</p>
+
+<h4 id="adding-remotes">Adding Remotes</h4>
+
+<p>Adding a remote repository means that you are telling git where the repo is
+located. You do not necessarily have read/write access to every repo you can
+add. Actually accessing and modifying files in a remote is discussed later and
+relies on having added the remote.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git remote add <span class="o">[</span>short-name] <span class="o">[</span>remote-url]
+</code></pre></div></div>
+
+<p>The remote URL will look something like
+<code class="highlighter-rouge">https://github.com/berkeley-cs61b/skeleton.git</code> if you are using HTTP or
+<code class="highlighter-rouge">git@github.com:berkeley-cs61b/skeleton.git</code> if you are using SSH.</p>
+
+<p>By convention, the name of the primary remote is called <code class="highlighter-rouge">origin</code> (for original
+remote repository). So either of the following two commands would allow me to
+add the <code class="highlighter-rouge">berkeley-cs61b/skeleton</code> repository as a remote.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git remote add origin https://github.com/berkeley-cs61b/skeleton.git
+<span class="nv">$ </span>git remote add origin git@github.com:berkeley-cs61b/skeleton.git
+</code></pre></div></div>
+
+<p>After adding a remote, all other commands use its associated short name.</p>
+
+<h4 id="renaming-deleting--listing-remotes">Renaming, Deleting, &amp; Listing Remotes</h4>
+
+<ul>
+  <li>
+    <p>You can rename your remote by using this command:</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>git remote rename <span class="o">[</span>old-name] <span class="o">[</span>new-name]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>You can also remove a remote if you are no longer using it:</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>git remote rm <span class="o">[</span>remote-name]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>To see what remotes you have, you can list them. The <code class="highlighter-rouge">-v</code> flag tells you the
+URL of each remote (not just its name).</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>git remote <span class="nt">-v</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>You can read more about <a href="http://git-scm.com/book/en/Git-Basics-Working-with-Remotes">working with
+remotes</a> in the Pro
+Git book.</p>
+
+<h4 id="cloning-a-remote">Cloning a Remote</h4>
+
+<p>There are often remote repos with code that you would like to copy to your own
+computer. In these cases, you can easily download the entire repo with its
+commit history by cloning the remote:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git clone <span class="o">[</span>remote-url]
+<span class="nv">$ </span>git clone <span class="o">[</span>remote-url] <span class="o">[</span>directory-name]
+</code></pre></div></div>
+
+<p>The top command will create a directory of the same name as the remote repo. The
+second command allows you to specify a different name for the copied repository.</p>
+
+<p>When you clone a remote, the cloned remote because associated with your local
+repo by the name <code class="highlighter-rouge">origin</code>. This is by default because the cloned remote was the
+<code class="highlighter-rouge">origin</code> for your local repo.</p>
+
+<h4 id="pushing-commits">Pushing Commits</h4>
+
+<p>You may wish to update the contents of a remote repo by adding some commits that
+you made locally. You can do this by <code class="highlighter-rouge">pushing</code> your commits:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git push <span class="o">[</span>remote-name] <span class="o">[</span>remote-branch]
+</code></pre></div></div>
+
+<p>Note that you will be pushing to the remote branch from the branch your <code class="highlighter-rouge">HEAD</code>
+pointer is currently referencing. For example, let’s say that I cloned a repo
+then made some changes on the <code class="highlighter-rouge">master</code> branch. I can give the remote my local
+changes with this command:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git push origin master
+</code></pre></div></div>
+
+<h4 id="fetching--pulling-commits">Fetching &amp; Pulling Commits</h4>
+
+<p>There are also times that you’d like to get some new commits from a remote that
+are not currently on your local repo. For example, you may have cloned a remote
+created by a partner and wish to get his/her newest changes. You can get those
+changes by fetching or pulling from the remote.</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">fetch</code>: This is analogous to downloading the commits. It does not incorporate
+them into your own code.</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>git fetch <span class="o">[</span>remote-name]
+</code></pre></div>    </div>
+
+    <p>Why might you use this? Your partner may have created some changes that
+  you’d like to review but keep separate from your own code. Fetching the
+  changes will only update your local copy of the remote code but not merge
+  the changes into your own code.</p>
+
+    <p>For a more particular example, let’s say that your partner creates a new
+  branch on the remote called <code class="highlighter-rouge">fixing-ai-heuristics</code>. You can view that
+  branch’s commits with the following steps:</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>git fetch origin
+  <span class="nv">$ </span>git branch review-ai-fix origin/fixing-ai-heuristics
+  <span class="nv">$ </span>git checkout review-ai-fix
+</code></pre></div>    </div>
+
+    <p>The second command creates a new branch called <code class="highlighter-rouge">review-ai-fix</code> that <em>tracks</em>
+  the <code class="highlighter-rouge">fixing-ai-heuristics</code> branch on the <code class="highlighter-rouge">origin</code> remote.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">pull</code>: This is equivalent to a <code class="highlighter-rouge">fetch + merge</code>. Not only will <code class="highlighter-rouge">pull</code> fetch
+the most recent changes, it will also merge the changes into your <code class="highlighter-rouge">HEAD</code>
+branch.</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>git pull <span class="o">[</span>remote-name] <span class="o">[</span>remote-branch-name]
+</code></pre></div>    </div>
+
+    <p>Let’s say that my boss partner has pushed some commits to the <code class="highlighter-rouge">master</code>
+  branch of our shared remote that fix our AI heuristics. I happen to know
+  that it won’t break my code, so I can just pull it and merge it into my own
+  code right away.</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>git pull origin master
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="h-remote-repository-exercise">H. Remote Repository Exercise</h2>
+
+<p>For this follow-along example, you will need a partner. You will be working with
+your partner on a remote repository and have to deal with things like merge
+conflicts. Also note that both of you will need accounts on the same service,
+whether it be GitHub or Bitbucket.</p>
+
+<ol>
+  <li>
+    <p>Partner 1 will create a private repository on GitHub or Bitbucket and add
+Partner 2 as a collaborator. This repo can be called <code class="highlighter-rouge">learning-git</code>.</p>
+
+    <p>Note: <a href="https://education.github.com/">GitHub Education</a> discount requests
+ take some time to process, so it is acceptable to use a public repo for just
+ this lab. For all other assignments, you  must use a private repo.</p>
+
+    <p>Also, please do not add your partner to your personal repo in the
+ <a href="https://github.com/Berkeley-CS61B">Berkeley-CS61B</a> organization.</p>
+  </li>
+  <li>
+    <p>Partner 2 will create a <code class="highlighter-rouge">README</code> file, commit the file, and push this commit
+to the <code class="highlighter-rouge">learning-git</code> remote.</p>
+
+    <p><img src="img/Exercise2.2.png" alt="Exercise 2.2" /></p>
+  </li>
+  <li>
+    <p>Partner 2 will also add the remote that Partner 1 created and push this new
+commit.</p>
+
+    <p><img src="img/github-remote-url.png" alt="GitHub Remote URL" /></p>
+
+    <p>With either GitHub or Bitbucket, you can find the remote URL on the repo’s
+ main page.</p>
+
+    <p><img src="img/Exercise2.3.png" alt="Exercise 2.3" /></p>
+  </li>
+  <li>
+    <p>Partner 1 will now clone the remote repo to their own machine then add a line
+to the bottom of README. (Note: At this point, the pictures may get a bit
+confusing because I’m pretending to be both partners.)</p>
+
+    <p><img src="img/Exercise2.4.png" alt="Exercise 2.4" /></p>
+  </li>
+  <li>
+    <p>Partner 1 will commit this change and push it back to the remote.</p>
+
+    <p><img src="img/Exercise2.5.png" alt="Exercise 2.5" /></p>
+  </li>
+  <li>
+    <p>Partner 2 will similarly add a line to the bottom of their README and commit
+this change.</p>
+
+    <p><img src="img/Exercise2.6.png" alt="Exercise 2.6" /></p>
+  </li>
+  <li>
+    <p>Partner 2 will now pull and find that there are merge conflicts.</p>
+
+    <p><img src="img/Exercise2.7.png" alt="Exercise 2.7" /></p>
+  </li>
+  <li>
+    <p>Partner 2 should resolve the merge conflicts by rearranging the lines. Then
+Partner 2 should add <code class="highlighter-rouge">README</code> and commit and push to finish.</p>
+
+    <p><img src="img/Exercise2.8.png" alt="Exercise 2.8" /></p>
+  </li>
+  <li>
+    <p>Partner 1 can now pull and get two new commits - the added line &amp; the merge
+commit. Now both partners are up to date.</p>
+
+    <p><img src="img/Exercise2.9.png" alt="Exercise 2.9" /></p>
+  </li>
+</ol>
+
+<h2 id="i-conclusion">I. Conclusion</h2>
+
+<h4 id="more-with-remotes">More with Remotes</h4>
+
+<p>These simple commands to add/remove remotes, push commits, and fetch/pull
+changes can be combined with all the commands you’ve learned in regards to local
+repositories to give you a powerful toolkit in working collaboratively with
+others.</p>
+
+<p>GitHub has some other really cool features that can be helpful for in project
+development:</p>
+
+<ul>
+  <li>
+    <p><a href="https://help.github.com/articles/fork-a-repo">Forking a Repo</a></p>
+  </li>
+  <li>
+    <p><a href="https://help.github.com/articles/syncing-a-fork">Syncing a Fork</a></p>
+  </li>
+  <li>
+    <p><a href="https://help.github.com/articles/using-pull-requests">Using Pull Requests</a></p>
+  </li>
+  <li>
+    <p><a href="https://guides.github.com/features/issues/">Using Issues</a></p>
+  </li>
+</ul>
+
+<h4 id="extra-reading">Extra Reading</h4>
+
+<p>For those of you who found this topic interesting, check out these extra
+resources! Keep in mind, however, that the best way to learn to use Git
+effectively is to just start incorporating it into your own coding workflow!
+Good luck, and have an octotastic day!</p>
+
+<ol>
+  <li>
+    <p><a href="http://git-scm.com/doc">Git Documentation</a> is really quite good and clear,
+and there is a great Pro Git book by Scott Chacon.</p>
+  </li>
+  <li>
+    <p><a href="http://wildlyinaccurate.com/a-hackers-guide-to-git">Hacker’s Guide to Git</a>
+is a very friendly introduction to how Git works. It gives a peek at the
+structure of commits &amp; branches and explains how some commands work.</p>
+  </li>
+  <li>
+    <p><a href="http://pcottle.github.io/learnGitBranching/">Learn Git Branching</a> is a fun
+and interactive tutorial that visualizes Git commands.</p>
+  </li>
+</ol>
+
+<h2 id="j-advanced-git-features">J. Advanced Git Features</h2>
+
+<p>Here are some more advanced features that might make your life a little easier.
+Once you get the hang of the basic features of git, you’ll start to notice some
+common tasks are a bit tedious. Here are some built-in features that you might
+consider using.</p>
+
+<h4 id="rebasing">Rebasing</h4>
+
+<p>Git is all about collaborative programming, so more often than not, you’ll find
+yourself dealing with merge-conflicts. In most cases, the changes you’ve made
+are separated from the conflicting commits such that you can just put your
+commit right on top of all the new commits. However, git will merge the two
+versions and add an extra commit letting you know that you merged. This is
+pretty annoying and leads to a pretty messy commit history. This is where the
+magic of <strong>rebasing</strong> comes into play.</p>
+
+<p>When you push changes onto Github and the remote copy has been modified, you’ll
+be asked to pull in the changes. This is where you usually get a merge-conflict.
+Instead, pull with the rebase flag:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git pull <span class="nt">--rebase</span> origin master
+</code></pre></div></div>
+
+<p>It’s as simple as that! The changes from the server will be applied onto your
+working copy and your commit will be stacked on top.</p>
+
+<h4 id="squashing-commits">Squashing Commits</h4>
+
+<p>You might find yourself in a situation where you’ve created many small commits
+with tiny related changes that could really be stored in a single commit. Here,
+you’ll want to squash your commits using the <strong>rebase</strong> command. Suppose you
+have four commits that I want to combine. You would enter the following:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git rebase <span class="nt">-i</span> HEAD~4
+</code></pre></div></div>
+
+<p>From here, you would be prompted to pick a commit to collapse the other commits
+into, and pick which commits should be combined:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pick 01d1124 Adding license
+pick 6340aaa Moving license into its own file
+pick ebfd367 Jekyll has become self-aware.
+pick 30e0ccb Changed the tagline <span class="k">in </span>the binary, too.
+
+<span class="c"># Rebase 60709da..30e0ccb onto 60709da</span>
+<span class="c">#</span>
+<span class="c"># Commands:</span>
+<span class="c">#  p, pick = use commit</span>
+<span class="c">#  e, edit = use commit, but stop for amending</span>
+<span class="c">#  s, squash = use commit, but meld into previous commit</span>
+<span class="c">#</span>
+<span class="c"># If you remove a line here THAT COMMIT WILL BE LOST.</span>
+<span class="c"># However, if you remove everything, the rebase will be aborted.</span>
+<span class="c">#</span>
+</code></pre></div></div>
+
+<p>It’s best to pick the topmost commit and squash the rest into it. You can do
+this by changing the text file to this:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pick 01d1124 Adding license
+squash 6340aaa Moving license into its own file
+squash ebfd367 Jekyll has become self-aware.
+squash 30e0ccb Changed the tagline <span class="k">in </span>the binary, too.
+
+<span class="c"># Rebase 60709da..30e0ccb onto 60709da</span>
+<span class="c">#</span>
+<span class="c"># Commands:</span>
+<span class="c">#  p, pick = use commit</span>
+<span class="c">#  e, edit = use commit, but stop for amending</span>
+<span class="c">#  s, squash = use commit, but meld into previous commit</span>
+<span class="c">#</span>
+<span class="c"># If you remove a line here THAT COMMIT WILL BE LOST.</span>
+<span class="c"># However, if you remove everything, the rebase will be aborted.</span>
+<span class="c">#</span>
+</code></pre></div></div>
+
+<p>Voila! All those tiny commits have collapsed into a single commit and you have a
+cleaner log file.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/guides/using-git by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:21:22 GMT -->
+</html>

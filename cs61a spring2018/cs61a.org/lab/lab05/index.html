@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/lab/lab05/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+Lab 5: Mutable Sequences and Trees | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Lab 5: Mutable Sequences and Trees
+
+        
+        <ul class="inline-block list-inline">
+          <li><a href="lab05.zip" class="label label-outline">lab05.zip</a></li>
+        </ul>
+        
+      </h1>
+    </header>
+    
+
+<p><i>Due at 11:59pm on Friday, 02/23/2018.</i></p>
+
+
+<h2 id='starter-files'>Starter Files</h2>
+
+
+<p>Download <a href="lab05.zip">lab05.zip</a>.
+Inside the archive, you will find starter files for the questions in this lab,
+  along with a copy of the <a href="ok.zip">Ok</a> autograder.</p>
+
+
+<h2 id='submission'>Submission</h2>
+
+<p>By the end of this lab, you should have submitted the lab with
+<code>python3 ok --submit</code>. You may submit more than once before the
+deadline; only the final submission will be graded.
+Check that you have successfully submitted your code on
+<a href="https://okpy.org/">okpy.org</a>.</p>
+
+<ul>
+  <li>Questions 1 through 4 must be completed in order to receive credit for this lab.
+  Starter code for coding questions is in <a href="lab05.py">lab05.py</a>.</li>
+  <li>Questions 5 through 9 are <strong>optional</strong>. It is <em>recommended that you
+  complete these problems on your own time</em>. Starter code for these questions is
+  in <a href="lab05_extra.py">lab05_extra.py</a>.</li>
+</ul>
+
+
+
+    
+<h1 id="topics">Topics</h1>
+
+
+<p>Consult this section if you need a refresher on the material for this lab. It's
+okay to skip directly to <a href="#required-questions">the questions</a> and refer back
+here should you get stuck.</p>
+
+
+<h2 id="sequences">Sequences</h2>
+
+
+<p>Sequences are ordered collections of values that support element-selection and
+have length. The most common sequence you've worked with are lists, but many
+other Python types are sequences as well, including strings.</p>
+
+
+<h3 id="for-statements">For Statements</h3>
+
+
+<p>We've learned about one method of iteration already -- while statements, which
+repeats code based on a conditional expression. It is also possible to iterate
+through a sequence and repeat code for each element in the sequence. This is
+done with a for statement, which has the following syntax:</p>
+
+<pre><code>for &lt;name&gt; in &lt;expression&gt;:
+    &lt;suite&gt;</code></pre>
+
+<p>First, <code>&lt;expression&gt;</code> is evaluated. It must evaluate to a sequence, or else an
+error will be produced. Then, for each element in the sequence in order,</p>
+
+<ol>
+  <li><code>&lt;name&gt;</code> is bound to its value.</li>
+  <li><code>&lt;suite&gt;</code> is executed.</li>
+</ol>
+
+<p>Here is an example where <code>&lt;expression&gt;</code> list expression:</p>
+
+<pre><code>for x in [&#x2d;1, 4, 2, 0, 5]:
+    print(&quot;Current elem:&quot;, x)</code></pre>
+
+<p>This would output the following:</p>
+
+<pre><code>Current elem: &#x2d;1
+Current elem: 4
+Current elem: 2
+Current elem: 0
+Current elem: 5</code></pre>
+
+
+<h2 id="dictionaries">Dictionaries</h2>
+
+
+<p>Dictionaries are unordered sets of key-value pairs. Keys can only be immutable types (strings, numbers, tuples), but their corresponding value can be anything! To create a dictionary, use the following syntax:</p>
+
+<pre><code>&gt;&gt;&gt; singers = { &#x27;Adele&#x27;: &#x27;Hello&#x27;, 1975: &#x27;Chocolate&#x27;, &#x27;The Weeknd&#x27;: [&#x27;The Hills&#x27;, &#x27;Earned It&#x27;] }</code></pre>
+
+<p>The curly braces denote the key-value pairs in your dictionary. Each key-value
+pair is separated by a comma. For each pair, the key appears to the left of the
+colon and the value appears to the right of the colon. Note keys/values do not
+all have to be the same type, as you can see we have strings, integers and
+lists! Each key only appears once in a dictionary. You can retrieve values from
+your dictionary by "indexing" using the key:</p>
+
+<pre><code>&gt;&gt;&gt; singers[1975]
+&#x27;Chocolate&#x27;
+&gt;&gt;&gt; songs = singers[&#x27;The Weeknd&#x27;]
+&gt;&gt;&gt; songs[0]
+&#x27;The Hills&#x27;</code></pre>
+
+<p>You can add an entry or update an entry for an existing key in the dictionary
+using the following syntax.</p>
+
+<p>Note they are identical syntax, so be careful! You might end updating (and
+overwriting an old value) even if you intended to add, and vice versa.</p>
+
+<pre><code>&gt;&gt;&gt; singers[&#x27;Adele&#x27;] = &#x27;Rolling in the Deep&#x27;
+&gt;&gt;&gt; singers[&#x27;Adele&#x27;]
+&#x27;Rolling in the Deep&#x27;
+&gt;&gt;&gt; singers[&#x27;Kanye West&#x27;] = &#x27;Real Friends&#x27; # New entry!
+&gt;&gt;&gt; singers[&#x27;Kanye West&#x27;]
+&#x27;Real Friends&#x27;</code></pre>
+
+<p>You can also check for membership of keys!</p>
+
+<pre><code>&gt;&gt;&gt; &#x27;Adele&#x27; in singers
+True</code></pre>
+
+<p>Finally, here are some useful dictionary functions:</p>
+
+<ul>
+  <li><p><code>dict.keys()</code> will return a sequence of keys.</p>
+
+<pre><code>&gt;&gt;&gt; list(singers.keys()) # We use list() to turn the sequence into a list
+[1975, &#x27;The Weeknd&#x27;, &#x27;Adele&#x27;]</code></pre></li>
+  <li><p><code>dict.values()</code> will return a sequence of values.</p>
+
+<pre><code>&gt;&gt;&gt; list(singers.values())
+[&#x27;Chocolate&#x27;, [&#x27;The Hills&#x27;, &#x27;Earned It&#x27;], &#x27;Hello&#x27;]</code></pre></li>
+  <li><p><code>dict.items()</code> will return a sequence of key-value pairs.</p>
+
+<pre><code>&gt;&gt;&gt; list(singers.items())
+[(1975, &#x27;Chocolate&#x27;), (&#x27;The Weeknd&#x27;, [&#x27;The Hills&#x27;, &#x27;Earned It&#x27;]), (&#x27;Adele&#x27;, &#x27;Hello&#x27;)]</code></pre></li>
+</ul>
+
+
+<h2 id="trees">Trees</h2>
+
+
+<p>A <code>tree</code> is a data structure that represents a hierarchy of information. A file system is a good example of a tree structure. For example, within your <code>cs61a</code> folder, you have folders separating your <code>projects</code>, <code>lab</code> assignments, and <code>homework</code>. The next level is folders that separate different assignments, <code>hw01</code>, <code>lab01</code>, <code>hog</code>, etc., and inside those are the files themselves, including the starter files and <code>ok</code>. Below is an incomplete diagram of what your <code>cs61a</code> directory might look like.</p>
+
+<p><img class="img-responsive center-block" src="assets/cs61a-tree.png" alt="cs61a_tree"></p>
+
+<p>As you can see, unlike trees in nature, the tree abstract data type is drawn with the root at the top and the leaves at the bottom.</p>
+
+<p>Some tree terminology:</p>
+
+<ul>
+  <li><strong>root</strong>: the node at the top of the tree</li>
+  <li><strong>label</strong>: the value in a node; the label of the root is selected by the <code>label</code> function</li>
+  <li><strong>branches</strong>: a list of trees directly under the tree's root, selected by the <code>branches</code> function</li>
+  <li><strong>leaf</strong>: a tree with zero branches</li>
+  <li><strong>node</strong>: any location within the tree (e.g., root node, leaf nodes, etc.)</li>
+</ul>
+
+<p>Our <code>tree</code> abstract data type consists of a root and a list of its
+<code>branches</code>. To create a tree and access its root value and branches, use the
+following constructor and selectors:</p>
+
+<ul>
+  <li><p>Constructor</p>
+
+  <ul>
+    <li><code>tree(label, branches=[])</code>: creates a tree object with the given <code>label</code>
+    value at its root node and list of <code>branches</code>.</li>
+  </ul></li>
+  <li><p>Selectors</p>
+
+  <ul>
+    <li><code>label(tree)</code>: returns the value in the root node of <code>tree</code>.</li>
+    <li><code>branches(tree)</code>: returns the list of branches of the given <code>tree</code>.</li>
+  </ul></li>
+  <li><p>Convenience function</p>
+
+  <ul>
+    <li><code>is_leaf(tree)</code>: returns <code>True</code> if <code>tree</code>'s list of <code>branches</code> is empty, and
+    <code>False</code> otherwise.</li>
+  </ul></li>
+</ul>
+
+<p>For example, the tree generated by</p>
+
+<pre><code>t = tree(1,
+         [tree(2),
+          tree(3,
+               [tree(4),
+                tree(5)]),
+          tree(6,
+               [tree(7)])])</code></pre>
+
+<p>would look like this:</p>
+
+<pre><code>   1
+ / | \
+2  3  6
+  / \  \
+ 4   5  7</code></pre>
+
+<p>To extract the number <code>3</code> from this tree, which is the label of the root of its second branch, we would do this:</p>
+
+<pre><code>label(branches(t)[1])</code></pre>
+
+<p>The <code>print_tree</code> function prints out a tree in a
+human-readable form. The exact form follows the pattern illustrated
+above, where the root is unindented, and each of its branches is
+indented one level further.</p>
+
+<pre><code>def print_tree(t, indent=0):
+    &quot;&quot;&quot;Print a representation of this tree in which each node is
+    indented by two spaces times its depth from the root.
+
+    &gt;&gt;&gt; print_tree(tree(1))
+    1
+    &gt;&gt;&gt; print_tree(tree(1, [tree(2)]))
+    1
+      2
+    &gt;&gt;&gt; numbers = tree(1, [tree(2), tree(3, [tree(4), tree(5)]), tree(6, [tree(7)])])
+    &gt;&gt;&gt; print_tree(numbers)
+    1
+      2
+      3
+        4
+        5
+      6
+        7
+    &quot;&quot;&quot;
+    print(&#x27;  &#x27; * indent + str(label(t)))
+    for b in branches(t):
+        print_tree(b, indent + 1)</code></pre>
+
+
+<h1 id="required-questions">Required Questions</h1>
+
+
+
+<h2 id="what-would-python-display">What Would Python Display?</h2>
+
+
+<h3 class="question" id="q1">Q1: Dictionaries</h3>
+
+<blockquote><p>What would Python display? Type it in the intepreter if you're stuck!</p>
+
+<pre><code>python3 ok &#x2d;q dicts &#x2d;u</code></pre></blockquote>
+
+<pre><code>&gt;&gt;&gt; pokemon = {&#x27;pikachu&#x27;: 25, &#x27;dragonair&#x27;: 148, &#x27;mew&#x27;: 151}
+&gt;&gt;&gt; pokemon[&#x27;pikachu&#x27;]
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x32;&#x35;</div>
+&gt;&gt;&gt; len(pokemon)
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x33;</div>
+&gt;&gt;&gt; pokemon[&#x27;jolteon&#x27;] = 135
+&gt;&gt;&gt; pokemon[&#x27;mew&#x27;] = 25
+&gt;&gt;&gt; len(pokemon)
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x34;</div>
+&gt;&gt;&gt; &#x27;mewtwo&#x27; in pokemon
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x46;&#x61;&#x6c;&#x73;&#x65;</div>
+&gt;&gt;&gt; &#x27;pikachu&#x27; in pokemon
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x54;&#x72;&#x75;&#x65;</div>
+&gt;&gt;&gt; 25 in pokemon
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x46;&#x61;&#x6c;&#x73;&#x65;</div>
+&gt;&gt;&gt; 148 in pokemon.values()
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x54;&#x72;&#x75;&#x65;</div>
+&gt;&gt;&gt; 151 in pokemon.keys()
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x46;&#x61;&#x6c;&#x73;&#x65;</div>
+&gt;&gt;&gt; &#x27;mew&#x27; in pokemon.keys()
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x54;&#x72;&#x75;&#x65;</div>
+&gt;&gt;&gt; pokemon[&#x27;ditto&#x27;] = pokemon[&#x27;jolteon&#x27;]
+&gt;&gt;&gt; pokemon[&#x27;ditto&#x27;]
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x31;&#x33;&#x35;</div></code></pre>
+        <button id='prompt-1' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<pre><code>&gt;&gt;&gt; letters = {&#x27;a&#x27;: 1, &#x27;b&#x27;: 2, &#x27;c&#x27;: 3}
+&gt;&gt;&gt; &#x27;a&#x27; in letters
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x54;&#x72;&#x75;&#x65;</div>
+&gt;&gt;&gt; 2 in letters
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x46;&#x61;&#x6c;&#x73;&#x65;</div>
+&gt;&gt;&gt; sorted(list(letters.keys()))
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x5b;&#x27;&#x61;&#x27;&#x2c;&#x20;&#x27;&#x62;&#x27;&#x2c;&#x20;&#x27;&#x63;&#x27;&#x5d;</div>
+&gt;&gt;&gt; sorted(list(letters.items()))
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x5b;&#x28;&#x27;&#x61;&#x27;&#x2c;&#x20;&#x31;&#x29;&#x2c;&#x20;&#x28;&#x27;&#x62;&#x27;&#x2c;&#x20;&#x32;&#x29;&#x2c;&#x20;&#x28;&#x27;&#x63;&#x27;&#x2c;&#x20;&#x33;&#x29;&#x5d;</div></code></pre>
+        <button id='prompt-2' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<pre><code>&gt;&gt;&gt; food = {&#x27;bulgogi&#x27;: 10, &#x27;falafel&#x27;: 4, &#x27;ceviche&#x27;: 7}
+&gt;&gt;&gt; food[&#x27;ultimate&#x27;] = food[&#x27;bulgogi&#x27;] + food[&#x27;ceviche&#x27;]
+&gt;&gt;&gt; food[&#x27;ultimate&#x27;]
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x31;&#x37;</div>
+&gt;&gt;&gt; len(food)
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x34;</div>
+&gt;&gt;&gt; food[&#x27;ultimate&#x27;] += food[&#x27;falafel&#x27;]
+&gt;&gt;&gt; food[&#x27;ultimate&#x27;]
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x32;&#x31;</div>
+&gt;&gt;&gt; food[&#x27;bulgogi&#x27;] = food[&#x27;falafel&#x27;]
+&gt;&gt;&gt; len(food)
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x34;</div>
+&gt;&gt;&gt; &#x27;gogi&#x27; in food
+<div class="alt prompt-3">______</div><div class="solution prompt-3">&#x46;&#x61;&#x6c;&#x73;&#x65;</div></code></pre>
+        <button id='prompt-3' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<!-- Note that the last example demonstrates that dictionaries cannot use
+other mutable data structures as keys. We'll discuss mutability further in the future.  -->
+
+<!-- >>> pokemon[('diglett', 'diglett', 'diglett')] = 51
+>>> pokemon[25] = 'pikachu'
+>>> pokemon
+{'mew': 151, 'ditto': 135, 'jolteon': 135, 25: 'pikachu',
+'pikachu': 25, ('diglett', 'diglett', 'diglett'): 51,
+'dragonair': 148}
+>>> pokemon['mewtwo'] = pokemon['mew'] * 2
+>>> pokemon
+{'mew': 151, 'ditto': 135, 'jolteon': 135, 25: 'pikachu',
+'pikachu': 25, ('diglett', 'diglett', 'diglett'): 51,
+'mewtwo': 302, 'dragonair': 148
+>>> pokemon[['firetype', 'flying']] = 146
+Error: unhashable type -->
+
+
+<h2 id="coding-practice">Coding Practice</h2>
+
+
+<h3 class="question" id="q2">Q2: Map, Filter, Reduce</h3>
+
+<p>As an exercise, implement three functions <code>map</code>, <code>filter</code>, and <code>reduce</code>.</p>
+
+<p><code>map</code> takes in a one argument function <code>fn</code> and a sequence <code>seq</code> and returns a
+list containing <code>fn</code> applied to each element in <code>seq</code>.</p>
+
+<p><code>filter</code> takes in a predicate function <code>pred</code> and a sequence <code>seq</code> and returns a
+list containing all elements in <code>seq</code> for which <code>pred</code> returns True.</p>
+
+<p><code>reduce</code> takes in a two argument function <code>combiner</code> and a non-empty sequence
+<code>seq</code> and combines the elements in <code>seq</code> into one value using <code>combiner</code>.</p>
+
+
+
+<pre><code>def map(fn, seq):
+    &quot;&quot;&quot;Applies fn onto each element in seq and returns a list.
+
+    &gt;&gt;&gt; map(lambda x: x*x, [1, 2, 3])
+    [1, 4, 9]
+    &quot;&quot;&quot;
+<div class="alt solution-1">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-1">&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x73;&#x75;&#x6c;&#x74;&#x20;&#x3d;&#x20;&#x5b;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x65;&#x6c;&#x65;&#x6d;&#x20;&#x69;&#x6e;&#x20;&#x73;&#x65;&#x71;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x73;&#x75;&#x6c;&#x74;&#x20;&#x2b;&#x3d;&#x20;&#x5b;&#x66;&#x6e;&#x28;&#x65;&#x6c;&#x65;&#x6d;&#x29;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x72;&#x65;&#x73;&#x75;&#x6c;&#x74;</div>
+def filter(pred, seq):
+    &quot;&quot;&quot;Keeps elements in seq only if they satisfy pred.
+
+    &gt;&gt;&gt; filter(lambda x: x % 2 == 0, [1, 2, 3, 4])
+    [2, 4]
+    &quot;&quot;&quot;
+<div class="alt solution-1">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-1">&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x73;&#x75;&#x6c;&#x74;&#x20;&#x3d;&#x20;&#x5b;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x65;&#x6c;&#x65;&#x6d;&#x20;&#x69;&#x6e;&#x20;&#x73;&#x65;&#x71;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x70;&#x72;&#x65;&#x64;&#x28;&#x65;&#x6c;&#x65;&#x6d;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x73;&#x75;&#x6c;&#x74;&#x20;&#x2b;&#x3d;&#x20;&#x5b;&#x65;&#x6c;&#x65;&#x6d;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x72;&#x65;&#x73;&#x75;&#x6c;&#x74;</div>
+def reduce(combiner, seq):
+    &quot;&quot;&quot;Combines elements in seq using combiner.
+
+    &gt;&gt;&gt; reduce(lambda x, y: x + y, [1, 2, 3, 4])
+    10
+    &gt;&gt;&gt; reduce(lambda x, y: x * y, [1, 2, 3, 4])
+    24
+    &gt;&gt;&gt; reduce(lambda x, y: x * y, [4])
+    4
+    &quot;&quot;&quot;
+<div class="alt solution-1">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-1">&#x20;&#x20;&#x20;&#x20;&#x74;&#x6f;&#x74;&#x61;&#x6c;&#x20;&#x3d;&#x20;&#x73;&#x65;&#x71;&#x5b;&#x30;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x65;&#x6c;&#x65;&#x6d;&#x20;&#x69;&#x6e;&#x20;&#x73;&#x65;&#x71;&#x5b;&#x31;&#x3a;&#x5d;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x74;&#x6f;&#x74;&#x61;&#x6c;&#x20;&#x3d;&#x20;&#x63;&#x6f;&#x6d;&#x62;&#x69;&#x6e;&#x65;&#x72;&#x28;&#x74;&#x6f;&#x74;&#x61;&#x6c;&#x2c;&#x20;&#x65;&#x6c;&#x65;&#x6d;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x74;&#x6f;&#x74;&#x61;&#x6c;</div></code></pre>
+
+
+        <button id='solution-1' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q map
+python3 ok -q filter
+python3 ok -q reduce</code></pre>
+
+<h3 class="question" id="q3">Q3: Acorn Finder</h3>
+
+<p>The squirrels on campus need your help! There are a lot of trees on campus and
+the squirrels would like to know which ones contain acorns. Define the function
+<code>acorn_finder</code>, which takes in a tree and returns <code>True</code> if the tree contains a
+node with the value <code>&#x27;acorn&#x27;</code> and <code>False</code> otherwise.</p>
+
+
+
+<pre><code>def acorn_finder(t):
+    &quot;&quot;&quot;Returns True if t contains a node with the value &#x27;acorn&#x27; and
+    False otherwise.
+
+    &gt;&gt;&gt; scrat = tree(&#x27;acorn&#x27;)
+    &gt;&gt;&gt; acorn_finder(scrat)
+    True
+    &gt;&gt;&gt; sproul = tree(&#x27;roots&#x27;, [tree(&#x27;branch1&#x27;, [tree(&#x27;leaf&#x27;), tree(&#x27;acorn&#x27;)]), tree(&#x27;branch2&#x27;)])
+    &gt;&gt;&gt; acorn_finder(sproul)
+    True
+    &gt;&gt;&gt; numbers = tree(1, [tree(2), tree(3, [tree(4), tree(5)]), tree(6, [tree(7)])])
+    &gt;&gt;&gt; acorn_finder(numbers)
+    False
+    &quot;&quot;&quot;
+<div class="alt solution-2">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-2">&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x28;&#x74;&#x29;&#x20;&#x3d;&#x3d;&#x20;&#x27;&#x61;&#x63;&#x6f;&#x72;&#x6e;&#x27;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x54;&#x72;&#x75;&#x65;&#xa;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x62;&#x20;&#x69;&#x6e;&#x20;&#x62;&#x72;&#x61;&#x6e;&#x63;&#x68;&#x65;&#x73;&#x28;&#x74;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x61;&#x63;&#x6f;&#x72;&#x6e;&#x5f;&#x66;&#x69;&#x6e;&#x64;&#x65;&#x72;&#x28;&#x62;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x54;&#x72;&#x75;&#x65;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x46;&#x61;&#x6c;&#x73;&#x65;&#xa;&#xa;&#x23;&#x20;&#x41;&#x6c;&#x74;&#x65;&#x72;&#x6e;&#x61;&#x74;&#x69;&#x76;&#x65;&#x20;&#x73;&#x6f;&#x6c;&#x75;&#x74;&#x69;&#x6f;&#x6e;&#xa;&#x64;&#x65;&#x66;&#x20;&#x61;&#x63;&#x6f;&#x72;&#x6e;&#x5f;&#x66;&#x69;&#x6e;&#x64;&#x65;&#x72;&#x28;&#x74;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x28;&#x74;&#x29;&#x20;&#x3d;&#x3d;&#x20;&#x27;&#x61;&#x63;&#x6f;&#x72;&#x6e;&#x27;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x54;&#x72;&#x75;&#x65;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x54;&#x72;&#x75;&#x65;&#x20;&#x69;&#x6e;&#x20;&#x5b;&#x61;&#x63;&#x6f;&#x72;&#x6e;&#x5f;&#x66;&#x69;&#x6e;&#x64;&#x65;&#x72;&#x28;&#x62;&#x29;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x62;&#x20;&#x69;&#x6e;&#x20;&#x62;&#x72;&#x61;&#x6e;&#x63;&#x68;&#x65;&#x73;&#x28;&#x74;&#x29;&#x5d;</div></code></pre>
+
+
+        <button id='solution-2' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q acorn_finder</code></pre>
+
+<h3 class="question" id="q4">Q4: Replace Leaf</h3>
+
+<p>Define <code>replace_leaf</code>, which takes a tree <code>t</code>, a value <code>old</code>, and a value <code>new</code>.
+<code>replace_leaf</code> returns a new tree that's the same as <code>t</code> except that every leaf
+value equal to <code>old</code>  has been replaced with <code>new</code>.</p>
+
+
+
+<pre><code>def replace_leaf(t, old, new):
+    &quot;&quot;&quot;Returns a new tree where every leaf value equal to old has
+    been replaced with new.
+
+    &gt;&gt;&gt; yggdrasil = tree(&#x27;odin&#x27;,
+    ...                  [tree(&#x27;balder&#x27;,
+    ...                        [tree(&#x27;thor&#x27;),
+    ...                         tree(&#x27;loki&#x27;)]),
+    ...                   tree(&#x27;frigg&#x27;,
+    ...                        [tree(&#x27;thor&#x27;)]),
+    ...                   tree(&#x27;thor&#x27;,
+    ...                        [tree(&#x27;sif&#x27;),
+    ...                         tree(&#x27;thor&#x27;)]),
+    ...                   tree(&#x27;thor&#x27;)])
+    &gt;&gt;&gt; laerad = copy_tree(yggdrasil) # copy yggdrasil for testing purposes
+    &gt;&gt;&gt; print_tree(replace_leaf(yggdrasil, &#x27;thor&#x27;, &#x27;freya&#x27;))
+    odin
+      balder
+        freya
+        loki
+      frigg
+        freya
+      thor
+        sif
+        freya
+      freya
+    &gt;&gt;&gt; laerad == yggdrasil # Make sure original tree is unmodified
+    True
+    &quot;&quot;&quot;
+<div class="alt solution-3">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-3">&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x69;&#x73;&#x5f;&#x6c;&#x65;&#x61;&#x66;&#x28;&#x74;&#x29;&#x20;&#x61;&#x6e;&#x64;&#x20;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x28;&#x74;&#x29;&#x20;&#x3d;&#x3d;&#x20;&#x6f;&#x6c;&#x64;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x74;&#x72;&#x65;&#x65;&#x28;&#x6e;&#x65;&#x77;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x62;&#x73;&#x20;&#x3d;&#x20;&#x5b;&#x72;&#x65;&#x70;&#x6c;&#x61;&#x63;&#x65;&#x5f;&#x6c;&#x65;&#x61;&#x66;&#x28;&#x62;&#x2c;&#x20;&#x6f;&#x6c;&#x64;&#x2c;&#x20;&#x6e;&#x65;&#x77;&#x29;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x62;&#x20;&#x69;&#x6e;&#x20;&#x62;&#x72;&#x61;&#x6e;&#x63;&#x68;&#x65;&#x73;&#x28;&#x74;&#x29;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x74;&#x72;&#x65;&#x65;&#x28;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x28;&#x74;&#x29;&#x2c;&#x20;&#x62;&#x73;&#x29;</div></code></pre>
+
+
+        <button id='solution-3' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q replace_leaf</code></pre>
+
+<!--
+<explanation>
+
+<p>We approach this problem recursively.</p>
+
+<ul>
+  <li><p><strong>Base Case:</strong> if the tree is a leaf, we can immediately decide what to
+  do. If the label matches the old label, we return a tree with the new
+  value. Otherwise, we just return the original tree. In our solution, it
+  looks like we always recurse over the branches:</p>
+
+<pre><code>bs = [replace_leaf(b, old, new) for b in branches(t)]</code></pre>
+
+  <p>But this will not do anything for a leaf, since <code>branches(t)</code> is an
+  empty sequence. It's also possible to have a separate case.</p></li>
+  <li><strong>Otherwise:</strong> we cannot do anything about the current element, since
+  we're only allowed to replace at leaves. Therefore, we need to examine
+  all of our branches, and replace their leaves. After replacing their
+  leaves, we can return an updated tree.</li>
+</ul>
+
+<p>Video walkthrough: <a href="https://youtu.be/c4CJBcyrFgI">https://youtu.be/c4CJBcyrFgI</a></p>
+
+</explanation>
+-->
+
+
+<h1 id="optional-questions">Optional Questions</h1>
+
+
+
+<h2 id="shakespeare-and-dictionaries">Shakespeare and Dictionaries</h2>
+
+
+<p>We will use dictionaries to approximate the entire works of
+Shakespeare! We're going to use a bigram language model. Here's the
+idea: We start with some word -- we'll use "The" as an example. Then we
+look through all of the texts of Shakespeare and for every instance of
+"The" we record the word that follows "The" and add it to a list, known
+as the <em>successors</em> of "The".  Now suppose we've done this for every
+word Shakespeare has used, ever.</p>
+
+<p>Let's go back to "The". Now, we randomly choose a word from this list,
+say "cat". Then we look up the successors of "cat" and randomly choose
+a word from that list, and we continue this process. This eventually
+will terminate in a period (".") and we will have generated a
+Shakespearean sentence!</p>
+
+<p>The object that we'll be looking things up in is called a "successor
+table", although really it's just a dictionary. The keys in this
+dictionary are words, and the values are lists of successors to those
+words.</p>
+
+<h3 class="question" id="q5">Q5: Successor Tables</h3>
+Here's an incomplete definition of the <code>build_successors_table</code>
+function. The input is a list of words (corresponding to a
+Shakespearean text), and the output is a successors table. (By default,
+the first word is a successor to "."). See the example below.
+
+<blockquote><p>Note: there are two places where you need to write code, denoted by the two
+<code>&quot;*** YOUR CODE HERE ***&quot;</code></p></blockquote>
+
+
+
+<pre><code>def build_successors_table(tokens):
+    &quot;&quot;&quot;Return a dictionary: keys are words; values are lists of successors.
+
+    &gt;&gt;&gt; text = [&#x27;We&#x27;, &#x27;came&#x27;, &#x27;to&#x27;, &#x27;investigate&#x27;, &#x27;,&#x27;, &#x27;catch&#x27;, &#x27;bad&#x27;, &#x27;guys&#x27;, &#x27;and&#x27;, &#x27;to&#x27;, &#x27;eat&#x27;, &#x27;pie&#x27;, &#x27;.&#x27;]
+    &gt;&gt;&gt; table = build_successors_table(text)
+    &gt;&gt;&gt; sorted(table)
+    [&#x27;,&#x27;, &#x27;.&#x27;, &#x27;We&#x27;, &#x27;and&#x27;, &#x27;bad&#x27;, &#x27;came&#x27;, &#x27;catch&#x27;, &#x27;eat&#x27;, &#x27;guys&#x27;, &#x27;investigate&#x27;, &#x27;pie&#x27;, &#x27;to&#x27;]
+    &gt;&gt;&gt; table[&#x27;to&#x27;]
+    [&#x27;investigate&#x27;, &#x27;eat&#x27;]
+    &gt;&gt;&gt; table[&#x27;pie&#x27;]
+    [&#x27;.&#x27;]
+    &gt;&gt;&gt; table[&#x27;.&#x27;]
+    [&#x27;We&#x27;]
+    &quot;&quot;&quot;
+    table = {}
+    prev = &#x27;.&#x27;
+    for word in tokens:
+        if prev not in table:
+<div class="alt solution-4">            "*** YOUR CODE HERE ***"
+</div><div class="solution solution-4">&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x74;&#x61;&#x62;&#x6c;&#x65;&#x5b;&#x70;&#x72;&#x65;&#x76;&#x5d;&#x20;&#x3d;&#x20;&#x5b;&#x5d;</div><div class="alt solution-4">        "*** YOUR CODE HERE ***"
+</div><div class="solution solution-4">&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x74;&#x61;&#x62;&#x6c;&#x65;&#x5b;&#x70;&#x72;&#x65;&#x76;&#x5d;&#x20;&#x2b;&#x3d;&#x20;&#x5b;&#x77;&#x6f;&#x72;&#x64;&#x5d;</div>        prev = word
+    return table</code></pre>
+
+
+        <button id='solution-4' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q build_successors_table</code></pre>
+
+<h3 class="question" id="q6">Q6: Construct the Sentence</h3>
+
+<p>Let's generate some sentences! Suppose we're given a starting word. We
+can look up this word in our table to find its list of successors, and
+then randomly select a word from this list to be the next word in the
+sentence. Then we just repeat until we reach some ending punctuation.</p>
+
+<blockquote><p><em>Hint</em>: to randomly select from a list, import the Python random library with
+<code>import random</code> and use the expression <code>random.choice(my_list)</code>)</p></blockquote>
+
+<p>This might not be a bad time to play around with adding strings
+together as well. Let's fill in the <code>construct_sent</code> function!</p>
+
+
+
+<pre><code>def construct_sent(word, table):
+    &quot;&quot;&quot;Prints a random sentence starting with word, sampling from
+    table.
+
+    &gt;&gt;&gt; table = {&#x27;Wow&#x27;: [&#x27;!&#x27;], &#x27;Sentences&#x27;: [&#x27;are&#x27;], &#x27;are&#x27;: [&#x27;cool&#x27;], &#x27;cool&#x27;: [&#x27;.&#x27;]}
+    &gt;&gt;&gt; construct_sent(&#x27;Wow&#x27;, table)
+    &#x27;Wow!&#x27;
+    &gt;&gt;&gt; construct_sent(&#x27;Sentences&#x27;, table)
+    &#x27;Sentences are cool.&#x27;
+    &quot;&quot;&quot;
+    import random
+    result = &#x27;&#x27;
+    while word not in [&#x27;.&#x27;, &#x27;!&#x27;, &#x27;?&#x27;]:
+<div class="alt solution-5">        "*** YOUR CODE HERE ***"
+</div><div class="solution solution-5">&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x73;&#x75;&#x6c;&#x74;&#x20;&#x2b;&#x3d;&#x20;&#x77;&#x6f;&#x72;&#x64;&#x20;&#x2b;&#x20;&#x27;&#x20;&#x27;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x77;&#x6f;&#x72;&#x64;&#x20;&#x3d;&#x20;&#x72;&#x61;&#x6e;&#x64;&#x6f;&#x6d;&#x2e;&#x63;&#x68;&#x6f;&#x69;&#x63;&#x65;&#x28;&#x74;&#x61;&#x62;&#x6c;&#x65;&#x5b;&#x77;&#x6f;&#x72;&#x64;&#x5d;&#x29;</div>    return result.strip() + word</code></pre>
+
+
+        <button id='solution-5' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q construct_sent</code></pre>
+
+
+<h3 id="putting-it-all-together">Putting it all together</h3>
+
+
+<p>Great! Now let's try to run our functions with some actual data. The following
+snippet included in the skeleton code will return a list containing the words
+in all of the works of Shakespeare.</p>
+
+<blockquote><p><em>Warning</em>: Do <strong>NOT</strong> try to print the return result of this function.</p></blockquote>
+
+<pre><code>def shakespeare_tokens(path=&#x27;shakespeare.txt&#x27;, url=&#x27;http://composingprograms.com/shakespeare.txt&#x27;):
+    &quot;&quot;&quot;Return the words of Shakespeare&#x27;s plays as a list.&quot;&quot;&quot;
+    import os
+    from urllib.request import urlopen
+    if os.path.exists(path):
+        return open(&#x27;shakespeare.txt&#x27;, encoding=&#x27;ascii&#x27;).read().split()
+    else:
+        shakespeare = urlopen(url)
+        return shakespeare.read().decode(encoding=&#x27;ascii&#x27;).split()</code></pre>
+
+<p>Uncomment the following two lines to run the above function and build the
+successors table from those tokens.</p>
+
+<pre><code># Uncomment the following two lines
+# tokens = shakespeare_tokens()
+# table = build_successors_table(tokens)</code></pre>
+
+<p>Next, let's define a utility function that constructs sentences from this
+successors table:</p>
+
+<pre><code>&gt;&gt;&gt; def sent():
+...     return construct_sent(&#x27;The&#x27;, table)
+&gt;&gt;&gt; sent()
+&quot; The plebeians have done us must be news&#x2d;cramm&#x27;d  .&quot;
+
+&gt;&gt;&gt; sent()
+&quot; The ravish&#x27;d thee , with the mercy of beauty !&quot;
+
+&gt;&gt;&gt; sent()
+&quot; The bird of Tunis , or two white and plucker down with better ; that&#x27;s God&#x27;s sake .&quot;</code></pre>
+
+<p>Notice that all the sentences start with the word "The". With a few
+modications, we can make our sentences start with a random word. The
+following <code>random_sent</code> function (defined in your starter file) will
+do the trick:</p>
+
+<pre><code>def random_sent():
+    import random
+    return construct_sent(random.choice(table[&#x27;.&#x27;]), table)</code></pre>
+
+<p>Go ahead and load your file into Python (be sure to use the <code>&#x2d;i</code> flag).
+You can now call the <code>random_sent</code> function to generate random
+Shakespearean sentences!</p>
+
+<pre><code>&gt;&gt;&gt; random_sent()
+&#x27; Long live by thy name , then , Dost thou more angel , good Master Deep&#x2d;vow , And tak&#x27;st more ado but following her , my sight Of speaking false !&#x27;
+
+&gt;&gt;&gt; random_sent()
+&#x27; Yes , why blame him , as is as I shall find a case , That plays at the public weal or the ghost .&#x27;</code></pre>
+
+
+<h2 id="more-trees-practice">More Trees Practice</h2>
+
+
+<h3 class="question" id="q7">Q7: Pruning Leaves</h3>
+
+<p>Define a function <code>prune_leaves</code> that given a tree <code>t</code> and a tuple of values <code>vals</code>, 
+it produces a version of <code>t</code> with all its leaves that are in <code>vals</code> removed. 
+Do not attempt to try to remove non-leaf nodes and do not remove leaves that do not match any of the
+items in <code>vals</code>. If you have to remove the root of a tree, return
+<code>None</code>.</p>
+
+
+
+<pre><code>def prune_leaves(t, vals):
+    &quot;&quot;&quot;Return a modified copy of t with all leaves that have a label
+    that appears in vals removed.  Return None if the entire tree is
+    pruned away.
+
+    &gt;&gt;&gt; t = tree(2)
+    &gt;&gt;&gt; print(prune_leaves(t, (1, 2)))
+    None
+    &gt;&gt;&gt; numbers = tree(1, [tree(2), tree(3, [tree(4), tree(5)]), tree(6, [tree(7)])])
+    &gt;&gt;&gt; print_tree(numbers)
+    1
+      2
+      3
+        4
+        5
+      6
+        7
+    &gt;&gt;&gt; print_tree(prune_leaves(numbers, (3, 4, 6, 7)))
+    1
+      2
+      3
+        5
+      6
+    &quot;&quot;&quot;
+<div class="alt solution-6">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-6">&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x69;&#x73;&#x5f;&#x6c;&#x65;&#x61;&#x66;&#x28;&#x74;&#x29;&#x20;&#x61;&#x6e;&#x64;&#x20;&#x28;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x28;&#x74;&#x29;&#x20;&#x69;&#x6e;&#x20;&#x76;&#x61;&#x6c;&#x73;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x4e;&#x6f;&#x6e;&#x65;&#xa;&#x20;&#x20;&#x20;&#x20;&#x6e;&#x65;&#x77;&#x5f;&#x62;&#x72;&#x61;&#x6e;&#x63;&#x68;&#x65;&#x73;&#x20;&#x3d;&#x20;&#x5b;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x62;&#x20;&#x69;&#x6e;&#x20;&#x62;&#x72;&#x61;&#x6e;&#x63;&#x68;&#x65;&#x73;&#x28;&#x74;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x6e;&#x65;&#x77;&#x5f;&#x62;&#x72;&#x61;&#x6e;&#x63;&#x68;&#x20;&#x3d;&#x20;&#x70;&#x72;&#x75;&#x6e;&#x65;&#x5f;&#x6c;&#x65;&#x61;&#x76;&#x65;&#x73;&#x28;&#x62;&#x2c;&#x20;&#x76;&#x61;&#x6c;&#x73;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6e;&#x65;&#x77;&#x5f;&#x62;&#x72;&#x61;&#x6e;&#x63;&#x68;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x6e;&#x65;&#x77;&#x5f;&#x62;&#x72;&#x61;&#x6e;&#x63;&#x68;&#x65;&#x73;&#x20;&#x2b;&#x3d;&#x20;&#x5b;&#x6e;&#x65;&#x77;&#x5f;&#x62;&#x72;&#x61;&#x6e;&#x63;&#x68;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x74;&#x72;&#x65;&#x65;&#x28;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x28;&#x74;&#x29;&#x2c;&#x20;&#x6e;&#x65;&#x77;&#x5f;&#x62;&#x72;&#x61;&#x6e;&#x63;&#x68;&#x65;&#x73;&#x29;</div></code></pre>
+
+
+        <button id='solution-6' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q prune_leaves</code></pre>
+
+<h3 class="question" id="q8">Q8: Sprout leaves</h3>
+
+<p>Define a function <code>sprout_leaves</code> that, given a tree, <code>t</code>, and a list
+of values, <code>vals</code>, and produces a tree with every leaf having new
+branches that contain each of the items in <code>vals</code>. Do not add new
+branches to non-leaf nodes.</p>
+
+
+
+<pre><code>def sprout_leaves(t, vals):
+    &quot;&quot;&quot;Sprout new leaves containing the data in vals at each leaf in
+    the original tree t and return the resulting tree.
+
+    &gt;&gt;&gt; t1 = tree(1, [tree(2), tree(3)])
+    &gt;&gt;&gt; print_tree(t1)
+    1
+      2
+      3
+    &gt;&gt;&gt; new1 = sprout_leaves(t1, [4, 5])
+    &gt;&gt;&gt; print_tree(new1)
+    1
+      2
+        4
+        5
+      3
+        4
+        5
+
+    &gt;&gt;&gt; t2 = tree(1, [tree(2, [tree(3)])])
+    &gt;&gt;&gt; print_tree(t2)
+    1
+      2
+        3
+    &gt;&gt;&gt; new2 = sprout_leaves(t2, [6, 1, 2])
+    &gt;&gt;&gt; print_tree(new2)
+    1
+      2
+        3
+          6
+          1
+          2
+    &quot;&quot;&quot;
+<div class="alt solution-7">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-7">&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x69;&#x73;&#x5f;&#x6c;&#x65;&#x61;&#x66;&#x28;&#x74;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x74;&#x72;&#x65;&#x65;&#x28;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x28;&#x74;&#x29;&#x2c;&#x20;&#x5b;&#x74;&#x72;&#x65;&#x65;&#x28;&#x76;&#x29;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x76;&#x20;&#x69;&#x6e;&#x20;&#x76;&#x61;&#x6c;&#x73;&#x5d;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x74;&#x72;&#x65;&#x65;&#x28;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x28;&#x74;&#x29;&#x2c;&#x20;&#x5b;&#x73;&#x70;&#x72;&#x6f;&#x75;&#x74;&#x5f;&#x6c;&#x65;&#x61;&#x76;&#x65;&#x73;&#x28;&#x73;&#x2c;&#x20;&#x76;&#x61;&#x6c;&#x73;&#x29;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x73;&#x20;&#x69;&#x6e;&#x20;&#x62;&#x72;&#x61;&#x6e;&#x63;&#x68;&#x65;&#x73;&#x28;&#x74;&#x29;&#x5d;&#x29;</div></code></pre>
+
+
+        <button id='solution-7' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q sprout_leaves</code></pre>
+
+<h3 class="question" id="q9">Q9: Add trees</h3>
+
+<p>Define the function <code>add_trees</code>, which takes in two trees and returns a new
+tree where each corresponding node from the first tree is added with the node
+from the second tree. If a node at any particular position is present in one
+tree but not the other, it should be present in the new tree as well.</p>
+
+<blockquote><p><em>Hint</em>: You may want to use the built-in zip function to iterate over
+multiple sequences at once.</p>
+
+<p><em>Note</em>: If you feel that this one's a lot harder than the first two extra
+tree problems, that's totally fine! This is a pretty difficult problem, but
+you can do it! Talk about it with other students, and come back to it if you
+need to.</p></blockquote>
+
+
+
+<pre><code>def add_trees(t1, t2):
+    &quot;&quot;&quot;
+    &gt;&gt;&gt; numbers = tree(1,
+    ...                [tree(2,
+    ...                      [tree(3),
+    ...                       tree(4)]),
+    ...                 tree(5,
+    ...                      [tree(6,
+    ...                            [tree(7)]),
+    ...                       tree(8)])])
+    &gt;&gt;&gt; print_tree(add_trees(numbers, numbers))
+    2
+      4
+        6
+        8
+      10
+        12
+          14
+        16
+    &gt;&gt;&gt; print_tree(add_trees(tree(2), tree(3, [tree(4), tree(5)])))
+    5
+      4
+      5
+    &gt;&gt;&gt; print_tree(add_trees(tree(2, [tree(3)]), tree(2, [tree(3), tree(4)])))
+    4
+      6
+      4
+    &gt;&gt;&gt; print_tree(add_trees(tree(2, [tree(3, [tree(4), tree(5)])]), \
+    tree(2, [tree(3, [tree(4)]), tree(5)])))
+    4
+      6
+        8
+        5
+      5
+    &quot;&quot;&quot;
+<div class="alt solution-8">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-8">&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6e;&#x6f;&#x74;&#x20;&#x74;&#x31;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x74;&#x32;&#xa;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6e;&#x6f;&#x74;&#x20;&#x74;&#x32;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x74;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x6e;&#x65;&#x77;&#x5f;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x20;&#x3d;&#x20;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x28;&#x74;&#x31;&#x29;&#x20;&#x2b;&#x20;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x28;&#x74;&#x32;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x74;&#x31;&#x5f;&#x63;&#x68;&#x69;&#x6c;&#x64;&#x72;&#x65;&#x6e;&#x2c;&#x20;&#x74;&#x32;&#x5f;&#x63;&#x68;&#x69;&#x6c;&#x64;&#x72;&#x65;&#x6e;&#x20;&#x3d;&#x20;&#x62;&#x72;&#x61;&#x6e;&#x63;&#x68;&#x65;&#x73;&#x28;&#x74;&#x31;&#x29;&#x2c;&#x20;&#x62;&#x72;&#x61;&#x6e;&#x63;&#x68;&#x65;&#x73;&#x28;&#x74;&#x32;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x6c;&#x65;&#x6e;&#x67;&#x74;&#x68;&#x5f;&#x74;&#x31;&#x2c;&#x20;&#x6c;&#x65;&#x6e;&#x67;&#x74;&#x68;&#x5f;&#x74;&#x32;&#x20;&#x3d;&#x20;&#x6c;&#x65;&#x6e;&#x28;&#x74;&#x31;&#x5f;&#x63;&#x68;&#x69;&#x6c;&#x64;&#x72;&#x65;&#x6e;&#x29;&#x2c;&#x20;&#x6c;&#x65;&#x6e;&#x28;&#x74;&#x32;&#x5f;&#x63;&#x68;&#x69;&#x6c;&#x64;&#x72;&#x65;&#x6e;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6c;&#x65;&#x6e;&#x67;&#x74;&#x68;&#x5f;&#x74;&#x31;&#x20;&#x3c;&#x20;&#x6c;&#x65;&#x6e;&#x67;&#x74;&#x68;&#x5f;&#x74;&#x32;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x74;&#x31;&#x5f;&#x63;&#x68;&#x69;&#x6c;&#x64;&#x72;&#x65;&#x6e;&#x20;&#x2b;&#x3d;&#x20;&#x5b;&#x4e;&#x6f;&#x6e;&#x65;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x5f;&#x20;&#x69;&#x6e;&#x20;&#x72;&#x61;&#x6e;&#x67;&#x65;&#x28;&#x6c;&#x65;&#x6e;&#x67;&#x74;&#x68;&#x5f;&#x74;&#x31;&#x2c;&#x20;&#x6c;&#x65;&#x6e;&#x67;&#x74;&#x68;&#x5f;&#x74;&#x32;&#x29;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x69;&#x66;&#x20;&#x6c;&#x65;&#x6e;&#x28;&#x74;&#x31;&#x5f;&#x63;&#x68;&#x69;&#x6c;&#x64;&#x72;&#x65;&#x6e;&#x29;&#x20;&#x3e;&#x20;&#x6c;&#x65;&#x6e;&#x28;&#x74;&#x32;&#x5f;&#x63;&#x68;&#x69;&#x6c;&#x64;&#x72;&#x65;&#x6e;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x74;&#x32;&#x5f;&#x63;&#x68;&#x69;&#x6c;&#x64;&#x72;&#x65;&#x6e;&#x20;&#x2b;&#x3d;&#x20;&#x5b;&#x4e;&#x6f;&#x6e;&#x65;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x5f;&#x20;&#x69;&#x6e;&#x20;&#x72;&#x61;&#x6e;&#x67;&#x65;&#x28;&#x6c;&#x65;&#x6e;&#x67;&#x74;&#x68;&#x5f;&#x74;&#x32;&#x2c;&#x20;&#x6c;&#x65;&#x6e;&#x67;&#x74;&#x68;&#x5f;&#x74;&#x31;&#x29;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x74;&#x72;&#x65;&#x65;&#x28;&#x6e;&#x65;&#x77;&#x5f;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x2c;&#x20;&#x5b;&#x61;&#x64;&#x64;&#x5f;&#x74;&#x72;&#x65;&#x65;&#x73;&#x28;&#x63;&#x68;&#x69;&#x6c;&#x64;&#x31;&#x2c;&#x20;&#x63;&#x68;&#x69;&#x6c;&#x64;&#x32;&#x29;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x63;&#x68;&#x69;&#x6c;&#x64;&#x31;&#x2c;&#x20;&#x63;&#x68;&#x69;&#x6c;&#x64;&#x32;&#x20;&#x69;&#x6e;&#x20;&#x7a;&#x69;&#x70;&#x28;&#x74;&#x31;&#x5f;&#x63;&#x68;&#x69;&#x6c;&#x64;&#x72;&#x65;&#x6e;&#x2c;&#x20;&#x74;&#x32;&#x5f;&#x63;&#x68;&#x69;&#x6c;&#x64;&#x72;&#x65;&#x6e;&#x29;&#x5d;&#x29;</div></code></pre>
+
+
+        <button id='solution-8' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q add_trees</code></pre>
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#topics">Topics</a></li>
+  <ul>
+    <li><a href="#sequences">Sequences</a></li>
+    <ul>
+      <li><a href="#for-statements">For Statements</a></li>
+    </ul>
+    <li><a href="#dictionaries">Dictionaries</a></li>
+    <li><a href="#trees">Trees</a></li>
+  </ul>
+  <li><a href="#required-questions">Required Questions</a></li>
+  <ul>
+    <li><a href="#what-would-python-display">What Would Python Display?</a></li>
+    <ul>
+      <li><a href="#q1">Q1: Dictionaries</a></li>
+    </ul>
+    <li><a href="#coding-practice">Coding Practice</a></li>
+    <ul>
+      <li><a href="#q2">Q2: Map, Filter, Reduce</a></li>
+      <li><a href="#q3">Q3: Acorn Finder</a></li>
+      <li><a href="#q4">Q4: Replace Leaf</a></li>
+    </ul>
+  </ul>
+  <li><a href="#optional-questions">Optional Questions</a></li>
+  <ul>
+    <li><a href="#shakespeare-and-dictionaries">Shakespeare and Dictionaries</a></li>
+    <ul>
+      <li><a href="#q5">Q5: Successor Tables</a></li>
+      <li><a href="#q6">Q6: Construct the Sentence</a></li>
+      <li><a href="#putting-it-all-together">Putting it all together</a></li>
+    </ul>
+    <li><a href="#more-trees-practice">More Trees Practice</a></li>
+    <ul>
+      <li><a href="#q7">Q7: Pruning Leaves</a></li>
+      <li><a href="#q8">Q8: Sprout leaves</a></li>
+      <li><a href="#q9">Q9: Add trees</a></li>
+    </ul>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+
+<script type="text/javascript" src="../../assets/js/config.js"></script>
+<script>
+  $(function() {
+    var staging_domains = ['staging.cs61a.org', 'solutions.cs61a.org', 'localhost', '127.0.0.1'];
+    var host = window.location.hostname;
+    var staging = staging_domains.indexOf(host) != -1;
+    staging = staging || (host.endsWith('.pullrequests.cs61a.org') && !host.startsWith('last-build.'));
+
+    var after_due_date = new Date("02/24/2018") < new Date();
+    var before_end_date = new Date() <= new Date(endDate);
+    var release_solutions = (staging || after_due_date) && before_end_date;
+
+    if (release_solutions) {
+      $('.toggle').css('display', 'inline-block');
+      $('.toggle').click(function() {
+        var solution_id = $(this).attr('id');
+        $('div.' + solution_id).slideToggle(600);
+      });
+    }
+  });
+</script>
+
+
+  </body>
+
+<!-- Mirrored from cs61a.org/lab/lab05/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:19 GMT -->
+</html>

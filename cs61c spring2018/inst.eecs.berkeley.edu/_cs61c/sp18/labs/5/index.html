@@ -1,0 +1,372 @@
+
+<html>
+  
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/5/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:55:09 GMT -->
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <title>CS61C Spring 2018 Lab 5</title>
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <style type="text/css">
+      img.btn {vertical-align:middle;}
+      img {outline:1px solid #333;}
+      li+li {margin-top:0.67em;}
+      td {text-align:center;}
+      thead {font-weight:bold;}
+    </style>
+  </head>
+  <body>
+
+    <div class="header">
+        <div class='header-text'>
+      <h1>CS61C Spring 2018 Lab 5 - Introduction to Logisim</h1>
+        </div>
+    </div>
+
+    <div class="content">
+
+      <h2>Preparation</h2>
+      <p>Launch the Logisim application to begin. To do this, type 'logisim' from the hive machines.</p>
+
+      <p>If you would like to use Logism on your own computer, you will need to install Logism on your machine. There is also a copy of Logism included in the lab 5 folder that you can copy from.
+      To get these files run:<p>
+      <p>cp -r ~cs61c/labs/05 . <p>
+      <p>Or if you are on your own machine (remember to change the xxx to your login):<p>
+      <p>scp -r cs61c-xxx@hive21.cs.berkeley.edu:~cs61c/labs/05 .<p>
+      <p>You can learn about Logisim beyond the scope of this lab (or download it to use
+        at home) from the
+        <a href="http://www.cburch.com/logisim/index.html">Logisim website</a>.
+        Logisim can be a bit buggy; if the program starts to act strangely, it is possible that something internally crashed,
+        so the best solution would be to restart it.</p>
+
+      <p>Note: We recommend copying logisim to your local machine <b>or</b> physically interfacing with the hive machine. Running logisim while accessing the hive machine remotely requires additional options while using ssh and makes logisim appear to run more slowly. </p>
+
+      <h2>Introduction</h2>
+
+      <h3>Part 0: The Basics (Warm-Up)</h3>
+      <p>We'll begin by creating a very simple circuit just to get the feel for placing
+        gates and wires.</p>
+      <ol>
+        <li><img class="btn" src="and.gif"> Start by clicking
+          the &quot;AND gate&quot;  button. This will cause the shadow of an AND gate
+          to follow your cursor around. Click once within the main schematic window to
+          place an AND gate.</li>
+
+        <li><img class="btn" src="input.gif"> Click the &quot;Input Pin&quot; button.
+          Now, place two input pins somewhere to the left of your AND gate.</li>
+
+        <li><img class="btn" src="output.gif"> Click the &quot;Output Pin&quot; button.
+          Then place an output pin somewhere to the right of your AND gate. Your
+          schematic should look something like this at this point:
+          <p><center>
+            <img style="position:relative; top: 6px;" src="schematic1.gif">
+          </center></p>
+        </li>
+
+        <li><img class="btn" src="selection.gif"> Click the &quot;Select tool&quot;
+          button. Click and drag to connect the input pins to the left side of the AND
+          gate. This will take several steps, as you can only draw vertical and
+          horizontal wires. Just draw a wire horizontally, release the mouse button,
+          then click and drag down starting from the end of the wire to continue
+          vertically. You can attach the wire to any pin on the AND gate on the left
+          side. Repeat the same procedure to connect the output (right side) of the
+          And Gate to the LED. After completing these steps your schematic should look
+          roughly like this:
+          <p><center>
+            <img style="position:relative; top: 6px;" src="schematic2.gif">
+          </center></p>
+                    <p>You can also change the number of inputs of the &quot;AND gate&quot; by clicking it using the select tool and changing the properties in the bottom left segment of the window. This can also be done before you put down the component.</p>
+        </li>
+
+        <li><img class="btn" src="poke.gif"> Finally, click the &quot;Poke&quot; tool
+          and try clicking on the input pins in your schematic. Observe what happens.
+          Does this match with what you think an AND Gate should do?</p>
+      </ol>
+
+      <h3>Part 1: Sub-Circuits</h3>
+      <p>Just as C programs can contain helper functions, a schematic can contain
+        subcircuits. In this part of the lab, we will create several subcircuits to
+        demonstrate their use.</p>
+      <ol>
+        <li>Create a new schematic (File-&gt;New) for your work.</li>
+        <li>Create a new subcircuit (Project-&gt;Add Circuit ). You will be prompted for
+          a name for the subcircuit; call it NAND.</li>
+        <li>In the new schematic window that you see create a simple NAND circuit with 2
+          input pins on the left side and an output pin on the right side. Do this <b>without</b> using the built-in NAND gate from the Gates folder (i.e. only use the AND, OR, and NOT gates provided next to the selection tool icon). You can change the labels for the inputs and output by selecting the input/output using the select tool and changing the property &quot;Label&quot; in the bottom left of the window.</li>
+        <li>Go back to your &quot;main&quot; schematic by double-clicking &quot;main&quot;
+          in the circuit selector at the left of the screen. Your original (blank)
+          schematic will now be displayed, but your NAND circuit has been stored.</li>
+        <li>Now, single click the word &quot;NAND&quot; in the list. This will tell
+          Logisim that you wish to add your &quot;NAND&quot; circuit into your
+          &quot;main&quot; circuit. </li>
+        <li>Try placing your NAND circuit into the &quot;main&quot; schematic. If you did
+          it correctly, you should see a gate with 2 input pins on the left and one
+          output pin on the right. Try hooking input pins and output pins up to these and
+          see if it works as you expect.</li>
+        <li>Repeat these steps to create several more subcircuits: NOR, XOR, 2-to-1 MUX,
+          and 4-to-1 MUX. Do not use any built in gates other than AND, OR, and NOT.
+          However, once you've built a subcircuit, you may use it to build others.</li>
+        <p>Hint: Try writing a truth table. You might also find the lecture slides useful for a refresher on how to build these.
+          <em>You may want to consider using some of your custom subcircuits when
+          designing the others.</em> </p>
+      </ol>
+
+            <div class='checkoff'>
+      <h4><a name="checkoff">Checkoff</a></h4>
+      <ul><li>Show your five circuits (NAND, NOR, XOR, 2-to-1 MUX, and 4-to-1 MUX) to your TA. Make sure you took note of the bolded word in step 3. </li></ul>
+            </div>
+
+
+      <h3>Part 2: Storing State</h3>
+      <p>Let's implement the circuit we've been talking about in lecture that increments a
+        value ad infinitum. The difference between this circuit and the circuits you've built
+        for lab so far is that you need some registers. The following will show you how to add
+        registers to your circuit.
+
+      <ol>
+        <li>Create a new subcircuit (Project->Add Circuit). Name this new subcircuit,
+          AddMachine.</li>
+        <li>Load in the Arithmetic Library if it is not already loaded (go to Project->Load
+          Library->Built in Library and select "Arithmetic"). This library contains elements
+          that will perform basic mathematical operations. When you load the library, the circuit
+          browser at left will have a new "Arithmetic" folder.
+          <p><center><img src=arithmetic.gif></center></p></li>
+        <li>Select the adder subcircuit from the "Arithmetic" library and place the adder into
+          your AddMachine subcircuit.</li>
+        <li>Load in the Memory Library if it is not already loaded (go to Project->Load Library->Built in Library and select
+          "Memory"). This library contains memory elements used to keep state in a circuit. A new
+          "Memory" folder will appear in the circuit browser.</li>
+        <li>Select the register from the "Memory" folder and place one register into your
+          subcircuit. Below is an image diagraming the parts of a register.
+          <p><center><img src=register.gif></center></p></li>
+        <li>Connect a clock to your register. You can find the clock circuit element in the
+          "Wiring" folder in the circuit browser.</li>
+        <li>
+          <p>Connect the output of the adder to the input of the register and the output of the register to the input of the adder.</p>
+          <p>You may get a "Incompatible widths" error when you try to connect components. This means that your wire is trying to connect two pins
+            together with different bit widths. If you click on the adder with the
+            "Selection" tool, you will notice that there is a "Data Bit Width" property in the bottom left field of the window. This value determines the number of bits each input and output the adder has. Change this field to 8 and the "Incompatible widths" error should be resolved.</p>
+        </li>
+        <li>
+          <p>Wire an 8-bit constant 1 to the second input of the adder. You can find the
+          &quot;constant&quot; circuit element in the &quot;Wiring&quot; library.</p>
+        </li>
+        <li>
+          <p>Add two output pins to your circuit so that you may monitor what comes out of the
+          adder and the register. Make sure the output is 8 bits. Thus, by the end, your circuit should look like as follows:</p>
+          <p><center><img src="AddMachine.png"></center></p>
+        </li>
+      </ol>
+
+      <p>Now let's see if you built your circuit correctly.
+
+      <ol>
+        <li>Go back to the "main" subcircuit by double clicking on "main" in the circuit
+          browser.</li>
+        <li>Single click on your &quot;AddMachine&quot; circuit to select it.</li>
+        <li>Change the "Facing" property to another direction. Any circuit with the "Facing"
+          property can be rotated to accomodate wires as you need them. This will definitely be
+          useful when you do your project.</li>
+        <li>Place your AddMachine subcircuit into the main subcircuit. </li>
+        <li>Select the AddMachine subcircuit you just placed into main.</li>
+        <li>Connect output pins to the AddMachine subcircuit. Output pins are ordered top to
+          bottom, left to right. Thus, if you followed the schematic above, then the top pin
+          on the right side outputs the value of the adder, and the bottom pin is the output
+          of the register.</li>
+        <li>
+          <p>Right click on your AddMachine subcircuit, and select &quot;View AddMachine. This
+          is the <b><u>ONLY</u></b> method to preserve state (i.e. keep register values at its current value). Double-clicking on the circuit at
+          the circuit browser at left makes logisim think you want to edit the circuit instead
+          of just checking what state the circuit has.</p>
+          <p><i>Note: You can use Simulate->Go In To State->*Circuit Name*, but that allows
+          you go into the first circuit of that type. If you placed two Fib8 circuits down,
+          it only takes you to the first Fib8 circuit you put down.</i></p>
+        </li>
+        <li>Initialize the register value to 1. You can do this by first, clicking on the
+          register value with the poke tool. Then, type the hex value in.</li>
+        <li>To return to the main circuit while preserving state, go to Simulate->Go Out To
+          State->main. Alternatively, you can hold the Command key (control on windows) and
+          press Up-Arrow.</li>
+        <li>Now start running your circuit by going to Simulate->Ticks Enabled (or Command/Control + K). Your circuit
+          should now be outputting a counter in binary form.</li>
+        <li>If you want to run your circuit faster, you can change the tick frequency in
+          Simulate->Tick Frequency.</li>
+      </ol>
+
+            <div class='checkoff'>
+      <h4><a name="checkoff">Checkoff</a></h4>
+      <ul><li>Show your AddMachine circuit to your TA.</li></ul>
+            </div>
+
+      <h3>Part 3: FSMs to digital logic</h3>
+
+      <p>Now we're ready to do something really cool; translate a FSM into a digital logic
+        circuit.</p>
+      <p>For those of you who need a reminder, FSM stands for Finite State Machine. FSM's keep track of inputs given,
+      moves between states based on these inputs, and outputs something everytime something is input.</p>
+      <p>If you've been paying attention in lecture you've noticed that the circuit we built
+        in part 2 looks eerily similar to the diagram of a general FSM circuit.
+        The skeleton file we give you contains a similar circuit. Modify this circuit to implement the following FSM:</p>
+
+      <p><i>If two ones in a row or two zeroes in a row have ever been seen, output zeros
+        forever. Otherwise, output a one.</i></p>
+
+      <ol>
+        <li>
+          <p>Note that the FSM is implemented by the following diagram:</p>
+          <center><img src="FSM.png"></center>
+        </li>
+        <li>
+          <p>Observe that the following is a truth table for the FSM:</p>
+          <p>
+            <table width="40%"  border="0" align="center">
+              <thead>
+                <tr>
+                  <td>st1</td>
+                  <td>st0</td>
+                  <td>input</td>
+                  <td>|</td>
+                  <td>next st1</td>
+                  <td>next st0</td>
+                  <td>output</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>0</td><td>0</td><td>0</td><td>|</td><td>0</td><td>1</td><td>1</td></tr>
+                <tr><td>0</td><td>0</td><td>1</td><td>|</td><td>1</td><td>0</td><td>1</td></tr>
+                <tr><td>0</td><td>1</td><td>0</td><td>|</td><td>1</td><td>1</td><td>0</td></tr>
+                <tr><td>0</td><td>1</td><td>1</td><td>|</td><td>1</td><td>0</td><td>1</td></tr>
+                <tr><td>1</td><td>0</td><td>0</td><td>|</td><td>0</td><td>1</td><td>1</td></tr>
+                <tr><td>1</td><td>0</td><td>1</td><td>|</td><td>1</td><td>1</td><td>0</td></tr>
+                <tr><td>1</td><td>1</td><td>0</td><td>|</td><td>1</td><td>1</td><td>0</td></tr>
+                <tr><td>1</td><td>1</td><td>1</td><td>|</td><td>1</td><td>1</td><td>0</td></tr>
+              </tbody>
+            </table>
+          </p>
+        </li>
+        <li>
+          <p>We've provided you with a starter Logisim circuit to start out. If you haven't already copied the directory, the following command will get the file for you, given that you're on a hive machine.</p>
+          <pre class="output">$ <span class="input">cp ~cs61c/labs/05/FSM.circ ~/labs/05/FSM.circ</span></pre>
+        </li>
+        <li>
+        <p>Note that the top level of the circuit looks almost exactly the same as our
+          previous adder circuit, but now there's a FSMLogic block instead of an adder block.
+          FSMLogic is the combinational logic block for this FSM. We have handled the output
+          bit for you, as it's the most complicated to simplify and implement. You should
+          complete the circuit by completing the StateBitOne and StateBitZero subcircuits, which produces the next state bits.</p>
+        <p>You <strong>could</strong> go from the truth table to SOP to a circuit, or you
+          could notice that for each state bit, there are only two situations in which it
+          is zero. This could make your life easier if you think a bit outside the box...
+        </li>
+      </ol>
+
+            <div class='checkoff'>
+      <h4><a name="checkoff">Checkoff</a></h4>
+      <ul>
+        <li>Show your StateBitZero circuit to your TA and demonstrate that it
+          behaves correctly.</li>
+        <li>Show your StateBitOne circuit to your TA and demonstrate that it
+          behaves correctly.</li>
+      </ul>
+            </div>
+      <h2>Advanced Logisim</h2>
+      <h3>Setup</h3>
+      <p>Feel free to do each part as separate sub-circuits in the same Logisim file.</p>
+
+      <p>The following parts will introduce you to more advanced techniques/concepts in Logisim.
+        <div class="content">
+          <h3>Advanced Features</h3>
+          <p> Here are two logisim features you will find useful, especially for the <strong>NEXT PROJECT</strong>.
+          </p>
+
+          <div class="section">
+            <h3>Tunnels</h3>
+            <p>A <a href="http://www.cburch.com/logisim/docs/2.6.0/en/libs/base/tunnel.html">tunnel</a> allows you draw an "invisible wire" to bind two
+              points together. Tunnels are grouped by case-sensitive
+              labels give to a wire.  They are used to connect wires
+              like so:</p>
+            <img src="tunnels1.png">
+            <p>Which has an effect such as the following:</p>
+            <img src="tunnels2.png">
+            <p>Some care should be taken as to which wires are connected with tunnels to
+              which other wires, such as in this case:</p>
+            <img src="tunnels3.png">
+            <p>Which in turn has the following effect:</p>
+            <img src="tunnels4.png">
+
+            <p>
+            We <em>strongly</em> recommend you use tunnels with Logisim, because they make your circuits much cleaner looking, and therefore easier to debug.
+            </p>
+          </div>
+
+          <div class="section">
+            <h3>Extenders</h3>
+            <p>When changing the width of a wire, you should use a <a href="http://www.cburch.com/logisim/docs/2.6.0/en/libs/base/extender.html">bit extender</a> for clarity.
+              For example, consider the following implementation of extending an 8-bit wire
+              into a 16-bit wire:</p>
+            <img src="extend1.png">
+            <p>Whereas the following is much simpler, easier to read, and less error-prone:</p>
+            <img src="extend2.png">
+            <p>Additionally consider the case of throwing out bits. In this example, an 8-bit
+              wire is being converted into a 4-bit wire by throwing out the other bits:</p>
+            <img src="extend3.png">
+            <p>Despite the implications of its name, a bit extender can also do this same
+              operation:</p>
+            <img src="extend4.png">
+          </div>
+
+      <h3>Part 4: Splitters</h3>
+
+      This is the last essential tool you will need in this class. To demonstrate its use you will construct a circuit that manipulates an 8-bit number.
+
+      <ol>
+        <li>Create a new subcircuit and name it "Ex4".
+        <li>Add an 8-bit input pin to your circuit and label it "In".
+        <li>Add a 1-bit output pin labeled "Out1" and an 8-bit output pin labeled "Out2" to your circuit.
+        <li>Go to the Wiring folder and select the Splitter circuit. This circuit will take a wire and split it into a set of wires of smaller width. Conversely, it can also take many sets of wires and combine them into a larger bus.
+        <li>Before you place your circuit, change the "Bit Width In" property (bus width) to 8, and "Fan Out" property (# of branches) to 3. If you move your cursor over the schematic, your cursor should look as follows: <img style="position:relative; top:5px;" src=splitter.gif>
+        <li>Now, select which bits to send out to which part of your fan. The least significant bit is bit 0 and the most significant bit is bit 7. Change bits 1, 2, and 6 to be coming out on fan arm 1 (the middle one). Have all the other bits come out of the default fan arm. FYI: the "None" option means that the selected bit will not come out on ANY of the fan arms.
+        <li>Once you configure your splitter, you can place your splitter into your circuit.
+        <li>Route "In" to the splitter. Attach a 2-input AND gate to fan arms 0 and 2 and route the output of the AND gate to Out1.
+        <li>Now, interpret the input as a "sign and magnitude" number. Place logic gates and other circuits to make Out2 to be the negative "sign and magnitude" value of the input. <a href="https://en.wikipedia.org/wiki/Signed_number_representations#Signed_magnitude_representation">Sign and magnitude</a> is an alternate way of representing signed values - like 2s complement, but simpler! The combinational logic should be straight-forward.
+        <li>We will need another splitter to recombine the fans into a single 8-bit bus.  Place another splitter with the proper properties (Bit Width In: 8, Fan Out: 3, correct fan widths).  Play with the Facing and Appearance properties to make your final circuit as clean-looking as possible.
+      </ol>
+
+      <div class='checkoff'>
+      <h4><a name="checkoff">Checkoff</a></h4>
+      <ul>
+        <li>Show your Ex4 circuit to your TA.</li>
+        <li>If we decide to take the input and interpret it as a 2's complement number, what inputs will produce Out1 = 1? <i>Hint: What do the first and last bits of a two's complement number being 1 tell you about the number?</i> </li>
+      </ul>
+      </div>
+
+      <h3>Part 5: Rotate Right</h3>
+      With your knowledge of splitters and your knowledge and experience with multiplexers from the last lab, you are ready to implement a non-trivial combinational logic block: <code>rotr</code>, which stands for &quot;Rotate Right&quot;. The idea is that <code>rotr A,B</code> will &quot;rotate&quot; the bit pattern of input A to the right by B bits. So, if A were 0b10110101011<strong>10011</strong> and B were 0b0101 (5 in decimal), the output of the block would be 0b<strong>10011</strong>10110101011. Notice that the rightmost 5 bits were rotated off the right end of the value and back onto the left end. In RTL, the operation would be something like &quot;<code>R = A >> B | A << (16 - B)</code>&quot;.
+      <p>
+        You must implement a subcircuit named &quot;rotr&quot; with the following inputs:
+        <ul>
+          <li><strong>A</strong>, 16 bits, the input to be rotated</li>
+          <li><strong>B</strong>, 4 bits, the rotation amount (Why 4 bits?)</li>
+        </ul>
+        The output should be A rotated right by B bit positions, as outlined above. You are <strong>NOT</strong> allowed to use Logisim shifters in your solution, though all other combinational logic (MUXes, constants, gates, adders, etc.) is allowed. Show off your <code>rotr</code> subcircuit in the main subcircuit.
+      </p>
+      <p>
+        <b>Hint:</b> Before you start wiring, you should think veeeery carefully about how you might decompose this problem into smaller ones and join them together. You should feel very free to use subcircuits when implementing <code>rotr</code>. If you don't, expect to regret it.
+      </p>
+      <p>
+        <b>Hint, the second:</b> Just because we gave you an RTL representation doesn't mean it's the best way to look at this problem. Think about the input bits of <strong>B</strong> and think about how to effectively use splitters! Can you do something with the binary form, like with the envelopes in exercise 5 of <a class="reference" href="../0/index.html">lab0</a>?
+      <p>
+        <b>Tip:</b> If your wiring from a large splitter is getting messy, sometimes chaining splitters can keep things more localized and cleaner.  For example, a 1 to 16 split can be achieved by a fan out of 4 connected to 4 more splitters of fan out 4.
+      </p>
+
+      <div class='checkoff'>
+      <h4><a name="checkoff">Checkoff</a></h4>
+      <ul>
+        <li>Show your TA your <tt>rotr</tt> circuit and verify that it works.</li>
+      </ul>
+      </div>
+    </div>
+    </div>
+  </body>
+
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/5/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:55:14 GMT -->
+</html>

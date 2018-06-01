@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/proj/hog_contest/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:35:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+<link href="../../assets/css/project.css" rel="stylesheet" type="text/css">
+
+
+    <title>
+Optional Contest: Hog Strategy | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Optional Contest: Hog Strategy
+
+        
+        <ul class="inline-block list-inline">
+          <li><a href="hog_contest.zip" class="label label-outline">hog_contest.zip</a></li>
+        </ul>
+        
+      </h1>
+    </header>
+    
+<div class="haiku">
+  <blockquote><cite>
+A strategy is<br/>
+A single function that makes<br/>
+Ten thousand choices.
+</cite></blockquote>
+</div>
+
+    
+<h2 id="instructions">Instructions</h2>
+
+
+<blockquote><p>This contest is completely optional!</p></blockquote>
+
+<p>Download a blank <code>hog_contest.py</code> file and simple tests for correct formatting
+as a <a href="hog_contest.zip">zip archive</a>. Type <code>python3 ok</code> to run the provided tests.</p>
+
+<p>Submit a <code>hog_contest.py</code> file containing a function called <code>final_strategy</code> and a
+<code>TEAM_NAME</code>.</p>
+
+<pre><code>python3 ok &#x2d;&#x2d;submit</code></pre>
+
+<p>The contest ends on <strong>Monday, February 12th at 11:59 PM</strong>. We will use your
+latest submission before this date to determine the final results of the
+contest.</p>
+
+
+<h2 id="game-rules">Game rules</h2>
+
+
+<p>To make things more interesting, we've introduced a new rule (<strong>Time Trot</strong>) in
+addition to the original set of special rules. Here is the entire set of rules:</p>
+
+<ul>
+  <li><p><strong>Pig Out</strong>. If any of the dice outcomes is a 1, the current player's score
+  for the turn is 1.</p>
+
+  <ul>
+    <li><em>Example 1</em>: The current player rolls 7 dice, 5 of which are 1's. They
+    score 1 point for the turn.</li>
+    <li><em>Example 2</em>: The current player rolls 4 dice, all of which are 3's. Since
+    Pig Out did not occur, they score 12 points for the turn.</li>
+  </ul></li>
+  <li><p><strong>Free Bacon</strong>. A player who chooses to roll zero dice scores two more
+  than the absolute difference between the digits of the opponent's total score.</p>
+
+  <ul>
+    <li><em>Example 1</em>: If the opponent has 42 points, the current player gains 2 +
+    abs(4 - 2) = 6 points by rolling zero dice.</li>
+    <li><em>Example 2</em>: If the opponent has 38 points, the current player gains
+    2 + abs(3 - 8) = 7 points by rolling zero dice.</li>
+    <li><em>Example 3</em>: If the opponent has 7 points, the current player gains
+    2 + abs(0 - 7) = 9 points by rolling zero dice.</li>
+  </ul></li>
+  <li><p><strong>Swine Swap</strong>. After points for the turn are added to the current player's
+  score, if both scores are larger than 1 and either one of the scores is a
+  positive integer multiple of the other, then the two scores are swapped.</p>
+
+  <ul>
+    <li><em>Example 1</em>: The current player has a total score of 37 and the opponent
+    has 92. The current player rolls two dice that total 9. The opponent's
+    score (92) is exactly twice the player's new total score (46). These
+    scores are swapped! The current player now has 92 points and the opponent
+    has 46. The turn ends.</li>
+    <li><em>Example 2</em>: The current player has 91 and the opponent has 37. The
+    current player rolls five dice that total 20. The current player has 111,
+    which is 3 times 37, so the scores are swapped. The opponent ends the turn
+    with 111 and wins the game.</li>
+  </ul></li>
+  <li><p><strong>Time Trot</strong>. A turn involves a player rolling dice, and each turn is numbered,
+  starting from 0. If a player chooses to roll a number of dice <code>k</code> on turn <code>n</code>,
+  and <code>n % 8 == k</code>, then that player gets an extra turn immediately after the current
+  turn. However, a player cannot get an extra turn immediately after an extra turn.</p>
+
+  <ul>
+    <li><p><em>Example</em>:</p>
+
+    <ul>
+      <li>On Turn 0, Player 0 rolls 5 dice that total 19. The score is 19 to 0.</li>
+      <li>On Turn 1, Player 1 rolls 1 die that comes up 4. The score is now 19 to 4.
+      Player 1 gets an extra turn because 1 % 8 = 1.</li>
+      <li>On Turn 2, Player 1 rolls 2 dice that total 6. The score is 19 to 10.
+      Even though 2 % 8 = 2, Player 1 does not get an extra turn because
+      Player 1 cannot get two extra turns in a row.</li>
+      <li>On Turn 3, Player 0 rolls 3 dice and pigs out, causing a Swine Swap.
+      The score is now 10 to 20, and Player 0 gets an extra turn because
+      3 % 8 = 3.</li>
+      <li>On Turn 4, Player 0 rolls (...)</li>
+    </ul></li>
+    <li><em>Note</em>: As with past contests, a strategy must be a deterministic function of
+    the players' scores and cannot track the turn number or previous actions. See
+    complete rules below.</li>
+  </ul></li>
+</ul>
+
+
+<h2 id="contest-rules">Contest rules</h2>
+
+
+<p>Each submitted strategy will play against all other submissions. We will
+exactly compute the expected win rate for each player, so that the outcome of
+this tournament will be determined by strategy alone and not the roll of the
+dice. A submission scores a match point each time it has an expected win rate
+above 50.0001%. We will rank submissions based on the number of matches they
+won. Ties count as losses.</p>
+
+<p>The top three submissions will earn the following:</p>
+
+<ol>
+  <li>First place gets 3 points of extra credit.</li>
+  <li>Second place gets 2 points of extra credit.</li>
+  <li>Third place gets 1 point of extra credit.</li>
+</ol>
+
+<p>Winners will also be publicly recognized in future iterations of 61A!</p>
+
+<p>Some additional contest rules:</p>
+
+<ul>
+  <li>The contest may be entered individually or in pairs. Two people submit a
+  single entry (make sure you register each other as partners on
+  <a href="https://okpy.org/">okpy.org</a>). Each person in the course can be
+  associated with at most one entry.</li>
+  <li>Calling your <code>final_strategy</code> function on every possible pair of scores
+  should take less than 10 seconds. The provided tests check for this.</li>
+  <li>All strategies must be deterministic, pure functions of the current player
+  scores! Non-deterministic strategies or strategies based on the history of
+  the game will be disqualified.</li>
+</ul>
+
+<p>We expect everyone to play fair. Attempts to "game the system" will not be tolerated.</p>
+
+<p>If you have any questions about the rules, don't hesitate to post on Piazza.</p>
+
+<p>Happy coding!</p>
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#instructions">Instructions</a></li>
+  <li><a href="#game-rules">Game rules</a></li>
+  <li><a href="#contest-rules">Contest rules</a></li>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+
+<!-- Mirrored from cs61a.org/proj/hog_contest/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:35:33 GMT -->
+</html>

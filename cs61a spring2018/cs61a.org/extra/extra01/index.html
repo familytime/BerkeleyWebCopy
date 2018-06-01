@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/extra/extra01/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:38:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+<link rel="stylesheet" type="text/css" href="../../assets/css/hw.css">
+
+
+    <title>
+Extra Homework 1 | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Extra Homework 1
+
+        
+      </h1>
+    </header>
+    
+<p><em>Due by 11:59pm on Wednesday, 2/14/2018</em></p>
+
+
+
+
+<h2>Instructions</h2>
+
+<p>Download <a href="extra01.zip">extra01.zip</a>.  Inside the archive, you will
+find a file called <a href="extra01.py">
+  extra01.py</a>, along with a copy
+of the <a href="ok.zip">Ok</a> autograder.</p>
+
+<p><strong>Submission:</strong> When you are done, submit with
+<code>python3 ok --submit</code>. You may submit more than once before
+the deadline; only the final submission will be scored.</p>
+
+<h2>Using Ok</h2>
+
+<p>The <code>ok</code> program helps you test your code and track your progress.
+The first time you run the autograder, you will be asked to log in with your
+@berkeley.edu account using your web browser. Please do so. Each time you run
+ok, it will back up your work and progress on our servers.
+
+You can run all the doctests with the following command:</p>
+
+<pre><code>python3 ok</code></pre>
+
+<p>To test a specific question, use the <code>-q</code> option with the
+name of the function:</p>
+
+<pre><code>python3 ok -q &lt;function&gt;</code></pre>
+
+<p>By default, only tests that <strong>fail</strong> will appear. If you
+want to see how you did on all tests, you can use the <code>-v</code>
+option:</p>
+
+<pre><code>python3 ok -v</code></pre>
+
+<p>If you do not want to send your progress to our server or you have any
+problems logging in, add the <code>--local</code> flag to block all
+communication:</p>
+
+<pre><code>python3 ok --local</code></pre>
+
+<p>When you are ready to submit, run <code>ok</code> with the
+<code>--submit</code> option:</p>
+
+<pre><code>python3 ok --submit</code></pre>
+
+<p><strong>Readings:</strong> You might find the following references
+useful:</p>
+<ul>
+  <li><a href="http://composingprograms.com/pages/16-higher-order-functions.html#example-newton-s-method">Section 1.6.5</a></li>
+  <li><a href="http://composingprograms.com/pages/23-sequences.html#trees">Section 2.3.6</a></li>
+</ul>
+
+
+
+    
+<h2 id="newton-s-method">Newton's Method</h2>
+
+
+<h3 class="question" id="q1">Q1</h3>
+
+<p>Implement <code>intersect</code>, which takes two functions <code>f</code> and <code>g</code> and their
+derivatives <code>df</code> and <code>dg</code>. It returns an intersection point <code>x</code>, at which
+<code>f(x)</code> is equal to <code>g(x)</code>.</p>
+
+<pre><code>def intersect(f, df, g, dg):
+    &quot;&quot;&quot;Return where f with derivative df intersects g with derivative dg.
+
+    &gt;&gt;&gt; parabola, line = lambda x: x*x &#x2d; 2, lambda x: x + 10
+    &gt;&gt;&gt; dp, dl = lambda x: 2*x, lambda x: 1
+    &gt;&gt;&gt; intersect(parabola, dp, line, dl)
+    4.0
+    &quot;&quot;&quot;
+    "*** YOUR CODE HERE ***"
+</code></pre>
+
+
+<h2 id="hog-decision-making-algorithm">Hog Decision Making Algorithm</h2>
+
+
+<h3 class="question" id="q2">Q2</h3>
+
+<p>Finish the implementation of <code>roll_at_least</code>, which takes two integers <code>score</code> and <code>n</code>, along with a dice function <code>dice</code> (one that returns a probability for a given input, not one that simulates a dice), and returns the probability of getting at least <code>score</code> when rolling <code>n</code> dice. This function should follow the general pattern from lecture, where we split it up into two separate cases. Memoization is also provided.</p>
+
+<pre><code>@memoize
+def roll_at_least(score, n, dice=six_sided):
+    &quot;&quot;&quot;
+    &gt;&gt;&gt; &quot;%.6f&quot; % roll_at_least(1, 1) # rounding to avoid floating point errors
+    &#x27;1.000000&#x27;
+    &gt;&gt;&gt; &quot;%.6f&quot; % roll_at_least(2, 2)
+    &#x27;0.694444&#x27;
+    &gt;&gt;&gt; &quot;%.6f&quot; % roll_at_least(20, 3)
+    &#x27;0.000000&#x27;
+    &gt;&gt;&gt; &quot;%.6f&quot; % roll_at_least(20, 4)
+    &#x27;0.054012&#x27;
+    &gt;&gt;&gt; &quot;%.6f&quot; % roll_at_least(20, 9)
+    &#x27;0.193806&#x27;
+    &gt;&gt;&gt; &quot;%.6f&quot; % roll_at_least(7, 2)
+    &#x27;0.527778&#x27;
+    &gt;&gt;&gt; &quot;%.6f&quot; % roll_at_least(7, 4)
+    &#x27;0.482253&#x27;
+    &gt;&gt;&gt; &quot;%.6f&quot; % roll_at_least(14, 4)
+    &#x27;0.388117&#x27;
+    &gt;&gt;&gt; &quot;%.6f&quot; % roll_at_least(14, 9)
+    &#x27;0.193807&#x27;
+    &gt;&gt;&gt; &quot;%.6f&quot; % roll_at_least(14, 14)
+    &#x27;0.077887&#x27;
+    &quot;&quot;&quot;
+    return roll_at_least_ones(score, n, dice) + roll_at_least_no_ones(score, n, dice)
+
+@memoize
+def roll_at_least_ones(total, n, dice):
+    "*** YOUR CODE HERE ***"
+
+@memoize
+def roll_at_least_no_ones(total, n, dice):
+    "*** YOUR CODE HERE ***"
+</code></pre>
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#newton-s-method">Newton's Method</a></li>
+  <ul>
+    <li><a href="#q1">Q1</a></li>
+  </ul>
+  <li><a href="#hog-decision-making-algorithm">Hog Decision Making Algorithm</a></li>
+  <ul>
+    <li><a href="#q2">Q2</a></li>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+
+<!-- Mirrored from cs61a.org/extra/extra01/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:38:48 GMT -->
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec1/lec1.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:19:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Intro1 Study Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Intro1 Study Guide</header><div class="due-date">Author: Josh Hug</div><ul id="markdown-toc">
+  <li><a href="#lecture-code" id="markdown-toc-lecture-code">Lecture Code</a></li>
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#exercises" id="markdown-toc-exercises">Exercises</a></li>
+</ul>
+
+<h2 id="lecture-code">Lecture Code</h2>
+
+<p>Code from this lecture available at <a href="https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/intro1">https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/intro1</a>.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Our First Java Program.</strong> Printing Hello World is as easy as:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorld</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hello world!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>Key Syntax Features.</strong> Our first programs reveal several important syntax features of Java:</p>
+
+<ul>
+  <li>All code lives inside a class.</li>
+  <li>The code that is executed is inside a function, a.k.a. method, called <code class="highlighter-rouge">main</code>.</li>
+  <li>Curly braces are used to denote the beginning and end of a section of code, e.g. a class or method declaration.</li>
+  <li>Statements end with semi-colons.</li>
+  <li>Variables have declared types, also called their “static type”.</li>
+  <li>Variables must be declared before use.</li>
+  <li>Functions must have a return type. If a function does not return anything, we use void,</li>
+  <li>The compiler ensures type consistency. If types are inconsistent, the program will not compile.</li>
+</ul>
+
+<p><strong>Static Typing.</strong> Static typing is (in my opinion) one of the best features of Java. It gives us a number of important advantages over languages without static typing:</p>
+<ul>
+  <li>Types are checked before the program is even run, allowing developers to catch type errors with ease.</li>
+  <li>If you write a program and distribute the compiled version, it is (mostly) guaranteed to be free of any type errors. This makes your code more reliable.</li>
+  <li>Every variable, parameter, and function has a declared type, making it easier for a programmer to understand and reason about code.</li>
+</ul>
+
+<p>There are downside of static typing, to be discussed later.</p>
+
+<p><strong>Coding Style.</strong> Coding style is very important in 61B and the real world. Code should be appropriately commented as described in the textbook and lectures.</p>
+
+<p><strong>Command line compilation and execution.</strong> <code class="highlighter-rouge">javac</code> is used to compile programs. <code class="highlighter-rouge">java</code> is used to execute programs. We must always compile before execution.</p>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>None for this lecture. However, we strongly encourage you to complete the optional <a href="../../hw/hw0/hw0.html">HW0</a>, which covers a bunch of basic Java syntax.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec1/lec1.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:19:57 GMT -->
+</html>

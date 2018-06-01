@@ -1,0 +1,109 @@
+\Question{Exponential Practice II}
+
+\begin{Parts}
+    \Part Let $X_1, X_2 \sim \operatorname{Exponential}(\lambda)$ be independent, $\lambda > 0$.
+    Calculate the density of $Y := X_1 + X_2$.
+    [\textit{Hint}: One way to approach this problem would be to compute the CDF of $Y$ and then differentiate the CDF.]
+    \Part Let $t > 0$.
+    What is the density of $X_1$, conditioned on $X_1 + X_2 = t$?
+    [\textit{Hint}: Once again, it may be helpful to consider the CDF $\Pr(X_1 \le x \mid X_1 + X_2 = t)$.
+    To tackle the conditioning part, try conditioning instead on the event $\{X_1 + X_2 \in [t, t + \varepsilon]\}$, where $\varepsilon > 0$ is small.]
+\end{Parts}
+
+
+\Question{Normal Distribution}
+
+Recall the following facts about the normal distribution: if $X \sim \mathcal{N}(\mu, \sigma^2)$, then the random variable $Z = (X - \mu)/\sigma$ is standard normal, i.e.\ $Z \sim \mathcal{N}(0, 1)$. There is no closed-form expression for the CDF of the standard normal distribution, so we define $\Phi(z) = \Pr[Z \leq z]$. You may express your answers in terms of $\Phi(z)$.
+
+The average jump of a certain frog is $3$ inches. However, because
+of the wind, the frog does not always go exactly $3$ inches. A zoologist
+tells you that the distance the frog travels is normally distributed
+with mean $3$ and variance $1/4$. 
+
+\begin{Parts}
+
+\Part What is the probability that the frog jumps more than $4$ inches?
+\nosolspace{1cm}
+
+\Part What is the probability that the distance the frog jumps is between
+$2$ and $4$ inches?
+\nosolspace{1cm}
+
+\end{Parts}
+
+
+\Question{Noisy Love}
+
+Due to the Central Limit Theorem, the Gaussian distribution is often used as a model for noise.
+In this problem, we will see how to perform calculations with Gaussian noise models.
+
+Suppose you have confessed to your love interest on Valentine's Day and you are waiting to hear back.
+Your love interest is trying to send you a binary message: ``$0$'' means that your love interest is not interested in you, while ``$1$'' means that your love interest reciprocates your feelings.
+Let $X$ be your love interest's message for you.
+Your current best guess of $X$ has $\Pr(X = 0) = 0.7$ and $\Pr(X = 1) = 0.3$.
+Unfortunately, your love interest sends you the message through a noisy channel, and instead of receiving the message $X$, you receive the message $Y = X + \varepsilon$, where $\varepsilon$ is independent Gaussian noise with mean $0$ and variance $0.49$.
+\begin{Parts}
+    \Part First, you decide upon the following rule: if you observe $Y > 0.5$, then you will assume that your love interest loves you back, whereas if you observe $Y \le 0.5$, then you will assume that your love interest is not interested in you.
+    What is the probability that you are correct using this rule?
+    (Express your answer in terms of the CDF of the standard Gaussian distribution $\Phi(z) = \Pr(\mc{N}(0, 1) \le z)$, and then evaluate your answer numerically.)
+    \Part Suppose you observe $Y = 0.6$.
+    What is the probability that your love interest loves you back?
+    [\textit{Hint}: This problem requires conditioning on an event of probability $0$, namely, the event $\{Y = 0.6\}$.
+    To tackle this problem, think about conditioning on the event $\{Y \in [0.6, 0.6 + \delta]\}$, where $\delta > 0$ is small, so that $f_Y(0.6) \cdot \delta \approx \Pr(Y \in [0.6, 0.6 + \delta])$, and then apply Bayes Rule.]
+    \Part Suppose you observe $Y = y$.
+    For what values is it more likely than not that your love interest loves you back?
+    [\textit{Hint}: As before, instead of considering $\{Y = y\}$, you can consider the event $\{Y \in [y, y + \delta]\}$ for small $\delta > 0$.
+    So, when is $\Pr(X = 1 \mid Y \in [y, y + \delta]) \ge \Pr(X = 0 \mid Y \in [y, y + \delta])$?]
+    \Part Your new rule is to assume that your love interest loves you back if (based on the value of $Y$ that you observe) it is more likely than not that your love interest loves you back.
+    Under this new rule, what is the probability that you are correct?
+\end{Parts}
+
+
+\Question{Deriving Chebyshev's Inequality}
+
+Recall Markov's Inequality, which applies for non-negative $X$ and $\alpha > 0$: $$\Pr[X\geq\alpha]\leq\frac{\E[X]}{\alpha}$$
+Use an appropriate substitution for $X$ and $\alpha$ to derive Chebyshev's Inequality, where $\mu$ denotes the expected value of $Y$.
+$$\Pr[|Y-\mu|\geq k]\leq\frac{\Var Y}{k^2}$$
+\nosolspace{0.5cm}
+
+
+
+\Question{Easy A's}
+
+A friend tells you about a course called ``Laziness in Modern Society''
+that requires almost no work.  You hope to take this course next semester to give yourself a well-deserved break after mastering CS 70. At the first lecture, the professor
+announces that grades will depend only a midterm and a final. The midterm
+will consist of three questions, each worth 10 points, and the final
+will consist of four questions, also each worth 10 points. He will give
+an A to any student who gets at least 60 of the possible 70 points.
+
+However, speaking with the professor in office hours you hear some
+very disturbing news. He tells you that, in the spirit of the class, the GSIs are very lazy, and to save time the grading will be
+done as follows. For each student's midterm, the GSIs will choose a real
+number randomly from a distribution with mean $\mu = 5$ and variance
+$\sigma^2 = 1$.
+They'll mark each of the three questions with that score. To grade the
+final, they'll again choose a random number from the same distribution,
+independent of the first number, and will mark all four questions with
+that score.
+
+If you take the class, what will the mean and variance of your total
+class score be? Use Chebyshev's inequality to conclude that you have less than a 5\% chance of
+getting an A.
+\nosolspace{1.5cm}
+
+
+
+\Question{Practical Confidence Intervals}
+
+\begin{enumerate}[(a)]
+	\item It's New Year's Eve, and you're re-evaluating your finances for the next year. Based on previous spending patterns, you know that you spend \$1500 per month on average, with a standard deviation of \$500, and each month's expenditure is independently and identically distributed. As a poor college student, you also don't have any income. How much should you have in your bank account if you don't want to go broke this year, with probability at least 95\%?
+	
+	\item As a UC Berkeley CS student, you're always thinking about ways to become the next billionaire in Silicon Valley. After hours of brainstorming, you've finally cut your list of ideas down to 10, all of which you want to implement at the same time. A venture capitalist has agreed to back all 10 ideas, as long as your net return from implementing the ideas is positive with at least 95\% probability.
+	
+	Suppose that implementing an idea requires $50$ thousand dollars, and your start-up then succeeds with probability $p$, generating $150$ thousand dollars in revenue (for a net gain of $100$ thousand dollars), or fails with probability $1 - p$ (for a net loss of $50$ thousand dollars). The success of each idea is independent of every other. What is the condition on $p$ that you need to satisfy to secure the venture capitalist's funding?
+
+    \item One of your start-ups uses error-correcting codes, which can recover the original message as long as at least $1000$ packets are received (not erased). Each packet gets erased independently with probability $0.8$. How many packets should you send such that you can recover the message with probability at least 99\%?
+\end{enumerate}
+
+

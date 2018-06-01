@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec36/lec36 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Radix Sorts Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Radix Sorts Guide</header><div class="due-date">Author: Josh Hug</div><ul id="markdown-toc">
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#recommended-problems" id="markdown-toc-recommended-problems">Recommended Problems</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Terminology.</strong></p>
+
+<ul>
+  <li>Radix - just another word for ‘base’ as in the base of a number system. For
+example, the radix for words written in lowercase English letters is 26. For
+number written in Arabic numerals it is 10.</li>
+  <li>Radix sort - a sort that works with one character at a time (by grouping
+objects that have the same digit in the same position).</li>
+  <li>Note: I will use ‘character’ and ‘digit’ interchangably in this study guide.</li>
+</ul>
+
+<p><strong>Counting Sort.</strong>  Allows you to sort N keys that are integers between 0 and
+R-1 in θ(N + R) time. Beats linearithmic lower bound by avoiding any binary
+compares. This is a completely different philosophy for how things should be
+sorted. This is the most important concept for this lecture.</p>
+
+<p><strong>LSD.</strong> In the LSD algorithm, we sort by each digit, working from right to
+left. Requires examination of θ(WN) digits, where W is the length of the longest
+key. Runtime is θ(WN + WR), though we usually think of R as a constant and just
+say θ(WN). The θ(WR) part of the runtime is due to the creation fo length R
+arrows for counting sort. We usually do LSD sort using counting sort as a
+subroutine, but it’s worth thinking about whether other sorts might work as
+well.</p>
+
+<p><strong>LSD vs Comparison Sorting.</strong>  Our comparison sorts, despite requiring θ(N log
+N) time, can still be faster than LSD sort, which is linear in the length of our
+input θ(WN). For extremely large N, LSD sort will naturally win, but log N is
+typically pretty small. Know which algorithm is best in the two extreme cases of
+very long dissimilar strings and very long, nearly equal strings.</p>
+
+<p><strong>MSD.</strong> In MSD sorting, we work from left to right, and solve each resulting
+subproblem independently. Thus, for each problem, we may have as many as R
+subproblem. Worst case runtime is exactly the same as LSD sort, θ(WN + WR),
+though can be much better. In the very best case, where we only have to look at
+the top character (only possible for R &gt; N), we have a runtime of θ(N + R).</p>
+
+<h2 id="recommended-problems">Recommended Problems</h2>
+
+<h3 id="c-level">C level</h3>
+
+<ol>
+  <li>
+    <p>For a fixed alphabet and key size, what are the best case and worst case inputs for LSD? For MSD?</p>
+  </li>
+  <li>
+    <p>Question #6 from Princeton’s <a href="http://www.cs.princeton.edu/courses/archive/spring15/cos226/exams/fin-s12.pdf">Spring 2012 Final</a></p>
+  </li>
+</ol>
+
+<h3 id="b-level">B level</h3>
+
+<ol>
+  <li>
+    <p>Adapted from Algorithms 5.1.8: Give the number of characters examined by MSD
+string sort for a file of N keys a, aa, aaa, aaaa, aaaaa, …</p>
+  </li>
+  <li>
+    <p>For very long random strings, would a comparison based sort or a radix sort
+be faster? For very long, highly similar string, which would be faster?</p>
+  </li>
+  <li>
+    <p>For very long sequences of Java ints, would radix sort or a comparison sort
+be faster?</p>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec36/lec36 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:44 GMT -->
+</html>

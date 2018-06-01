@@ -1,0 +1,574 @@
+<html>
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/0/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:30 GMT -->
+<head>
+<title>CS61C Spring 2018 Lab 0</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+<div class="header">
+    <div class='header-text'>
+    <h1>CS61C Spring 2018 Lab 0 - <tt>git</tt> and Number Representation</h1>
+    </div>
+</div>
+
+<div class="content">
+<h2>Goals</h2>
+<ul>
+  <li>Setup your class account.</li>
+  <li>Learn <tt>git</tt> and setup your Bitbucket private repository.</li>
+  <li>Build more intuition for working with binary.</li>
+  <li>Get to know your classmates!</li>
+</ul>
+
+<h2>Reading</h2>
+<ul>
+  <li>P&H (4th or 5th): 2.4</li>
+</ul>
+
+<h2>Policies and Partners</h2>
+<p>You are <b>REQUIRED</b> to have a partner for lab
+checkoffs. This will reduce the number of check-offs we have to perform (allowing
+us to answer more of your questions) as well
+as give you someone to discuss class material with. <b>BOTH</b> partners will need to
+be present at check-off to receive credit and both partners will be asked to
+participate during the check-off. Try your best to find someone in your lab
+section with similar work habits as yourself.</p>
+
+<h2>How Checkoffs Work</h2>
+<p> You'll notice that at the end of (almost) every exercise, there is a section
+labelled "Check-off." The items in this section are what you must successfully
+demonstrate to your TA in order to receive credit for completing the lab. Once
+you and your partner finish <b>ALL of the exercises</b>, you should put your names AND
+logins on the checkoff list on the board, and a TA or Lab Assistant will come
+and check you off.</p>
+
+<p>Labs in CS61C are graded out of 2 points. Labs are due for full points by the next lab session (which is 1 week after the lab was assigned). If they're another week late, then you get half credit. Any later than that and it's 0 points. You can always ask for help on the lab, but you can only asked to be checked off once. If you asked to be checked off and you don't pass the checkoff you'll get 0 points. </p>
+
+
+
+<h2>Exercises</h2>
+
+<h4 class="error">In today's lab only, you should do exercises zero through two alone. You will need a partner for exercises three through five.</h4>
+
+<h3>Exercise 0:  Account and Environment Setup</h3>
+
+<p>To obtain your CS61C login, go to
+<a href="https://acropolis.cs.berkeley.edu/~account/webacct">
+https://acropolis.cs.berkeley.edu/~account/webacct/</a>
+and login using your Calnet ID. Once you login, create a new account for CS61C. This should
+give you a username and a temporary password. Now, you can login to your instructional account by running the command <code> ssh cs61c-xxx@hiveYY.cs.berkeley.edu </code> on your laptop (where <code>xxx</code> is your 61c login, and <code>YY</code> is any number betwwen 1 and 29), and entering in your temporary password. Congratulations! You are now remotely accessing the hiveYY computer located in Soda 330. You can also login directly onto one of the lab computers with that username and password.</p>
+
+<p> In order to change your password from the temporary one, while still logged into your instructional account (i.e. in the same terminal window that you ran <code> ssh cs61c-xxx@hiveYY.cs.berkeley.edu </code>), and enter <code> ssh cs61c-xxx@update.cs.berkeley.edu </code> and follow the prompts.</p>
+
+<p> Now you're ready to start the lab!</p>
+
+<div class='checkoff'>
+<h4>Checkoff:</h4>
+<ul><li>Run <tt>check-register</tt> and show the results to your TA.</li>
+</ul>
+</div>
+
+
+<h3>Exercise 1: Bitbucket Account Setup</h3>
+<p>Please read the following instructions carefully before proceeding. Almost all
+issues students run into during this lab can be prevented by carefully following
+the steps provided. Even if you have experience with <tt>git</tt> from previous
+61 series classes, the process we use to set up your accounts may be different in
+this class.</p>
+
+<p>This semester, we will be requiring that you use <tt>git</tt>, a distributed
+version control system. Version control systems are better tools for sharing
+code than emailing files, using flash drives, or even other file sharing mechanisms
+like Dropbox.</p>
+
+<p>We'll be using <a href="https://bitbucket.org/">Bitbucket</a> to host private
+repositories in which you'll store your code. If the previous
+sentence means nothing to you, don't be alarmed! We'll walk through the process
+shortly. But first, you'll need to create a Bitbucket account if you don't already
+have one.</p>
+
+<p> Why Bitbucket? Bitbucket allows accounts to have unlimited private repos. GitHub
+limits this to 5 per (student) user. Since many of you have already used those 5,
+ we decided to use Bitbucket. If you have expereince using Github.com in previous
+classes, don't worry: Bitbucket interacts with <tt>git</tt> in the same way as
+Github.com, it is just a different website for hosting the remote (online) repositories.</p>
+
+   <h3><strong>Setting up Bitbucket and creating a Bitbucket repository</strong></h3>
+   <p>Navigate to <a href="https://bitbucket.org/">bitbucket.org</a></p>
+   <ul>
+        <li>If you don&rsquo;t have a bitbucket account, create a
+            bitbucket account.
+   </ul>
+   <ul>
+      <li>Create a new <b>empty</b>, <b><i>private</i></b> repository called: <tt>lab0_with_git</tt></li>
+    </ul>
+    <ul>
+     <!--   <li>
+            <a href=
+            "https://confluence.atlassian.com/bitbucket/add-an-ssh-key-to-an-account-302811853.html">
+            Set up your SSH keys</a> if you have not done so already. If you choose to skip this step, use the https:// version of the clone signature. Setting up SSH keys is a way of the computer "remembering your password" to your bitbucket account. That way, you won't be prompted each time you push/pull for your credentials. Security wise, it is an example of symmetric encryption. Check out this video to learn more: <a href="https://www.youtube.com/watch?v=ERp8420ucGs">VID</a>.
+        </li> -->
+    </ul>
+   <ul>
+            <li><span>Navigate to your Bitbucket repo settings page</span></li>
+
+            <li style="list-style: none; display: inline">
+                <ul>
+                    <li>
+                        <a href=
+                        "https://bitbucket.org/"><span>https://bitbucket.org/</span></a><span>&lt;bitbucket-login&gt;/lab0_with_git</span>
+                    </li>
+
+                    <li><span>Settings &rarr; User and group access. Under "Users", you should see yourself listed as "owner"</span></li>
+
+                    <li><span>Give '<span class="error">cs61c-staff</span>' admin access to your
+                    repo.</span></li>
+                    <li>Leave this page open to show your TA at the end of the lab</li>
+                </ul>
+            </li>
+        </ul>
+
+    <ul>
+        <li><strong><strong>Do not give access to anyone else to your
+        repo.</strong></strong></li>
+    </ul>
+
+
+
+<h3>Setting up <tt>git</tt></h3>
+
+<p>Now that we have created our repo, lets configure <tt>git</tt> so that it knows who you are. <i> While logged into your instructional account (from part 0), </i> Run the
+commands listed below, replacing
+<tt>YOUR NAME</tt> with your first and last name (inside quotes) and <tt>YOUR EMAIL ADDRESS</tt>
+with the email address you used to register for your Bitbucket account:</p>
+
+<pre>
+$ git config --global user.name "YOUR NAME"
+$ git config --global user.email "YOUR EMAIL ADDRESS"
+</pre>
+
+<br>
+<div class='checkoff'>
+<h4>Checkoff:</h4>
+<ul><li>Show your TA the Access Management page for your private repo on Bitbucket</li>
+</ul>
+</div>
+
+<h3>Exercise 2: <tt>git</tt>, Remotes, and the Hive machines</h3>
+
+<p>First, some quick defintions.</p>
+<ul>
+<li> A <b>remote</b> is the website host or server that will store your class code REMOTELY instead of only having your code LOCALLY on your own computer. You can think of it as a file store like Google Drive/Dropbox but armed with the powers of git.
+</li>
+<li> A <b>branch</b> is its own sequence of different changes to your code. You can think of branches as different versions of your code, that at one point were the same before branching from each other after one or multiple changes. These are very useful for always having a working/safe version of your code.</li>
+</ul>
+
+<p>Throughout this class, you will regularly work with three different computers that may very well have three different versions of your code. These three are your local machine (your personal computer), one of the hive machines (while logged into your instructional account), and a remote (your Bitbucket repositories). For the least pain throughout the semester, it's essential that you understand the difference between these three and how you can share code between them.</p>
+
+<ol>
+<li>Your local machine. Just your good ol' personal computer--nothing new here!</li>
+
+<li>The hive machines. We'll be using a lot of different software and libraries throughout this class that might require different versions than the ones on your local machine (e.g. python2.7 versus python3). Therefore, you'll need to log into your instructional account on a hive machine (hiveYY.cs.berkeley.edu) so that you can run your assignment code in an environment with all of the correct software/library versions.</li>
+
+<li>The Bitbucket remote. Your Bitbucket account serves a lot of purposes, but 2 of the most important are as 1) a way to share your code using git 2) a backup of your code, so that if something ever happens to your local machine, you can recover your code instead of having to start over! Conceptually, you can also think of the Bitbucket remote as another machine that only stores your project code (and doesn't do much else). You will push changes to Bitbucket (i.e. updating the files on Bitbucket) and also pull changes from Bitbucket (i.e. updating files on your local machine)</li>
+</ol>
+
+<p> If you aren't already logged in, SSH onto the hive machine as in part 0. Next, obtain the files for this section.
+
+<h4> Obtaining Lab Files </h4>
+<p>Copy the contents of ~cs61c/labs/00 to a suitable location in the home directory of your instructional account as follows.</p>
+<pre>
+$ mkdir labs (if ~/labs doesn't exist)
+$ cp -r ~cs61c/labs/00/ ~/labs/00
+</pre>
+
+<p> You should be able to see the lab files if you navigate to ~/labs/00 </p>
+
+<p>To copy the lab files to your local machine, you have two options. 1) You can use <tt>git</tt> and Bitbucket, which you'll learn in the next section, and allow you to have version control over the changes you make to your lab code. 2) Using the <strong>scp</strong> command, which requires less steps but does not give you version control. Read below on how to use <strong>scp</strong> for future labs, but for this lab, we'll be using <tt>git</tt>.
+
+If you already know how to use <strong>scp</strong>, feel free to ignore the following.</p>
+
+<p><strong>Scp</strong> follows the same semantics as the <strong>cp</strong> command used above (<strong>cp -r [host] [destination]</strong>, -r being a flag to copy recursively all directories and files). Thus, one way to use <strong>sc</strong>p to copy files to your local machine is to navigate to a place on your local machine that you want to store your lab files, and run <strong>scp -r cs61c-XXX@hiveXX.cs.berkeley.edu:~/labs/00 ./</strong> (don't forget the "./" at the end for the destination argument). <i>You must run this command from your local machine; it will not work if you run this on the instructional machines.</i> If you then type ls, your lab folder should appear on your local machine.</p>
+<p>
+
+<h4> Pushing to and pulling from Bitbucket </h4>
+Now let's push some code to the Bitbucket "lab0_with_git" repo that you made earlier! Run the following list of commands.
+
+<pre>
+git init # initalizes git to start tracking all changes within this repo (i.e directory and its subdirectories)
+git remote add origin https://bitbucket.org/mybitbucketusername/lab0_with_git.git # Adds your Bitbucket as a remote to backup your code to
+git status
+</pre>
+
+<p>After the last command, you should see some output in your terminal about untracked files.</p>
+
+<p>Now let's commit your changes (i.e. all of these newly tracked files). Remember the following sequence of commands, you'll be using them regularly to commit changes to your code.</p>
+
+<pre>
+git add -A # stages all modified files for committing
+git status # you should now see that files are staged
+git commit -m "Commit message" # you can enter whatever you'd like for the message
+git branch # you should see that only the master branch exists, and you're currently on it
+git push origin master # this pushes your code to Bitbucket! You should now see it on Bitbucket.
+</pre>
+
+<p>Git's version control is built around commits, or checkpoints in development of different versions/stages of your code. To explain the above steps a little further:</p>
+<ul>
+  <li><tt>git add [filename]</tt> will tell git that you've made changes to that file and would like its changes to be saved in the next commit (AKA staging).</li>
+  <li><tt>git commit -m "commit message"</tt> officially saves the changes that you just added, and makes a snapshot of the current contents of all of the files in the repo. You'll now always have the option to revert your code to what it was at this commit. </li>
+  <li><tt>git push origin master</tt> pushes the current contents of your code on the branch "master" to the remote "origin" (remember that we added your Bitbucket repo for "lab0_with_git" as a remote named "origin"). This will create a branch on your remote repository (you should see a branches button on the Bitbucket page for your repo) if it doesn't exist already, and save a copy of your recent commit on the remote repository.
+</ul>
+
+<p> When it comes to git, if you're ever unsure of something, but just want to make sure you have a saved copy of the current contents of your code, just run <tt> git add</tt> and then <tt> git commit </tt>.</p>
+
+<p> Now that we've got your code stored on Bitbucket, let's get your code on your local machine and actually start modifying it. Open a terminal window on your local machine, and navigate to the directory where you'd like to store your labs on your local machines (e.g. "~/cs61c/labs"). Now run the following command.</p>
+
+<pre>
+git clone https://bitbucket.org/mybitbucketusername/lab0_with_git.git
+</pre>
+
+<p> Just like that, the lab0 files you had on your instructional account and on Bitbucket are now also on your local machine! Now, let's make some changes. Within the <tt>lab0_with_git</tt> directory, open the <tt>hello.sh</tt> file. Change <tt>student_name</tt> from "Oski" to your own name, and change line 14 from <tt>ls</tt> to <tt>sl</tt>. Then, try running the file with <tt>./hello.sh</tt>. You should see some greetings printed out, and a message that the <tt>sl</tt> command was not found. Not so interesting, huh? This is one of the situations where the hive machines have different things installed than on your local machine. Let's use git to get your newly changed code onto a hive machine, so that you can run <tt>hello.sh</tt> as expected! Run the following commands:</p>
+
+<pre>
+git add hello.sh
+git commit -m "Write your own commit message"
+git push origin master
+</pre>
+
+<p>Now open up the terminal window where you were logged onto a hive machine (back from part 0). Navigate to the directory where you originally copied the lab files, "~/labs/00", and then run: </p>
+
+<pre>
+git pull origin master
+</pre>
+
+<p> You may be presented with a new screen asking you to write a commit message. This is likely the built in text editor Vim. To start editing your message, first type <tt>i</tt>, write your commit message, and then type <tt>:wq</tt> to save your message and exit the editor. </p>
+
+<p> This command fetches any new changes/updates to the branch "master" that have been stored on the remote "origin", and then merges them onto the current branch of your non-remote copy of your code (in this case on your instructional account). So just like that, the name and "sl" changes that you made earlier on your laptop, are now also present on your instructional account. Now, again run <tt>./hello.sh</tt>. Cool train, eh?<p>
+
+<p> One last git command that you'll find useful is <tt> git log </tt>. Run this command, and you'll see a history of all the commits ever made to your code (on the current branch), including the time and who made the commit. </p>
+
+</p>
+
+<div class='checkoff'>
+<h4>Checkoff:</h4>
+<ul>
+    <li>Run <tt>git log</tt> and show your TA the output.</li>
+</ul>
+</div>
+
+<h3>Exercise 3: Working on Projects</h3>
+
+<p> This semester, you'll be working on projects individually and you may work on both the hive machine and your local machine. But how can you smoothly change code in the same files without having to delete and copy files back and forth? There is where Git will come to the rescue! In this part, you'll learn the process you will use for every project for obtaining the starter files for the project and then also working on the code on both machines. For the rest of this part, you will work on both your laptop and your instructional account. It will be easiest to open up multiple tabs in your terminal. </p>
+
+<h4> Setup: Getting the Project Files </h4>
+<p>First, let's make a Bitbucket repo to store your project code. Follow the steps from part 1 again in order to create a new Bitbucket repo named "lab0-xxx", where xxx is your 61c login. </p>
+
+<p> Now navigate to the directory on the hive machine where you'd like to store your project code (e.g. "~/cs61c/projects" or "~/projects"), and run the following commands:</p>
+
+<pre>
+git clone https://bitbucket.org/mybitbucketusername/lab0-xxx.git
+cd lab0-xxx
+git remote add lab0-starter https://github.com/61c-teach/sp18-lab0.git
+git fetch lab0-starter
+git merge lab0-starter/master -m "Getting lab0 skeleton code"
+git push origin master
+</pre>
+
+<p>Now switch to your local machine, set up a lab0-xxx on your local machine and pull the lab files. </p>
+<pre>
+git clone https://bitbucket.org/mybitbucketusername/lab0-xxx.git
+cd lab0-xxx
+git pull origin master
+</pre>
+
+
+<p> You should now have the starter code (<code>foo.txt</code> with content "<code>World Hello</code>") on both machines. </p>
+
+<p> Now, let's pretend you are working on the project on your local machine. Open up <tt>foo.txt</tt> on your local machine, change the contents to "Hello World", and push your changes to your Bitbucket repo:</p>
+
+<pre>
+git add foo.txt
+git commit -m "Change to Hello World"
+git push origin master
+</pre>
+
+<p> You should be able to push to your Bitbucket repo successfully. At this time, foo.txt should have "Hello World" on your local machine, but "World Hello" on the hive machine.</p>
+
+<p> Now, pretend that you are switching to work on your code on the hive machine, but forgot to pull the new changes. Switch to the hive machine and open up <tt>foo.txt</tt>. Change its content to your name and try to commit and push your changes to Bitbucket.</p>
+<pre>
+git add foo.txt
+git commit -m "Change to my Name"
+git push origin master
+</pre>
+
+<p> This time, your push command errors out because your Bitbucket repo contains work that you do not have on your hive machine repository: </p>
+<pre>
+To https://bitbucket.org/mybitbucketusername/lab0-xxx.git
+! [rejected]        master -> master (fetch first)
+error: failed to push some refs to 'https://bitbucket.org/mybitbucketusername/lab0-xxx.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+</pre>
+
+<p> To fix this, let's pull and then re-push. </p>
+<pre>
+  git pull origin master
+</pre>
+<p> You should get "<tt>Auto-merging fails</tt>". What does it mean?</p>
+
+<h4> Merge Conflicts: When things goes wrong </h4>
+<p> In the previous section, you worked on the out-dated directory on the hive machine and tried to push the new changes without pulling the most recent code. When you try to pull code that conflicts with the code you are working on, this situation is called a <b>merge conflict</b> and poses a problem because <tt> git </tt> doesn't know which modifications it should accept for the conflicting line(s). Let's see how to resolve this. </p>
+
+
+<p> If you open up <tt>foo.txt</tt>, you'll notice that some arrows and other numbers have been added by <tt> git </tt> to signify a merge conflict. The top half (before the "========") is the changes you made on hive machine, and the bottom half is the code from the remote Bitbucket repo (The change you pushed from your local machine). Resolve the conflict by deleting the ">>>>", "======", and the commit numbers (next to the arrows), and leaving the correct text (your name). You now need to re-add the once-conflicted file and commit it: </p>
+
+<pre>
+git add foo.txt
+git commit -m "Resolved merge conflict"
+git push origin master
+git log
+</pre>
+
+<p> This time push should succeed. Take a look at the git log output and make sure you understand where each log comes from.</p>
+<p> Finally, switch back to your local machine and pull the changes you just made: </p>
+
+<pre>
+0: git pull origin master
+</pre>
+
+<p> You should see your name in foo.txt on your local machine. </p>
+
+<!--
+<p>Since we've already done a whirlwind tour of <tt>git</tt> in the last exercise,
+let's jump right in and create a local repository to house our coursework for CS61C:</p>
+
+<p>First, we'll make a directory that represents the highest-level ("root") directory
+in our git repository. We'll call this directory "work", place it in the home directory of our class account, and enter into the directory:</p>
+
+<pre>
+$ mkdir ~/work
+$ cd ~/work
+</pre>
+
+<p>Next, we'll run <tt>git init</tt>, which will place our <tt>~/work</tt> directory under version control.</p>
+
+<pre>
+$ git init
+</pre>
+
+<p>As in the last exercise, this will create a directory inside <tt>~/work</tt>
+called <tt>.git/</tt>. This is where <tt>git</tt> stores all of the information
+about your repository.</p>
+
+<p>We won't need to work with any files for the number-representation part of this lab,
+so let's create a dummy README file to put under version control:</p>
+
+<pre>
+$ echo "Hello World! This is cs61c-XX's repository." > README
+</pre>
+
+<p>Now, type <tt>git status</tt>. You should get output like the following:</p>
+
+<pre>
+On branch master
+
+Initial commit
+
+Untracked files:
+  (use "git add &ltfile&gt..." to include in what will be committed)
+
+        README
+
+nothing added to commit but untracked files present (use "git add" to track)
+</pre>
+
+<p>Here, git is telling us that we have a file named README that is not
+tracked as part of the repository.</p>
+
+<p>In order to place the file under version control, let's use <tt>git add</tt>
+to stage the <tt>README</tt> file to be committed.
+Since README is a new file, we're telling git to begin tracking
+changes to the file. Essentially, by using the <tt>git add</tt> command, we are
+telling git which changes we want added to the repository when we next type
+<tt>git commit</tt>. A commit is basically a snapshot of all of the files in
+your repository at some point in time.</p>
+
+<pre>
+[tell git to start tracking the README file:]
+$ git add README
+</pre>
+
+<p>Now, if you type <tt>git status</tt> once again, you'll see output like the following:</p>
+
+<pre>
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached &lt;file&gt;..." to unstage)
+
+        new file:   README
+
+</pre>
+
+<p>This output indicates that we've now staged the <tt>README</tt> file to
+be committed to the repo next time we type <tt>git commit</tt>.
+
+<p>
+Now, we will actually make a commit using <tt>git commit</tt>. This command will
+take a commit message, which will allow us to easily identify what was added or
+changed in the repo at this point in time.</p>
+
+<pre>
+$ git commit -m 'First Commit! - Added new README file'
+</pre>
+
+<p>Now, if you once again type <tt>git status</tt>, you'll see output like the following:</p>
+
+<pre>
+On branch master
+nothing to commit, working directory clean
+</pre>
+
+<p>This is exactly what we wanted. Since we just made a commit, the files in
+the directory and the versions of them known to <tt>git</tt> are the same.
+Thus, <tt>git</tt> reports that the current working directory (<tt>~/work</tt>)
+is clean.</p>
+
+<p>Now, if you type <tt>git log</tt>, you should see the commit history of your repository:</p>
+
+<pre>
+$ git log
+commit 160694f5e5a229a12c82262511756cef1d0714c0
+Author: David Adams &lt;dadams@berkeley.edu&gt;
+Date:   Thu Jan 22 14:33:41 2015 -0800
+
+    First Commit! - Added new README file
+
+</pre>
+
+<p>Once you make more commits, the output of <tt>git log</tt> will show you
+information about the most recent commits in the repository.</p>
+
+
+<p>As it stands, there are two problems with our local repository:
+
+<ol>
+    <li>We don't have a backup copy. You should always backup your code!</li>
+    <li>Our local copy is private only to us. What if we want to share our code
+    with our project partner?</li>
+</ol>
+
+<p>We will resolve both of these issues by using Bitbucket. Bitbucket will store
+a "remote" copy of our repository. This serves both as a backup that we can
+re-clone if we accidentally destroy our local copy and allows us to share
+the contents of the repository with other Bitbucket users if we'd like.</p>
+
+<p>Currently, we only have a single local copy of our repository. Let's go ahead
+and push to our private repository on Bitbucket. In order to do so, we'll need to
+add a "remote", which points to our space on Bitbucket. You should replace cs61c-xx
+in the command below with your login:</p>
+
+<pre>
+[ in the command below, you MUST replace cs61c-xx with your login, and both ]
+[     instances of &lt;username&gt; with your Bitbucket username                  ]
+
+$ git remote add origin https://&lt;username&gt;@bitbucket.org/&lt;username&gt;/cs61c-xx
+</pre>
+
+<p>Now let's tell <tt>git</tt> to send
+the contents of our repository to Bitbucket. We do this with the <tt>git push</tt> command,
+specifying where we want to send the code (to "origin", which we defined above)
+and the branch ("master"). We will cover branches in more detail later on.</p>
+
+<pre>
+$ git push -u origin master
+</pre>
+
+<p>Now, let's head to the Bitbucket website and click on the repo name (your class account login).
+Alternatively, you can go directly to https://bitbucket.org/&lt;username&gt;/cs61c-xx, replacing
+xx with the two letters at the end of your class account login.</p>
+
+<p>Woo! Notice how our README file is now uploaded to the copy of the repository
+on Bitbucket. Anything that you commit to the repository and then push will be
+stored on Bitbucket in addition to your local copy of the repository.</p>
+
+<p>As we do more work in this course, you should create subdirectories in this
+repository to place your projects. The general workflow you'll use will adhere
+to the following format:</p>
+
+<pre>
+$ cd ~/work
+$ mkdir assignment_name
+$ [copy assignment files into the assignment_name directory as instructed by the assignment]
+$ git add assignment_name/
+$ git commit -m 'adding skeleton for assignment_name'
+$ git push origin master
+$ [work on assignment, modifying files in the ~/work/assignment_name directory]
+$ git add -u # the -u tells git to stage changes to all known files - aka skeleton files you filled in
+$ git commit -m "completed question 1 in assignment_name"
+$ git push origin master
+$ [go back to "work on assignment step," repeat until done assignment]
+</pre>
+
+<p>At this point, we've covered enough of the basics of <tt>git</tt> to make it useful
+as a code backup system. In a later lab, we'll discuss more about how to
+use <tt>git</tt> as a collaborative tool. We'll explore topics like branching, merging,
+and pulling.</p> -->
+
+<div class='checkoff'>
+<h4>Checkoff:</h4>
+<ul><li>Go to the Bitbucket page for your repository and click on "Commits". Show your TA the list of commits.</li>
+<li>Explain how to resolve a merge conflict to your TA.</li>
+</ul>
+</div>
+
+<h3>Exercise 4: Binary Alphabet</h3>
+
+<p>Let's take 4-bit numbers.
+If we stack five 4-bit numbers on top of each other in binary, we can make patterns and pictures!
+To help visualize this, you can think of 0's and 1's as white and black instead.
+For example, what does the following bit pattern look like?
+</p>
+<table border=0 cellpadding=0 cellspacing=0>
+  <tr> <td><tt>0</tt><td><tt>&nbsp;1</tt><td><tt>&nbsp;1</tt><td><tt>&nbsp;0</tt><td>&nbsp;
+       <td>&#x25a1;<td>&nbsp;&#x25a0;<td>&nbsp;&#x25a0;<td>&nbsp;&#x25a1;
+  <tr> <td><tt>1</tt><td><tt>&nbsp;0</tt><td><tt>&nbsp;0</tt><td><tt>&nbsp;1</tt><td>&nbsp;
+       <td>&#x25a0;<td>&nbsp;&#x25a1;<td>&nbsp;&#x25a1;<td>&nbsp;&#x25a0;
+  <tr> <td><tt>1</tt><td><tt>&nbsp;1</tt><td><tt>&nbsp;1</tt><td><tt>&nbsp;1</tt><td>&nbsp;--&gt;&nbsp;
+       <td>&#x25a0;<td>&nbsp;&#x25a0;<td>&nbsp;&#x25a0;<td>&nbsp;&#x25a0;
+  <tr> <td><tt>1</tt><td><tt>&nbsp;0</tt><td><tt>&nbsp;0</tt><td><tt>&nbsp;1</tt><td>&nbsp;
+       <td>&#x25a0;<td>&nbsp;&#x25a1;<td>&nbsp;&#x25a1;<td>&nbsp;&#x25a0;
+  <tr> <td><tt>1</tt><td><tt>&nbsp;0</tt><td><tt>&nbsp;0</tt><td><tt>&nbsp;1</tt><td>&nbsp;
+       <td>&#x25a0;<td>&nbsp;&#x25a1;<td>&nbsp;&#x25a1;<td>&nbsp;&#x25a0;
+</table>
+<br>
+<div class='checkoff'>
+<h4>Checkoff:</h4>
+<ul>
+  <li>What five decimal digits produce the pattern above?  What five hexadecimal digits?
+  <li>What letter is drawn with 1,1,9,9,6? 0xF8F88?
+  <li>What is the hexadecimal representation you would use to spell the letter 'B'?  'N' (you probably won't want to use 5 hex digits for this one)?
+</ul>
+</div>
+
+<h3>Exercise 5: 1,000 $1 Bills</h3>
+<p>I hand you a thousand $1 bills and ten envelopes.
+Your job is to find a way to put various numbers of dollar bills in those ten envelopes so that no matter what amount of money I ask you for (between $1-1000), you can simply hand me some combination of envelopes and always be assured of giving me the correct amount of cash.</p>
+
+<div class='checkoff'>
+<h4>Checkoff:</h4>
+<ul>
+  <li>Explain to your TA how to distribute the dollar bills in the ten envelopes.
+</ul>
+</div>
+
+</body>
+
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/0/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:31 GMT -->
+</html>

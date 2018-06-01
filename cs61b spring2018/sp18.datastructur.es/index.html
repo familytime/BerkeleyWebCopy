@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:17:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Main | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/sunburst.css">
+    
+    <link rel="stylesheet" type="text/css" href="assets/css/index.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/fullcalendar.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/calendar.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery.qtip.min.css">
+    
+    
+
+    <script src="assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="assets/js/script.js"></script>
+    <script src="assets/js/cheet.min.js"></script>
+    
+    <script src="assets/js/jquery.qtip.min.js" type="text/javascript"></script>
+    <script src="assets/js/moment.min.js"></script>
+    <script src="assets/js/fullcalendar.min.js"></script>
+    
+</head>
+
+
+<body>
+    <div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="index-2.html"><div class="navitem">Main</div></a>
+        <a href="about.html"><div class="navitem">Course Info</div></a>
+        <a href="staff.html"><div class="navitem">Staff</div></a>
+        <a href="resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="coursename">
+        <a href="index.html"><span id="courseid">CS 61B</span> Data Structures, Spring 2018</a>
+    </div>
+    <div id="courseinfo">
+        Instructor: Josh Hug<br>
+        Lecture: MWF 3-4 PM, Wheeler 150<br>
+    </div>
+    <div id="content" class="">
+        <div class="segment">
+    <div class="segmenttitle">
+        Announcements
+        [<a href="announcements.html">View All</a>]
+    </div>
+    <div class="announcement-wrapper">
+      <div class="prev">
+        <b> « </b>
+      </div>
+      <ul class="announcements" id="announce-scroll">
+<li class="announcement-item show">
+            <h4 align="center"> 04-16-2018 </h4>
+<h2 id="week-13-annoucements">Week 13 Annoucements</h2>
+
+<ul>
+  <li>Project 3 is due 4/18!</li>
+  <li>HW 5 will be released this week and is due 4/25</li>
+  <li>Lab due Friday 4/20 at 11:59 PM</li>
+</ul>
+
+
+          </li>
+<li class="announcement-item hide">
+            <h4 align="center"> 04-09-2018 </h4>
+<h2 id="week-12-annoucements">Week 12 Annoucements</h2>
+
+<ul>
+  <li>Project 3 spec is out (Due 4/18)! Please get started on it as soon as possible.</li>
+  <li>Post midterm 2 one-on-ones are still open. (@3258)</li>
+  <li>Remember to fill out the mandatory proj2 partner survey <a href="https://docs.google.com/forms/d/e/1FAIpQLSedRcrtcxB2-UqdnfnOM8HnllMAGW-gFUYmJavG4YPYbWZNRQ/viewform">here</a>
+</li>
+  <li>Lab due Friday 11:59 PM</li>
+</ul>
+
+
+          </li>
+<li class="announcement-item hide">
+            <h4 align="center"> 04-02-2018 </h4>
+<h2 id="week-11-annoucements">Week 11 Annoucements</h2>
+
+<ul>
+  <li>Midterm II scores are out (@3262)
+    <ul>
+      <li>Regrade requests will open on April 4th, at noon</li>
+      <li>Regrade requests will close on April 9th, at noon</li>
+      <li>Special regrade instructions for FLIGHT</li>
+    </ul>
+  </li>
+  <li>Algorithm design problems (@3259)</li>
+  <li>HW 4 due 4/4</li>
+  <li>Post Midterm 2 one-on-ones (@3258)</li>
+</ul>
+
+
+          </li>
+<li class="announcement-item hide">
+            <h4 align="center"> 03-10-2018 </h4>
+<h2 id="week-9-annoucements">Week 9 Annoucements</h2>
+
+<ul>
+  <li>Homework 2 is due Wednesday, March 14</li>
+  <li>Homework 3 is due Monday, March 19</li>
+  <li>Midterm 2 is on Tuesday, March 20
+    <ul>
+      <li>Midterm review session Friday 16th 8-10 PM</li>
+      <li>Guerrilla section Saturday 17th 12-2 PM</li>
+    </ul>
+  </li>
+</ul>
+
+
+          </li>
+<li class="announcement-item hide">
+            <h4 align="center"> 03-26-2018 week8 </h4>
+<h2 id="week-8-announcements">Week 8 Announcements</h2>
+
+<ul>
+  <li>Project 2 Phase 2 due March 5th</li>
+  <li>Labs this week will be Project 2 checkoff
+    <ul>
+      <li>Sign up <a href="https://docs.google.com/spreadsheets/u/1/d/1KCXapLWDkXPJMACgkhUpQ8uL5IHUlptHM5o8C8YO1m4/edit#gid=0">here!</a>
+</li>
+      <li>More information on <a href="https://piazza.com/class/j9j0udrxjjp758?cid=2226">Piazza</a>
+</li>
+    </ul>
+  </li>
+  <li>HWs 2 and 3 upcoming due 3/14 and 3/19</li>
+  <li>Midterm 2 far in the future on 3/20</li>
+  <li>Nicole’s online discussion: Tuesday 7:30 - 8:30pm</li>
+  <li>Sarah’s LOST section: Tuesday 5 - 6pm in 187 Dwinelle</li>
+  <li>Gigi’s LOST section: Sunday 3 - 4pm in 405 Soda</li>
+</ul>
+
+
+          </li>
+<li class="announcement-item hide">
+            <h4 align="center"> 02-26-2018 week7 </h4>
+<h2 id="week-7-announcements">Week 7 Announcements</h2>
+
+<ul>
+  <li>
+<a href="materials/proj/proj2/proj2.html">Phase 1</a> due February 26</li>
+  <li>
+<a href="materials/proj/proj2/proj2.html">Phase 2</a> due March 5th</li>
+  <li>Labs this week will be working on project 2</li>
+  <li>Nicole’s online discussion: Tuesday 7:30 - 8:30pm</li>
+  <li>Nicole’s online lab: Thursday 7:30 - 8:30pm</li>
+  <li>Sarah’s LOST section: Tuesday 5 - 6pm in 187 Dwinelle</li>
+  <li>Gigi’s LOST section: Sunday 3 - 4pm in 405 Soda</li>
+</ul>
+
+
+          </li>
+<li class="announcement-item hide">
+            <h4 align="center"> 02-19-2018 week6 </h4>
+<h2 id="week-6-announcements">Week 6 Announcements</h2>
+<ul>
+  <li>Midterm scores are out!</li>
+  <li>Regrade requests are Friday the 23rd at noon. No regrades will be accepted later than that.</li>
+  <li>Please format your regrade according to the format specified on Piazza <a href="https://piazza.com/class/j9j0udrxjjp758?cid=1520">@1502</a>
+</li>
+  <li>Project 2 final version is out</li>
+  <li>
+<a href="materials/proj/proj2/proj2.html">Phase 1</a> due February 26</li>
+  <li>
+<a href="materials/proj/proj2/proj2.html">Phase 2</a> due March 5th</li>
+  <li>It is highly recommended that you find a partner for this project. Partner forms are linked in the spec.</li>
+  <li>
+<a href="materials/hw/hw1/hw1.html">Homework 1</a> is out and due 2/21</li>
+</ul>
+
+
+          </li>
+<li class="announcement-item hide">
+            <h4 align="center"> 02-11-2018 week5 </h4>
+<h2 id="week-5-announcements">Week 5 Announcements</h2>
+<ul>
+  <li>Midterm 1 is on Monday, 2/12 @ 8-10PM (details <a href="https://piazza.com/class/j9j0udrxjjp758?cid=1105">@1105</a>)</li>
+  <li>The deadline to add/drop classes is Friday, 2/16</li>
+  <li>HW 1 is due Wednesday, 2/21</li>
+  <li>Partner Registration Form due Friday 2/16</li>
+  <li>Schedule a one-on-one with a TA (will be up shortly after Midterm 1)</li>
+  <li>
+<a href="resources-2.html">Resources</a> page is up</li>
+</ul>
+
+
+          </li>
+<li class="announcement-item hide">
+            <h4 align="center"> 2018-2-6 </h4>
+<h2 id="week-4-announcements">Week 4 Announcements</h2>
+
+<ul>
+  <li>Project 1B due on Friday, 2/9, 11:59PM</li>
+  <li>Midterm 1 is on Monday, 2/12, 8-10PM (details <a href="https://piazza.com/class/j9j0udrxjjp758?cid=1105">@1105</a>
+</li>
+  <li><strong>Lab 4 has a checkoff, must attend lab for points</strong></li>
+  <li>Midterm 1 Review Session on Friday 2/9, 8-10PM in 155 Dwinelle</li>
+  <li>Midterm 1 Guerilla Section on Saturday 2/10, 12-2PM in 271-275 Soda</li>
+  <li>Sign up for CSM if you want small group tutoring!
+  <a href="https://piazza.com/class/j9j0udrxjjp758?cid=934">@934</a>
+</li>
+  <li>
+<a href="resources-2.html">Resources</a> page is up</li>
+</ul>
+
+
+          </li>
+<li class="announcement-item hide">
+            <h4 align="center"> 2018-1-16 </h4>
+<h2 id="discussions-labs-hw0">Discussions, Labs, HW0</h2>
+
+<p>Make sure to attend discussion and lab this week. We recommend that you complete the optional HW0 ASAP.</p>
+
+
+
+          </li>
+</ul>
+      <div class="next">
+        <b> » </b>
+      </div>
+    </div>
+</div>
+<div class="segment">
+    <div class="segmenttitle">Calendar</div>
+    <table id="calendar">
+        <thead>
+            <tr>
+                <th>Week</th>
+                <th>Date</th>
+                <th>Reading</th>
+                <th>Lecture</th>
+                <th>Discussion</th>
+                <th>Lab</th>
+                <th colspan="2">Assignments/Exams</th>
+            </tr>
+        </thead>
+        <tbody>
+<tr class="odd">
+<td rowspan="2">1</td>
+<td>Wed 1/17</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap1/chap11.html">1.1</a></p>
+</td>
+                <td class="">
+                  1. Intro, Hello World Java<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD6JYLoKG39xFTuQxE7cyBL7">video</a>] ‌[<a href="https://docs.google.com/presentation/d/12Fp-hjYhdFL7EcVqpNGpFb2BdCL2gr1SFOS5E6pyohg">slides</a>] ‌[<a href="materials/lectures/lec1/lec1.html">guide</a>] ‌</td>
+<td rowspan="2">
+<a href="materials/discussion/disc01.pdf">Intro to Java</a><!-- if d_i == 1 -->
+                        <br><!-- if disc.slides -->[<a href="materials/discussion/disc01sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><!-- for disc in week.discussions -->
+                  </td>
+<!-- if week.discussions -->
+                  <td rowspan="2">
+<a href="materials/lab/lab1setup/lab1setup.html">Setting Up Your Computer</a><!-- if lab.released == false --><!-- if l_i == 1 --><hr>
+<a href="materials/lab/lab1/lab1.html">javac, java, git (due 1/26)</a><!-- if lab.released == false --><!-- if l_i == 1 --><!-- for lab in week.labs -->
+                  </td>
+<td class="" colspan="2" rowspan="2">
+                    <a href="materials/hw/hw0/hw0.html">HW 0: Basic Java Programs (optional)</a>
+                    <br>
+</td>
+<!-- if a.released == false --><!-- for a in day.assignments -->
+              </tr>
+<tr class="odd">
+<td>Fri 1/19</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap1/chap12.html">1.2</a></p>
+</td>
+                <td class="">
+                  2. Defining and Using Classes<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD5A_fyRC86yLiY2sXtc4XNQ">video</a>] ‌[<a href="https://docs.google.com/presentation/d/10BFLHH8VaoYy7XaazwjaoTtLw3zvasX4HCssDruqw84/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec2/lec2.html">guide</a>] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<!-- for day in week.days -->
+              <!-- if week.custom --><tr>
+<td rowspan="3">2</td>
+<td>Mon 1/22</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap2/chap21.html">2.1</a></p>
+</td>
+                <td class="">
+                  3. References, Recursion, and Lists<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD6punrpg2a3WNi3TueRAGS1">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1c1AQqfCDh2znyIkJM45N2zUq9ww_NN-2Gi9JQkyRROs">slides</a>] ‌[<a href="materials/lectures/lec3/lec3.html">guide</a>] ‌</td>
+<td rowspan="3">
+<a href="materials/discussion/disc02.pdf">Scope, Pass-by-Value, Static</a><!-- if d_i == 1 -->
+                        <br>[<a href="https://docs.google.com/presentation/d/1aF6qyyeKl8sh5N4zn1PmtPde74ZNKRy1RBrQGykkd0w">slides</a>] ‌<!-- if disc.slides -->[<a href="materials/discussion/disc02sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><hr>
+<a href="materials/discussion/examprep02.pdf">Scope, Pass-by-Value, Static Exam Prep</a><!-- if d_i == 1 -->
+                        <br><!-- if disc.slides -->[<a href="materials/discussion/examprep02sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><!-- for disc in week.discussions -->
+                  </td>
+<!-- if week.discussions -->
+                  <td rowspan="3">
+<a href="materials/lab/lab2setup/lab2setup.html">IntelliJ Home Setup</a><!-- if lab.released == false --><!-- if l_i == 1 --><hr>
+<a href="materials/lab/lab2/lab2.html">IDEs (due 1/26)</a><!-- if lab.released == false --><!-- if l_i == 1 --><!-- for lab in week.labs -->
+                  </td>
+<td class="" colspan="2" rowspan="3">
+                    <a href="materials/proj/proj0/proj0.html">Project 0: NBody (due 1/26 @ 11:59PM)</a>
+                    <br>
+</td>
+<!-- if a.released == false --><!-- for a in day.assignments -->
+              </tr>
+<tr>
+<td>Wed 1/24</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap2/chap22.html">2.2</a></p>
+</td>
+                <td class="">
+                  4. SLLists, Nested Classes, Sentinel Nodes<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD6IOx4jQkENO83otEG9S1JV">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1i9SW9haAc3lALQHF9C-8TuZMlSZ5KcwhGqeLdCeQ1lY">slides</a>] ‌[<a href="materials/lectures/lec4/lec4.html">guide</a>] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr>
+<td>Fri 1/26</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap2/chap23.html">2.3</a>, <a href="https://joshhug.gitbooks.io/hug61b/content/chap2/chap24.html">2.4</a></p>
+</td>
+                <td class="">
+                  5. DLLists, Arrays<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD6XjemUBnMrNdZhRpKJ7Rpg">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1suIeJ1SIGxoNDT8enLwsSrMxcw4JTvJBsMcdARpqQCk">slides</a>] ‌[<a href="materials/lectures/lec5/lec5.html">guide</a>] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<!-- for day in week.days -->
+              <!-- if week.custom --><tr class="odd">
+<td rowspan="3">3</td>
+<td>Mon 1/29</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap2/chap25.html">2.5</a></p>
+</td>
+                <td class="">
+                  6. ALists, Resizing, vs. SLists<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD7M1Zyio0exJXX9zMlG94Gk">video</a>] ‌[<a href="https://docs.google.com/presentation/d/14i5toLPeke_oREN5SIp2pQMvnU06XQvMjUK2IC-akbw">slides</a>] ‌[<a href="materials/lectures/lec6/lec6.html">guide</a>] ‌</td>
+<td rowspan="3">
+<a href="materials/discussion/disc03.pdf">Linked Lists, Arrays</a><!-- if d_i == 1 -->
+                        <br>[<a href="https://docs.google.com/presentation/d/18mEaQhfLGgpujzniBZq7Veq19P2zC9gJ6BIeMRHYUm0/edit?usp=sharing">slides</a>] ‌<!-- if disc.slides -->[<a href="materials/discussion/disc03sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><hr>
+<a href="materials/discussion/examprep03.pdf">Linked Lists, Arrays Exam Prep</a><!-- if d_i == 1 -->
+                        <br><!-- if disc.slides -->[<a href="materials/discussion/examprep03sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><!-- for disc in week.discussions -->
+                  </td>
+<!-- if week.discussions -->
+                  <td rowspan="3">
+<a href="materials/lab/lab3/lab3.html">Testing, Debugging (due 2/2)</a><!-- if lab.released == false --><!-- if l_i == 1 --><!-- for lab in week.labs -->
+                  </td>
+<td class="" colspan="2" rowspan="3">
+                    <a href="materials/proj/proj1a/proj1a.html">Project 1A: Data Structures (due 2/2 @ 11:59 PM)</a>
+                    <br>
+</td>
+<!-- if a.released == false --><!-- for a in day.assignments -->
+              </tr>
+<tr class="odd">
+<td>Wed 1/31</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap3/chap31.html">3.1</a>, Optional: <a href="http://david.heinemeierhansson.com/2014/tdd-is-dead-long-live-testing.html">TDD is dead</a>, <a href="http://www.rbcs-us.com/documents/Why-Most-Unit-Testing-is-Waste.pdf">Unit Tests Are Waste</a>, <a href="http://henrikwarne.com/2014/09/04/a-response-to-why-most-unit-testing-is-waste/">Response</a></p>
+</td>
+                <td class="">
+                  7. Testing<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD4ZxWDcuItnUElH2Pnneamc">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1DyD0dyNdYwZIZpZE9E0QVSqGnDJyKcHB2iZJ03C2N30">slides</a>] ‌[<a href="materials/lectures/lec7/lec7.html">guide</a>] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr class="odd">
+<td>Fri 2/2</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap4/chap41.html">4.1</a></p>
+</td>
+                <td class="">
+                  8. Inheritance, Implements<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD5zNY2dTJdL9R4Q2qKN98kN">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1wlScx4S45S7-hCHFrYU4JaFhES_lk9IL4qVyq4mUNFA">slides</a>] ‌[<a href="materials/lectures/lec8/lec8.html">guide</a>] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<!-- for day in week.days -->
+              <!-- if week.custom --><tr>
+<td rowspan="3">4</td>
+<td>Mon 2/5</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap4/chap42.html">4.2</a></p>
+</td>
+                <td class="">
+                  9. Extends, Casting, Higher Order Functions<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD6fKeKJeEKxaFgVAZz2dseg">video</a>] ‌[<a href="https://docs.google.com/presentation/d/15Ac0Xrd1sVA5_YSqPe6HdvD7DIhX2t4R6O-eQ3W6VBQ">slides</a>] ‌[<a href="materials/lectures/lec9/lec9.html">guide</a>] ‌</td>
+<td rowspan="3">
+<a href="materials/discussion/disc04.pdf">Inheritance</a><!-- if d_i == 1 -->
+                        <br>[<a href="https://docs.google.com/presentation/d/1uN5LwebE8ntlJHJTsCixhP4squ-r_xVUC2vcq8FfUXM/edit?usp=sharing">slides</a>] ‌<!-- if disc.slides -->[<a href="materials/discussion/disc04sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><hr>
+<a href="materials/discussion/examprep04.pdf">Inheritance Exam Prep</a><!-- if d_i == 1 -->
+                        <br><!-- if disc.slides -->[<a href="materials/discussion/examprep04sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><!-- for disc in week.discussions -->
+                  </td>
+<!-- if week.discussions -->
+                  <td rowspan="3">
+<a href="materials/lab/lab4/lab4.html">Peer Code Review (due 2/9)</a><!-- if lab.released == false --><!-- if l_i == 1 --><!-- for lab in week.labs -->
+                  </td>
+<td class="" colspan="1" rowspan="3">
+                    <a href="materials/proj/proj1b/proj1b.html">Project 1B: Testing and HoFs (due 2/9 @ 11:59 PM)</a>
+                    <br>
+</td>
+<!-- if a.released == false --><td class="" colspan="1" rowspan="3">
+                    <a href="materials/proj/proj1gold/proj1gold.html">Project 1 Gold: Autograding (due 2/10 @ 11:59 PM)</a>
+                    <br>
+</td>
+<!-- if a.released == false --><!-- for a in day.assignments -->
+              </tr>
+<tr>
+<td>Wed 2/7</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap4/chap43.html">4.3</a></p>
+</td>
+                <td class="">
+                  10. Subtype Polymorphism vs. HoFs<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD7o8I8uundaaaHRc5zA0IjE">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1R5Jp8pq4MmdyHgkzaV3OLJRZU5b6PDMKOQWPP17MPjM">slides</a>] ‌[<a href="materials/lectures/lec10/lec10.html">guide</a>] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr>
+<td>Fri 2/9</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap4/chap44.html">4.4</a></p>
+</td>
+                <td class="">
+                  11. Libraries, Abstract Classes, Packages<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD56QlcKsw4AfqJkkO5IMiyG">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1C0waVxiKn3xg_MDirXU4bF8NILBQ1kXWg6oRdpSKyWI">slides</a>] ‌[<a href="materials/lectures/lec11/lec11.html">guide</a>] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<!-- for day in week.days -->
+              <!-- if week.custom --><tr class="odd">
+<td rowspan="3">5</td>
+<td>Mon 2/12</td>
+                <td>
+<p>None</p>
+</td>
+                <td class="">
+                  12. Coding in the Real World, Review<br>[<a href="https://docs.google.com/presentation/d/1MaMC7RQQe66WK_62dqN_lOFe5pWlTkCan1mJWK0-d0Q/edit?usp=sharing">slides</a>] ‌</td>
+<td rowspan="3">
+<a href="materials/discussion/disc05.pdf">ADTs</a><!-- if d_i == 1 -->
+                        <br>[<a href="https://docs.google.com/presentation/d/1z__e13uuvoPdcXF8iJl4ZVL4uLelTbRWu4eWT-OYGCU/edit?usp=sharing">slides</a>] ‌<!-- if disc.slides -->[<a href="materials/discussion/disc05sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><hr>
+<a href="materials/discussion/examprep05.pdf">ADTs Exam Prep</a><!-- if d_i == 1 -->
+                        <br><!-- if disc.slides -->[<a href="materials/discussion/examprep05sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><!-- for disc in week.discussions -->
+                  </td>
+<!-- if week.discussions -->
+                  <td rowspan="3">
+<a href="materials/lab/lab5/lab5.html">Getting Started:<br>Drawing in Project 2<br>Partner Form Due Friday</a><!-- if lab.released == false --><!-- if l_i == 1 --><!-- for lab in week.labs -->
+                  </td>
+<td class="emph1" colspan="2" rowspan="1">
+                    <a href="materials/exam/cs61b-sp18-mt1.pdf">Midterm 1 (Date 2/12, 8-10PM) <br> Material up to 2/7</a>
+                    <br>[<a href="materials/exam/cs61b-sp18-mt1-solutionv2.pdf">solution</a>]  [<a href="https://www.youtube.com/playlist?list=PLnp31xXvnfRqAfvA4R9Oh09PstFymwCif">video</a>]</td>
+<!-- if a.released == false --><!-- for a in day.assignments -->
+              </tr>
+<tr class="odd">
+<td>Wed 2/14</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap5/chap51.html">5.1</a>, <a href="https://joshhug.gitbooks.io/hug61b/content/chap5/chap52.html">5.2</a></p>
+</td>
+                <td class="">
+                  13. Generics, Autoboxing<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD43bx3teSwoeHto7lARC69N">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1ErQkzJ33ojYtvji8q9mdqKhU7JqvqNreqZL4LH8J5uI">slides</a>] ‌[<a href="materials/lectures/lec13/lec13.html">guide</a>] ‌</td>
+<td class="" colspan="1" rowspan="4">
+                    <a href="materials/hw/hw1/hw1.html">HW 1:<br>Java Syntax and Sound Synthesis (due 2/21)</a>
+                    <br>
+</td>
+<!-- if a.released == false --><td class="" colspan="1" rowspan="4">
+                    <a href="materials/proj/proj2/proj2.html">Proj 2, Phase 1</a>
+                    <br>
+</td>
+<!-- if a.released == false --><!-- for a in day.assignments -->
+              </tr>
+<tr class="odd">
+<td>Fri 2/16</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap6/chap61.html">6.1</a>, <a href="https://joshhug.gitbooks.io/hug61b/content/chap6/chap62.html">6.2</a>, <a href="https://joshhug.gitbooks.io/hug61b/content/chap6/chap63.html">6.3</a></p>
+</td>
+                <td class="">
+                  14. Exceptions, Iterators, Iterables<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD4n3wMsUyXiyQhHfmR9KtP_">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1LIz15B3VmMMhllz1t5HNo9gkOPTGgmAynHNEt6Rzng0">slides</a>] ‌[guide] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<!-- for day in week.days -->
+              <!-- if week.custom --><tr>
+<td rowspan="3">6</td>
+<td class="emph2" colspan="3">Mon 2/19: Academic Holiday</td>
+<td rowspan="3">
+<a href="materials/discussion/disc06.pdf">Selecting ADTs</a><!-- if d_i == 1 -->
+                        <br>[<a href="https://docs.google.com/presentation/d/1Z3zxQikQ0-P9hU5hScmZohTHW8rhdKBTVZUa1g0qnAU/edit?usp=sharing">slides</a>] ‌<!-- if disc.slides -->[<a href="materials/discussion/disc06sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><hr>
+<a href="materials/discussion/examprep06.pdf">Exceptions and Iterators Exam Prep</a><!-- if d_i == 1 -->
+                        <br><!-- if disc.slides -->[<a href="materials/discussion/examprep06sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><!-- for disc in week.discussions -->
+                  </td>
+<!-- if week.discussions -->
+                  <td rowspan="3">
+<a href="materials/lab/lab6/lab6.html">Interactivity in Project 2</a><!-- if lab.released == false --><!-- if l_i == 1 --><!-- for lab in week.labs -->
+                  </td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr>
+<td>Wed 2/21</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap7/chap71.html">7.1</a>, <a href="https://joshhug.gitbooks.io/hug61b/content/chap7/chap72.html">7.2</a></p>
+</td>
+                <td class="">
+                  15. Packages, Access Control, Objects<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD7C0AaPYaG33T-qYrSJErQe">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1Tey6yhsjPE234mtDh7zu6NwxrXGdMvAMEDlqTCgWyZA">slides</a>] ‌[guide] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr>
+<td>Fri 2/23</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap8/chap81.html">8.1</a></p>
+</td>
+                <td class="">
+                  16. Encapsulation, Lists, Delegation vs. Extension<br>[<a href="https://www.youtube.com/watch?v=AYPOTwW9rR4">video (sp17)</a>] ‌[<a href="https://docs.google.com/presentation/d/1__Akx5EBZe7sMyCYBN1uToKkhrRuxi0mtxSj1DjU51M/edit?usp=sharing">slides</a>] ‌[guide] ‌</td>
+<td class="" colspan="2" rowspan="1">
+                    <a href="materials/proj/proj2/proj2.html">Project 2, Phase 1 (early deadline 2/23)</a>
+                    <br>
+</td>
+<!-- if a.released == false --><!-- for a in day.assignments -->
+              </tr>
+<!-- for day in week.days -->
+              <!-- if week.custom --><tr class="odd">
+<td rowspan="3">7</td>
+<td>Mon 2/26</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap8/chap82.html">8.2</a>, Algs 170-198 (top paragraph)</p>
+</td>
+                <td class="">
+                  17. Asymptotics I<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD69aH2dhqcY64VMmX7frTUO">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1nScW6Imh02c5v5zysGftA2x8sjWxf8OYU95km7Ia7iY/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec17/lec17.html">guide</a>] ‌</td>
+<td rowspan="3">
+<a href="materials/discussion/disc07.pdf">Asymptotic Analysis I</a><!-- if d_i == 1 -->
+                        <br>[<a href="https://docs.google.com/presentation/d/1YKeFfBvorDrVke9pc7F0HVsHU7AiX_mgWz2Susxep4A/edit?usp=sharing">slides</a>] ‌<!-- if disc.slides -->[<a href="materials/discussion/disc07sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><hr>
+<a href="materials/discussion/examprep07.pdf">Asymptotic Analysis Exam I Prep</a><!-- if d_i == 1 -->
+                        <br><!-- if disc.slides -->[<a href="materials/discussion/examprep07sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><!-- for disc in week.discussions -->
+                  </td>
+<!-- if week.discussions -->
+                  <td rowspan="3">
+<span class="unreleased">Work on Project 2</span><!-- if lab.released == false --><!-- if l_i == 1 --><!-- for lab in week.labs -->
+                  </td>
+<td class="" colspan="2" rowspan="1">
+                    <a href="materials/proj/proj2/proj2.html">Project 2, Phase 1 (due 2/26)</a>
+                    <br>
+</td>
+<!-- if a.released == false --><!-- for a in day.assignments -->
+              </tr>
+<tr class="odd">
+<td>Wed 2/28</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap8/chap83.html">8.3</a>, Algs 170-198</p>
+</td>
+                <td class="">
+                  18. Asymptotics II<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD5eWD98tGkQ41ries_Xtxqy">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1LztQtjGPL16yF_qtSpb5IAtANCwStv8Bz3joiyNFg1o/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec18/lec18.html">guide</a>] ‌</td>
+<td class="" colspan="2" rowspan="3">
+                    <a href="materials/proj/proj2/proj2.html">Project 2, Phase 2 (due 3/5)</a>
+                    <br>
+</td>
+<!-- if a.released == false --><!-- for a in day.assignments -->
+              </tr>
+<tr class="odd">
+<td>Fri</td>
+                <td>
+<p><a href="https://joshhug.gitbooks.io/hug61b/content/chap8/chap84.html">8.4</a>, Algs 170-198</p>
+</td>
+                <td class="">
+                  19. Asymptotics III<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD4R5DV9zej6tCoCh6EakM9s&amp;disable_polymer=true">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1yg9IJctev9nRwZoeB8G9p3S2OU3UA8C526C5E3l37wU/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec19/lec19.html">guide</a>] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<!-- for day in week.days -->
+              <!-- if week.custom --><tr>
+<td rowspan="3">8</td>
+<td>Mon 3/5</td>
+                <td>
+<p>Algs 216-233</p>
+</td>
+                <td class="">
+                  20. Disjoint Sets<br>[<a href="https://youtu.be/WBLsaH26XXQ">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1J7q2RImSbg26vrWMaYQwYo6_zPDrrdGRmwm_U2oY20s/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec20/lec20.html">guide</a>] ‌</td>
+<td rowspan="3">
+<a href="materials/discussion/disc08.pdf">Asymptotic Analysis II</a><!-- if d_i == 1 -->
+                        <br>[<a href="https://docs.google.com/presentation/d/1wI8y21cFxUdf0y24umPt25iLzuuIxt9jZXEigF3OCPo/edit?usp=sharing">slides</a>] ‌<!-- if disc.slides -->[<a href="materials/discussion/disc08sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><hr>
+<a href="materials/discussion/examprep08.pdf">Asymptotic Analysis II Exam Prep</a><!-- if d_i == 1 -->
+                        <br><!-- if disc.slides -->[<a href="materials/discussion/examprep08sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><!-- for disc in week.discussions -->
+                  </td>
+<!-- if week.discussions -->
+                  <td rowspan="3">
+<span class="unreleased">Project 2 Demos (due 3/9)</span><!-- if lab.released == false --><!-- if l_i == 1 --><!-- for lab in week.labs -->
+                  </td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr>
+<td>Wed 3/7</td>
+                <td>
+<p>Algs 396-406</p>
+</td>
+                <td class="">
+                  21. Trees, BSTs<br>[<a href="https://youtu.be/OvIg_6SREVA">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1rEHpAx8Xu2LnJBWsRPWy8blL20qb96Q5UhdZtQYFkBI/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec21/lec21.html">guide</a>] ‌</td>
+<td class="" colspan="2" rowspan="4">
+                    <a href="materials/hw/hw2/hw2.html">HW 2: Percolation (due 3/14)</a>
+                    <br>
+</td>
+<!-- if a.released == false --><!-- for a in day.assignments -->
+              </tr>
+<tr>
+<td>Fri 3/9</td>
+                <td>
+<p>Algs 424-431, 432-448 (extra)</p>
+</td>
+                <td class="">
+                  22. Balanced BSTs<br>[<a href="https://youtu.be/MPkJFhwulKA">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1j7kiMfMzmhdi6AoKSuYdZr65iH7ckeWMKGQAyI4M61c/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec22/lec22.html">guide</a>] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<!-- for day in week.days -->
+              <!-- if week.custom --><tr class="odd">
+<td rowspan="3">9</td>
+<td>Mon 3/12</td>
+                <td>
+<p>Algs 458-468, 478-479, 468-475 (extra)</p>
+</td>
+                <td class="">
+                  23. Hashing<br>[<a href="https://youtu.be/kMndV7Fy-zw">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1hRUkaONWvWP7IZbINLP-G6uOyyulDqury5kop7638co">slides</a>] ‌[<a href="materials/lectures/lec23/lec23.html">guide</a>] ‌</td>
+<td rowspan="3">
+<a href="materials/discussion/disc09.pdf">Disjoint Sets, Trees, and Hashing</a><!-- if d_i == 1 -->
+                        <br>[<a href="https://docs.google.com/presentation/d/1k_u5sJ5BnrYvdnBq7tZuv4BpPq-yotVI7PYpFPTXRmM/edit?usp=sharing">slides</a>] ‌<!-- if disc.slides -->[<a href="materials/discussion/disc09sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><hr>
+<a href="materials/discussion/examprep09.pdf">Hashing Exam Prep</a><!-- if d_i == 1 -->
+                        <br><!-- if disc.slides -->[<a href="materials/discussion/examprep09sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><!-- for disc in week.discussions -->
+                  </td>
+<!-- if week.discussions -->
+                  <td rowspan="3">
+<a href="materials/lab/lab9/lab9.html">Tree vs. Hash Maps (due 3/16)</a><!-- if lab.released == false --><!-- if l_i == 1 --><!-- for lab in week.labs -->
+                  </td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr class="odd">
+<td>Wed 3/14</td>
+                <td>
+<p>Algs 308-320</p>
+</td>
+                <td class="">
+                  24. Heaps<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD50LnOXTSpYgnVJQTIVFsmI">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1ySYTxnvoHJc7_2U0L90WH3kx0toWA4vpNiIR2r1vqKU">slides</a>] ‌[<a href="materials/lectures/lec24/lec24.html">guide</a>] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr class="odd">
+<td>Fri 3/16</td>
+                <td>
+<p>None</p>
+</td>
+                <td class="">
+                  25. Advanced Trees, incl. Geometric<br>[<a href="https://youtu.be/vzRm_Prdqa4">video</a>] ‌[<a href="https://docs.google.com/presentation/d/14pqGRZAN_Q60xqYGR3c8XTqHdQT8BVWGPJPC_G_INJQ">slides</a>] ‌[<a href="materials/lectures/lec25/lec25.html">guide</a>] ‌</td>
+<td class="" colspan="2" rowspan="2">
+                    <a href="materials/hw/hw3/hw3.html">HW 3: Hashing (due 3/19)</a>
+                    <br>
+</td>
+<!-- if a.released == false --><!-- for a in day.assignments -->
+              </tr>
+<!-- for day in week.days -->
+              <!-- if week.custom --><tr>
+<td rowspan="3">10</td>
+<td>Mon 3/19</td>
+                <td>
+<p>None</p>
+</td>
+                <td class="">
+                  26. Midterm 2 Review<br>[<a href="https://docs.google.com/presentation/d/1TA-xr-z7df4vnJz6oo4s7OkpGLoVy1EYYTwR_8AVhxA/edit#slide=id.g35a9240b53_0_0">slides</a>] ‌</td>
+<td rowspan="3">
+<a href="materials/discussion/disc10.pdf">Heaps, Traversals &amp; Trees</a><!-- if d_i == 1 -->
+                        <br>[<a href="https://docs.google.com/presentation/d/1UfNwJCi8KicS-uJkIgzH5hqEoHmagh-w1BJNyI9EhUo/edit?usp=sharing">slides</a>] ‌<!-- if disc.slides -->[<a href="materials/discussion/disc10sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><hr>
+<a href="materials/discussion/examprep10.pdf">Heaps and Graphs Exam Prep</a><!-- if d_i == 1 -->
+                        <br><!-- if disc.slides -->[<a href="materials/discussion/examprep10sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><!-- for disc in week.discussions -->
+                  </td>
+<!-- if week.discussions -->
+                  <td rowspan="3">
+<a href="materials/lab/lab10/lab10.html">Heap Min PQ (due 3/23)</a><!-- if lab.released == false --><!-- if l_i == 1 --><!-- for lab in week.labs -->
+                  </td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr>
+<td>Wed 3/21</td>
+                <td>
+<p>Algs 515-537</p>
+</td>
+                <td class="">
+                  27. Graphs<br>[<a href="https://www.youtube.com/watch?v=8WVERfcrLnA">video</a>] ‌[<a href="https://www.youtube.com/watch?v=U70IaZQMhbk">video sp18</a>] ‌[<a href="https://docs.google.com/presentation/d/1tEcMWoqOGCE0oPDxIRBqpfv1HPFk8YEudA6cJ2z6vds/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec27/lec27.html">guide</a>] ‌</td>
+<td class="emph1" colspan="2" rowspan="1">
+                    <a href="materials/exam/cs61b-sp18-mt2-solutionv1.pdf">Midterm 2 (Date 3/20, Time 8-10PM) <br> Material up to 3/16</a>
+                    <br>[<a href="materials/exam/cs61b-sp18-mt2-solutionv1.pdf">solution</a>]  [<a href="https://youtu.be/nMZn4EV0gGw">video</a>]</td>
+<!-- if a.released == false --><!-- for a in day.assignments -->
+              </tr>
+<tr>
+<td>Fri 3/23</td>
+                <td>
+<p>Algs 538-542, 566-583</p>
+</td>
+                <td class="">
+                  28. Graph Traversals<br>[<a href="https://www.youtube.com/watch?v=nFAzHcTEAGA">video</a>] ‌[<a href="https://docs.google.com/presentation/d/17ZIGBfBXNxAOSsjRiVoheXlNJhUklXnrsXXIz3pbgV8/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec28/lec28.html">guide</a>] ‌</td>
+<td class="" colspan="2" rowspan="4">
+                    <a href="materials/hw/hw4/hw4.html">HW 4: Puzzle Solver (due 4/4)</a>
+                    <br>
+</td>
+<!-- if a.released == false --><!-- for a in day.assignments -->
+              </tr>
+<!-- for day in week.days -->
+              <!-- if week.custom --><tr>
+  <td rowsapn="1" class="emph2" colspan="6">
+    Spring Break (3/26 - 3/30)
+  </td>
+</tr>
+<!-- if week.custom --><tr>
+<td rowspan="3">11</td>
+<td>Mon 4/2</td>
+                <td>
+<p>Algs 638-657</p>
+</td>
+                <td class="">
+                  29. Shortest Paths<br>[<a href="https://youtu.be/Hpsm3vlGV5M">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1fFAgAna9PrxRK54Whg4TtzduWeaWCp-Pbr7g95wVZss/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec29/lec29.html">guide</a>] ‌</td>
+<td rowspan="3">
+<a href="materials/discussion/disc11.pdf">Graphs</a><!-- if d_i == 1 -->
+                        <br>[<a href="https://docs.google.com/presentation/d/1iBRbCUDSILpMSwcNNKOWeGECdBX_UieJbSimvr84ik4/edit?usp=sharing">slides</a>] ‌<!-- if disc.slides -->[<a href="materials/discussion/disc11sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><hr>
+<a href="materials/discussion/examprep11.pdf">Graphs Exam Prep</a><!-- if d_i == 1 -->
+                        <br><!-- if disc.slides -->[<a href="materials/discussion/examprep11sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><!-- for disc in week.discussions -->
+                  </td>
+<!-- if week.discussions -->
+                  <td rowspan="3">
+<a href="materials/lab/lab11/lab11.html">Graphs (due 4/6)</a><!-- if lab.released == false --><!-- if l_i == 1 --><!-- for lab in week.labs -->
+                  </td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr>
+<td>Wed 4/4</td>
+                <td>
+<p>Algs 604-630</p>
+</td>
+                <td class="">
+                  30. Minimum Spanning Trees<br>[<a href="https://www.youtube.com/watch?v=vnKK38JS9Ik&amp;list=PL8FaHk7qbOD7SvlWei_-neNmgmXzJG2ad">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1I8GSEL0CgT09_JjSUF7MfoRMJkyzPjo8lKRd8XdOaRA/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec30/lec30.html">guide</a>] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr>
+<td>Fri 4/6</td>
+                <td>
+<p>None</p>
+</td>
+                <td class="">
+                  31. Dynamic Programming<br>[<a href="https://youtu.be/IAyI-pz2RKg">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1RlGUoB0bvKlHkxZXogmWGEzsI9ZXRWlg3ngf1FJkpac/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec31/lec31.html">guide</a>] ‌</td>
+<td class="" colspan="2" rowspan="6">
+                    <a href="materials/proj/proj3/proj3.html">Project 3: BearMaps (due 4/18)</a>
+                    <br>
+</td>
+<!-- if a.released == false --><!-- for a in day.assignments -->
+              </tr>
+<!-- for day in week.days -->
+              <!-- if week.custom --><tr class="odd">
+<td rowspan="3">12</td>
+<td>Mon 4/9</td>
+                <td>
+<p>Algs 244-275, 323-327</p>
+</td>
+                <td class="">
+                  32. Basic Sorting Algorithms<br>[<a href="https://youtu.be/qbMff9TD68g">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1sVYr8F5Emh573vqDxefWJQzh1zYylIjjeyeXPy7Md2s/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec32/lec32.html">guide</a>] ‌</td>
+<td rowspan="3">
+<a href="materials/discussion/disc12.pdf">Graphs, Sorting</a><!-- if d_i == 1 -->
+                        <br>[<a href="https://docs.google.com/presentation/d/1cFUdJUtElFB48C1JdixXl6031sxcb1k5FYh9ftxcqF4/edit?usp=sharing">slides</a>] ‌<!-- if disc.slides -->[<a href="materials/discussion/disc12sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><hr>
+<a href="materials/discussion/examprep12.pdf">MST/SP Exam Prep</a><!-- if d_i == 1 -->
+                        <br><!-- if disc.slides -->[<a href="materials/discussion/examprep12sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><!-- for disc in week.discussions -->
+                  </td>
+<!-- if week.discussions -->
+                  <td rowspan="3">
+<a href="materials/lab/lab12/lab12.html">Merge and Quick Sort (due 4/13)</a><!-- if lab.released == false --><!-- if l_i == 1 --><!-- for lab in week.labs -->
+                  </td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr class="odd">
+<td>Wed 4/11</td>
+                <td>
+<p>Algs 288-296, 302</p>
+</td>
+                <td class="">
+                  33. Quick Sort<br>[<a href="https://www.youtube.com/watch?v=-eZZlMouvfM&amp;list=PL8FaHk7qbOD7yfILzEDMhAaJKqONa_cvi">video</a>] ‌[<a href="https://docs.google.com/presentation/d/19CbZ7oU-_b5y0Btyo1IfIAEqcn0DIgcCz49cMO9_hy4/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec33/lec33.html">guide</a>] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr class="odd">
+<td>Fri 4/13</td>
+                <td>
+<p>Algs 341-347</p>
+</td>
+                <td class="">
+                  34. More Quick Sort, Stability, Shuffling<br>[<a href="https://youtu.be/GbH3_R3V6_o">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1WbLTQcGvN0BTbAytdbsONtLLlVlbftE229YKgrW5Ge8/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec34/lec34.html">guide</a>] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<!-- for day in week.days -->
+              <!-- if week.custom --><tr>
+<td rowspan="3">13</td>
+<td>Mon 4/16</td>
+                <td>
+<p>Algs 279-282</p>
+</td>
+                <td class="">
+                  35. Sorting and Algorithmic Bounds<br>[<a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD7y8-q2qpfhZ-fzphsk3ETf">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1IdeszDW_9mUhvCQDDbWIJ9J8hVP-tAI8FguE1lDuTBI/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec35/lec35.html">guide</a>] ‌</td>
+<td rowspan="3">
+<a href="materials/discussion/disc13.pdf">More Sorting</a><!-- if d_i == 1 -->
+                        <br>[<a href="https://docs.google.com/presentation/d/14eYr2b-vx0UP-uRxpqnMOBfRmGBJ9RO9xJR4cnw15Rs/edit#slide=id.g3888f337a5_0_35">slides</a>] ‌<!-- if disc.slides -->[<a href="materials/discussion/disc13sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><hr>
+<a href="materials/discussion/examprep13.pdf">Sorting Exam Prep</a><!-- if d_i == 1 -->
+                        <br><!-- if disc.slides -->[<a href="materials/discussion/examprep13sol.pdf">solution</a>]<!-- if disc.solution_released == false --><!-- if disc.released == false --><!-- for disc in week.discussions -->
+                  </td>
+<!-- if week.discussions -->
+                  <td rowspan="3">
+<a href="materials/lab/lab13/lab13.html">Radix Sorts (due 4/20)</a><!-- if lab.released == false --><!-- if l_i == 1 --><!-- for lab in week.labs -->
+                  </td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr>
+<td>Wed 4/18</td>
+                <td>
+<p>Algs 702-718</p>
+</td>
+                <td class="">
+                  36. Radix Sorts<br>[<a href="https://youtu.be/wqWwgty7_Rk">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1EzFm4dGaRDlNBI1kfoEVf-PYxGiROMv3iYhyWa6C7Jk/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec36/lec36.html">guide</a>] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr>
+<td>Fri 4/20</td>
+                <td>
+<p>Algs 730-752</p>
+</td>
+                <td class="">
+                  37. Overview, Tries<br>[<a href="https://youtu.be/UplJ2Ourr9c">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1mi-TYJLTiB6SJZgfL0nV1Gq4JZ7Rf1OHlswYx0tSby4/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec37/lec37.html">guide</a>] ‌</td>
+<td class="" colspan="2" rowspan="3">
+                    <a href="materials/hw/hw5/hw5.html">HW 5: Seam Carving (due 4/25)</a>
+                    <br>
+</td>
+<!-- if a.released == false --><!-- for a in day.assignments -->
+              </tr>
+<!-- for day in week.days -->
+              <!-- if week.custom --><tr class="odd">
+<td rowspan="3">14</td>
+<td>Mon 4/23</td>
+                <td>
+<p>None</p>
+</td>
+                <td class="">
+                  38. Compression<br>[<a href="https://youtu.be/90PRw2V6PEE">video</a>] ‌[<a href="https://docs.google.com/presentation/d/1EwG6-GUomcbvJISW0YrXGDMpB17_VFWDKRMhWmo9A6A/edit?usp=sharing">slides</a>] ‌[<a href="materials/lectures/lec38/lec38.html">guide</a>] ‌</td>
+<td rowspan="3">
+<span class="unreleased">Goodbye, Fun</span><!-- if d_i == 1 --><!-- if disc.released == false --><!-- for disc in week.discussions -->
+                  </td>
+<!-- if week.discussions -->
+                  <td rowspan="3">
+<a href="materials/lab/lab14/lab14.html">Fractal Sound (due 4/27)</a><!-- if lab.released == false --><!-- if l_i == 1 --><!-- for lab in week.labs -->
+                  </td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr class="odd">
+<td>Wed 4/25</td>
+                <td>
+<p>None</p>
+</td>
+                <td class="">
+                  39. Reductions, Algorithmic Bounds, NP Completeness<br>[video] ‌[<a href="https://docs.google.com/presentation/d/1jFbF-MiXspaQ3Rfxl9Cdo2A7BwI3SDJnY7w0gb-_rCY/edit?usp=sharing">slides</a>] ‌[guide] ‌</td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr class="odd">
+<td>Fri 4/27</td>
+                <td>
+<p>None</p>
+</td>
+                <td class="">
+                  40. Summary, Fun<br>[<a href="https://docs.google.com/presentation/d/1W9CNC2RYUPflRu2kaGH-alK0_SHFdtAJeWmox1fYyL8/edit?usp=sharing">slides</a>] ‌</td>
+<td class="" colspan="1" rowspan="5">
+                    <a href="materials/hw/hw6/hw6.html">Makeup HW 6:<br> <img class="emoji" title=":b:" alt=":b:" src="../assets-cdn.github.com/images/icons/emoji/unicode/1f171.png" height="20" width="20">oggle (due 5/5)</a>
+                    <br>
+</td>
+<!-- if a.released == false --><td class="" colspan="1" rowspan="5">
+                    <a href="materials/hw/hw7/hw7.html">Makeup HW 7:<br> Compression (due 5/5)</a>
+                    <br>
+</td>
+<!-- if a.released == false --><!-- for a in day.assignments -->
+              </tr>
+<!-- for day in week.days -->
+              <!-- if week.custom --><tr>
+<td rowspan="3">15</td>
+<td height="100" class="emph2" rowspan="3" colspan="4"> RRR Week (May 1-5)</td>
+<!-- if week.discussions -->
+                  <td rowspan="3">
+<a href="materials/lab/lab15/lab15.html">Makeup Lab:<br>HugLife (due 5/5)</a><!-- if lab.released == false --><!-- if l_i == 1 --><!-- for lab in week.labs -->
+                  </td>
+<!-- for a in day.assignments -->
+              </tr>
+<tr></tr>
+<tr>
+</tr>
+<!-- for a in day.assignments -->
+              <tr></tr>
+<tr>
+</tr>
+<!-- for a in day.assignments -->
+              <!-- for day in week.days -->
+              <!-- if week.custom --><tr>
+  <td height="60" rowspan="1" class="emph2" colspan="8">
+    Finals Week (May 8-12), Final exam: TBD
+  </td>
+</tr>
+<!-- if week.custom --><!-- for week in site.data.schedule -->
+        </tbody>
+    </table>
+</div>
+<div class="segment">
+        <div class="segmenttitle">Lab/Discussion Schedule</div>
+        <div id="lab_disc"></div>
+</div>
+<div class="segment">
+    <div class="segmenttitle">Office Hour Schedule</div>
+    <div class="text">
+        <b>Note</b>: Office hours before lecture Monday through Wednesday are in 109 Morgan. Office hours after lecture Wednesday and Friday are in 400 Cory. On Wednesday, Thursday, and Friday, feel free to come to lab with your questions.
+    </div>
+    <div id="oh"></div>
+</div>
+
+    </div>
+</body>
+<script src="assets/js/calendar.js"></script>
+<script src="assets/js/gcal.js"></script>
+<script src="assets/js/announcements.js"></script>
+
+
+<script>
+  $(document).ready(launchCal("berkeley.edu_41b8k7ccv446ro6q1l98guodr0@group.calendar.google.com", "berkeley.edu_3gla6j3lp0fu9ptf3vac1v7d6g@group.calendar.google.com"));
+</script>
+
+
+<!-- Mirrored from sp18.datastructur.es/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:17:51 GMT -->
+</html>

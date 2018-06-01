@@ -1,0 +1,43 @@
+This supplementary reading is taken from Jonathan Shewchuk's Spring 2014 61B course.
+
+ARRAYS
+======
+An array is an object consisting of a numbered list of variables, each of which
+is a primitive type or a reference to another object.  The variables in an
+array are always indexed from zero in increments of one.  For example, here is
+an array of characters.
+                                      0   1   2   3
+                           ---      -----------------
+                           |.+----->| b | l | u | e |
+                           ---      -----------------
+                            c
+
+Like any object, an array is only useful if we can reference it, usually
+through some reference variable like "c" above.  We declare c thusly:
+
+    char[] c;           // Reference to an array (of any length) of characters.
+
+We can construct an array of four characters as follows.
+
+    c = new char[4];
+
+Now that we have an array object, we may fill in its values by indexing c.
+
+    c[0] = 'b';         // Store the character 'b' at index 0.
+    c[1] = 'l';
+    c[2] = 'u';
+    c[3] = 'e';
+
+The characters in a four-element array are indexed from 0 to 3.  If we try to
+address any index outside this range, we will trigger a run-time error.
+
+    c[4] = 's';         // Program stops with ArrayIndexOutOfBoundsException
+
+A _run-time_error_ is an error that doesn't show up when you compile the code,
+but does show up later when you run the program and the Java Virtual Machine
+tries to access the out-of-range index.
+
+When c references an array, you can find out its length by looking at the field
+"c.length".  You can never assign a value to the "length" field, though.  Java
+will give you a compile-time error if you try.
+

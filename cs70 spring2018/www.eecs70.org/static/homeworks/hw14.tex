@@ -1,0 +1,32 @@
+\Question{Faulty Machines}
+You are trying to use a machine that only works on some days. If on a given day the machine is working, it will break down the next day with probability $0 < b < 1$, and works on the next day $1 - b$. If it is not working on a given day, it will work on the next day with probability $0 < r < 1$, and not work on the next day with probability $1 - r$. Formulate this process as a Markov chain. As $n \rightarrow \infty$, what does the probability that on a given day the machine is working converge to? What properties of the Markov chain allow us to conclude that the probability will actually converge?
+
+\Question{Markov's Coupon Collecting}
+
+Courtney is home for Thanksgiving and needs to make some trips to the Traitor Goes grocery store to prepare for the big turkey feast. Each time she goes to the store before the holiday, she receives one of the $n$ different coupons that are being given away. You may recall that we studied how to calculate the expected number of trips to the store needed to collect at least one of each coupon. Using geometric distributions and indicator variables, we determined that expected number of trips to be $n(\ln n + \gamma)$.
+
+Let's re-derive that, this time with a Markov chain model and first-step equations. 
+
+\begin{Parts}
+
+\Part Define the states and transition probabilities for each state (explain what states can be transitioned to, and what probabilities those transitions occur with). 
+
+\Part Now set up first-step equations and solve for the expected number of grocery store trips Courtney needs to make before Thanksgiving so that she can have at least one of each of the $n$ distinct coupons.
+
+\end{Parts}
+
+
+\Question{Three Tails}
+
+You flip a fair coin until you see three tails in a row. What is the average number of heads that you'll see until getting $TTT$?
+
+\Question{Playing Blackjack}
+
+You are playing a game of Blackjack where you start with \$100. You are a particularly risk-loving player who does not believe in leaving the table until you either make \$400, or lose all your money. At each turn you either win \$100 with probability $p$, or you lose \$100 with probability $1 - p$.
+
+\begin{Parts}
+\Part Formulate this problem as a Markov chain i.e. define your state space, transition probabilities, and determine your starting state.
+\Part Classify your states as being recurrent or transient. If a given state is recurrent, also determine whether it is an absorbing state.
+\Part Find the probability that you end the game with \$400.
+\end{Parts}
+

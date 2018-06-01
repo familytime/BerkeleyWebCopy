@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/articles/pair-programming.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:38:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/mono-blue.css">
+    <link rel="icon" href="../assets/images/favicon.ico">
+
+    
+
+    <title>
+Pair Programming | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../office-hours.html">Office Hours</a></li>
+            <li><a href="../staff.html">Staff</a></li>
+            <li><a href="../resources.html">Resources</a></li>
+            <li><a href="about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>Pair Programming</h1>
+    </header>
+     <blockquote><p>Based on <a href="http://web.stanford.edu/class/archive/cs/cs106a/cs106a.1178/assignments/pair.html">CS 106A's Pair Programming Guide</a>, distributed with
+permission.</p></blockquote>
+
+<p>As the <a href="about.html">syllabus</a> mentions, several of the assignments in this course allow
+you to <em>optionally</em> work in a pair with a partner. Some common questions and
+tips on working on assignments with a partner are listed below.</p>
+
+
+<h2 id="what-is-pair-programming">What is pair programming?</h2>
+
+
+<p>Pair programming is a particular method of distributing a programming task
+between two people. In each pair, one person is designated the <strong>driver</strong> and
+the other person is the <strong>navigator</strong>. The driver is responsible for composing
+code on the computer, whilst the navigator reviews each bit of code as it's
+being typed in. The driver and the navigator swap roles after a short period of
+time.</p>
+
+
+<h2 id="why-are-we-doing-pair-programming">Why are we doing pair programming?</h2>
+
+
+<p>Pair programming serves two purposes. The first is that pair programming has
+potential benefits to students. Working with a partner can give you someone to
+talk to when you're stuck, or help you learn different ways of approaching the
+same problem.</p>
+
+<p>The second is to ensure a high quality of service from our course staff. Pair
+programming helps reduce the grading workload so the course staff can spend
+more time supporting you and helping you be successful in CS 61A.</p>
+
+
+<h2 id="what-is-the-best-way-to-collaborate">What is the best way to collaborate?</h2>
+
+
+<p>The exact work style you use with your partner is up to you. There are several
+ways that pairs can work together. Here are some possible strategies, along
+with our opinion about the effectiveness of each:</p>
+
+
+<h3 id="write-the-code-together">Write the code together</h3>
+
+
+<blockquote><p>Strongly recommended.</p></blockquote>
+
+<p>In this work style, you would sit next to each other at the same computer and
+collaborate to write the code. One person would type for a while, then the
+other, and back again. You can decide the interval for switching who controls
+the computer (the "driver"). Some people recommend switching roughly every
+15-20 minutes, to make sure that each person gets to drive. Even if one of you
+is a faster typer, letting both people drive for equal time is good to avoid
+having one person dominate the work.</p>
+
+
+<h3 id="work-together-using-online-tools">Work together using online tools</h3>
+
+
+<blockquote><p>Recommended.</p></blockquote>
+
+<p>In this work style, the two of you would be physically apart but would
+collaborate by sharing code using online tools. For example, you can share your
+code and video chat with the Collab tool.</p>
+
+
+<h3 id="do-the-assignment-individually-and-then-compare-solutions">Do the assignment individually, and then compare solutions</h3>
+
+
+<blockquote><p>Somewhat recommended, but we suggest one of the others above instead.</p></blockquote>
+
+<p>In this work style, each of you would complete the assignment on your own, then
+the two of you would have a meeting and compare solutions. You would then merge
+the solution into a best combined solution that you would submit together. This
+work style doesn't have as many benefits as working on the solution together,
+but it is still good to see how another student solved the problem and learn
+from each others' programs' strengths and weaknesses.</p>
+
+<p>There are some work styles that we do NOT recommend because we do not think
+they follow the spirit of working in pairs, and do not allow both students to
+effectively learn the material. For example:</p>
+
+<ul>
+  <li><strong>Splitting up the parts of the assignment</strong>: In this work style, each of
+  you would complete parts of the assignment individually, then submit them
+  together. For example, if the assignment has a "Part A" and a "Part B", one of
+  you would do Part A and the other would do Part B. We do not recommend doing
+  this because each of you will only learn part of the material for that
+  assignment. This will leave you less prepared on exams and future assignments.</li>
+  <li><strong>Taking turns on assignments</strong>: In this work style, in a pair of students
+  named A and B, student A would do Homework X, then B would do Homework X+1,
+  A would do Homework X+2, and so on. You should not do this, since each partner
+  is expected to make a significant contribution toward solving the assignment.
+  You should not claim to be part of a pair submission if you did not contribute
+  significantly to help solve that problem. Moreover, your section leaders may
+  ask you to explain aspects of the submission during lab check-offs. By doing
+  this each of you will only learn half of the course material in detail. The
+  assignments are by far the best vehicle for you to learn how to program
+  effectively and truly come to understand the course material. Only completing
+  half of them will leave you much less prepared to do well on exams and future
+  assignments.</li>
+  <li><strong>One person does all of the work</strong>: You should not do this, since each
+  partner is expected to make a significant contribution toward solving the
+  assignment. You should not claim to be part of a pair submission if you did not
+  contribute significantly to help solve that problem. Moreover, your section
+  leader may ask you to explain aspects of the submission during lab check-offs.
+  By doing this the other person will not learn the material well and will be
+  grossly underprepared to do well on exams and future assignments. The
+  assignments are by far the best vehicle for you to learn how to program
+  effectively and truly come to understand the course material.</li>
+</ul>
+
+
+<h2 id="logistics">Logistics</h2>
+
+
+
+<h3 id="is-every-assignment-going-to-be-a-pair-assignment">Is every assignment going to be a pair assignment?</h3>
+
+
+<p>No; some assignments, such as the first lab and first few projects, will be
+individual. Each assignment will clearly label whether it is an individual or
+pair assignment. Please follow each assignment's instructions properly, and if
+a given assignment is an individual assignment, please submit your own work and
+do not share code with a partner.</p>
+
+
+<h3 id="are-there-any-constraints-about-whom-i-can-work-with">Are there any constraints about whom I can work with?</h3>
+
+
+<p>No, but we strongly suggest working with another student in your section who is
+taking the course for the same grading basis (e.g. letter grade, P/NP).</p>
+
+
+<h3 id="how-can-i-find-a-partner">How can I find a partner?</h3>
+
+
+<p>Your TA may provide time in section for you to find a partner if needed. You
+may also contact your TA if you need help finding someone else in your section
+to partner with.</p>
+
+
+<h3 id="do-i-have-to-have-the-same-partner-for-the-whole-class">Do I have to have the same partner for the whole class?</h3>
+
+
+<p>No; if you want to change partners, you may do so. Your TA may encourage you to
+meet different students in the first couple weeks so you can find someone who
+works well with you.</p>
+
+
+<h3 id="how-do-we-submit-get-grades-as-a-pair">How do we submit/get grades as a pair?</h3>
+
+
+<p><strong>Only ONE</strong> of you should needs to submit the assignment to Ok. Once the
+assignment has been submitted, you must then add your partner by inviting them
+by email. Make sure to accept the invitation or the partnership won't be
+official. See <a href="using-ok.html">Using Ok</a> for more information.</p>
+
+
+<h2 id="my-partner-was-a-bad-partner">My partner was a bad partner...</h2>
+
+
+<blockquote><p>They didn't do any work, or didn't do their share of the work, or didn't
+communicate or meet with me, etc. What can I do?</p></blockquote>
+
+<p>Have you tried speaking to your partner to let them know that you expect them
+to do more? Remind your partner what the course info handout says about
+expectations of each member of a pair. Many group issues can be resolved by
+better communication and setting expectations.</p>
+
+<p>If talking to your partner does not resolve the situation, speak to your TA and
+explain the details of what has happened. We will try to help you resolve the
+issue. If it is an ongoing problem, your TA can help you find you a partner, or
+you can dissolve your partnership and submit individually. We will provide a
+way for you to give feedback about your partner in case there is any complaint
+you would like to bring to our attention.</p>
+
+<p><strong>NOTE</strong>: If you agree verbally (or via email) to work with a given partner on
+a given assignment, you are expected to work through that assignment with that
+partner to completion. You can't abandon your partner in the middle of an
+assignment unless the decision to unpair is mutual for both of you. Please be
+considerate for your partner and don't leave them hanging without an easy way
+to find a new partner in mid-assignment. If you are planning to end your
+partnership and do the next assignment alone, please tell your partner this as
+soon as possible when the assignment is given out, so that they can make other
+arrangements.</p>
+
+<blockquote><p>Not because they didn't do enough work; they did too much! They hogged the
+keyboard, or they did the whole assignment without waiting for me, or they
+didn't communicate with me, etc. I feel that I didn't get a real chance to
+help in writing the code and solving the assignment. What can I do?</p></blockquote>
+
+<p>The answer is similar to the previous question. Have you tried speaking to your
+partner to let them know that you expect them to let you contribute?  Remind
+your partner what the course info handout says about expectations of each
+member of a pair. Many group issues can be resolved by better communication and
+setting expectations.</p>
+
+<p>If talking to your partner does not resolve the situation, speak to your TA and
+explain the details of what has happened. We will try to help you resolve the
+issue. If it is an ongoing problem, your TA can help you find you a partner, or
+you can dissolve your partnership and submit individually. We will provide a
+way for you to give feedback about your partner in case there is any complaint
+you would like to bring to our attention.</p>
+
+
+<h2 id="how-do-we-get-help-if-our-pair-is-stuck-on-an-assignment">How do we get help if our pair is stuck on an assignment?</h2>
+
+
+<p>You can go ask for help from the course staff in office hours. Keeping in mind
+that a big reason for implementing pairs is to help reduce staff workload, we
+request that if both of you are in office hours, that <strong>only one of you</strong> will
+enqueue for help at a time. That is, please don't try to "double up" by
+enqueuing both of your names in the line. If we find that a group is doing
+this, we will remove both of their names and move one of them to the very back
+of the queue. Thank you for your cooperation.</p>
+
+<p>Don't forget to talk to each other plenty during the assignment along the way.
+One benefit of working in pairs is that each member of the pair can help the
+other improve his/her understanding of the material and help figure out how to
+solve the assignment.</p>
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#what-is-pair-programming">What is pair programming?</a></li>
+  <li><a href="#why-are-we-doing-pair-programming">Why are we doing pair programming?</a></li>
+  <li><a href="#what-is-the-best-way-to-collaborate">What is the best way to collaborate?</a></li>
+  <ul>
+    <li><a href="#write-the-code-together">Write the code together</a></li>
+    <li><a href="#work-together-using-online-tools">Work together using online tools</a></li>
+    <li><a href="#do-the-assignment-individually-and-then-compare-solutions">Do the assignment individually, and then compare solutions</a></li>
+  </ul>
+  <li><a href="#logistics">Logistics</a></li>
+  <ul>
+    <li><a href="#is-every-assignment-going-to-be-a-pair-assignment">Is every assignment going to be a pair assignment?</a></li>
+    <li><a href="#are-there-any-constraints-about-whom-i-can-work-with">Are there any constraints about whom I can work with?</a></li>
+    <li><a href="#how-can-i-find-a-partner">How can I find a partner?</a></li>
+    <li><a href="#do-i-have-to-have-the-same-partner-for-the-whole-class">Do I have to have the same partner for the whole class?</a></li>
+    <li><a href="#how-do-we-submit-get-grades-as-a-pair">How do we submit/get grades as a pair?</a></li>
+  </ul>
+  <li><a href="#my-partner-was-a-bad-partner">My partner was a bad partner...</a></li>
+  <li><a href="#how-do-we-get-help-if-our-pair-is-stuck-on-an-assignment">How do we get help if our pair is stuck on an assignment?</a></li>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../office-hours.html">Office Hours</a></li>
+            <li><a href="../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="studying.html">Studying Guide</a></li>
+            <li><a href="debugging.html">Debugging Guide</a></li>
+            <li><a href="composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="about.html#assignments">Assignments</a></li>
+            <li><a href="about.html#exams">Exams</a></li>
+            <li><a href="about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+
+<!-- Mirrored from cs61a.org/articles/pair-programming.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:38:46 GMT -->
+</html>

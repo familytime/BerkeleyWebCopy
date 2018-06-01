@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/hw/hw5/hw5 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:47 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>HW 5: Seam Carving | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">HW 5: Seam Carving</header><ul id="markdown-toc">
+  <li><a href="#getting-the-skeleton-files" id="markdown-toc-getting-the-skeleton-files">Getting the Skeleton Files</a></li>
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#seamcarver" id="markdown-toc-seamcarver">SeamCarver</a>    <ul>
+      <li><a href="#energy-computing-the-energy-of-a-pixel" id="markdown-toc-energy-computing-the-energy-of-a-pixel">energy(): Computing the Energy of a Pixel</a></li>
+      <li><a href="#findverticalseam-finding-a-minimum-energy-path" id="markdown-toc-findverticalseam-finding-a-minimum-energy-path">findVerticalSeam(): Finding a Minimum Energy Path</a></li>
+      <li><a href="#findhorizontalseam-avoiding-redundancy" id="markdown-toc-findhorizontalseam-avoiding-redundancy">findHorizontalSeam(): Avoiding Redundancy</a></li>
+      <li><a href="#other-program-requirements" id="markdown-toc-other-program-requirements">Other Program Requirements</a></li>
+    </ul>
+  </li>
+  <li><a href="#some-useful-files" id="markdown-toc-some-useful-files">Some Useful Files</a></li>
+  <li><a href="#extra-fun" id="markdown-toc-extra-fun">Extra Fun</a></li>
+  <li><a href="#submission" id="markdown-toc-submission">Submission</a></li>
+  <li><a href="#faq" id="markdown-toc-faq">FAQ</a>    <ul>
+      <li><a href="#how-do-i-debug-this" id="markdown-toc-how-do-i-debug-this">How do I debug this?</a></li>
+      <li><a href="#my-code-is-slow-failing-timing-tests-what-can-i-do-to-speed-it-up" id="markdown-toc-my-code-is-slow-failing-timing-tests-what-can-i-do-to-speed-it-up">My code is slow (failing timing tests), what can I do to speed it up?</a></li>
+    </ul>
+  </li>
+  <li><a href="#credits" id="markdown-toc-credits">Credits</a></li>
+</ul>
+
+<h2 id="getting-the-skeleton-files">Getting the Skeleton Files</h2>
+
+<p>As usual, run <code class="highlighter-rouge">git pull skeleton master</code> to get the skeleton files. Be sure to still import the .jar files from library-sp18/javalib.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Seam-carving is a content-aware image resizing technique where the image is
+reduced in size by one pixel of height (or width) at a time. A vertical seam in
+an image is a path of pixels connected from the top to the bottom with one pixel
+in each row. (A horizontal seam is a path of pixels connected from the left to
+the right with one pixel in each column.) Below is the original 505-by-287 pixel
+image; further below we see the result after removing 150 vertical seams,
+resulting in a 30% narrower image. Unlike standard content-agnostic resizing
+techniques (e.g. cropping and scaling), the most interesting features (aspect
+ratio, set of objects present, etc.) of the image are preserved.</p>
+
+<p><img src="images/HJoceanSmall.png" alt="Seam Carving Josh Example" />
+<img src="images/HJoceanSmall357x285.png" alt="Seam Carving Josh Example" /></p>
+
+<p>In this assignment, you will create a data type that resizes a W-by-H image
+using the seam-carving technique.</p>
+
+<p>Finding and removing a seam involves three parts and a tiny bit of notation:</p>
+
+<p><em>Notation</em>. In image processing, pixel (x, y) refers to the pixel in column x
+and row y, with pixel (0, 0) at the upper left corner and pixel (W − 1, H − 1)
+at the bottom right corner. This is consistent with the Picture data type in
+stdlib.jar. Warning: this is the opposite of the standard mathematical notation
+used in linear algebra where (i, j) refers to row i and column j and with
+Cartesian coordinates where (0, 0) is at the lower left corner.</p>
+
+<center>
+<b>a 3-by-4 image</b>
+<table>
+    <tbody><tr>
+        <td align="center" bgcolor="#eeeeee">&nbsp; (0, 0) &nbsp;</td>
+        <td align="center" bgcolor="#eeeeee">&nbsp; (1, 0) &nbsp;</td>
+        <td align="center" bgcolor="#eeeeee">&nbsp; (2, 0) &nbsp;</td>
+    </tr>    
+    <tr>
+        <td align="center" bgcolor="#eeeeee">&nbsp; (0, 1) &nbsp;</td>
+        <td align="center" bgcolor="#eeeeee">&nbsp; (1, 1) &nbsp;</td>
+        <td align="center" bgcolor="#eeeeee">&nbsp; (2, 1) &nbsp;</td>
+    </tr>
+    <tr>
+        <td align="center" bgcolor="#eeeeee">&nbsp; (0, 2) &nbsp;</td>
+        <td align="center" bgcolor="#eeeeee">&nbsp; (1, 2) &nbsp;</td>
+        <td align="center" bgcolor="#eeeeee">&nbsp; (2, 2) &nbsp;</td>
+    </tr>
+    <tr>
+        <td align="center" bgcolor="#eeeeee">&nbsp; (0, 3) &nbsp;</td>
+        <td align="center" bgcolor="#eeeeee">&nbsp; (1, 3) &nbsp;</td>
+        <td align="center" bgcolor="#eeeeee">&nbsp; (2, 3) &nbsp;</td>
+    </tr>
+</tbody>
+</table>
+</center>
+
+<p>We also assume that the color of a pixel is represented in RGB space, using
+three integers between 0 and 255. This is consistent with the <code class="highlighter-rouge">java.awt.Color</code>
+data type.</p>
+
+<ol>
+  <li>
+    <p><em>Energy calculation</em>. The first step is to calculate the energy of each
+pixel, which is a measure of the importance of each pixel—the higher the
+energy, the less likely that the pixel will be included as part of a seam (as
+we’ll see in the next step). In this assignment, you will implement the dual
+gradient energy function, which is described below. Here is the dual gradient
+of the surfing image above:
+<img src="images/HJoceanSmallEnergy.png" alt="Seam Carving Josh Energy" />
+ A high-energy pixel corresponds to a pixel where there is a sudden change in
+ color (such as the boundary between the sea and sky or the boundary between the
+ surfer on the left and the ocean behind him). In the image above, pixels with
+ higher energy values have whiter values. The seam-carving technique avoids
+ removing such high-energy pixels.</p>
+  </li>
+  <li><em>Seam identification</em>. The next step is to find a vertical seam of minimum
+total energy. This is similar to the classic shortest path problem in an
+edge-weighted digraph except for the following:
+    <ul>
+      <li>The weights are on the vertices instead of the edges.</li>
+      <li>We want to find the shortest path from any of W pixels in the top row to
+any of the W pixels in the bottom row.</li>
+      <li>The digraph is acyclic, where there is a downward edge from pixel (x, y)
+to pixels (x − 1, y + 1), (x, y + 1), and (x + 1, y + 1), assuming that
+the coordinates are in the prescribed range.</li>
+    </ul>
+  </li>
+  <li><em>Seam Removal</em>. The final step is remove from the image all of the pixels
+along the seam. The logic for this method has been implemented for you in the
+supplementary SeamRemover class, provided in SeamRemover.java.
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SeamRemover</span> <span class="o">{</span>
+ <span class="c1">// These methods are NOT destructive</span>
+ <span class="kd">public</span> <span class="kd">static</span> <span class="n">Picture</span> <span class="nf">removeHorizontalSeam</span><span class="o">(</span><span class="n">Picture</span> <span class="n">picture</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">seam</span><span class="o">)</span>  <span class="c1">// returns a Picture with the specified horizontal seam removed</span>
+ <span class="kd">public</span> <span class="kd">static</span> <span class="n">Picture</span> <span class="nf">removeVerticalSeam</span><span class="o">(</span><span class="n">Picture</span> <span class="n">picture</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">seam</span><span class="o">)</span>    <span class="c1">// returns a Picture with the specified vertical seam removed</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="seamcarver">SeamCarver</h2>
+<p>The SeamCarver API. Your task is to implement the following mutable data type:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">SeamCarver</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="nf">SeamCarver</span><span class="o">(</span><span class="n">Picture</span> <span class="n">picture</span><span class="o">)</span>
+        <span class="kd">public</span> <span class="n">Picture</span> <span class="nf">picture</span><span class="o">()</span>                       <span class="c1">// current picture</span>
+        <span class="kd">public</span>     <span class="kt">int</span> <span class="nf">width</span><span class="o">()</span>                         <span class="c1">// width of current picture</span>
+        <span class="kd">public</span>     <span class="kt">int</span> <span class="nf">height</span><span class="o">()</span>                        <span class="c1">// height of current picture</span>
+        <span class="kd">public</span>  <span class="kt">double</span> <span class="nf">energy</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">)</span>            <span class="c1">// energy of pixel at column x and row y</span>
+        <span class="kd">public</span>   <span class="kt">int</span><span class="o">[]</span> <span class="nf">findHorizontalSeam</span><span class="o">()</span>            <span class="c1">// sequence of indices for horizontal seam</span>
+        <span class="kd">public</span>   <span class="kt">int</span><span class="o">[]</span> <span class="nf">findVerticalSeam</span><span class="o">()</span>              <span class="c1">// sequence of indices for vertical seam</span>
+        <span class="kd">public</span>    <span class="kt">void</span> <span class="nf">removeHorizontalSeam</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">seam</span><span class="o">)</span>   <span class="c1">// remove horizontal seam from picture</span>
+        <span class="kd">public</span>    <span class="kt">void</span> <span class="nf">removeVerticalSeam</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">seam</span><span class="o">)</span>     <span class="c1">// remove vertical seam from picture</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="energy-computing-the-energy-of-a-pixel">energy(): Computing the Energy of a Pixel</h3>
+
+<p>We will use the dual gradient energy function: The energy of pixel (x, y) is
+$\Delta_x^2(x, y) + \Delta_y^2(x, y)$, where the square of the x-gradient
+$\Delta_x^2(x, y) = R_x(x, y)^2 + G_x(x, y)^2 + B_x(x, y)^2$, and where the
+central differences $R_x(x, y)$, $G_x(x, y)$, and $B_x(x, y)$ are the
+absolute value in differences of red, green, and blue components between pixel
+(x + 1, y) and pixel (x − 1, y). The square of the y-gradient $\Delta_y^2(x,
+y)$ is defined in an analogous manner. We define the energy of pixels at the
+border of the image to use the same pixels but to replace the non-existant pixel
+with the pixel from the opposite edge.</p>
+
+<p>As an example, consider the 3-by-4 image with RGB values (each component is an
+integer between 0 and 255) as shown in the table below.</p>
+
+<center>
+<table>
+    <tbody>
+    <tr>
+        <td align="center" bgcolor="#ff6533">&nbsp; (255, 101, 51) &nbsp;</td>
+        <td align="center" bgcolor="#ff6599">&nbsp; (255, 101, 153) &nbsp;</td>
+        <td align="center" bgcolor="#ff65ff">&nbsp; (255, 101, 255) &nbsp;</td>
+    </tr>    
+    <tr>
+        <td align="center" bgcolor="#ff9933">&nbsp; (255,153,51) &nbsp;</td>
+        <td align="center" bgcolor="#ff9999">&nbsp; (255,153,153) &nbsp;</td>
+        <td align="center" bgcolor="#ff99ff">&nbsp; (255,153,255) &nbsp;</td>
+    </tr>
+    <tr>
+        <td align="center" bgcolor="#ffcb33">&nbsp; (255,203,51) &nbsp;</td>
+        <td align="center" bgcolor="#ffcc99">&nbsp; (255,204,153) &nbsp;</td>
+        <td align="center" bgcolor="#ffcdff">&nbsp; (255,205,255) &nbsp;</td>
+    </tr>
+    <tr>
+        <td align="center" bgcolor="#ffff33">&nbsp; (255,255,51) &nbsp;</td>
+        <td align="center" bgcolor="#ffff99">&nbsp; (255,255,153) &nbsp;</td>
+        <td align="center" bgcolor="#ffffff">&nbsp; (255,255,255) &nbsp;</td>
+    </tr>
+    </tbody>
+</table>
+</center>
+
+<p><strong>Example 1:</strong> We calculate the energy of pixel (1, 2) in detail:</p>
+
+<blockquote>
+$R_x(1, 2) = 255 − 255 = 0$,<br />
+$G_x(1, 2) = 205 − 203 = 2$,<br />
+$B_x(1, 2) = 255 − 51 = 204$,<br />
+</blockquote>
+
+<p>yielding $\Delta_x^2(1, 2) = 2^2 + 204^2 = 41620$.</p>
+
+<blockquote>
+$R_y(1, 2) = 255 − 255 = 0$, <br />
+$G_y(1, 2) = 255 − 153 = 102$, <br />
+$B_y(1, 2) = 153 − 153 = 0$, <br />
+</blockquote>
+<p>yielding $\Delta_y^2(1, 2) = 102^2 = 10404$.
+Thus, the energy of pixel (1, 2) is $41620 + 10404 = 52024$.</p>
+
+<p><strong>Test your understanding:</strong> The energy of pixel (1, 1) is $204^2 + 103^2 =
+52225$.</p>
+
+<p><strong>Example 2:</strong> We calculate the energy of the border pixel (1, 0) in detail:</p>
+
+<blockquote>
+$R_x(1, 0) = 255 − 255 = 0$, <br />
+$G_x(1, 0) = 101 − 101 = 0$, <br />
+$B_x(1, 0) = 255 − 51 = 204$, <br />
+</blockquote>
+<p>yielding $\Delta_x^2(1, 0) = 204^2 = 41616$.</p>
+
+<p>Since there is no pixel (x, y - 1) we wrap around and use the corresponding
+pixel from the bottom row the image, thus performing calculations based on pixel
+(x, y + 1) and pixel (x, height − 1).</p>
+<blockquote>
+$R_y(1, 0) = 255 − 255 = 0$, <br />
+$G_y(1, 0) = 255 − 153 = 102$, <br />
+$B_y(1, 0) = 153 − 153 = 0$, <br />
+</blockquote>
+
+<p>yielding $\Delta_y^2(1, 2) = 102^2 = 10404$.</p>
+
+<p>Thus, the energy of pixel (1, 2) is $41616 + 10404 = 52020$.</p>
+
+<p><strong>Examples Summary:</strong> The energies for each pixel is given in the table below:</p>
+
+<center>
+<table>
+    <tbody><tr>
+        <td align="center" bgcolor="#ff6533">&nbsp;20808.0&nbsp;</td>
+        <td align="center" bgcolor="#ff6599">&nbsp;52020.0&nbsp;</td>
+        <td align="center" bgcolor="#ff65ff">&nbsp;20808.0&nbsp;</td>
+    </tr>
+    <tr>
+        <td align="center" bgcolor="#ff9933">&nbsp;20808.0&nbsp;</td>
+        <td align="center" bgcolor="#ff9999">&nbsp;52225.0&nbsp;</td>
+        <td align="center" bgcolor="#ff99ff">&nbsp;21220.0&nbsp;</td>
+    </tr>    
+    <tr>
+        <td align="center" bgcolor="#ffcc33">&nbsp;20809.0&nbsp;</td>
+        <td align="center" bgcolor="#ffcc99">&nbsp;52024.0&nbsp;</td>
+        <td align="center" bgcolor="#ffccff">&nbsp;20809.0&nbsp;</td>
+    </tr>
+    <tr>
+        <td align="center" bgcolor="#ffff33">&nbsp;20808.0&nbsp;</td>
+        <td align="center" bgcolor="#ffff99">&nbsp;52225.0&nbsp;</td>
+        <td align="center" bgcolor="#ffffff">&nbsp;21220.0&nbsp;</td>
+    </tr>
+    </tbody>
+</table>
+</center>
+
+<h3 id="findverticalseam-finding-a-minimum-energy-path">findVerticalSeam(): Finding a Minimum Energy Path</h3>
+
+<p>The <code class="highlighter-rouge">findVerticalSeam()</code> method should return an array of length H such that
+entry x is the column number of the pixel to be removed from row x of the image.
+For example, consider the 6-by-5 image below (supplied as 6x5.png).</p>
+
+<p><strong>Finding a vertical seam.</strong>
+The <code class="highlighter-rouge">findVerticalSeam()</code> method returns an array of length <em>H</em>
+such that entry <em>i</em> is the column number of the pixel to
+be removed from row <em>i</em> of the image.
+For example, consider the 6-by-5 image below (supplied as 6x5.png).</p>
+
+<center>
+<table class="fixedWidthTable">
+    <tr>
+    <td align="center" bgcolor="#4ed14f">&nbsp;( 78,209, 79)&nbsp;</td>
+    <td align="center" bgcolor="#3f76f7">&nbsp;( 63,118,247)&nbsp;</td>
+    <td align="center" bgcolor="#5caf5f">&nbsp;( 92,175, 95)&nbsp;</td>
+    <td align="center" bgcolor="#f349b7">&nbsp;(243, 73,183)&nbsp;</td>
+    <td align="center" bgcolor="#d26d68">&nbsp;(210,109,104)&nbsp;</td>
+    <td align="center" bgcolor="#fc6577">&nbsp;(252,101,119)&nbsp;</td>
+    </tr>
+    <tr>
+    <td align="center" bgcolor="#e0bfb6">&nbsp;(224,191,182)&nbsp;</td>
+    <td align="center" bgcolor="#6c5952">&nbsp;(108, 89, 82)&nbsp;</td>
+    <td align="center" bgcolor="#50c4e6">&nbsp;( 80,196,230)&nbsp;</td>
+    <td align="center" bgcolor="#709cb4">&nbsp;(112,156,180)&nbsp;</td>
+    <td align="center" bgcolor="#b0b278">&nbsp;(176,178,120)&nbsp;</td>
+    <td align="center" bgcolor="#8e978e">&nbsp;(142,151,142)&nbsp;</td>
+    </tr>
+    <tr>
+    <td align="center" bgcolor="#75bd95">&nbsp;(117,189,149)&nbsp;</td>
+    <td align="center" bgcolor="#abe799">&nbsp;(171,231,153)&nbsp;</td>
+    <td align="center" bgcolor="#95a4a8">&nbsp;(149,164,168)&nbsp;</td>
+    <td align="center" bgcolor="#6b7747">&nbsp;(107,119, 71)&nbsp;</td>
+    <td align="center" bgcolor="#78698a">&nbsp;(120,105,138)&nbsp;</td>
+    <td align="center" bgcolor="#a3aec4">&nbsp;(163,174,196)&nbsp;</td>
+    </tr>
+    <tr>
+    <td align="center" bgcolor="#a3de84">&nbsp;(163,222,132)&nbsp;</td>
+    <td align="center" bgcolor="#bb75b7">&nbsp;(187,117,183)&nbsp;</td>
+    <td align="center" bgcolor="#5c9145">&nbsp;( 92,145, 69)&nbsp;</td>
+    <td align="center" bgcolor="#9e8f4f">&nbsp;(158,143, 79)&nbsp;</td>
+    <td align="center" bgcolor="#dc4bde">&nbsp;(220, 75,222)&nbsp;</td>
+    <td align="center" bgcolor="#bd49d6">&nbsp;(189, 73,214)&nbsp;</td>
+    </tr>
+    <tr>
+    <td align="center" bgcolor="#d378ad">&nbsp;(211,120,173)&nbsp;</td>
+    <td align="center" bgcolor="#bcdaf4">&nbsp;(188,218,244)&nbsp;</td>
+    <td align="center" bgcolor="#d66744">&nbsp;(214,103, 68)&nbsp;</td>
+    <td align="center" bgcolor="#a3a6f6">&nbsp;(163,166,246)&nbsp;</td>
+    <td align="center" bgcolor="#4f7df6">&nbsp;( 79,125,246)&nbsp;</td>
+    <td align="center" bgcolor="#d3c962">&nbsp;(211,201, 98)&nbsp;</td>
+    </tr>
+</table>
+</center>
+
+<p>The corresponding pixel energies are shown below, with a minimum energy vertical
+seam highlighted in pink.
+In this case, the method <code class="highlighter-rouge">findVerticalSeam()</code> returns the array <code class="highlighter-rouge">{ 3, 4, 3, 2, 2
+}</code>.</p>
+
+<center>
+<table class="fixedWidthTable">
+    <tr>
+    <td align="center" bgcolor="c9c9c9">57685.0</td>
+    <td align="center" bgcolor="b9b9b9">50893.0</td>
+    <td align="center" bgcolor="ffffff">91370.0</td>
+    <td align="center" bgcolor="7c7c7c" style="color:#FF9999">25418.0</td>
+    <td align="center" bgcolor="8e8e8e">33055.0</td>
+    <td align="center" bgcolor="989898">37246.0</td>
+    </tr>
+    <tr>
+    <td align="center" bgcolor="646464">15421.0</td>
+    <td align="center" bgcolor="c6c6c6">56334.0</td>
+    <td align="center" bgcolor="767676">22808.0</td>
+    <td align="center" bgcolor="c2c2c2">54796.0</td>
+    <td align="center" bgcolor="5b5b5b" style="color:#FF9999">11641.0</td>
+    <td align="center" bgcolor="7c7c7c">25496.0</td>
+    </tr>
+    <tr>
+    <td align="center" bgcolor="5d5d5d">12344.0</td>
+    <td align="center" bgcolor="6d6d6d">19236.0</td>
+    <td align="center" bgcolor="bcbcbc">52030.0</td>
+    <td align="center" bgcolor="6a6a6a" style="color:#FF9999">17708.0</td>
+    <td align="center" bgcolor="aaaaaa">44735.0</td>
+    <td align="center" bgcolor="717171">20663.0</td>
+    </tr>
+    <tr>
+    <td align="center" bgcolor="686868">17074.0</td>
+    <td align="center" bgcolor="787878">23678.0</td>
+    <td align="center" bgcolor="888888" style="color:#FF9999">30279.0</td>
+    <td align="center" bgcolor="ffffff">80663.0</td>
+    <td align="center" bgcolor="9a9a9a">37831.0</td>
+    <td align="center" bgcolor="acacac">45595.0</td>
+    </tr>
+    <tr>
+    <td align="center" bgcolor="8d8d8d">32337.0</td>
+    <td align="center" bgcolor="898989">30796.0</td>
+    <td align="center" bgcolor="4b4b4b" style="color:#FF9999">4909.0</td>
+    <td align="center" bgcolor="efefef">73334.0</td>
+    <td align="center" bgcolor="a0a0a0">40613.0</td>
+    <td align="center" bgcolor="979797">36556.0</td>
+    </tr>
+</table>
+</center>
+
+<p>When there are multiple vertical seams with minimal total energy, your method
+can return any such seam.</p>
+
+<p>Your <code class="highlighter-rouge">findVerticalSeam</code> method should work by first solving a base case
+subproblem, and then using the results of previous subproblems to solve later
+subproblems. Suppose we have the following definitions:</p>
+
+<ul>
+  <li>$M(i, j)$ - cost of minimum cost path ending at (i, j)<br /></li>
+  <li>$e(i, j)$ - energy cost of pixel at location (i, j)</li>
+</ul>
+
+<p>Then each subproblem is the calculation of $M(i, j)$ for some $i$ and $j$. The
+top row is trivial, $M(i, 0)$ is just $e(i, 0)$ for all $i$. For lower rows, we
+can find $M(i, j)$ simply by adding the $e(i, j)$ to the minimum cost path
+ending at its top left, top middle, and top right pixels, or more formally:
+<script type="math/tex">M(i, j) = e(i, j) + min(M(i - 1, j - 1), M(i, j - 1), M(i + 1, j - 1))</script></p>
+
+<p>In short, we start from one side of the 2D image array and process row-by-row or
+column-by-column (for vertical and horizontal seam carving respectively).</p>
+
+<p><img src="images/seamCarvingDP.png" alt="Seam Carving Cumulative Energy" />
+<img src="images/seamCarvingPath.png" alt="Seam Carving Final Paths" /></p>
+
+<p><strong>Addendum: The Java language does not deal well with deep recursion, and thus a
+recursive approach will almost certainly not be able to handle images of largish
+size (say 500x500).</strong> We recommend writing your code iteratively.</p>
+
+<p>An equivalent (but slower approach) is to build an explicit Graph object and run
+some sort of shortest paths algorithm. You are welcome to try this approach, but
+be warned it is slower, and it may not be possible to sufficiently optimize your
+code so that it passes the autograder timing tests.</p>
+
+<h3 id="findhorizontalseam-avoiding-redundancy">findHorizontalSeam(): Avoiding Redundancy</h3>
+
+<p>The behavior of <code class="highlighter-rouge">findHorizontalSeam()</code> as analogous to that of
+<code class="highlighter-rouge">findVerticalSeam()</code> except that it should return an array of W such that entry
+y is the row number of the pixel to be removed from column y of the image. Your
+<code class="highlighter-rouge">findHorizontalSeam</code> method should NOT be a copy and paste of your
+<code class="highlighter-rouge">findVerticalSeam</code> method! Instead, considering transposing the image, running
+<code class="highlighter-rouge">findVerticalSeam</code>, and then transposing it back. The autograder will not test
+this, but a similar idea could easily appear on the final exam.</p>
+
+<h3 id="other-program-requirements">Other Program Requirements</h3>
+
+<p><strong>Performance requirements.</strong> The <code class="highlighter-rouge">width()</code>, <code class="highlighter-rouge">height()</code>, and <code class="highlighter-rouge">energy()</code> methods
+should take constant time in the worst case. All other methods should run in
+time at most proportional to <code class="highlighter-rouge">W H</code> in the worst case.</p>
+
+<p><strong>Exceptions.</strong> Your code should throw an exception when called with invalid arguments.</p>
+<ul>
+  <li>
+    <p>By convention, the indices x and y are integers between 0 and W − 1 and
+between 0 and H − 1 respectively. Throw a
+<code class="highlighter-rouge">java.lang.IndexOutOfBoundsException</code> if either x or y is outside its
+prescribed range.</p>
+  </li>
+  <li>
+    <p>Throw a <code class="highlighter-rouge">java.lang.IllegalArgumentException</code> if <code class="highlighter-rouge">removeVerticalSeam()</code> or
+<code class="highlighter-rouge">removeHorizontalSeam()</code> is called with an array of the wrong length or if
+the array is not a valid seam (i.e., two consecutive entries differ by
+more than 1).</p>
+  </li>
+</ul>
+
+<h2 id="some-useful-files">Some Useful Files</h2>
+<p><strong>PrintEnergy.java</strong>: For printing the energy calculations per pixel for an
+input image.</p>
+
+<p><strong>PrintSeams.java</strong>: Prints the energies and computed horizontal and vertical
+seams for an input image.</p>
+
+<p><strong>ShowEnergy.java</strong>: Shows the grayscale image corresponding to the energy
+computed by pixel.</p>
+
+<p><strong>ShowSeams.java</strong>: Displays the vertical and horizontal minimum energy seams
+for a given image.</p>
+
+<p><strong>SanityCheckTest.java</strong>: Basic JUnit tests consisting of the energy and path
+examples given in this spec.</p>
+
+<p><strong>SCUtility.java</strong>: Some utilies for testing SeamCarver.</p>
+
+<p><strong>SeamRemover.java</strong>: Contains a SeamRemover class file with
+<code class="highlighter-rouge">removeHorizontalSeam()</code> and <code class="highlighter-rouge">removeVerticalSeam()</code> methods to use in your
+SeamCarver.</p>
+
+<p><strong>SeamCarverVisualizer.java</strong>: For the purposes of visualizing the
+frame-by-frame actions of your SeamCarver, we’ve provided you with a
+<code class="highlighter-rouge">SeamCarverVisualizer</code> class which takes three command line arguments:
+<code class="highlighter-rouge">[filename] [numPixels to remove] [y (if horizontal carving) | N (otherwise)]</code></p>
+
+<p>That is, the first is the name of the file you’d like to seam carve, the second
+is how many rows (or columns) to remove, and the third is “y” if you want
+horizontal carving or “n” if you want vertical carving.</p>
+
+<p>For example, the arguments <code class="highlighter-rouge">images/HJoceanSmall.png 50 y</code> would carve 50
+horizontal seams from the provided <code class="highlighter-rouge">HJoceanSmall.png</code> file.</p>
+
+<p>In IntelliJ, set the command line arguments up using the Edit Configurations
+option (similar to HW3, in the spirit of building independence, we don’t provide
+explicit instructions, and instead turn you towards
+<a href="https://www.google.com/search?q=command+line+arguments+intelliJ&amp;oq=command+line+arguments+intelliJ&amp;aqs=chrome..69i57.2608j0j1&amp;sourceid=chrome&amp;ie=UTF-8">Google</a>).</p>
+
+<p>Or if you’re using the command line you’d run the command as follows:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java SeamCarverVisualizer <span class="o">[</span>filename] <span class="o">[</span>numPixels to remove] <span class="o">[</span>y <span class="o">(</span><span class="k">if </span>horizontal carving<span class="o">)</span> | N <span class="o">(</span>otherwise<span class="o">)]</span>
+</code></pre></div></div>
+
+<p>Example:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java SeamCarverVisualizer images/HJoceanSmall.png 50 y
+</code></pre></div></div>
+
+<h2 id="extra-fun">Extra Fun</h2>
+
+<p>Fun #1: Try out your SeamCarver on various real world images. I recommend human
+faces.</p>
+
+<p>Fun #2: Try to implement a version of the <code class="highlighter-rouge">SeamCarver</code> class that avoids the
+need to recompute the entire energy matrix every time a seam is removed. This
+will require getting fancy with your data structures. If you do this, email Josh
+and let him know. This should make your SeamCarver class extremely fast.</p>
+
+<h2 id="submission">Submission</h2>
+<p>Submit <code class="highlighter-rouge">SeamCarver.java</code> and any supporting classes that you created, if
+applicable. You do not need to submit <code class="highlighter-rouge">SeamRemover.java</code>.</p>
+
+<h2 id="faq">FAQ</h2>
+
+<h4 id="how-do-i-debug-this">How do I debug this?</h4>
+
+<p>Make sure to try out the “Useful Files” above, especially the PrintEnergy and
+PrintSeams classes.</p>
+
+<h4 id="my-code-is-slow-failing-timing-tests-what-can-i-do-to-speed-it-up">My code is slow (failing timing tests), what can I do to speed it up?</h4>
+
+<p>Some possible optimizations include (in decreasing order of likely impact):</p>
+<ul>
+  <li><strong>Avoiding recalculation of energies for the same pixel over and over</strong> (e.g.
+through creation of an explicit energy matrix of type <code class="highlighter-rouge">double[][]</code>).
+Essentially you want to memoize energy calculations.</li>
+  <li>Don’t use a HashMap for looking up data by row and column. Instead, use a 2D
+array. They are much faster. HashMaps are constant time, but the constant
+factor is significant.</li>
+  <li>Not using <code class="highlighter-rouge">Math.pow</code> or <code class="highlighter-rouge">Math.abs</code>.</li>
+  <li>Not storing an explicit <code class="highlighter-rouge">edgeTo</code> data structure. It is possible to rebuild
+the seam ONLY from the values for <code class="highlighter-rouge">M(i, j)</code>! That is, you don’t need to
+actually record the predecessor like you did in the 8puzzle assignment.</li>
+  <li>Using a more clever approach than transposing your images (though this is not
+required to pass the autograder).</li>
+</ul>
+
+<h2 id="credits">Credits</h2>
+<p>This assignment was originally developed by Josh Hug, with supporting
+development work by Maia Ginsburg and Kevin Wayne at Princeton University.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/hw/hw5/hw5 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:50 GMT -->
+</html>

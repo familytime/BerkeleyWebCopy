@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/proj/scheme/extensions.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:42:33 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+Scheme Interpreter Extensions | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>Scheme Interpreter Extensions</h1>
+    </header>
+     
+<p>There are many ways to extend our Scheme interpreter. A few suggestions are
+below, and the <a href="http://en.wikipedia.org/wiki/Scheme_(programming_language)">Wikipedia page for Scheme</a> is a good place to
+start to learn more about the language itself.</p>
+
+<p>We recommend that you submit the final version of your project before
+attempting any of these extensions. <strong>We are not responsible if you break the
+required components of your interpreter and Scheme code.</strong></p>
+
+
+<h2 id="variable-arguments">Variable Arguments</h2>
+
+
+<p>Scheme allows procedures to take in a variable number
+of arguments, which get placed into a list before being bound to a parameter.
+(Compare to Python, where variable arguments are placed into a tuple.) This is
+specified by preceding the last parameter with a dot (much like
+Python's <code>*</code>):</p>
+
+<pre><code>scm&gt; (define (add . args) (apply + args))
+add
+scm&gt; (add 3 7 2 1)
+13</code></pre>
+
+<p>A dot is used to specifiy the second component of a pair. Thus,
+formals lists can now be ill-formed.</p>
+
+<p>In order to implement this, you will need to change the following:</p>
+
+<ul>
+  <li><code>check_formals</code> should not reject a formal list that is just
+  a symbol or terminated by a symbol rather than <code>nil</code>.</li>
+  <li><code>Frame.make_call_frame</code> should bind the remaining list of
+  values to the symbol that terminates <code>formals</code>, if it is not
+  terminated by <code>nil</code>.</li>
+</ul>
+
+
+<h2 id="quasiquote-and-unquote">Quasiquote and Unquote</h2>
+
+
+<p>Quoting prevents the interpreter from evaluating an expression. Often times,
+we might want to evaluate part of an expression but not the rest. For example,
+the following constructs a list containing the symbol <code>a</code> and its
+value:</p>
+
+<pre><code>scm&gt; (define a 3)
+a
+scm&gt; `(a , a)
+(a 3)</code></pre>
+
+<p>The backquote (<tt>&#96;</tt>) specifies a <em>quasiquote</em>, which
+can evaluate parts of an expression. A comma (<code>,</code>) is
+an <em>unquote</em>, which specifies that the next expression should be
+evaluated. Finally, a comma followed by an at symbol (<code>,@</code>) is
+an <em>unquote-splicing</em>, meaning that it evaluates the next
+expression, which must evaluate to a list, and then splices that list into the
+result:</p>
+
+<pre><code>scm&gt; `(a ,@ &#x27;(1 2 3) 4)
+(a 1 2 3 4)</code></pre>
+
+<p>Quasiquotes can be nested, and an unquoted expression should only be
+evaluated if it is at the same nesting level as the outermost quasiquote. The
+nesting level increases by one in each quasiquotation and decreases by one in
+each unquote/unquote-splicing.</p>
+
+<p>Here are some examples from the Scheme R5RS reference manual:</p>
+
+<pre><code>scm&gt; `(list  ,(+ 1 2)  4)
+(list 3 4)
+
+scm&gt; (let ((name &#x27;a)) `(list ,name &#x27;,name))
+(list a (quote a))
+
+scm&gt; `(( foo ,(&#x2d; 10 3)) ,@(cdr &#x27;(c)) . ,(car &#x27;(cons)))
+((foo 7) . cons)
+
+scm&gt; `(a `(b ,(+ 1 2)  ,(foo ,(+ 1 3)  d)  e)  f)
+(a (quasiquote (b (unquote (+ 1 2)) (unquote (foo 4 d)) e)) f)
+
+scm&gt; (let ((name1 &#x27;x)
+           (name2 &#x27;y))
+       `(a `(b ,,name1  ,&#x27;,name2 d)  e))
+(a (quasiquote (b (unquote x) (unquote (quote y)) d)) e)</code></pre>
+
+<p>The tokenizer already handles quasiquotes and unquotes. However, you will
+need to modify <code>scheme_read</code> to handle them as well, like you did
+for normal quoting. Use the
+strings <code>&quot;quasiquote&quot;</code>, <code>&quot;unquote&quot;</code>,
+and <code>&quot;unquote&#x2d;splicing&quot;</code>, respectively.</p>
+
+<p>In addition, the following changes are required:</p>
+
+<ul>
+  <li>Add special forms for <code>&quot;quasiquote&quot;</code>:
+  call a new <code>do_quasiquote_form</code> function. You may also want
+  to check for <code>&quot;unquote&quot;</code> and <code>&quot;unquote&#x2d;splicing&quot;</code>
+  here, raising an error that they are being used outside of a quasiquote.</li>
+  <li>You will need to process a quasiquote recursively. If a value is a list
+  that starts with either unquote at the right nesting level, then the list
+  should contain only one more value, which should be evaluated in the
+  current environment and returned. Otherwise the value should be returned
+  without being evaluated.</li>
+  <li>Splicing is a bit more complicated, since the splicing needs to be done
+  by the caller. You may want to add another return value to specify whether
+  or not splicing should be done. Use <code>scheme_append</code> to actually
+  do the splicing.</li>
+</ul>
+
+
+<h2 id="mutation">Mutation</h2>
+
+
+<p>Like Python, Scheme has non-local assignment. In particular,
+the <code>set!</code> special form takes in a name and another expression and
+rebinds that name to the value of the expression in the first frame in which
+the name exists. Unlike Python, this frame can be the local or global
+frame.</p>
+
+<p>In order to implement <code>set!</code>, add a method to <code>Frame</code>
+that rebinds a name to a new value in the first frame in which the name is
+found. An error should be raised if the name does not exist in any frame. You
+will also need to add a <code>do_set_form</code> function and a case for
+<code>set!</code> in <code>scheme_eval</code>.</p>
+
+<p>Pairs can be mutated using <code>set&#x2d;car!</code> and <code>set&#x2d;cdr!</code>
+These can be easily implemented as primitive procedures
+in <code>scheme_primitives.py</code>.</p>
+
+
+<h2 id="library-code">Library Code</h2>
+
+
+<p>Many standard Scheme procedures can be implemented in Scheme itself, as
+library code. Add a mechanism to your interpreter to load up a library file on
+startup (e.g. <code>scheme_lib.scm</code>). Then provide useful procedures in
+<code>scheme_lib.scm</code>, such as <code>map</code>, <code>filter</code>,
+and <code>c*r</code> variants up to four applications of <code>car</code>
+or <code>cdr</code>.</p>
+
+
+<h2 id="error-handling">Error Handling</h2>
+
+
+<p>Currently, when an error occurs while attempting to evaluate an expression,
+the interpreter only prints out an error message, with no backtrace. This
+makes it difficult to determine the source of an error.</p>
+
+<p>In order to provide a useful backtrace, start by adding names to primitive
+procedures and procedures defined using the special <code>define</code> syntax.
+Use default names, such as <code>[lambda]</code>, for procedures with unknown
+names.</p>
+
+<p>Now write a new function to handle an exception and call it from the first
+except clause in <code>read_eval_print_loop</code>. A Python exception
+contains information about every frame between the one that raised the
+exception and the one that handled it. If <code>e</code> is an exception,
+then <code>e.__traceback__</code> is a <code>traceback</code> object that
+contains this information. A <code>traceback</code> is a recursive list
+of <code>frame</code>s. Read more about <code>traceback</code>,
+<code>frame</code>, and <code>code</code> objects
+<a href="http://docs.python.org/3.2/reference/datamodel.html">here</a>.</p>
+
+<p>A Python exception contains information at the Python level, but a user is
+interested in information at the Scheme level. So you should translate the
+Python-level information to Scheme-level information by extracting the latter
+from a <code>frame</code>. You can read the local variables in
+a <code>frame</code>, and you can obtain its associated <code>code</code>
+object to get the name of the Python function for that <code>frame</code>.</p>
+
+<p>Some suggestions on what to do with a Python frame:</p>
+
+<ul>
+  <li><p>If the frame corresponds to <code>scheme_apply</code>, then add an
+  entry to your Scheme trace for the associated procedure call. Use the
+  name attribute that you added previously, and include the arguments.</p>
+
+  <p>If you did the tail recursion optimization, you will not
+  call <code>scheme_apply</code>. Instead, keep track of the last known
+  procedure call in <code>scheme_optimized_eval</code>, and add an entry for
+  that to your Scheme trace when the frame corresponds
+  to <code>scheme_optimized_eval</code>.</p></li>
+  <li>If the frame corresponds to a <code>do_*_form</code> function, then
+  add an entry to your Scheme trace with the name of the form and its original
+  arguments.</li>
+  <li>Number the entries in your trace and display them in whichever order you
+  prefer.</li>
+</ul>
+
+<p>Here are some sample traces without the tail recursion optimization:</p>
+
+<pre><code>scm&gt; (define (foo x) (/ 1 x))
+foo
+scm&gt; (define (bar x) (foo x) 3)
+bar
+scm&gt; (define (baz x) (if (= x 0) (bar x) (baz (&#x2d; x 1))))
+baz
+scm&gt; (foo 0)
+Traceback (most recent call last):
+  0     (foo 0)
+  1     (/ 1 0)
+Error: division by zero
+scm&gt; (bar 0)
+Traceback (most recent call last):
+  0     (bar 0)
+  1     (#begin (foo x) 3)
+  2     (foo 0)
+  3     (/ 1 0)
+Error: division by zero
+scm&gt; (baz 3)
+Traceback (most recent call last):
+  0     (baz 3)
+  1     (baz 2)
+  2     (baz 1)
+  3     (baz 0)
+  4     (bar 0)
+  5     (#begin (foo x) 3)
+  6     (foo 0)
+  7     (/ 1 0)
+Error: division by zero</code></pre>
+
+<p>With the tail recursion optimization:</p>
+
+<pre><code>scm&gt; (foo 0)
+Traceback (most recent call last):
+  0     (foo 0)
+  1     (/ 1 0)
+Error: division by zero
+scm&gt; (bar 0)
+Traceback (most recent call last):
+  0     (bar 0)
+  1     (#begin (foo x) 3)
+  2     (foo 0)
+  3     (/ 1 0)
+Error: division by zero
+scm&gt; (baz 3)
+Traceback (most recent call last):
+  0     (bar 0)
+  1     (#begin (foo x) 3)
+  2     (foo 0)
+  3     (/ 1 0)
+Error: division by zero</code></pre>
+
+
+<h2 id="further-extensions">Further Extensions</h2>
+
+
+<p>Feel free to implement any other features of Scheme that you want. You can
+read the full reference manual
+<a href="http://www.r6rs.org/final/html/r6rs/r6rs.html">here</a>.
+Examples include named
+lets, <code>let*</code>, <code>letrec</code>, <code>do</code> loops, strings,
+and vectors. (If you really want a challenge, then try to
+implement <code>call&#x2d;with&#x2d;current&#x2d;continuation</code>, which isn't even
+handled correctly by STk.) How close can you get to what STk provides?</p>
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#variable-arguments">Variable Arguments</a></li>
+  <li><a href="#quasiquote-and-unquote">Quasiquote and Unquote</a></li>
+  <li><a href="#mutation">Mutation</a></li>
+  <li><a href="#library-code">Library Code</a></li>
+  <li><a href="#error-handling">Error Handling</a></li>
+  <li><a href="#further-extensions">Further Extensions</a></li>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+
+<!-- Mirrored from cs61a.org/proj/scheme/extensions.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:42:33 GMT -->
+</html>

@@ -1,0 +1,119 @@
+\Question{LLSE and Graphs}
+
+Consider a graph with $n$ vertices numbered $1$ through $n$, where $n$ is a positive integer $\ge 2$. For each pair of distinct vertices, we add an undirected edge between them independently with probability $p$. Let $D_1$ be the random variable representing the degree of vertex 1, and let $D_2$ be the random variable representing the degree of vertex 2. 
+
+\begin{Parts}
+	\Part Compute $\E[D_1]$ and $\E[D_2]$.
+	\Part Compute $\var(D_1)$. 
+	\Part Compute $\cov(D_1, D_2)$.
+    \Part Using the information from the first three parts, what is $L(D_2 \mid D_1)$?
+\end{Parts}
+
+
+\Question{Swimsuit Season}
+
+In the swimsuit industry, it is well-known that there is a ``swimsuit season''. During this time, swimsuit sales skyrocket!
+
+We will model this with a random variable $X$ which is either $\lambda_L$ or $\lambda_H$ with equal probability; $\lambda_L$ represents the mean number of customers in a day when swimsuits are not in season, and $\lambda_H$ represents the mean number of customers during swimsuit season. So, $\lambda_L$ is the ``low rate'' and $\lambda_H$ is the ``high rate''. The number of customer arrivals $Y$ on a particular day is modeled as a Poisson random variable with mean $X$.
+
+You observe $Y$ customers on a certain day, and the task is to estimate $X$.
+
+\begin{Parts}
+    
+    \Part What is $L[X \mid Y]$?
+
+    \Part What is $\E[X \mid Y]$?
+
+\end{Parts}
+
+
+\Question{Quadratic Regression}
+
+In this question, we will find the best quadratic estimator of $Y$ given $X$. First, some notation: let $\mu_i$ be the $i$th moment of $X$, i.e.\ $\mu_i = \E[X^i]$. Also, define $\beta_1 = \E[XY]$ and $\beta_2 = \E[X^2 Y]$. For simplicity, we will assume that $\E[X] = \E[Y] = 0$ and $\E[X^2] = \E[Y^2] = 1$. (Note that this poses no loss of generality, because we can always transform the random variables by subtracting their means and dividing by their standard deviations.) We claim that the best quadratic estimator of $Y$ given $X$ is
+\[
+  \hat{Y} = \frac{1}{\mu_3^2 - \mu_4 + 1} (a X^2 + b X + c)
+\]
+where
+\begin{align*}
+  a &= \mu_3 \beta_1 - \beta_2, \\
+  b &= (1 - \mu_4) \beta_1 + \mu_3 \beta_2, \\
+  c &= -\mu_3 \beta_1 + \beta_2.
+\end{align*}
+Your task is to prove the Projection Property for $\hat{Y}$.
+
+\begin{Parts}
+  \Part Prove that $\E[Y - \hat{Y}] = 0$.
+  \Part Prove that $\E[(Y - \hat{Y})X] = 0$.
+  \Part Prove that $\E[(Y - \hat{Y})X^2] = 0$.
+\end{Parts}
+Any quadratic function of $X$ is a linear combination of $1$, $X$, and $X^2$. Hence, these equations together imply that $Y - \hat{Y}$ is orthogonal to any quadratic function of $X$, and so $\hat{Y}$ is the best quadratic estimator of $Y$.
+
+
+\Question{Marbles in a Bag}
+
+We have $r$ red marbles, $b$ blue marbles, and $g$ green marbles in the same bag. If we sample marbles with replacement until we get 3 red marbles (not necessarily consecutively), how many blue marbles should we expect to see?
+
+
+\Question{Markov Chain Terminology}
+
+In this question, we will walk you through terms related to Markov chains.
+
+\begin{enumerate}
+    \item (Irreducibility) A Markov chain is irreducible if, starting from any state $i$, the chain can transition to any other state $j$, possibly in multiple steps.
+
+    \item (Periodicity) $d(i) := \gcd\{n > 0 \mid P^n(i, i) = \Pr[X_n = i \mid X_0 = i] > 0 \}$, $i \in {\cal X}$. If $d(i) = 1 \; \forall i \in \mc{X}$, then the Markov chain is aperiodic; otherwise it is periodic.
+
+    \item (Matrix Representation) Define the transition probability matrix $P$ by filling entry $(i, j)$ with probability $P(i, j)$.
+
+\item (Invariance) A distribution $\pi$ is invariant for the transition probability matrix $P$ if it satisfies the following balance equations: $\pi = \pi P$.
+
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
+semithick]
+\tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+\node[state]         (A)              {$0$};
+\node[state]         (B) [right of=A] {$1$};
+\path (B) edge  [bend right] node[above] {$a$} (A);
+\path (A) edge  [bend right] node[below] {$b$} (B);
+\path (A) edge  [loop left] node {$1-b$} (A);
+\path (B) edge  [loop right] node {$1-a$} (B);
+\end{tikzpicture}
+\end{figure}
+
+\begin{Parts}
+
+\Part For what values of $a$ and $b$ is the above Markov chain irreducible? Reducible?
+
+\Part For $a=1$, $b=1$, prove that the above Markov chain is periodic.
+
+\Part For $0 < a < 1$, $0 < b < 1$, prove that the above Markov chain is aperiodic.
+
+\Part Construct a transition probability matrix using the above Markov chain.
+
+\Part Write down the balance equations for this Markov chain and solve them. Assume that the Markov chain is irreducible.
+
+\end{Parts}
+
+
+\Question{Analyze a Markov Chain}
+
+Consider the Markov chain $X(n)$ with the state diagram shown below where $a, b \in (0, 1)$.
+
+\begin{center}
+  \includegraphics[width=2in]{src/problems/markovchains/resources/figures/analyze-markov-chain-fig}
+\end{center}
+
+\begin{Parts}
+\Part Show that this Markov chain is aperiodic;
+
+\Part Calculate $\Pr[X(1) = 1, X(2) = 0, X(3) = 0, X(4) = 1 \mid X(0) = 0]$;
+
+\Part Calculate the invariant distribution;
+
+\Part Let $T_i = \min\{n \geq 0 \mid X(n) = i\}$.  Calculate $\E[T_2 \mid X(0) = 1]$.
+\end{Parts}
+
+

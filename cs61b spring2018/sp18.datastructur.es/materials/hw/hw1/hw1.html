@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/hw/hw1/hw1 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:19:52 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>HW 1: Packages, Interfaces, Generics, Exceptions, Iteration | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">HW 1: Packages, Interfaces, Generics, Exceptions, Iteration</header><ul id="markdown-toc">
+  <li><a href="#getting-the-skeleton-files" id="markdown-toc-getting-the-skeleton-files">Getting the Skeleton Files</a></li>
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#task-1-boundedqueue" id="markdown-toc-task-1-boundedqueue">Task 1: BoundedQueue</a>    <ul>
+      <li><a href="#review-what-is-an-interface--why-would-you-want-one" id="markdown-toc-review-what-is-an-interface--why-would-you-want-one">Review: What is an Interface?  Why would you want one?</a></li>
+      <li><a href="#your-task" id="markdown-toc-your-task">Your Task</a></li>
+    </ul>
+  </li>
+  <li><a href="#task-2-abstractboundedqueue" id="markdown-toc-task-2-abstractboundedqueue">Task 2: AbstractBoundedQueue</a>    <ul>
+      <li><a href="#review-what-is-an-abstract-class--why-would-you-want-one" id="markdown-toc-review-what-is-an-abstract-class--why-would-you-want-one">Review: What is an Abstract Class?  Why would you want one?</a></li>
+      <li><a href="#your-task-1" id="markdown-toc-your-task-1">Your Task</a></li>
+      <li><a href="#side-note-when-to-use-an-interface-versus-an-abstract-class" id="markdown-toc-side-note-when-to-use-an-interface-versus-an-abstract-class">Side Note: When to use an Interface Versus an Abstract Class</a></li>
+    </ul>
+  </li>
+  <li><a href="#task-3-arrayringbuffer" id="markdown-toc-task-3-arrayringbuffer">Task 3: ArrayRingBuffer</a></li>
+  <li><a href="#task-4-guitarstring" id="markdown-toc-task-4-guitarstring">Task 4: GuitarString</a></li>
+  <li><a href="#just-for-fun-ttfaf" id="markdown-toc-just-for-fun-ttfaf">Just For Fun: TTFAF</a>    <ul>
+      <li><a href="#guitarherolite" id="markdown-toc-guitarherolite">GuitarHeroLite</a></li>
+    </ul>
+  </li>
+  <li><a href="#even-more-fun" id="markdown-toc-even-more-fun">Even More Fun</a></li>
+  <li><a href="#why-it-works" id="markdown-toc-why-it-works">Why It Works</a></li>
+  <li><a href="#task-5-iteration-and-exceptions" id="markdown-toc-task-5-iteration-and-exceptions">Task 5: Iteration and Exceptions</a>    <ul>
+      <li><a href="#boundedqueue" id="markdown-toc-boundedqueue">BoundedQueue</a></li>
+      <li><a href="#abstractboundedqueue" id="markdown-toc-abstractboundedqueue">AbstractBoundedQueue</a></li>
+      <li><a href="#arrayringbuffer" id="markdown-toc-arrayringbuffer">ArrayRingBuffer</a></li>
+      <li><a href="#exceptions" id="markdown-toc-exceptions">Exceptions</a></li>
+    </ul>
+  </li>
+  <li><a href="#submission" id="markdown-toc-submission">Submission</a></li>
+  <li><a href="#frequently-asked-questions" id="markdown-toc-frequently-asked-questions">Frequently Asked Questions</a>    <ul>
+      <li><a href="#my-abstractboundedqueue-wont-compile-because-boundedqueue-isnt-found" id="markdown-toc-my-abstractboundedqueue-wont-compile-because-boundedqueue-isnt-found">My AbstractBoundedQueue won’t compile because BoundedQueue isn’t found.</a></li>
+      <li><a href="#im-getting-a-class-file-contains-wrong-class-error" id="markdown-toc-im-getting-a-class-file-contains-wrong-class-error">I’m getting a “class file contains wrong class” error.</a></li>
+      <li><a href="#im-getting-a-message-that-i-did-not-override-an-abstract-method-but-i-am" id="markdown-toc-im-getting-a-message-that-i-did-not-override-an-abstract-method-but-i-am">I’m getting a message that I did not override an abstract method, but I am!</a></li>
+      <li><a href="#im-getting--in-abstractboundedqueue-and--in-boundedqueue-have-the-same-erasure-yet-neither-overrides-the-other" id="markdown-toc-im-getting--in-abstractboundedqueue-and--in-boundedqueue-have-the-same-erasure-yet-neither-overrides-the-other">I’m getting … in AbstractBoundedQueue and … in BoundedQueue have the same erasure, yet neither overrides the other.</a></li>
+      <li><a href="#when-i-try-to-run-the-provided-tests-i-get-no-runnable-methods" id="markdown-toc-when-i-try-to-run-the-provided-tests-i-get-no-runnable-methods">When I try to run the provided tests I get “No runnable methods”.</a></li>
+      <li><a href="#im-failing-the-nested-iteration-test-what-does-this-mean" id="markdown-toc-im-failing-the-nested-iteration-test-what-does-this-mean">I’m failing the nested iteration test. What does this mean?</a></li>
+      <li><a href="#when-i-try-to-compile-my-code-it-says-type-k1-is-not-compatible-with-type-k2-or-something-similar" id="markdown-toc-when-i-try-to-compile-my-code-it-says-type-k1-is-not-compatible-with-type-k2-or-something-similar">When I try to compile my code, it says type K#1 is not compatible with type K#2, or something similar.</a></li>
+      <li><a href="#im-getting-a-strange-autograder-error" id="markdown-toc-im-getting-a-strange-autograder-error">I’m getting a strange autograder error!</a></li>
+      <li><a href="#do-i-need-to-implement-remove-from-the-iterator-interface" id="markdown-toc-do-i-need-to-implement-remove-from-the-iterator-interface">Do I need to implement <code class="highlighter-rouge">remove()</code> from the Iterator interface?</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="getting-the-skeleton-files">Getting the Skeleton Files</h2>
+
+<p>Just the usual <code class="highlighter-rouge">git pull skeleton master</code>.</p>
+
+<h2 id="introduction">Introduction</h2>
+<p>In this homework, you will learn how to write and use packages, as well as get
+some hands-on practice with interfaces and abstract classes. We’ll also get an
+opportunity to implement a simple data structure as well as an algorithm that’s
+easy to implement using that data structure. Finally, we’ll add support for
+iteration and exceptions (which we’ll cover on Friday) to our data structure.</p>
+
+<p>As mentioned in class, a package is a namespace that organizes a set of related
+classes and interfaces. Conceptually, you can think of packages as being similar
+to different folders on your computer. When you are building a large system, it
+is a good idea to organize it into different packages.</p>
+
+<p>For this assignment, we’ll create a synthesizer package intended for use by
+programs that want to simulate the sound of instruments.</p>
+
+<p>The synthesizer package has four components:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">BoundedQueue</code>, an interface which declares all the methods that must be
+implemented by any class that implements <code class="highlighter-rouge">BoundedQueue</code>.</li>
+  <li><code class="highlighter-rouge">AbstractBoundedQueue</code>, an abstract class which implements <code class="highlighter-rouge">BoundedQueue</code>,
+capturing the redundancies between methods in <code class="highlighter-rouge">BoundedQueue</code>.</li>
+  <li><code class="highlighter-rouge">ArrayRingBuffer</code>, a class which extends <code class="highlighter-rouge">AbstractBoundedQueue</code> and uses an
+array as the actual implementation of the <code class="highlighter-rouge">BoundedQueue</code>.</li>
+  <li><code class="highlighter-rouge">GuitarString</code>, which uses an <code class="highlighter-rouge">ArrayRingBuffer&lt;Double&gt;</code> to implement the
+<a href="http://en.wikipedia.org/wiki/Karplus–Strong_string_synthesis">Karplus-Strong algorithm</a>
+to synthesize a guitar string sound.</li>
+</ul>
+
+<p>We’ve provided you with skeleton code for <code class="highlighter-rouge">ArrayRingBuffer</code> and <code class="highlighter-rouge">GuitarString</code>,
+but you’ll need to implement the other two classes from scratch. In this HW,
+we’ll work our way down the hierarchy from most abstract to most concrete.</p>
+
+<p>Note: while it’d probably be better design to make only the GuitarString class
+<code class="highlighter-rouge">public</code> (since people using synthesizers don’t really care about
+AbstractBoundedQueues), we’ll be leaving all of our classes public for this HW
+for testing convenience.</p>
+
+<h2 id="task-1-boundedqueue">Task 1: BoundedQueue</h2>
+
+<h4 id="review-what-is-an-interface--why-would-you-want-one">Review: What is an Interface?  Why would you want one?</h4>
+
+<p>As discussed in class, an interface is a formal contract between a class and the
+outside world.  If your class claims to implement an interface, then all methods
+defined by that interface must appear in your class (or somewhere in your
+superclass) before the class will successfully compile.
+This is a way of enforcing promised behavior.
+All methods that you declare or define are automatically public and abstract
+(even if you omit the <code class="highlighter-rouge">public</code> keyword).</p>
+
+<h4 id="your-task">Your Task</h4>
+
+<p>We will start by defining a BoundedQueue interface. The BoundedQueue is similar
+to our Deque from Project 1, but with a more limited API. Specifically, items
+can only be enqueued at the back of the queue, and can only be dequeued from the
+front of the queue. Unlike our Deque, the BoundedDeque has a fixed capacity, and
+nothing is allowed to enqueue if the queue is full.</p>
+
+<!--acts like a [line (or queue)](https://books.google.com/books?id=fZw39RoyTkcC&pg=PA127&lpg=PA127&dq=%22wait+on+line%22+%22wait+in+line%22+queue&source=bl&ots=g1WMBEBmG-&sig=Vk_AO1OT7dVAH57P6eJa6A1qGCM&hl=en&sa=X&ei=If3pVMX_A5fVoAT46ILYDg&ved=0CB0Q6AEwADgK#v=onepage&q=%22wait%20on%20line%22%20%22wait%20in%20line%22%20queue&f=false) in a super market.-->
+
+<p>Create a file <code class="highlighter-rouge">BoundedQueue.java</code> in the <code class="highlighter-rouge">synthesizer</code> folder. You can do this
+easily in IntelliJ by right-clicking on the <code class="highlighter-rouge">synthesizer</code> folder in the project
+structure sidebar and click New -&gt; Java Class. Be sure to set “Kind” to
+“Interface”.</p>
+
+<p>Your BoundedQueue interface should contain the following methods:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">capacity</span><span class="o">();</span>     <span class="c1">// return size of the buffer</span>
+<span class="kt">int</span> <span class="nf">fillCount</span><span class="o">();</span>    <span class="c1">// return number of items currently in the buffer</span>
+<span class="kt">void</span> <span class="nf">enqueue</span><span class="o">(</span><span class="n">T</span> <span class="n">x</span><span class="o">);</span>  <span class="c1">// add item x to the end</span>
+<span class="n">T</span> <span class="nf">dequeue</span><span class="o">();</span>        <span class="c1">// delete and return item from the front</span>
+<span class="n">T</span> <span class="nf">peek</span><span class="o">();</span>           <span class="c1">// return (but do not delete) item from the front</span>
+</code></pre></div></div>
+
+<p>You should also create default methods <code class="highlighter-rouge">isEmpty()</code> and <code class="highlighter-rouge">isFull()</code> that return
+the appropriate answer if the BoundedQueue is empty or full.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">default</span> <span class="kt">boolean</span> <span class="nf">isEmpty</span><span class="o">()</span>       <span class="c1">// is the buffer empty (fillCount equals zero)?</span>
+<span class="k">default</span> <span class="kt">boolean</span> <span class="nf">isFull</span><span class="o">()</span>        <span class="c1">// is the buffer full (fillCount is same as capacity)?</span>
+</code></pre></div></div>
+
+<p>For example, given an empty <code class="highlighter-rouge">BoundedQueue&lt;Double&gt;</code> of capacity 4, the state of
+the queue after each operation is shown below:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">isEmpty</span><span class="o">()</span>       <span class="c1">//                       (returns true)</span>
+<span class="n">enqueue</span><span class="o">(</span><span class="mf">9.3</span><span class="o">)</span>    <span class="c1">// 9.3</span>
+<span class="n">enqueue</span><span class="o">(</span><span class="mf">15.1</span><span class="o">)</span>   <span class="c1">// 9.3  15.1</span>
+<span class="n">enqueue</span><span class="o">(</span><span class="mf">31.2</span><span class="o">)</span>   <span class="c1">// 9.3  15.1  31.2</span>
+<span class="n">isFull</span><span class="o">()</span>        <span class="c1">// 9.3  15.1  31.2       (returns false)</span>
+<span class="n">enqueue</span><span class="o">(-</span><span class="mf">3.1</span><span class="o">)</span>   <span class="c1">// 9.3  15.1  31.2  -3.1</span>
+<span class="n">isFull</span><span class="o">()</span>        <span class="c1">// 9.3  15.1  31.2  -3.1 (returns true)</span>
+<span class="n">dequeue</span><span class="o">()</span>       <span class="c1">// 15.1 31.2  -3.1       (returns 9.3)</span>
+<span class="n">peek</span><span class="o">()</span>          <span class="c1">// 15.1 31.2  -3.1       (returns 15.1)</span>
+</code></pre></div></div>
+
+<p>Of course, your <code class="highlighter-rouge">BoundedQueue.java</code> file won’t actually do anything (since it’s
+an interface), but it will define the contract that any <code class="highlighter-rouge">BoundedQueue</code> must
+follow.</p>
+
+<p>Make sure to decare this interface as part of the <code class="highlighter-rouge">synthesizer</code> package.  The
+syntax for declaring yourself to be part of a package is <code class="highlighter-rouge"><span class="k">package</span> <span class="p">&lt;</span><span class="n">packagename</span><span class="p">&gt;;</span></code>.
+For example, if you are part of the <code class="highlighter-rouge">animal</code> package, the top of your file
+should have a <code class="highlighter-rouge"><span class="k">package</span> <span class="n">animal</span><span class="p">;</span></code> line. Your package name should just be
+<code class="highlighter-rouge">synthesizer</code>, nothing else. (If you created the file using IntelliJ, this
+should have already been done for you.)</p>
+
+<p>Before moving on, ensure that there are no compilation errors in <code class="highlighter-rouge">BoundedQueue</code>.</p>
+
+<p>If you’re stuck, see <a href="https://github.com/Berkeley-CS61B/lectureCode/blob/7a8b1af0bd5472d732fe9fbb95685830c00295ca/inheritance1/DIY/List61B.java">the List61B
+interface</a>
+for an example of an interface declaration with generics.</p>
+
+<h2 id="task-2-abstractboundedqueue">Task 2: AbstractBoundedQueue</h2>
+
+<h4 id="review-what-is-an-abstract-class--why-would-you-want-one">Review: What is an Abstract Class?  Why would you want one?</h4>
+
+<p>Methods and classes can be declared as abstract using the abstract keyword.
+Abstract classes cannot be instantiated, but they can be subclassed using the
+<code class="highlighter-rouge">extends</code> keyword. Unlike interfaces, abstract classes can provide
+implementation inheritance for features other than public methods, including
+instance variables.</p>
+
+<p>Classes that implement interfaces will inherit all of the methods and variables
+from that interface. If an implementing class fails to implement any abstract
+methods inherited from an interface, then that class must be declared abstract,
+as in:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbstractBoundedQueue</span>
+</code></pre></div></div>
+
+<p>As an aside, it is also possible to declare additional abstract methods. To do
+so, the method must be defined with the abstract keyword and without an
+implementation (without braces, and followed by a semicolon), like this:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">moveTo</span><span class="o">(</span><span class="kt">double</span> <span class="n">deltaX</span><span class="o">,</span> <span class="kt">double</span> <span class="n">deltaY</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>We won’t explicitly define any non-inherited methods as abstract in HW1, but
+it’s a thing you might find useful someday.</p>
+
+<h4 id="your-task-1">Your Task</h4>
+
+<p>Create a new abstract class in a .java file called <code class="highlighter-rouge">AbstractBoundedQueue.java</code>
+that implements <code class="highlighter-rouge">BoundedQueue</code>. Your <code class="highlighter-rouge">AbstractBoundedQueue</code> class should have
+the following methods and fields (field is just another word for instance variable):</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">protected</span> <span class="kt">int</span> <span class="n">fillCount</span><span class="o">;</span>
+<span class="kd">protected</span> <span class="kt">int</span> <span class="n">capacity</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kt">int</span> <span class="nf">capacity</span><span class="o">()</span>
+<span class="kd">public</span> <span class="kt">int</span> <span class="nf">fillCount</span><span class="o">()</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isEmpty</span><span class="o">()</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isFull</span><span class="o">()</span>
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="n">T</span> <span class="nf">peek</span><span class="o">();</span>
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="n">T</span> <span class="nf">dequeue</span><span class="o">();</span>
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">enqueue</span><span class="o">(</span><span class="n">T</span> <span class="n">x</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>Note that <code class="highlighter-rouge">isEmpty</code>, <code class="highlighter-rouge">isFull</code>, <code class="highlighter-rouge">peek</code>, <code class="highlighter-rouge">dequeue</code>, <code class="highlighter-rouge">enqueue</code>, are inherited from
+BoundedQueue, so <em>you should not to declare these explicitly in your
+AbstractBoundedQueue.java</em> file. The mysterious <code class="highlighter-rouge">protected</code> keyword above is
+something we’ll talk about in lecture on 2/21. It just means that only
+subclasses of <code class="highlighter-rouge">AbstractBoundedQueue</code> and classes in the same package as
+<code class="highlighter-rouge">AbstractBoundedQueue</code> can access this variable.</p>
+
+<p>The purpose of <code class="highlighter-rouge">AbstractBoundedQueue</code> will be to simply provide a protected
+<code class="highlighter-rouge">fillCount</code> and <code class="highlighter-rouge">capacity</code> variable that all subclasses will inherit, as well as
+so called “getter” methods <code class="highlighter-rouge">capacity()</code> and <code class="highlighter-rouge">fillCount()</code> that return <code class="highlighter-rouge">capacity</code>
+and <code class="highlighter-rouge">fillCount</code>, respectively. This saves a tiny amount of work for future
+implementations like <code class="highlighter-rouge">ArrayRingBuffer.java</code> (see next section).</p>
+
+<h4 id="side-note-when-to-use-an-interface-versus-an-abstract-class">Side Note: When to use an Interface Versus an Abstract Class</h4>
+<p>In practice, in can be a little unclear when to use an interface and when to use
+an abstract class.  One mostly accurate metaphor that might help is that you can
+think of an interface as defining a “can-do” or an “is-a” relationship, whereas
+an abstract class should be a stricter “is-a” relationship.  The difference can
+be subtle, and you can often use one instead of the other.</p>
+
+<p>In practice, large Java libraries often have a hierarchy of interfaces, which
+are extended by abstract classes that provided default implementations for some
+methods, and which are in turn ultimately implemented by concrete classes.  A
+good example is the Collection interface:  It extends Iterable (which is its
+superinterface), and is implemented by many subinterfaces (i.e. List, Set, Map),
+which in turn have their own abstract implementations (AbstractList, AbstractSet
+AbstractMap).  However, for smaller programs, the hierarchy is often stubbier,
+sometimes starting with an abstract class. For example, we could have just
+started with <code class="highlighter-rouge">AbstractBoundedQueue</code> at the top of the hierarchy and skipped
+having a <code class="highlighter-rouge">BoundedQueue</code> interface altogether.</p>
+
+<h2 id="task-3-arrayringbuffer">Task 3: ArrayRingBuffer</h2>
+
+<p>The <code class="highlighter-rouge">ArrayRingBuffer</code> class will do all the real work by extending
+<code class="highlighter-rouge">AbstractBoundedQueue</code>. That means we can happily inherit <code class="highlighter-rouge">capacity()</code>,
+<code class="highlighter-rouge">fillCount()</code>, <code class="highlighter-rouge">isEmpty()</code>, and <code class="highlighter-rouge">isFull()</code> without having to override these, but
+we’ll need to override all of the the abstract methods. In this part, you’ll
+fill out <code class="highlighter-rouge">ArrayRingBuffer.java</code>. You’ll need to rename the file from
+<code class="highlighter-rouge">ArrayRingBuffer.java.skeleton</code> to <code class="highlighter-rouge">ArrayRingBuffer.java</code>.</p>
+
+<p>A naive array implementation of a BoundedQueue would store the newest item at
+position 0, the second newest item in position 1, and so forth. This is an
+inefficient approach, as we see in the example below, where the comments show
+entries 0, 1, 2, and 3 of the array respectively. We assume that the array is
+initially all nulls.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">BoundedQueue</span> <span class="n">x</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NaiveArrayBoundedQueue</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+<span class="n">x</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(</span><span class="mf">33.1</span><span class="o">)</span> <span class="c1">// 33.1 null null  null</span>
+<span class="n">x</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(</span><span class="mf">44.8</span><span class="o">)</span> <span class="c1">// 33.1 44.8 null  null</span>
+<span class="n">x</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(</span><span class="mf">62.3</span><span class="o">)</span> <span class="c1">// 33.1 44.8 62.3  null</span>
+<span class="n">x</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(-</span><span class="mf">3.4</span><span class="o">)</span> <span class="c1">// 33.1 44.8 62.3 -3.4</span>
+<span class="n">x</span><span class="o">.</span><span class="na">dequeue</span><span class="o">()</span>     <span class="c1">// 44.8 62.3 -3.4  null (returns 33.1)</span>
+</code></pre></div></div>
+
+<p>Note that in this setup, the call to <code class="highlighter-rouge">dequeue</code> is very slow as it requires
+moving every single item to the left. For larger arrays this would result in
+unacceptable performance.</p>
+
+<p>The ArrayRingBuffer will improve this runtime substantially by using the ‘ring
+buffer’ data structure, similar to the circular array from Project 1A. A ring
+buffer first starts empty and of some predefined length. For example, this is a
+7-element buffer:</p>
+
+<p><img src="../../../../upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Circular_buffer_-_empty.svg/500px-Circular_buffer_-_empty.svg.png" alt="empty buffer" /></p>
+
+<p>Assume that a 1 is written into the middle of the buffer (the exact starting
+location does not matter in a ring buffer):</p>
+
+<p><img src="../../../../upload.wikimedia.org/wikipedia/commons/thumb/8/89/Circular_buffer_-_XX1XXXX.svg/500px-Circular_buffer_-_XX1XXXX.svg.png" alt="one item" /></p>
+
+<p>Then assume that two more elements are added — 2 and 3 — which get appended after
+the 1. Here, it is important that the 2 and 3 are placed in the exact order and
+places shown:</p>
+
+<p><img src="../../../../upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Circular_buffer_-_XX123XX.svg/500px-Circular_buffer_-_XX123XX.svg.png" alt="three items" /></p>
+
+<p>If two elements are then removed from the buffer, the oldest two values inside
+the buffer are removed. The two elements removed in this case are 1 and 2,
+leaving the buffer with just a 3:</p>
+
+<p><img src="../../../../upload.wikimedia.org/wikipedia/commons/thumb/1/11/Circular_buffer_-_XXXX3XX.svg/500px-Circular_buffer_-_XXXX3XX.svg.png" alt="one item again" /></p>
+
+<p>If we then enqueue 4, 5, 6, 7, 8, and 9, the ring buffer is now as shown below:</p>
+
+<p><img src="../../../../upload.wikimedia.org/wikipedia/commons/thumb/6/67/Circular_buffer_-_6789345.svg/500px-Circular_buffer_-_6789345.svg.png" alt="full" /></p>
+
+<p>Note that the 6 was enqueued at the leftmost entry of the array (i.e. the buffer
+wraps around, like a ring). At this point, the ring buffer is full, and if
+another enqueue() is performed, then an Exception will occur. You will manually
+throw this Exception. See the section labeled <a href="#task-5-iteration-and-exceptions">Iteration and Exceptions at the end of
+this HW for more</a>.</p>
+
+<p>We recommend you maintain one integer instance variable <code class="highlighter-rouge">first</code> that stores the
+index of the least recently inserted item; maintain a second integer instance
+variable <code class="highlighter-rouge">last</code> that stores the index one beyond the most recently inserted
+item. To insert an item, put it at index <code class="highlighter-rouge">last</code> and increment <code class="highlighter-rouge">last</code>. To remove
+an item, take it from index <code class="highlighter-rouge">first</code> and increment <code class="highlighter-rouge">first</code>. When either index
+equals capacity, make it wrap-around by changing the index to 0. Our skeleton
+file provides starter code along these lines. You’re welcome to do something
+else if you’d like, since these variables are private and thus our tester will
+not be able to see them anyway.</p>
+
+<p>In the last section of this homework, we’ll implement our <code class="highlighter-rouge">ArrayRingBuffer</code> to
+throw a run-time exception if the client attempts to <code class="highlighter-rouge">enqueue()</code> into a full
+buffer or call <code class="highlighter-rouge">dequeue()</code> or <code class="highlighter-rouge">peek()</code> on an empty buffer. We’ll be covering
+exceptions on Monday, so hold off until then (or read ahead in HFJ or online).</p>
+
+<p>Once you’ve fleshed out the TODOs, make sure <code class="highlighter-rouge">ArrayRingBuffer</code> compiles before
+moving on. Optionally, you can add tests to the <code class="highlighter-rouge">TestArrayRingBuffer</code> class
+(either before or after your write <code class="highlighter-rouge">ArrayRingBuffer</code>).
+<code class="highlighter-rouge">TestArrayRingBuffer.java</code> will not be graded.</p>
+
+<p>For homeworks and labs (but not projects), you’re welcome to share test code.
+Feel free to share your tests for this homework on Piazza.</p>
+
+<h2 id="task-4-guitarstring">Task 4: GuitarString</h2>
+
+<p>Finally, we want to flesh out <code class="highlighter-rouge">GuitarString</code>, which uses an <code class="highlighter-rouge">ArrayRingBuffer</code> to
+replicate the sound of a plucked string. We’ll be using the Karplus-Strong
+algorithm, which is quite easy to implement with a BoundedQueue.</p>
+
+<p>The Karplus-Algorithm is simply the following three steps:</p>
+
+<ol>
+  <li>Replace every item in a BoundedQueue with random noise (double values
+between -0.5 and 0.5).</li>
+  <li>Remove the front double in the BoundedQueue and average it with the next
+double in the BQ (hint: use <code class="highlighter-rouge">dequeue()</code> and <code class="highlighter-rouge">peek()</code>) multiplied by an
+energy decay factor of 0.996.</li>
+  <li>Play the double that you dequeued in step 2. Go back to step 2 (repeating
+forever).</li>
+</ol>
+
+<p>Or visually, if the BoundedQueue is as shown on the top, we’d dequeue the 0.2,
+combine it with the 0.4 to form 0.2988, enqueue the 0.2988, and play the 0.2.</p>
+
+<p><img src="karplus-strong.png" alt="karplus-strong" /></p>
+
+<p>You can play a double value with the <code class="highlighter-rouge">StdAudio.play</code> method. For example
+<code class="highlighter-rouge">StdAudio.play(0.333)</code> will tell the diaphragm of your speaker to extend itself to
+1/3rd of its total reach, <code class="highlighter-rouge">StdAudio.play(-0.9)</code> will tell it to stretch its little
+heart backwards almost as far as it can reach. Movement of the speaker diaphragm
+displaces air, and if you displace air in nice patterns, these disruptions will
+be intepreted by your consciousness as pleasing thanks to billions of years of
+evolution. See <a href="http://electronics.howstuffworks.com/speaker6.htm">this page</a>
+for more. If you simply do <code class="highlighter-rouge">StdAudio.play(0.9)</code> and never play anything again, the
+diaphragm shown in the image would just be sitting still 9/10ths of the way
+forwards.</p>
+
+<p>Rename <code class="highlighter-rouge">GuitarString.java.skeleton</code> to <code class="highlighter-rouge">GuitarString.java</code>. Complete
+<code class="highlighter-rouge">GuitarString.java</code> so that it implements steps 1 and 2 of the Karplus-Strong
+algorithm. Step 3 will be done by the client of the <code class="highlighter-rouge">GuitarString</code> class.</p>
+
+<p><em>Make sure to import javalib into your project, as usual, otherwise <code class="highlighter-rouge">StdAudio</code> won’t work</em>.</p>
+
+<p>For example, the provided <code class="highlighter-rouge">TestGuitarString</code> class provides a sample test
+<code class="highlighter-rouge">testPluckTheAString</code> that attempts to play an A-note on a guitar string. You
+should hear an A-note when you run this test. If you don’t, you should try the
+<code class="highlighter-rouge">testTic</code> method and debug from there. Consider adding a <code class="highlighter-rouge">print</code> or <code class="highlighter-rouge">toString</code>
+method to <code class="highlighter-rouge">GuitarString.java</code> that will help you see what’s going on between
+tics.</p>
+
+<h2 id="just-for-fun-ttfaf">Just For Fun: TTFAF</h2>
+
+<p>Once you’re relatively comfortable that GuitarString should be working, rename the rest
+of the <code class="highlighter-rouge">.java.skeleton</code> files to <code class="highlighter-rouge">.java</code> and try running <code class="highlighter-rouge">TTFAF</code>. <em>Make sure your sound is on!</em></p>
+
+<p>You can read the <code class="highlighter-rouge">GuitarPlayer</code> and <code class="highlighter-rouge">TTFAF</code> classes to figure out how they work. <code class="highlighter-rouge">TTFAF</code>
+in particular includes (as commented-out code) an example of how to use it another way.</p>
+
+<h4 id="guitarherolite">GuitarHeroLite</h4>
+
+<p>You should now also be able to use the <code class="highlighter-rouge">GuitarHero</code> class. Running it will provide
+an interface, allowing the user (you!) to interactively play sounds using the
+<code class="highlighter-rouge">synthesizer</code> package’s <code class="highlighter-rouge">GuitarString</code> class.</p>
+
+<p>Consider writing a program GuitarHero that is similar to GuitarHeroLite, but supports
+a total of 37 notes on the chromatic scale from 110Hz to 880Hz. Use the following
+37 keys to represent the keyboard, from lowest note to highest note:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">keyboard</span> <span class="o">=</span> <span class="s">"q2we4r5ty7u8i9op-[=zxdcfvgbnjmk,.;/' "</span><span class="o">;</span>
+</code></pre></div></div>
+
+<p>This keyboard arrangement imitates a piano keyboard: The “white keys” are on the
+qwerty and zxcv rows and the “black keys” on the 12345 and asdf rows of the
+keyboard.</p>
+
+<p>The ith character of the string keyboard corresponds to a frequency of $440
+\cdot 2^{(i - 24) / 12}$, so that the character ‘q’ is 110Hz, ‘i’ is 220Hz, ‘v’
+is 440Hz, and ‘ ‘ is 880Hz. Don’t even think of including 37 individual
+GuitarString variables or a 37-way if statement! Instead, create an array of 37
+GuitarString objects and use keyboard.indexOf(key) to figure out which key was
+typed. Make sure your program does not crash if a key is pressed that does not
+correspond to one of your 37 notes.</p>
+
+<p>This part of the assignment is not graded.</p>
+
+<h2 id="even-more-fun">Even More Fun</h2>
+
+<ul>
+  <li>Harp strings: Flipping the sign of the new value before enqueueing it in tic()
+will change the sound from guitar-like to harp-like. You may want to play with
+the decay factors to improve the realism, and adjust the buffer sizes by a
+factor of two since the natural resonance frequency is cut in half by the
+tic() change.</li>
+  <li>Drums: Flipping the sign of a new value with probability 0.5 before
+enqueueing it in tic() will produce a drum sound. A decay factor of 1.0 (no
+decay) will yield a better sound, and you will need to adjust the set of
+frequencies used.</li>
+  <li>Guitars play each note on one of 6 physical strings. To simulate this you can
+divide your GuitarString instances into 6 groups, and when a string is
+plucked, zero out all other strings in that group.</li>
+  <li>Pianos come with a damper pedal which can be used to make the strings
+stationary. You can implement this by, on iterations where a certain key
+(such as Shift) is held down, changing the decay factor.</li>
+  <li>While we have used equal temperament, the ear finds it more pleasing when
+musical intervals follow the small fractions in the just intonation system.
+For example, when a musician uses a brass instrument to play a perfect fifth
+harmonically, the ratio of frequencies is 3/2 = 1.5 rather than 27/12 ∼ 1.498.
+Write a program where each successive pair of notes has just intonation.</li>
+</ul>
+
+<p>This part of the assignment is not graded.</p>
+
+<h2 id="why-it-works">Why It Works</h2>
+<p>The two primary components that make the Karplus-Strong algorithm work are the
+ring buffer feedback mechanism and the averaging operation.</p>
+
+<ul>
+  <li>The ring buffer feedback mechanism. The ring buffer models the medium (a
+string tied down at both ends) in which the energy travels back and forth.
+The length of the ring buffer determines the fundamental frequency of the
+resulting sound. Sonically, the feedback mechanism reinforces only the
+fundamental frequency and its harmonics (frequencies at integer multiples of
+the fundamental). The energy decay factor (.996 in this case) models the
+slight dissipation in energy as the wave makes a round trip through the
+string.</li>
+  <li>The averaging operation. The averaging operation serves as a gentle low-pass
+filter (which removes higher frequencies while allowing lower frequencies to
+pass, hence the name). Because it is in the path of the feedback, this has
+the effect of gradually attenuating the higher harmonics while keeping the
+lower ones, which corresponds closely with how a plucked guitar string
+sounds.</li>
+</ul>
+
+<h2 id="task-5-iteration-and-exceptions">Task 5: Iteration and Exceptions</h2>
+
+<p>As an exercise in making your data structures more industrial strength, we’ll
+add the ability to iterate through a BoundedQueue and also ensure that it throws
+exceptions when given invalid inputs. We’ll cover these topics on Friday 2/16.</p>
+
+<h4 id="boundedqueue">BoundedQueue</h4>
+
+<p>First, modify your <code class="highlighter-rouge">BoundedQueue&lt;T&gt;</code> interface so that it <code class="highlighter-rouge">extends Iterable&lt;T&gt;</code>
+and add the required abstract method to the interface. You’ll need to import
+<code class="highlighter-rouge">java.util.Iterator</code>.</p>
+
+<h4 id="abstractboundedqueue">AbstractBoundedQueue</h4>
+
+<p>Consider your AbstractBoundedQueue. You don’t need to change anything in this
+class to support iteration. Make sure you understand why.</p>
+
+<h4 id="arrayringbuffer">ArrayRingBuffer</h4>
+
+<p>Now finally add the required <code class="highlighter-rouge">iterator()</code> method to <code class="highlighter-rouge">ArrayRingBuffer</code>. You’ll
+need to define a private class that implements the <code class="highlighter-rouge">Iterator</code> interface.
+<a href="https://docs.google.com/presentation/d/1LIz15B3VmMMhllz1t5HNo9gkOPTGgmAynHNEt6Rzng0">See lecture 14 for an example.</a>.</p>
+
+<h4 id="exceptions">Exceptions</h4>
+
+<p>Now modify <code class="highlighter-rouge">ArrayRingBuffer</code> so that it throws a <code class="highlighter-rouge">RuntimeException</code> with the
+String “Ring Buffer Overflow” when a user attempts to enqueue into a full
+<code class="highlighter-rouge">ArrayRingBuffer</code>, and “Ring Buffer Underflow” when a user attempts to deque an
+empty <code class="highlighter-rouge">ArrayRingBuffer</code>.</p>
+
+<!--
+<a id="exceptions"></a>Exceptions
+-----
+
+The original plan was to cover Exceptions in lecture on Monday, but it felt a
+bit forced. Consequently, you'll instead be introduced to them on this HW (or on
+pages HFJ) and we'll cover the nitty gritty on Wednesday. To throw an exception,
+one simply does the following:
+
+```java
+throw new RuntimeException("Some kind of message")
+```
+
+For example, suppose we want to write a method that takes an integer argument,
+and prints it as long as it is positive, but throws an exception otherwise. This
+method would be defined as follows:
+
+```java
+public static void printPositiveNumber(int x) {
+    if (x <= 0) {
+        throw new RuntimeException("Number should be positive.");
+    }
+    System.out.println(x);
+}
+```
+
+An example of code using exceptions can be found in the demo folder (you'll need
+to ```git pull skeleton master```).
+-->
+
+<h2 id="submission">Submission</h2>
+
+<p>You should submit the usual way, by pushing to GitHub and then submitting on
+Gradescope.</p>
+
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+
+<h4 id="my-abstractboundedqueue-wont-compile-because-boundedqueue-isnt-found">My AbstractBoundedQueue won’t compile because BoundedQueue isn’t found.</h4>
+
+<p>Look more closely at the AbstractBoundedQueue section of this assignment page
+for tips.</p>
+
+<h4 id="im-getting-a-class-file-contains-wrong-class-error">I’m getting a “class file contains wrong class” error.</h4>
+
+<p>Make sure all of your Java files have the right package declaration at the top.
+Also make sure that anything that is part of the synthesizer package is in the
+synthesizer folder.</p>
+
+<h4 id="im-getting-a-message-that-i-did-not-override-an-abstract-method-but-i-am">I’m getting a message that I did not override an abstract method, but I am!</h4>
+
+<p>Chances are you have a typo. You should always use the @Override tag when
+overriding methods so that the compiler will find any such typos.</p>
+
+<h4 id="im-getting--in-abstractboundedqueue-and--in-boundedqueue-have-the-same-erasure-yet-neither-overrides-the-other">I’m getting … in AbstractBoundedQueue and … in BoundedQueue have the same erasure, yet neither overrides the other.</h4>
+
+<p>Make sure your classes are defined as <code class="highlighter-rouge">AbstractBoundedQueue&lt;T&gt; implements
+BoundedQueue&lt;T&gt;</code> (or whatever type parameter you used instead of T).</p>
+
+<h4 id="when-i-try-to-run-the-provided-tests-i-get-no-runnable-methods">When I try to run the provided tests I get “No runnable methods”.</h4>
+
+<p>Make sure you’ve uncommented the tests, including the <code class="highlighter-rouge">@Test</code> annotation.</p>
+
+<h4 id="im-failing-the-nested-iteration-test-what-does-this-mean">I’m failing the nested iteration test. What does this mean?</h4>
+
+<p>Consider what happens when you run the following:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span><span class="o">[]</span> <span class="n">someInts</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]{</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">};</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">:</span> <span class="n">someInts</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="nl">y:</span> <span class="n">someInts</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"x: "</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span>  <span class="s">", y:"</span> <span class="o">+</span> <span class="n">y</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>And think about how your code is not doing what is listed above.</p>
+
+<h4 id="when-i-try-to-compile-my-code-it-says-type-k1-is-not-compatible-with-type-k2-or-something-similar">When I try to compile my code, it says type K#1 is not compatible with type K#2, or something similar.</h4>
+
+<p>If you’re defining an inner class, make sure it does not redeclare a new generic
+type parameter, e.g. the first <code class="highlighter-rouge">&lt;Z&gt;</code> given in <code class="highlighter-rouge">private class MapWizard&lt;Z&gt;
+implements Iterator&lt;Z&gt;{</code> should not be there!</p>
+
+<h4 id="im-getting-a-strange-autograder-error">I’m getting a strange autograder error!</h4>
+
+<p>While <code class="highlighter-rouge">GuitarString</code> is a guitar string simulator, it should not involve playing
+any sounds. The playing should be done by the <code class="highlighter-rouge">GuitarString</code> client.</p>
+
+<h4 id="do-i-need-to-implement-remove-from-the-iterator-interface">Do I need to implement <code class="highlighter-rouge">remove()</code> from the Iterator interface?</h4>
+<p>Classically, when you implement an interface, you need to write the actual
+definition of every declared method. However, it is not required for you to
+implement <code class="highlighter-rouge">default</code> methods, and in Java 8, <code class="highlighter-rouge">remove()</code> is a default method.</p>
+
+<p>Credits: RingBuffer figures from
+<a href="http://en.wikipedia.org/wiki/Circular_buffer">wikipedia</a>. This assignment
+adapted from <a href="http://nifty.stanford.edu/2012/wayne-guitar-heroine/">Kevin Wayne’s Guitar
+Heroine</a> assignment.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/hw/hw1/hw1 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:19:56 GMT -->
+</html>

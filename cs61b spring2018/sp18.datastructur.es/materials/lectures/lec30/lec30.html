@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec30/lec30 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Minimum Spanning Trees, Kruskal's, Prim's | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Minimum Spanning Trees, Kruskal's, Prim's</header><div class="due-date">Author: Josh Hug and Kartik Kapur</div><ul id="markdown-toc">
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#recommended-problems" id="markdown-toc-recommended-problems">Recommended Problems</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B level</a></li>
+      <li><a href="#a-level" id="markdown-toc-a-level">A level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Minimum Spanning Trees.</strong> Given an undirected graph, a spanning tree T is a
+subgraph of G, where T is connected, acyclic, includes all vertices. The minimum
+spanning tree is the spanning tree whose edge weights have the smallest sum.
+MSTs are similar to SPTs, but despite intuition suggesting it may be the case,
+for many graphs, the MST is not the SPT for any particular vertex. See
+<a href="thisgraph%20for%20an%20example%20of%20one%20for%20which%20the%20MST%20is%20a%20SPT.html">https://docs.google.com/presentation/d/1eZ6sCoAY8d-PAfyyTRG_EQ-BBNqxmTyJ2vS10ZzsGYg/edit#slide=id.g772f8a8e2_0_191</a>.</p>
+
+<p><strong>Cut Property.</strong> If you divide the vertices up into two sets S and T
+(arbitrarily), then a crossing edge is any edge which has one vertex in S and
+one in T. Neat fact (the cut property): The minimum crossing edge for ANY cut is
+part of the MST.</p>
+
+<p><strong>Prim’s Algorithm.</strong> One approach for finding the MST is as follows: Starting
+from any arbitrary source, repeatedly add the shortest edge that connects some
+vertex in the tree to some vertex outside the tree. If the MST is unique, then
+the result is independent of the source (doesn’t matter where we start). One
+student at office hours likened this to the game of
+<a href="Sharks%20and%20Minnows.html">http://www.wikihow.com/Play-Sharks-and-Minnows</a>, where you
+catch exactly one minnow during each iteration of the algorithm. Each time, the
+sharks get whichever minnow is closest to a shark.</p>
+
+<p>Yet another way of thinking about Prim’s algorithm is that it is basically just
+Dijkstra’s algorithm, but where we consider vertices in order of the distance
+from the entire tree, rather than from source. Or in pseudocode, we simply
+change relax so that it reads:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">relax</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">source</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">target</span>        
+    <span class="n">currentBestKnownWeight</span> <span class="o">=</span> <span class="n">distTo</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+    <span class="n">possiblyBetterWeight</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">weight</span> <span class="o">//</span> <span class="n">Only</span> <span class="n">difference</span><span class="err">!</span>
+    <span class="k">if</span> <span class="n">possiblyBetterWeight</span> <span class="o">&gt;</span> <span class="n">currentBestKnownWeight</span>
+        <span class="n">Use</span> <span class="n">e</span> <span class="n">instead</span> <span class="n">of</span> <span class="n">whatever</span> <span class="n">we</span> <span class="n">were</span> <span class="n">using</span> <span class="n">before</span>
+</code></pre></div></div>
+
+<p>Notice the difference is very subtle! Like Dijkstra’s, the runtime is O(E log
+V). We can prove that Prim’s works because of the cut property.</p>
+
+<p><strong>Kruskal’s Algorithm.</strong> As an alternate algorithm and as a showcasing of
+various data structures in the course, we also considered Kruskal’s algorithm
+for finding an MST. It performs the exact same task as Prim’s, namely finding an
+MST, albeit in a different manner. In pseudocode, Kruskal’s algorithm is simply:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Initialize</span> <span class="n">the</span> <span class="n">MST</span> <span class="n">to</span> <span class="n">be</span> <span class="n">empty</span>
+<span class="n">Consider</span> <span class="n">each</span> <span class="n">edge</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">INCREASING</span> <span class="n">order</span> <span class="n">of</span> <span class="n">weight</span><span class="p">:</span>
+    <span class="n">If</span> <span class="n">adding</span> <span class="n">e</span> <span class="n">to</span> <span class="n">the</span> <span class="n">MST</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">cycle</span><span class="p">,</span> <span class="n">add</span> <span class="n">it</span> <span class="n">to</span> <span class="n">e</span>
+</code></pre></div></div>
+
+<p>That’s it! The runtime for Kruskal’s, assuming that we already have all of our
+edges in a sorted list and use a weighted quick union with path compression to
+detect cycles, is O(E log*V), or (E log E) if we have use a PQ instead. See
+slides for more details. We can prove that Kruskal’s works because of the cut
+property.</p>
+
+<p>Completely unimportant technical note: We can actually make an even tighter
+bound than $O(E \log*V)$ if we use the inverse Ackermann bound for WQUPC.</p>
+
+<h2 id="recommended-problems">Recommended Problems</h2>
+
+<h3 id="c-level">C level</h3>
+
+<ol>
+  <li>
+    <p>Problem 2 from <a href="http://www.cs.princeton.edu/courses/archive/fall13/cos226/exams/fin-s08.pdf#page=3">Princeton’s Spring 2008 final</a></p>
+  </li>
+  <li>
+    <p>Would Kruskal or Prim’s algorithm work on a directed graph?</p>
+  </li>
+  <li>
+    <p>True or false: Adding a constant to every edge weight does not change the
+solution to the MST problem (assume unique edge weights).</p>
+  </li>
+  <li>
+    <p>True or false: Multiplying all edges weights with a constant does not change
+the solution to the MST problem (assume unique edge weights).</p>
+  </li>
+  <li>
+    <p>True or false: It is possible that the only Shortest Path Tree is the only Minimum Spanning Tree.</p>
+  </li>
+  <li>
+    <p>True or false: Prim’s Algorithm and Kruskal’s algorithm will always return the same result.</p>
+  </li>
+</ol>
+
+<h3 id="b-level">B level</h3>
+
+<ol>
+  <li>
+    <p>Adapted from Algorithms 4.3.8. Prove the following, known as the cycle
+property: Given any cycle in an edge weighted graph (all edge weights
+distinct), the edge of maximum weight in the cycle does not belong to the MST
+of the graph.</p>
+  </li>
+  <li>
+    <p>Problem 3 from <a href="http://www.cs.princeton.edu/courses/archive/fall13/cos226/exams/fin-f09.pdf#page=5">Princeton’s Fall 2009 final</a> (part d is pretty hard).</p>
+  </li>
+  <li>
+    <p>Problem 4 from <a href="http://www.cs.princeton.edu/courses/archive/fall13/cos226/exams/fin-f12.pdf#page=5">Princeton’s Fall 2012 final</a>.</p>
+  </li>
+  <li>
+    <p>Adapted from Algorithms 4.3.12. Suppose that a graph has distinct edge
+weights. Does its shortest edge have to belong to the MST? Can its longest
+edge belong to the MST? Does a min-weight edge on every cycle have to belong
+to the MST? Prove your answer to each question or give a counterexample.</p>
+  </li>
+  <li>
+    <p>Adapted from Algorithms 4.3.20. True or false: At any point during the
+execution of Kruskal’s algorithm, each vertex is closer to some vertex in its
+subtree than to any vertex not in its subtree. Prove your answer.</p>
+  </li>
+  <li>
+    <p>True or False: Given any two components that are generated as Kruskal’s
+algorithm is running (but before it has completed), the smallest edge
+connecting those two components is part of the MST.</p>
+  </li>
+  <li>
+    <p>Problem 11 from <a href="http://datastructur.es/sp15/materials/exams/fin-f14.pdf#page=13">my Fall 2014 final</a>.</p>
+  </li>
+  <li>
+    <p>Problem 13 from <a href="http://datastructur.es/sp15/materials/exams/fin-f14.pdf#page=15">my fall 2014 final</a>.</p>
+  </li>
+  <li>
+    <p>How would you find the Minimum Spanning Tree where you calculate the weight based off the product of the edges rather than the sum. You may assume that edge weights are &gt;1.</p>
+  </li>
+</ol>
+
+<h3 id="a-level">A level</h3>
+
+<ol>
+  <li>
+    <p>Problem 3 from <a href="http://www.cs.princeton.edu/courses/archive/fall13/cos226/exams/fin-s08.pdf#page=4">Princeton’s Spring 2008 final</a>.</p>
+  </li>
+  <li>
+    <p>Problem 5 from <a href="http://www.kartikkapur.com/documents/DataStructureDesign.pdf#page=2">Kartik’s Algorithm Worksheet</a>.</p>
+  </li>
+  <li>
+    <p>Rigorously prove the following: For any cut C, if the weight of any edge e is smaller than all the other edges across C, then this edge is part of the Minimum Spanning Tree.</p>
+  </li>
+  <li>
+    <p>Adapted from Textbook 4.3.26: An MST edge whose deletion from the graph would
+cause the MST weight to increase is called a critical edge. Show how to find
+all critical edges in a graph in time proportional to E log E . Note : This
+question assumes that edge weights are not necessarily distinct (otherwise
+all edges in the MST are critical).</p>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec30/lec30 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:31 GMT -->
+</html>

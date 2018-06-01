@@ -1,0 +1,285 @@
+<html>
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/12/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:54:19 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+	<title>Lab 12 - CS61C Spring 2018</title>
+	<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+<div class="header">
+    <div class='header-text'>
+	<h1>CS61C Spring 2018 Lab 12: MapReduce and Spark</h1>
+    </div>
+</div>
+
+<div class="content">
+
+<h2>Goals</h2>
+<ul>
+	<li>Get hands-on experience running MapReduce and gain a deeper understanding of the MapReduce paradigm.</li>
+    <li>Become more familiar with Apache Spark and get hands on experience with running Spark on a local installation.</li>
+    <li>Learn how to apply the MapReduce paradigm to Spark by implementing certain problems/algorithms in Spark.</li>
+</ul>
+
+
+<h2>Setup</h2>
+<p>Copy the lab files from the instructional servers to your lab account with</p>
+  <pre class="output">$ <span class="input">cp -r ~cs61c/labs/12/ ~/labs/12/</span></pre>
+<p>You will also be working with Spark (in Python!), so you may need to brush up a bit on your Python!</p>
+<p><b> IMPORTANT: to be able to run Spark, you must create a virtual environment using the correct version of Python. This can be done as such:</b></p> 
+<pre class='output'>
+$ <span class='input'>conda create --name lab12env python=2.7</span>
+</pre>
+<p><b>Respond to the prompt to install packages with "y" (with no quotes). You can (and should) ignore any warnings about conda being out of date. You might have to wait for a bit for these to install. Finally, run the following command to activate the virtual environment: </b></p>
+<pre class='output'>
+$ <span class='input'>source activate lab12env </span>
+</pre>
+
+<p><b> This will put you in a virtual environment needed for this lab. Please remember that if you exit the virtual environment and want to return to work on the lab, you must re-run "source activate lab12env" first for Spark to work</b></p>
+
+<h2>Background Information</h2>
+<p>In lecture we've exposed you to cluster computing (in particular, the MapReduce framework), how it is set up and executed, but now it's time to get some hands-on experience running programs with a cluster computing framework!</p>
+
+<p>In this lab, we will be introuducing you to a cluster computing framework called Spark. Spark was developed right here at Berkeley before being donated to the Apache Software Foundation in 2013. We will be writing Python code to run in Spark to give us some practice in writing Map and Reduce routines.</li>
+<p><a href="http://spark.apache.org/">Spark</a> has it's own website, so you are free to try to install it onto your local machines, although it may be easier to ssh into the lab computers to complete this lab.
+
+<h3>Avoid Global Variables</h3>
+<p>When using Spark, avoid using global variables!
+This defeats the purpose of having multiple tasks running in parallel and creates a bottleneck when multiple tasks try to access the same global variable.
+As a result, most algorithms will be implemented without the use of global variables.
+<!--
+<h3>How to run Spark via the command line</h3>
+<p>For this lab we will be providing you all with a Makefile that will help you run your Spark files, but should you create your own new files (or use Spark outside of this class, which you should!), you will need to know how to run Spark via the command line.
+For our version of Spark (which is 1.1.0), in order to run your Spark file xxx.py (similar to how  you run your Python files with python xxx.py), you just run the following command:</p>
+<pre class='output'>
+$ <span class='input'>spark-submit xxx.py </span><span style="color:#666666;"># Runs the Spark file xxx.py</span>
+</pre>
+<p>If your Spark file takes in arguments (much like the Spark files we have provided), the command will be similar, but you will instead add however any arguments that you need, like so:</p>
+<pre class='output'>
+$ <span class='input'>spark-submit xxx.py arg1 arg2 </span><span style="color:#666666;"># Runs the Spark file xxx.py and passes in arg1 and arg2 to xxx.py</span>
+</pre>
+<p>Spark also includes this neat interpreter that runs with Python 2.7.3 and will let you test out any of your Spark commands right in the interpreter! The interpreter also takes in files (pass in the file with py-files flag) and will load your file in the same directory as the executable.
+If you are looking to just run the interpreter, the command is as follows:</p>
+<pre class='output'>
+$ <span class='input'>pyspark </span><span style="color:#666666;"># Runs the Spark interpreter. Feel free to test stuff out here!</span>
+</pre>
+<p>If you want to preload some files (say a.py, b.py, c.py), you can run the following command:</p>
+<pre class='output'>
+$ <span class='input'>pyspark py-files a.py, b.py, c.py </span><span style="color:#666666;"># Runs the Spark interpreter and you can now import stuff from a, b, and c!</span>
+</pre>
+<h3>Spark Debugging Quick-tips</h3>
+<p>If you ever find yourself wondering why your output is strange or something breaks when you run your Spark files, remember these few quick-tips!</p>
+  <ul>
+    <li>Make use of the <a href="http://spark.apache.org/docs/latest/api/python/pyspark.html?highlight=take#pyspark.RDD.take">take</a> function!
+        The take function can be run on any RDD object (so any object you are trying to parallelize or have run any transformation / action functions on, you will read about this later).
+        This function takes in one argument <tt>num</tt>, which is an integer and it will return back to you the first <tt>num</tt> elements inside of your RDD object.
+        For more information about this, check out the documentation on take.</li>
+    <li>You can also test out your functions (map, reduce, etc) inside of the Spark interpreter (pyspark, mentioned above).
+        Simply import the function you want to test out in pyspark (explained above) and you will be able to run this function and check if the output is what you expected!
+        Here is a short example from wordcount.py:
+    </li>
+  <br>
+  <pre class='output'>
+  $ <span class='input'>pyspark py-files wordcount.py </span><span style="color:#666666;"># Run the pyspark interpreter with the wordcount.py file in the executable's directory</span>
+  &gt;&gt;&gt; <span class='input'>from wordcount import flat_map </span><span style="color:#666666;"># Import the function you want to test out, in this case, flat_map</span>
+  &gt;&gt;&gt; <span class='input'>file = sc.sequenceFile("/home/ff/cs61c/data/billOfRights.txt.seq") </span><span style="color:#666666;"># Load up the sequence file billOfRights.txt.seq</span>
+  &gt;&gt;&gt; <span class='input'>file.take(5) </span><span style="color:#666666;"># Returns back to you the first 5 elements in billOfRights.txt.seq</span>
+  <span class='input'>[(&lt;doc_name_1&gt;, &lt;text 1&gt;), (&lt;doc_name_2&gt;, &lt;text 2&gt;), ..., (&lt;doc_name_5&gt;, &lt;text 5&gt;)]</span>
+  &gt;&gt;&gt; <span class='input'>flat_map_output = file.flatMap(flat_map) </span><span style="color:#666666;"># Run the imported function flat_map on the file</span>
+  &gt;&gt;&gt; <span class='input'>flat_map_output.take(5) </span><span style="color:#666666;"># Return back the first 5 words in your document.</span>
+  <span class='input'>[u'Amendment', u'I', u'Congress', u'shall', u'make']</span></pre>
+  </ul>
+
+-->
+<h3>Documentation, and Additional Resources</h3>
+<ul>
+    <li>A quickstart programming guide for Spark (click the Python tab to see the Python code) is avaiable <a href="http://spark.apache.org/docs/latest/rdd-programming-guide.html">here</a>!</li>
+    <li>The version of Spark we will be using will be 1.1.0 and the link to the API documentation is available <a href="http://spark.apache.org/docs/latest/api/python/index.html">here</a> (Note that the docs say version 1.6.2, but the versions are compatible).</li>
+</ul>
+
+
+<h2>Exercises</h2>
+
+<p><b>Note: Different exercises may be solvable or needed to be solved by reconsidering how map(), flat_map() and reduce() are  implemented and called and in which order, so keep this in mind when calling whichever you must use</b></p>
+<p>The following exercises use three different sample input files, two of which are provided by the staff and can be found in <tt>~cs61c/data</tt>:</p>
+<ol>
+	<li><tt>billOfRights.txt.seq</tt> -- the 10 Amendments split into separate documents (a very small input)</li>
+	<li><tt>complete-works-mark-twain.txt.seq</tt> -- The Complete Works of Mark Twain (a medium-sized input)</li>
+</ol>
+
+<p>Notice the <tt>.seq</tt> extension, which signifies a sequence file that is readable by Spark. These are NOT human-readable. Spark supports other input formats, but you will not need to worry about that for this lab. To get a sense of the texts you'll be using, simply drop the <tt>.seq</tt> portion to view the text file (i.e. <tt>~cs61c/data/billOfRights.txt</tt>).</p>
+
+<p>Although an exercise may not explicitly ask you to use it, we recommend testing your code on the billOfRights data set first in order to verify correct behavior and help you debug.</p>
+
+<p>We recommend deleting output directories when you have completed the lab, so you don't run out of your <a href="https://inst.eecs.berkeley.edu/cgi-bin/pub.cgi?file=disk.quotas">500MB of disk quota</a>. You can do this by running:</p>
+
+<pre class='output'>
+$ <span class='input'>make destroy-all</span>
+</pre>
+
+<p>Please be careful with this command as it will delete all outputs generated in this lab.</p>
+
+<h3>Exercise 0: Generating an Input File for Spark</h3>
+<p>For this exercise you will need the <tt><a href="Makefile.html">Makefile</a></tt> and <tt><a href="Importer.java">Importer.java</a></tt>.
+In this lab, we'll be working heavily with textual data.
+We have some pre-generated datasets as indicated above, but it's always more fun to use a dataset that you find interesting.
+This section of the lab will walk you through generating your own dataset using works from Project Gutenberg (a database of public-domain literary works).</p>
+
+<p>Step 1: Head over to <a href="http://gutenberg.org/">Project Gutenberg</a>, pick a work of your choosing, and download the "Plain Text UTF-8" version into your lab directory.</p>
+
+<p>Step 2: Open up the file you downloaded in your favorite text editor and insert &quot;---END.OF.DOCUMENT---&quot; (without the quotes) by itself on a new line wherever you want Spark to split the input file into separate (key, value) pairs.
+The importer we're using will assign an arbitrary key (like &quot;doc_xyz&quot;) and the value will be the contents of our input file between two &quot;---END.OF.DOCUMENT---&quot; markers.
+You'll want to break the work into reasonably-sized chunks, but don't spend too much time on this part (chapters/sections within a single work or individual works in a body of works are good splitting points).</p>
+
+<p>Step 3: Now, we're going to run our Importer to generate a .seq file that we can pass into the Spark programs we'll write.
+The importer is actually a MapReduce program, written using Hadoop!
+You can take a look at Importer.java if you want, but the implementation details aren't important for this part of the lab.
+You can generate your input file like so:</p>
+
+<pre class='output'>
+$ <span class='input'>make generate-input myinput=YOUR_FILE_FROM_STEP_2.txt</span>
+</pre>
+
+<p>Your generated .seq file can now be found in the convertedOut directory in your lab12 directory.
+Throughout the rest of this lab, you'll be able to run the mapreduce programs we write using <tt>make</tt> commands.
+The <tt>make</tt> commands will be of the form <tt>make PROGRAMNAME-INPUTSIZE</tt>.
+If you wish to try out the input file you generated here, you can instead run: </p>
+
+
+<pre class='output'>
+$ <span class='input'>make PROGRAMNAME myinput=YOUR_SEQ_FILE_FROM_STEP_3.txt.seq</span> <span style="color:#666666;"># Output in wc-out-PROGRAMNAME/ directory</span>
+</pre>
+
+
+<h3>Exercise 1: Running Word Count</h3>
+<p>For this exercise you will need the <tt><a href="Makefile.html">Makefile</a></tt> and already-completed <tt><a href="wordcount.py">wordcount.py</a></tt>. You can run it on our desired input using a convenient <tt>make</tt> command:</p>
+
+<pre class='output'>
+$ <span class='input'>make sparkwc-small</span>
+</pre>
+
+<p>This will run <tt>wordcount.py</tt> over <tt>billOfRights.txt.seq</tt>. Your output should be visible in <tt>wc-out-wordcount-small/part-00000</tt>.
+
+<p>Next, try your code on the larger input file <tt>complete-works-mark-twain.txt.seq</tt>.
+One interesting feature of Spark is that it is an in-memory distributed computing engine, so it has no default file storage. Instead, we use <a href="http://hadoop.apache.org/">
+Hadoop</a> Distributed File System (HDFS) to help store our output. You are welcome to read more about Hadoop on your own.
+In general, Hadoop requires that the output directory not exist when a MapReduce job is executed, however our Makefile takes care of this by removing our old output directory.
+
+<pre class='output'>
+$ <span class='input'>make sparkwc-medium</span>
+</pre>
+
+<p>Your output for this command will be located in the <tt>spark-wc-out-wordcount-medium</tt> directory. Search through the file for a word like &quot;the&quot; to get a better understanding of the output. 
+
+<h3>Exercise 2: Document Word Count</h3>
+<p>Open <tt><a href="docwordcount.py">docwordcount.py</a></tt>.
+Notice that it currently contains the same code as <tt>wordcount.py</tt>, which you just tried for yourself.
+Modify it to <b>count the number of documents containing each word</b> rather than the number of times each word occurs in the input. </p>
+
+<p> To help you with understanding the code, we have added some comments, but
+feel free to check out <a href="http://spark.apache.org/docs/latest/rdd-programming-guide.html#transformations">transformations</a>
+and <a href="http://spark.apache.org/docs/latest/rdd-programming-guide.html#actions">actions</a>
+on the Spark website for a more detailed explanation on some of the methods
+that can be used in Spark.</p>
+
+<p>
+In this part, you may find it useful to look at the transformations and actions
+link provided above, as there are methods that you can use to help sort an
+output or remove duplicate items.  To help with distinguishing when a word
+appears in a document, you may want to make use of the document ID as well --
+this is mentioned in the comments of flatMapFunc. Just because we gave you an
+outline doesn't mean you need to stick to it, feel free to add/remove
+transformations to the RDD as you see fit.  You're also  encouraged to rename
+functions to more useful titles.
+</p>
+
+<p> Finally, make sure the output is sorted in alphabetical order. (Hint: Is there another transformation you can use?)</p>
+
+<p>You can test <tt>docwordcount.py</tt> using either of the following (for our two data sets):</p>
+
+<pre class='output'>
+$ <span class='input'>make sparkdwc-small </span> <span style="color:#666666;"># Output in spark-wc-out-docwordcount-small/</span>
+</pre>
+
+<p>OR</p>
+
+<pre class='output'>
+$ <span class='input'>make sparkdwc-medium </span><span style="color:#666666;"># Output in spark-wc-out-docwordcount-medium/</span>
+</pre>
+
+<br/>
+<div class='checkoff'>
+<h4>Check-off</h4>
+<ul>
+	<li>Explain your modifications to <tt>docwordcount.py</tt> to your TA.</li>
+	<li>Show your output for <tt>billOfRights</tt> (aka the output for running <tt>make docwordcount-small)</tt>.
+	    In particular, what values did you get for "Amendment", "the", and "arms"?  Do these values make sense?</li>
+</ul>
+</div>
+
+<h3>Exercise 3: Full Text Index Creation</h3>
+<p>Open <tt><a href="index.py">index.py</a></tt>.
+Notice that the code is similar to <tt>docwordcount.py</tt>.
+Modify it to output every word and a list of locations (document identifier followed by the word index of EACH time that word appears in that document).
+Make sure your word indices start at zero.
+Your output should have lines that look like the following (minor line formatting details don't matter):</span>
+</p>
+
+<pre>
+(word1	document1-id, word# word# ...)
+(word1	document2-id, word# word# ...)
+. . .
+(word2	document1-id, word# word# ...)
+(word2	document3-id, word# word# ...)
+. . .
+</pre>
+
+<p>Notice that there will be a line of output for EACH document in which that word appears and EACH word and document pair should only have ONE list of indices.
+Remember that you need to also keep track of the document ID as well.
+</p>
+
+<p>For this exercise, you may not need all the functions we have provided.
+If a function is not used, feel free to remove the method that is trying to call it.
+Make sure your output for this is sorted as well (just like in the previous exercise).
+</p>
+
+<p>You can test index by using either of the following commands (for our two data sets):</p>
+
+<pre class='output'>
+$ <span class='input'>make index-small </span><span style="color:#666666;"># Output in spark-wc-out-index-small/</span>
+</pre>
+
+<p>OR</p>
+
+<pre class='output'>
+$ <span class='input'>make index-medium </span><span style="color:#666666;"># Output in spark-wc-out-index-medium/</span>
+</pre>
+
+<p>The output from running <tt>make index-medium</tt> will be a large file.
+In order to more easily look at its contents, you can use the commands <tt>cat</tt>, <tt>head</tt>, <tt>more</tt>, and <tt>grep</tt>:</p>
+
+<pre class='output'>
+$ <span class='input'>head -25 OUTPUTFILE</span>       <span style="color:#666666;"># view the first 25 lines of output</span>
+$ <span class='input'>cat OUTPUTFILE | more</span>     <span style="color:#666666;"># scroll through output one screen at a time (use Space)</span>
+$ <span class='input'>cat OUTPUTFILE | grep the</span> <span style="color:#666666;"># output only lines containing 'the' (case-sensitive)</span>
+</pre>
+
+<p>Make sure to verify your output.
+Open <tt>complete-works-mark-twain.txt</tt> and pick a few words.
+Manually count a few of their word indices and make sure they all appear in your output file.
+
+<div class='checkoff'>
+<h4>Check-off</h4>
+<ol>
+	<li>Explain your code in <tt>index.py</tt> to your TA.</li>
+	<li>Show your TA the first page of your output for the word &quot;Mark&quot; in <tt>complete-works-mark-twain.txt.seq</tt> to verify correct output. You can do this by running: <tt>cat wc-out-index-medium/part-00000 | grep Mark | less</tt> </li>
+</ol>
+</div>
+
+
+</div>
+</body>
+
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/12/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:54:20 GMT -->
+</html>

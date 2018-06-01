@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/lab/lab08/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+Lab 8: Midterm Review | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Lab 8: Midterm Review
+
+        
+        <ul class="inline-block list-inline">
+          <li><a href="lab08.zip" class="label label-outline">lab08.zip</a></li>
+        </ul>
+        
+      </h1>
+    </header>
+    
+
+<p><i>Due at 11:59pm on Friday, 03/16/2018.</i></p>
+
+
+<h2 id='starter-files'>Starter Files</h2>
+
+
+<p>Download <a href="lab08.zip">lab08.zip</a>.
+Inside the archive, you will find starter files for the questions in this lab,
+  along with a copy of the <a href="ok.zip">Ok</a> autograder.</p>
+
+
+<h2 id='submission'>Submission</h2>
+
+<p>By the end of this lab, you should have submitted the lab with
+<code>python3 ok --submit</code>. You may submit more than once before the
+deadline; only the final submission will be graded.
+Check that you have successfully submitted your code on
+<a href="https://okpy.org/">okpy.org</a>.</p>
+
+<ul>
+  <li>To receive credit for this lab, you must complete Questions 1 and 2 and submit
+  through Ok. Question 1 can be found in <a href="lab08.py">lab08.py</a>.</li>
+  <li>The remaining questions are <em>extra practice</em>. They can be found in the
+  <a href="lab08_extra.py">lab08_extra.py</a> file. It is recommended that you complete
+  these problems after finishing the required portion.</li>
+  <li>In order to facilitate midterm studying, solutions to this lab will be released
+  on Wednesday, March 14. We encourage you to try out the problems and struggle
+  for a while before looking at the solutions!</li>
+</ul>
+
+
+
+    
+<h1 id="required-questions">Required Questions</h1>
+
+
+
+<h2 id="linked-lists">Linked Lists</h2>
+
+
+<h3 class="question" id="q1">Q1: Deep Linked List Length</h3>
+
+<p>A linked list that contains one or more linked lists as elements is called a
+<em>deep</em> linked list. Write a function <code>deep_len</code> that takes in a (possibly deep)
+linked list and returns the <em>deep length</em> of that linked list, which consists
+of the number of non-Link elements in the linked list and the sum of the deep
+length of all linked lists elements. See the function's doctests for examples
+of the deep length of linked lists.</p>
+
+<blockquote><p><strong>Hint:</strong> Use <code>isinstance</code> to check if something is an instance of an object.</p></blockquote>
+
+
+
+<pre><code>def deep_len(lnk):
+    &quot;&quot;&quot; Returns the deep length of a possibly deep linked list.
+
+    &gt;&gt;&gt; deep_len(Link(1, Link(2, Link(3))))
+    3
+    &gt;&gt;&gt; deep_len(Link(Link(1, Link(2)), Link(3, Link(4))))
+    4
+    &gt;&gt;&gt; levels = Link(Link(Link(1, Link(2)), \
+            Link(3)), Link(Link(4), Link(5)))
+    &gt;&gt;&gt; print(levels)
+    &lt;&lt;&lt;1 2&gt; 3&gt; &lt;4&gt; 5&gt;
+    &gt;&gt;&gt; deep_len(levels)
+    5
+    &quot;&quot;&quot;
+<div class="alt solution-1">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-1">&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6c;&#x6e;&#x6b;&#x20;&#x69;&#x73;&#x20;&#x4c;&#x69;&#x6e;&#x6b;&#x2e;&#x65;&#x6d;&#x70;&#x74;&#x79;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x69;&#x66;&#x20;&#x6e;&#x6f;&#x74;&#x20;&#x69;&#x73;&#x69;&#x6e;&#x73;&#x74;&#x61;&#x6e;&#x63;&#x65;&#x28;&#x6c;&#x6e;&#x6b;&#x2c;&#x20;&#x4c;&#x69;&#x6e;&#x6b;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x64;&#x65;&#x65;&#x70;&#x5f;&#x6c;&#x65;&#x6e;&#x28;&#x6c;&#x6e;&#x6b;&#x2e;&#x66;&#x69;&#x72;&#x73;&#x74;&#x29;&#x20;&#x2b;&#x20;&#x64;&#x65;&#x65;&#x70;&#x5f;&#x6c;&#x65;&#x6e;&#x28;&#x6c;&#x6e;&#x6b;&#x2e;&#x72;&#x65;&#x73;&#x74;&#x29;</div></code></pre>
+
+
+        <button id='solution-1' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q deep_len</code></pre>
+
+
+<h2 id="orders-of-growth">Orders of Growth</h2>
+
+
+<h3 class="question" id="q2">Q2: Finding Orders of Growth</h3>
+
+<blockquote><p>Use Ok to test your knowledge with the following questions:</p>
+
+<pre><code>python3 ok &#x2d;q growth &#x2d;u</code></pre>
+
+<p>Be sure to ask a lab assistant or TA if you don't understand the correct
+answer!</p></blockquote>
+
+<p>What is the order of growth of <code>is_prime</code> in terms of <code>n</code>?</p>
+
+<pre><code>def is_prime(n):
+    for i in range(2, n):
+        if n % i == 0:
+            return False
+    return True</code></pre>
+
+<div class="solution solution-2">
+&theta;(<em>n</em>).
+
+<p><em>Explanation</em>: The body of the for loop is executed <em>n</em> - 2 times. Each
+iteration takes constant time (one conditional check and one return statement).
+Therefore, the total time is (<em>n</em> - 2) x &theta;(1), or simply &theta;(<em>n</em>).
+</div>
+        <button id='solution-2' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        </p>
+
+<p>What is the order of growth of <code>bar</code> in terms of <code>n</code>?</p>
+
+<pre><code>def bar(n):
+    i, sum = 1, 0
+    while i &lt;= n:
+        sum += biz(n)
+        i += 1
+    return sum
+
+def biz(n):
+    i, sum = 1, 0
+    while i &lt;= n:
+        sum += i**3
+        i += 1
+    return sum</code></pre>
+
+<div class="solution solution-3">
+&theta;(<em>n<sup>2</sup></em>).
+
+<p><em>Explanation</em>: The body of the while loop in <code>bar</code> is executed <em>n</em>
+times. Each iteration, one call to <code>biz(n)</code> is made. Note that <em>n</em> never
+changes, so this call takes the same time to run each iteration. Taking a look at
+<code>biz</code>, we see that there is another while loop. Be careful to note that
+although the term being added to <code>sum</code> is cubed (<code>i**3</code>), <code>i</code> itself is only
+incremented by 1 in each iteration. This tells us that this while loop also
+executes <em>n</em> times, with each iteration taking constant time , so the total
+time of <code>biz(n)</code> is <em>n</em> x &theta;(1), or &theta;(<em>n</em>). Knowing the runtime of
+<code>biz(n)</code>, we can conclude that each iteration of the while loop in <code>bar</code> takes
+&theta;(<em>n</em>). Therefore, the total runtime of <code>bar(n)</code> is <em>n</em> x &theta;(<em>n</em>).
+</div>
+        <button id='solution-3' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        </p>
+
+<p>What is the order of growth of <code>foo</code> in terms of <code>n</code>, where <code>n</code> is the length
+of <code>lst</code>? Assume that slicing a list and calling <code>len</code> on a list can both be
+done in constant time.</p>
+
+<pre><code>def foo(lst, i):
+    mid = len(lst) // 2
+    if mid == 0:
+        return lst
+    elif i &gt; 0:
+        return foo(lst[mid:], &#x2d;1)
+    else:
+        return foo(lst[:mid], 1)</code></pre>
+
+<div class="solution solution-4">
+&theta;(log(<em>n</em>)).
+
+<p><em>Explanation</em>: A single recursive call is made in the body of <code>foo</code> on half the
+input list (either the first half or the second half depending on the input
+flag <code>i</code>). The base case is executed when the list either is empty or has only
+one element. We start with an <em>n</em> element list and halve the list until there
+is at most 1 element, which means there will be log(<em>n</em>) total calls. Each
+call, constant work is done if we ignore the recursive call. The total runtime
+is then log(<em>n</em>) * &theta;(1).</p>
+
+<p><em>Note</em>: We simplified this problem by assuming that slicing a list takes
+constant time. In reality, this operation is a bit more nuanced and may take
+linear time. As an additional exercise, try determining the order of growth
+of this function if we assuming slicing takes linear time.
+</div>
+        <button id='solution-4' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        </p>
+
+
+<h1 id="optional-questions">Optional Questions</h1>
+
+
+
+<h2 id="objects">Objects</h2>
+
+
+<h3 class="question" id="q3">Q3: WWPP: Methods</h3>
+
+<blockquote><p>Use Ok to test your knowledge with the following "What Would Python Print?"
+questions:</p>
+
+<pre><code>python3 ok &#x2d;q foobar &#x2d;u</code></pre>
+
+<p><em>Hint</em>: Remember for all WWPP questions, enter <code>Function</code> if you believe the
+answer is <code>&lt;function ...&gt;</code> and <code>Error</code> if it errors.</p></blockquote>
+
+<pre><code>&gt;&gt;&gt; class Foo:
+...     def print_one(self):
+...         print(&#x27;foo&#x27;)
+...     def print_two():
+...         print(&#x27;foofoo&#x27;)
+&gt;&gt;&gt; f = Foo()
+&gt;&gt;&gt; f.print_one()
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x66;&#x6f;&#x6f;</div>
+&gt;&gt;&gt; f.print_two()
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x45;&#x72;&#x72;&#x6f;&#x72;</div>
+&gt;&gt;&gt; Foo.print_two()
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x66;&#x6f;&#x6f;&#x66;&#x6f;&#x6f;</div>
+&gt;&gt;&gt; class Bar(Foo):
+...     def print_one(self):
+...         print(&#x27;bar&#x27;)
+&gt;&gt;&gt; b = Bar()
+&gt;&gt;&gt; b.print_one()
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x62;&#x61;&#x72;</div>
+&gt;&gt;&gt; Bar.print_two()
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x66;&#x6f;&#x6f;&#x66;&#x6f;&#x6f;</div>
+&gt;&gt;&gt; Bar.print_one = lambda x: print(&#x27;new bar&#x27;)
+&gt;&gt;&gt; b.print_one()
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x6e;&#x65;&#x77;&#x20;&#x62;&#x61;&#x72;</div></code></pre>
+        <button id='prompt-1' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<h3 class="question" id="q4">Q4: WWPP: Attributes</h3>
+
+<blockquote><p>Use Ok to test your knowledge with the following "What Would Python Print?"
+questions:</p>
+
+<pre><code>python3 ok &#x2d;q attributes &#x2d;u</code></pre>
+
+<p><em>Hint</em>: Remember for all WWPP questions, enter <code>Function</code> if you believe the
+answer is <code>&lt;function ...&gt;</code> and <code>Error</code> if it errors.</p></blockquote>
+
+<pre><code>&gt;&gt;&gt; class Foo:
+...     a = 10
+...     def __init__(self, a):
+...         self.a = a
+&gt;&gt;&gt; class Bar(Foo):
+...     b = 1
+&gt;&gt;&gt; a = Foo(5)
+&gt;&gt;&gt; b = Bar(2)
+&gt;&gt;&gt; a.a
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x35;</div>
+&gt;&gt;&gt; b.a
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x32;</div>
+&gt;&gt;&gt; Foo.a
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x31;&#x30;</div>
+&gt;&gt;&gt; Bar.b
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x31;</div>
+&gt;&gt;&gt; Bar.a
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x31;&#x30;</div>
+&gt;&gt;&gt; b.b
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x31;</div>
+&gt;&gt;&gt; Foo.c = 15
+&gt;&gt;&gt; Foo.c
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x31;&#x35;</div>
+&gt;&gt;&gt; a.c
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x31;&#x35;</div>
+&gt;&gt;&gt; b.c
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x31;&#x35;</div>
+&gt;&gt;&gt; Bar.c
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x31;&#x35;</div>
+&gt;&gt;&gt; b.b = 3
+&gt;&gt;&gt; b.b
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x33;</div>
+&gt;&gt;&gt; Bar.b
+<div class="alt prompt-2">______</div><div class="solution prompt-2">&#x31;</div></code></pre>
+        <button id='prompt-2' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<h3 class="question" id="q5">Q5: Keyboard</h3>
+
+<p>We'd like to create a <code>Keyboard</code> class that takes in an arbitrary
+number of <code>Button</code>s and stores these <code>Button</code>s in a dictionary. The
+keys in the dictionary will be ints that represent the postition on the
+<code>Keyboard</code>, and the values will be the respective <code>Button</code>. Fill out
+the methods in the <code>Keyboard</code> class according to each description,
+using the doctests as a reference for the behavior of a <code>Keyboard</code>.</p>
+
+
+
+<pre><code>class Keyboard:
+    &quot;&quot;&quot;A Keyboard takes in an arbitrary amount of buttons, and has a
+    dictionary of positions as keys, and values as Buttons.
+
+    &gt;&gt;&gt; b1 = Button(0, &quot;H&quot;)
+    &gt;&gt;&gt; b2 = Button(1, &quot;I&quot;)
+    &gt;&gt;&gt; k = Keyboard(b1, b2)
+    &gt;&gt;&gt; k.buttons[0].key
+    &#x27;H&#x27;
+    &gt;&gt;&gt; k.press(1)
+    &#x27;I&#x27;
+    &gt;&gt;&gt; k.typing([0, 1])
+    &#x27;HI&#x27;
+    &gt;&gt;&gt; k.typing([1, 0])
+    &#x27;IH&#x27;
+    &gt;&gt;&gt; b1.pressed
+    2
+    &gt;&gt;&gt; b2.pressed
+    3
+    &quot;&quot;&quot;
+
+    def __init__(self, *args):
+<div class="alt solution-5">        "*** YOUR CODE HERE ***"
+</div><div class="solution solution-5">&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x73;&#x65;&#x6c;&#x66;&#x2e;&#x62;&#x75;&#x74;&#x74;&#x6f;&#x6e;&#x73;&#x20;&#x3d;&#x20;&#x7b;&#x7d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x62;&#x75;&#x74;&#x74;&#x6f;&#x6e;&#x20;&#x69;&#x6e;&#x20;&#x61;&#x72;&#x67;&#x73;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x73;&#x65;&#x6c;&#x66;&#x2e;&#x62;&#x75;&#x74;&#x74;&#x6f;&#x6e;&#x73;&#x5b;&#x62;&#x75;&#x74;&#x74;&#x6f;&#x6e;&#x2e;&#x70;&#x6f;&#x73;&#x5d;&#x20;&#x3d;&#x20;&#x62;&#x75;&#x74;&#x74;&#x6f;&#x6e;</div>
+    def press(self, info):
+        &quot;&quot;&quot;Takes in a position of the button pressed, and
+        returns that button&#x27;s output&quot;&quot;&quot;
+<div class="alt solution-5">        "*** YOUR CODE HERE ***"
+</div><div class="solution solution-5">&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x69;&#x6e;&#x66;&#x6f;&#x20;&#x69;&#x6e;&#x20;&#x73;&#x65;&#x6c;&#x66;&#x2e;&#x62;&#x75;&#x74;&#x74;&#x6f;&#x6e;&#x73;&#x2e;&#x6b;&#x65;&#x79;&#x73;&#x28;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x62;&#x20;&#x3d;&#x20;&#x73;&#x65;&#x6c;&#x66;&#x2e;&#x62;&#x75;&#x74;&#x74;&#x6f;&#x6e;&#x73;&#x5b;&#x69;&#x6e;&#x66;&#x6f;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x62;&#x2e;&#x70;&#x72;&#x65;&#x73;&#x73;&#x65;&#x64;&#x20;&#x2b;&#x3d;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x62;&#x2e;&#x6b;&#x65;&#x79;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x27;&#x27;</div>
+    def typing(self, typing_input):
+        &quot;&quot;&quot;Takes in a list of positions of buttons pressed, and
+        returns the total output&quot;&quot;&quot;
+<div class="alt solution-5">        "*** YOUR CODE HERE ***"
+</div><div class="solution solution-5">&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x61;&#x63;&#x63;&#x75;&#x6d;&#x75;&#x6c;&#x61;&#x74;&#x65;&#x20;&#x3d;&#x20;&#x27;&#x27;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x70;&#x6f;&#x73;&#x20;&#x69;&#x6e;&#x20;&#x74;&#x79;&#x70;&#x69;&#x6e;&#x67;&#x5f;&#x69;&#x6e;&#x70;&#x75;&#x74;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x61;&#x63;&#x63;&#x75;&#x6d;&#x75;&#x6c;&#x61;&#x74;&#x65;&#x2b;&#x3d;&#x73;&#x65;&#x6c;&#x66;&#x2e;&#x70;&#x72;&#x65;&#x73;&#x73;&#x28;&#x70;&#x6f;&#x73;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x61;&#x63;&#x63;&#x75;&#x6d;&#x75;&#x6c;&#x61;&#x74;&#x65;</div>
+class Button:
+    def __init__(self, pos, key):
+        self.pos = pos
+        self.key = key
+        self.pressed = 0</code></pre>
+
+
+        <button id='solution-5' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q Keyboard</code></pre>
+
+
+<h2 id="nonlocal">Nonlocal</h2>
+
+
+<h3 class="question" id="q6">Q6: Advanced Counter</h3>
+
+<p>Complete the definition of <code>make_advanced_counter_maker</code>,
+which creates a function that creates counters. These counters can not
+only update their personal count, but also a shared count for all
+counters.  They can also reset either count.</p>
+
+
+
+<pre><code>def make_advanced_counter_maker():
+    &quot;&quot;&quot;Makes a function that makes counters that understands the
+    messages &quot;count&quot;, &quot;global&#x2d;count&quot;, &quot;reset&quot;, and &quot;global&#x2d;reset&quot;.
+    See the examples below:
+
+    &gt;&gt;&gt; make_counter = make_advanced_counter_maker()
+    &gt;&gt;&gt; tom_counter = make_counter()
+    &gt;&gt;&gt; tom_counter(&#x27;count&#x27;)
+    1
+    &gt;&gt;&gt; tom_counter(&#x27;count&#x27;)
+    2
+    &gt;&gt;&gt; tom_counter(&#x27;global&#x2d;count&#x27;)
+    1
+    &gt;&gt;&gt; jon_counter = make_counter()
+    &gt;&gt;&gt; jon_counter(&#x27;global&#x2d;count&#x27;)
+    2
+    &gt;&gt;&gt; jon_counter(&#x27;count&#x27;)
+    1
+    &gt;&gt;&gt; jon_counter(&#x27;reset&#x27;)
+    &gt;&gt;&gt; jon_counter(&#x27;count&#x27;)
+    1
+    &gt;&gt;&gt; tom_counter(&#x27;count&#x27;)
+    3
+    &gt;&gt;&gt; jon_counter(&#x27;global&#x2d;count&#x27;)
+    3
+    &gt;&gt;&gt; jon_counter(&#x27;global&#x2d;reset&#x27;)
+    &gt;&gt;&gt; tom_counter(&#x27;global&#x2d;count&#x27;)
+    1
+    &quot;&quot;&quot;
+<div class="alt solution-6">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-6">&#x20;&#x20;&#x20;&#x20;&#x67;&#x6c;&#x6f;&#x62;&#x61;&#x6c;&#x5f;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x3d;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x64;&#x65;&#x66;&#x20;&#x6d;&#x61;&#x6b;&#x65;&#x5f;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x65;&#x72;&#x28;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x3d;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x64;&#x65;&#x66;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x65;&#x72;&#x28;&#x6d;&#x73;&#x67;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x6e;&#x6f;&#x6e;&#x6c;&#x6f;&#x63;&#x61;&#x6c;&#x20;&#x67;&#x6c;&#x6f;&#x62;&#x61;&#x6c;&#x5f;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x2c;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6d;&#x73;&#x67;&#x20;&#x3d;&#x3d;&#x20;&#x27;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x27;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x2b;&#x3d;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x69;&#x66;&#x20;&#x6d;&#x73;&#x67;&#x20;&#x3d;&#x3d;&#x20;&#x27;&#x72;&#x65;&#x73;&#x65;&#x74;&#x27;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x3d;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x69;&#x66;&#x20;&#x6d;&#x73;&#x67;&#x20;&#x3d;&#x3d;&#x20;&#x27;&#x67;&#x6c;&#x6f;&#x62;&#x61;&#x6c;&#x2d;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x27;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x67;&#x6c;&#x6f;&#x62;&#x61;&#x6c;&#x5f;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x2b;&#x3d;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x67;&#x6c;&#x6f;&#x62;&#x61;&#x6c;&#x5f;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x69;&#x66;&#x20;&#x6d;&#x73;&#x67;&#x20;&#x3d;&#x3d;&#x20;&#x27;&#x67;&#x6c;&#x6f;&#x62;&#x61;&#x6c;&#x2d;&#x72;&#x65;&#x73;&#x65;&#x74;&#x27;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x67;&#x6c;&#x6f;&#x62;&#x61;&#x6c;&#x5f;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x3d;&#x20;&#x30;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x65;&#x72;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x6d;&#x61;&#x6b;&#x65;&#x5f;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x65;&#x72;</div></code></pre>
+
+
+        <button id='solution-6' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q make_advanced_counter_maker</code></pre>
+
+
+<h2 id="mutable-lists">Mutable Lists</h2>
+
+
+<h3 class="question" id="q7">Q7: Environment Diagram</h3>
+
+<p>Draw an environment diagram for the following program.</p>
+
+<blockquote><p>Some things to remember:</p>
+
+<ul>
+  <li>When you mutate a list, you are changing the original list.</li>
+  <li>When you concatenate two lists, you are creating a new list.</li>
+  <li>When you assign a name to an existing object, you are creating another
+  reference to that object rather than creating a copy of that object.</li>
+</ul></blockquote>
+
+<pre><code>def got(lst, el, f):
+    welcome = []
+    for e in lst:
+        if e == el:
+            el = f(lst[1:], 2, welcome)
+    return lst[3:] + welcome
+
+def avocadis(lst, i, lst0):
+    lst0.append(lst.pop(i))
+    return len(lst0)
+
+bananis = [1, 6, 1, 6]
+n = bananis[3]
+we = got(bananis, n, avocadis)</code></pre>
+
+<p>You can check your solution <a href="https://goo.gl/iRnSUx">here</a>. If you get stuck,
+ask a Lab Assistant or TA for help before checking the solution! There is
+nothing to submit for this problem.</p>
+
+<h3 class="question" id="q8">Q8: Trade</h3>
+
+<p>In the integer market, each participant has a list of positive integers to
+trade. When two participants meet, they trade the smallest non-empty prefix of
+their list of integers. A prefix is a slice that starts at index
+0.</p>
+
+<p>Write a function <code>trade</code> that exchanges the first <code>m</code> elements of list <code>first</code>
+with the first <code>n</code> elements of list <code>second</code>, such that the sums of those
+elements are equal, and the sum is as small as possible. If no such prefix
+exists, return the string <code>&#x27;No deal!&#x27;</code> and do not change either list. Otherwise
+change both lists and return <code>&#x27;Deal!&#x27;</code>. A partial implementation is provided.</p>
+
+<blockquote><p><strong>Hint:</strong> You can mutate a slice of a list using <em>slice assignment</em>. To do so, specify
+a slice of the list <code>[i:j]</code> on the left-hand side of an assignment statement
+and another list on the right-hand side of the assignment statement. The
+operation will replace the entire given slice of the list from <code>i</code> inclusive
+to <code>j</code> exclusive with the elements from the given list. The slice and the
+given list need not be the same length.</p>
+
+<pre><code>&gt;&gt;&gt; a = [1, 2, 3, 4, 5, 6]
+&gt;&gt;&gt; b = a
+&gt;&gt;&gt; a[2:5] = [10, 11, 12, 13]
+&gt;&gt;&gt; a
+[1, 2, 10, 11, 12, 13, 6]
+&gt;&gt;&gt; b
+[1, 2, 10, 11, 12, 13, 6]</code></pre></blockquote>
+
+
+
+<pre><code>def trade(first, second):
+    &quot;&quot;&quot;Exchange the smallest prefixes of first and second that have equal sum.
+
+    &gt;&gt;&gt; a = [1, 1, 3, 2, 1, 1, 4]
+    &gt;&gt;&gt; b = [4, 3, 2, 7]
+    &gt;&gt;&gt; trade(a, b) # Trades 1+1+3+2=7 for 4+3=7
+    &#x27;Deal!&#x27;
+    &gt;&gt;&gt; a
+    [4, 3, 1, 1, 4]
+    &gt;&gt;&gt; b
+    [1, 1, 3, 2, 2, 7]
+    &gt;&gt;&gt; c = [3, 3, 2, 4, 1]
+    &gt;&gt;&gt; trade(b, c)
+    &#x27;No deal!&#x27;
+    &gt;&gt;&gt; b
+    [1, 1, 3, 2, 2, 7]
+    &gt;&gt;&gt; c
+    [3, 3, 2, 4, 1]
+    &gt;&gt;&gt; trade(a, c)
+    &#x27;Deal!&#x27;
+    &gt;&gt;&gt; a
+    [3, 3, 2, 1, 4]
+    &gt;&gt;&gt; b
+    [1, 1, 3, 2, 2, 7]
+    &gt;&gt;&gt; c
+    [4, 3, 1, 4, 1]
+    &quot;&quot;&quot;
+    m, n = 1, 1
+
+<div class="alt solution-7">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-7">&#x20;&#x20;&#x20;&#x20;&#x65;&#x71;&#x75;&#x61;&#x6c;&#x5f;&#x70;&#x72;&#x65;&#x66;&#x69;&#x78;&#x20;&#x3d;&#x20;&#x6c;&#x61;&#x6d;&#x62;&#x64;&#x61;&#x3a;&#x20;&#x73;&#x75;&#x6d;&#x28;&#x66;&#x69;&#x72;&#x73;&#x74;&#x5b;&#x3a;&#x6d;&#x5d;&#x29;&#x20;&#x3d;&#x3d;&#x20;&#x73;&#x75;&#x6d;&#x28;&#x73;&#x65;&#x63;&#x6f;&#x6e;&#x64;&#x5b;&#x3a;&#x6e;&#x5d;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x77;&#x68;&#x69;&#x6c;&#x65;&#x20;&#x6d;&#x20;&#x3c;&#x20;&#x6c;&#x65;&#x6e;&#x28;&#x66;&#x69;&#x72;&#x73;&#x74;&#x29;&#x20;&#x61;&#x6e;&#x64;&#x20;&#x6e;&#x20;&#x3c;&#x20;&#x6c;&#x65;&#x6e;&#x28;&#x73;&#x65;&#x63;&#x6f;&#x6e;&#x64;&#x29;&#x20;&#x61;&#x6e;&#x64;&#x20;&#x6e;&#x6f;&#x74;&#x20;&#x65;&#x71;&#x75;&#x61;&#x6c;&#x5f;&#x70;&#x72;&#x65;&#x66;&#x69;&#x78;&#x28;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x73;&#x75;&#x6d;&#x28;&#x66;&#x69;&#x72;&#x73;&#x74;&#x5b;&#x3a;&#x6d;&#x5d;&#x29;&#x20;&#x3c;&#x20;&#x73;&#x75;&#x6d;&#x28;&#x73;&#x65;&#x63;&#x6f;&#x6e;&#x64;&#x5b;&#x3a;&#x6e;&#x5d;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x6d;&#x20;&#x2b;&#x3d;&#x20;&#x31;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x6e;&#x20;&#x2b;&#x3d;&#x20;&#x31;</div>
+<div class="alt solution-7">    if False: # change this line!
+</div><div class="solution solution-7">&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x65;&#x71;&#x75;&#x61;&#x6c;&#x5f;&#x70;&#x72;&#x65;&#x66;&#x69;&#x78;&#x28;&#x29;&#x3a;</div>        first[:m], second[:n] = second[:n], first[:m]
+        return &#x27;Deal!&#x27;
+    else:
+        return &#x27;No deal!&#x27;</code></pre>
+
+
+        <button id='solution-7' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q trade</code></pre>
+
+
+<h2 id="recursive-objects">Recursive objects</h2>
+
+
+<h3 class="question" id="q9">Q9: Linked Lists as Strings</h3>
+
+<p>Kevin and Jerry like different ways of displaying the linked list
+structure in Python. While Kevin likes box and pointer diagrams,
+Jerry prefers a more futuristic way. Write a function
+<code>make_to_string</code> that returns a function that converts the
+linked list to a string in their preferred style.</p>
+
+<p><em>Hint</em>:  You can convert numbers to strings using the <code>str</code> function,
+and you can combine strings together using <code>+</code>.</p>
+
+<pre><code>&gt;&gt;&gt; str(4)
+&#x27;4&#x27;
+&gt;&gt;&gt; &#x27;cs &#x27; + str(61) + &#x27;a&#x27;
+&#x27;cs 61a&#x27;</code></pre>
+
+
+
+<pre><code>def make_to_string(front, mid, back, empty_repr):
+    &quot;&quot;&quot; Returns a function that turns linked lists to strings.
+
+    &gt;&gt;&gt; kevins_to_string = make_to_string(&quot;[&quot;, &quot;|&#x2d;]&#x2d;&#x2d;&gt;&quot;, &quot;&quot;, &quot;[]&quot;)
+    &gt;&gt;&gt; jerrys_to_string = make_to_string(&quot;(&quot;, &quot; . &quot;, &quot;)&quot;, &quot;()&quot;)
+    &gt;&gt;&gt; lst = Link(1, Link(2, Link(3, Link(4))))
+    &gt;&gt;&gt; kevins_to_string(lst)
+    &#x27;[1|&#x2d;]&#x2d;&#x2d;&gt;[2|&#x2d;]&#x2d;&#x2d;&gt;[3|&#x2d;]&#x2d;&#x2d;&gt;[4|&#x2d;]&#x2d;&#x2d;&gt;[]&#x27;
+    &gt;&gt;&gt; kevins_to_string(Link.empty)
+    &#x27;[]&#x27;
+    &gt;&gt;&gt; jerrys_to_string(lst)
+    &#x27;(1 . (2 . (3 . (4 . ()))))&#x27;
+    &gt;&gt;&gt; jerrys_to_string(Link.empty)
+    &#x27;()&#x27;
+    &quot;&quot;&quot;
+<div class="alt solution-8">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-8">&#x20;&#x20;&#x20;&#x20;&#x64;&#x65;&#x66;&#x20;&#x70;&#x72;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x28;&#x6c;&#x6e;&#x6b;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6c;&#x6e;&#x6b;&#x20;&#x69;&#x73;&#x20;&#x4c;&#x69;&#x6e;&#x6b;&#x2e;&#x65;&#x6d;&#x70;&#x74;&#x79;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x65;&#x6d;&#x70;&#x74;&#x79;&#x5f;&#x72;&#x65;&#x70;&#x72;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x65;&#x6c;&#x73;&#x65;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x66;&#x72;&#x6f;&#x6e;&#x74;&#x20;&#x2b;&#x20;&#x73;&#x74;&#x72;&#x28;&#x6c;&#x6e;&#x6b;&#x2e;&#x66;&#x69;&#x72;&#x73;&#x74;&#x29;&#x20;&#x2b;&#x20;&#x6d;&#x69;&#x64;&#x20;&#x2b;&#x20;&#x70;&#x72;&#x69;&#x6e;&#x74;&#x65;&#x72;&#x28;&#x6c;&#x6e;&#x6b;&#x2e;&#x72;&#x65;&#x73;&#x74;&#x29;&#x20;&#x2b;&#x20;&#x62;&#x61;&#x63;&#x6b;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x70;&#x72;&#x69;&#x6e;&#x74;&#x65;&#x72;</div></code></pre>
+
+
+        <button id='solution-8' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q make_to_string</code></pre>
+
+<h3 class="question" id="q10">Q10: Tree Map</h3>
+
+<p>Define the function <code>tree_map</code>, which takes in a tree and a
+one-argument function as arguments and returns a new tree which is the
+result of mapping the function over the entries of the input tree.</p>
+
+
+
+<pre><code>def tree_map(fn, t):
+    &quot;&quot;&quot;Maps the function fn over the entries of t and returns the
+    result in a new tree.
+
+    &gt;&gt;&gt; numbers = Tree(1,
+    ...                [Tree(2,
+    ...                      [Tree(3),
+    ...                       Tree(4)]),
+    ...                 Tree(5,
+    ...                      [Tree(6,
+    ...                            [Tree(7)]),
+    ...                       Tree(8)])])
+    &gt;&gt;&gt; print(tree_map(lambda x: 2**x, numbers))
+    2
+      4
+        8
+        16
+      32
+        64
+          128
+        256
+    &quot;&quot;&quot;
+<div class="alt solution-9">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-9">&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x74;&#x2e;&#x69;&#x73;&#x5f;&#x6c;&#x65;&#x61;&#x66;&#x28;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x54;&#x72;&#x65;&#x65;&#x28;&#x66;&#x6e;&#x28;&#x74;&#x2e;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x29;&#x2c;&#x20;&#x5b;&#x5d;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x6d;&#x61;&#x70;&#x70;&#x65;&#x64;&#x5f;&#x73;&#x75;&#x62;&#x74;&#x72;&#x65;&#x65;&#x73;&#x20;&#x3d;&#x20;&#x5b;&#x74;&#x72;&#x65;&#x65;&#x5f;&#x6d;&#x61;&#x70;&#x28;&#x66;&#x6e;&#x2c;&#x20;&#x62;&#x29;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x62;&#x20;&#x69;&#x6e;&#x20;&#x74;&#x2e;&#x62;&#x72;&#x61;&#x6e;&#x63;&#x68;&#x65;&#x73;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x54;&#x72;&#x65;&#x65;&#x28;&#x66;&#x6e;&#x28;&#x74;&#x2e;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x29;&#x2c;&#x20;&#x6d;&#x61;&#x70;&#x70;&#x65;&#x64;&#x5f;&#x73;&#x75;&#x62;&#x74;&#x72;&#x65;&#x65;&#x73;&#x29;&#xa;&#xa;&#x23;&#x20;&#x41;&#x6c;&#x74;&#x65;&#x72;&#x6e;&#x61;&#x74;&#x65;&#x20;&#x73;&#x6f;&#x6c;&#x75;&#x74;&#x69;&#x6f;&#x6e;&#xa;&#x64;&#x65;&#x66;&#x20;&#x74;&#x72;&#x65;&#x65;&#x5f;&#x6d;&#x61;&#x70;&#x28;&#x66;&#x6e;&#x2c;&#x20;&#x74;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x54;&#x72;&#x65;&#x65;&#x28;&#x66;&#x6e;&#x28;&#x74;&#x2e;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x29;&#x2c;&#x20;&#x5b;&#x74;&#x72;&#x65;&#x65;&#x5f;&#x6d;&#x61;&#x70;&#x28;&#x66;&#x6e;&#x2c;&#x20;&#x62;&#x29;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x62;&#x20;&#x69;&#x6e;&#x20;&#x74;&#x2e;&#x62;&#x72;&#x61;&#x6e;&#x63;&#x68;&#x65;&#x73;&#x5d;&#x29;</div></code></pre>
+
+
+        <button id='solution-9' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q tree_map</code></pre>
+
+<h3 class="question" id="q11">Q11: Long Paths</h3>
+
+<p>Implement <code>long_paths</code>, which returns a list of all <em>paths</em> in a tree with
+length at least <code>n</code>. A path in a tree is a linked list of node values that
+starts with the root and ends at a leaf. Each subsequent element must be from a
+child of the previous value's node. The <em>length</em> of a path is the number of
+edges in the path (i.e. one less than the number of nodes in the path).
+Paths are listed in order from left to right. See the doctests for some
+examples.</p>
+
+
+
+<pre><code>def long_paths(tree, n):
+    &quot;&quot;&quot;Return a list of all paths in tree with length at least n.
+
+    &gt;&gt;&gt; t = Tree(3, [Tree(4), Tree(4), Tree(5)])
+    &gt;&gt;&gt; left = Tree(1, [Tree(2), t])
+    &gt;&gt;&gt; mid = Tree(6, [Tree(7, [Tree(8)]), Tree(9)])
+    &gt;&gt;&gt; right = Tree(11, [Tree(12, [Tree(13, [Tree(14)])])])
+    &gt;&gt;&gt; whole = Tree(0, [left, Tree(13), mid, right])
+    &gt;&gt;&gt; for path in long_paths(whole, 2):
+    ...     print(path)
+    ...
+    &lt;0 1 2&gt;
+    &lt;0 1 3 4&gt;
+    &lt;0 1 3 4&gt;
+    &lt;0 1 3 5&gt;
+    &lt;0 6 7 8&gt;
+    &lt;0 6 9&gt;
+    &lt;0 11 12 13 14&gt;
+    &gt;&gt;&gt; for path in long_paths(whole, 3):
+    ...     print(path)
+    ...
+    &lt;0 1 3 4&gt;
+    &lt;0 1 3 4&gt;
+    &lt;0 1 3 5&gt;
+    &lt;0 6 7 8&gt;
+    &lt;0 11 12 13 14&gt;
+    &gt;&gt;&gt; long_paths(whole, 4)
+    [Link(0, Link(11, Link(12, Link(13, Link(14)))))]
+    &quot;&quot;&quot;
+<div class="alt solution-10">    "*** YOUR CODE HERE ***"
+</div><div class="solution solution-10">&#x20;&#x20;&#x20;&#x20;&#x70;&#x61;&#x74;&#x68;&#x73;&#x20;&#x3d;&#x20;&#x5b;&#x5d;&#xa;&#x20;&#x20;&#x20;&#x20;&#x69;&#x66;&#x20;&#x6e;&#x20;&#x3c;&#x3d;&#x20;&#x30;&#x20;&#x61;&#x6e;&#x64;&#x20;&#x74;&#x72;&#x65;&#x65;&#x2e;&#x69;&#x73;&#x5f;&#x6c;&#x65;&#x61;&#x66;&#x28;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x70;&#x61;&#x74;&#x68;&#x73;&#x2e;&#x61;&#x70;&#x70;&#x65;&#x6e;&#x64;&#x28;&#x4c;&#x69;&#x6e;&#x6b;&#x28;&#x74;&#x72;&#x65;&#x65;&#x2e;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x62;&#x20;&#x69;&#x6e;&#x20;&#x74;&#x72;&#x65;&#x65;&#x2e;&#x62;&#x72;&#x61;&#x6e;&#x63;&#x68;&#x65;&#x73;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x66;&#x6f;&#x72;&#x20;&#x70;&#x61;&#x74;&#x68;&#x20;&#x69;&#x6e;&#x20;&#x6c;&#x6f;&#x6e;&#x67;&#x5f;&#x70;&#x61;&#x74;&#x68;&#x73;&#x28;&#x62;&#x2c;&#x20;&#x6e;&#x20;&#x2d;&#x20;&#x31;&#x29;&#x3a;&#xa;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x20;&#x70;&#x61;&#x74;&#x68;&#x73;&#x2e;&#x61;&#x70;&#x70;&#x65;&#x6e;&#x64;&#x28;&#x4c;&#x69;&#x6e;&#x6b;&#x28;&#x74;&#x72;&#x65;&#x65;&#x2e;&#x6c;&#x61;&#x62;&#x65;&#x6c;&#x2c;&#x20;&#x70;&#x61;&#x74;&#x68;&#x29;&#x29;&#xa;&#x20;&#x20;&#x20;&#x20;&#x72;&#x65;&#x74;&#x75;&#x72;&#x6e;&#x20;&#x70;&#x61;&#x74;&#x68;&#x73;</div></code></pre>
+
+
+        <button id='solution-10' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q long_paths</code></pre>
+
+
+<h2 id="more-orders-of-growth">More Orders of Growth</h2>
+
+
+<h3 class="question" id="q12">Q12: Zap (Orders of Growth)</h3>
+
+<p>What is the order of growth in time for the following function <code>zap</code>? Use
+big-&theta; notation.</p>
+
+<pre><code>def zap(n):
+    i, count = 1, 0
+    while i &lt;= n:
+        while i &lt;= 5 * n:
+            count += i
+            print(i / 6)
+            i *= 3
+    return count</code></pre>
+
+<blockquote><p>Use Ok to test your answer:</p>
+
+<pre><code>python3 ok &#x2d;q zap &#x2d;u</code></pre></blockquote>
+
+<div class="solution solution-11">
+
+<p>&theta;(log <em>n</em>)</p>
+
+<p>Here, the stopping condition of both loops rely on the same variable <code>i</code>. 
+You might notice that completion of the inner loop will guarantee completion
+of the outer loop; after all, if <code>i</code> is greater than <code>5 * n</code>, 
+then it will be greater than <code>n</code>. Therefore, the overall runtime is just the runtime
+of the inner loop. Since <code>i</code> begins at 1 and is multiplied by 3 at every
+iteration of the inner loop, the inner loop will have <code>log n</code> iterations overall. Each
+iteration does contant work, so the overall runtime will be <code>log n</code>.</p>
+
+</div>
+        <button id='solution-11' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<h3 class="question" id="q13">Q13: Boom (Orders of Growth)</h3>
+
+<p>What is the order of growth in time for the following function boom? Use big-&theta; notation.</p>
+
+<pre><code>def boom(n):
+    sum = 0
+    a, b = 1, 1
+    while a &lt;= n*n:
+        while b &lt;= n*n:
+            sum += (a*b)
+            b += 1
+        b = 0
+        a += 1
+    return sum</code></pre>
+
+<blockquote><p>Use Ok to test your answer:</p>
+
+<pre><code>python3 ok &#x2d;q boom &#x2d;u</code></pre></blockquote>
+
+<div class="solution solution-12">
+
+<p>&theta;(<em>n</em><sup>4</sup>)</p>
+
+</div>
+        <button id='solution-12' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#required-questions">Required Questions</a></li>
+  <ul>
+    <li><a href="#linked-lists">Linked Lists</a></li>
+    <ul>
+      <li><a href="#q1">Q1: Deep Linked List Length</a></li>
+    </ul>
+    <li><a href="#orders-of-growth">Orders of Growth</a></li>
+    <ul>
+      <li><a href="#q2">Q2: Finding Orders of Growth</a></li>
+    </ul>
+  </ul>
+  <li><a href="#optional-questions">Optional Questions</a></li>
+  <ul>
+    <li><a href="#objects">Objects</a></li>
+    <ul>
+      <li><a href="#q3">Q3: WWPP: Methods</a></li>
+      <li><a href="#q4">Q4: WWPP: Attributes</a></li>
+      <li><a href="#q5">Q5: Keyboard</a></li>
+    </ul>
+    <li><a href="#nonlocal">Nonlocal</a></li>
+    <ul>
+      <li><a href="#q6">Q6: Advanced Counter</a></li>
+    </ul>
+    <li><a href="#mutable-lists">Mutable Lists</a></li>
+    <ul>
+      <li><a href="#q7">Q7: Environment Diagram</a></li>
+      <li><a href="#q8">Q8: Trade</a></li>
+    </ul>
+    <li><a href="#recursive-objects">Recursive objects</a></li>
+    <ul>
+      <li><a href="#q9">Q9: Linked Lists as Strings</a></li>
+      <li><a href="#q10">Q10: Tree Map</a></li>
+      <li><a href="#q11">Q11: Long Paths</a></li>
+    </ul>
+    <li><a href="#more-orders-of-growth">More Orders of Growth</a></li>
+    <ul>
+      <li><a href="#q12">Q12: Zap (Orders of Growth)</a></li>
+      <li><a href="#q13">Q13: Boom (Orders of Growth)</a></li>
+    </ul>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+
+<script type="text/javascript" src="../../assets/js/config.js"></script>
+<script>
+  $(function() {
+    var staging_domains = ['staging.cs61a.org', 'solutions.cs61a.org', 'localhost', '127.0.0.1'];
+    var host = window.location.hostname;
+    var staging = staging_domains.indexOf(host) != -1;
+    staging = staging || (host.endsWith('.pullrequests.cs61a.org') && !host.startsWith('last-build.'));
+
+    var after_due_date = new Date("03/14/2018") < new Date();
+    var before_end_date = new Date() <= new Date(endDate);
+    var release_solutions = (staging || after_due_date) && before_end_date;
+
+    if (release_solutions) {
+      $('.toggle').css('display', 'inline-block');
+      $('.toggle').click(function() {
+        var solution_id = $(this).attr('id');
+        $('div.' + solution_id).slideToggle(600);
+      });
+    }
+  });
+</script>
+
+
+  </body>
+
+<!-- Mirrored from cs61a.org/lab/lab08/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:44 GMT -->
+</html>

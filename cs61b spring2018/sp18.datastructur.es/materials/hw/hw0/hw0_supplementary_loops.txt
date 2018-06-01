@@ -1,0 +1,81 @@
+This supplementary reading is taken from Jonathan Shewchuk's Spring 2014 61B course.
+
+LOOPS
+=====
+
+"while" Loops
+-------------
+A "while" statement is like an "if" statement, but the body of the statement is
+executed repeatedly, as long as the condition remains true.  The following
+example tests whether n is a prime number by attempting to divide it by every
+integer in the range 2...n - 1.
+
+    public static boolean isPrime(int n) {
+      int divisor = 2;
+      while (divisor < n) {         _ <- "divisor < n" is the _loop_condition_.
+        if (n % divisor == 0) {      |
+          return false;              | These lines inside the braces
+        }                            | are called the _loop_body_.  
+        divisor++;                  _|
+      }
+      return true;
+    }
+
+Here's how the loop executes.
+- When Java reaches this "while" loop, it tests whether the loop condition
+  "divisor < n" is true.
+- If divisor < n, Java executes the loop body {in braces}.
+- When Java finishes the loop body (i.e. after executing "divisor++"), it
+  tests _again_ whether "divisor < n" is true.
+- If it's still true, Java jumps back up to the beginning of the loop body and
+  executes it again.
+- If Java tests the loop condition and finds that "divisor < n" is false, Java
+  continues execution from the next line of code _after_ the loop body.
+
+An _iteration_ is a pass through the loop body.  In this example, if n is 2 or
+less, the loop body won't iterate even once.
+
+"for" Loops
+-----------
+"for" loops are a convenient shorthand that can be used to write some "while"
+loops in a more compact way.  The following "for" loop is equivalent to the
+following "while" loop.
+
+    for (initialize; condition; next) {      |    initialize;   
+      statements;                            |    while (condition) {
+    }                                        |      statements;
+                                             |      next;
+                                             |    }
+
+By convention, the "initialize" and "next" are both expressions that affect a
+variable that changes every loop iteration and is central to the test.  Most
+commonly, "for" statements are used to iterate while advancing an index
+variable over a fixed range of values.  isPrime can be rewritten thus:
+
+    public static boolean isPrime(int n) {
+      for (int divisor = 2; divisor < n; divisor++) {    _
+        if (n % divisor == 0) {                           |
+          return false;                                   | Loop body.
+        }                                                _|
+      }
+      return true;
+    }
+
+A common mistake among beginning Java and C programmers is to get the condition
+wrong and do one loop iteration too few.  For example, suppose you want to
+print all the prime numbers in the range 2...n.
+
+    public static void printPrimes(int n) {
+      int i;
+      for (i = 2; i < n; i++) {        // ERROR!!!  Condition should be i <= n.
+        if (isPrime(i)) {
+          System.out.print(" " + i);
+        }
+      }
+    }
+
+Suppose we correct this method so the loop condition is "i <= n".  Think
+carefully:  what is the value of i when the printPrimes method ends?
+
+We'll come back to iteration, but first let's investigate something more
+interesting to iterate on.

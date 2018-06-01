@@ -1,0 +1,14 @@
+HTTrack3.49-1+htsswf+htsjava launched on Wed, 16 May 2018 19:45:59 at http://www.eecs70.org +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(winhttrack -qwC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2A25000%f#f -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2014], %s -->" -%l "en, *" http://www.eecs70.org -O1 "C:\Users\yzkti\Desktop\cs70 spring2018" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+20:43:28	Error: 	"Not Found" (404) at link www.eecs70.org/static/notes/n25a.html (from www.eecs70.org/)
+20:43:28	Error: 	"Not Found" (404) at link www.eecs70.org/static/notes/n25b.html (from www.eecs70.org/)
+20:43:28	Error: 	"Not Found" (404) at link www.eecs70.org/static/notes/n26.html (from www.eecs70.org/)
+
+HTTrack Website Copier/3.49-1 mirror complete in 1 hours 0 minutes 0 seconds : 329 links scanned, 325 files written (87287580 bytes overall) [86300362 bytes received at 23972 bytes/sec], 1653848 bytes transferred using HTTP compression in 38 files, ratio 26%, 1.8 requests per connection
+(3 errors, 0 warnings, 0 messages)

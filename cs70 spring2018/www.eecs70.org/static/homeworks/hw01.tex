@@ -1,0 +1,153 @@
+\Question{Propositional Practice}
+Convert the following English sentences into propositional logic and the following propositions into English.  State whether or not each statement is true with brief justification.
+
+\begin{Parts}
+
+\Part There is a real number which is not rational.
+
+\Part All integers are natural numbers or are negative, but not both.
+
+\Part If a natural number is divisible by 6, it is divisible by 2 or it is divisible by 3.
+
+\Part $(\forall x \in \mathbb{R})\ (x \in \mathbb{C})$
+
+\Part $(\forall x \in \mathbb{Z})\ ((2 \mid x \lor 3 \mid x) \implies 6 \mid x)$
+
+\Part $(\forall x \in \mathbb{N})\ ((x > 7) \implies ((\exists a, b \in \mathbb{N})\ (a + b = x)))$
+
+\end{Parts}
+
+
+\Question{Miscellaneous Logic}
+
+\begin{Parts}
+
+\Part
+Let the statement, $\forall x \in \mathbb{R}, \exists y \in \mathbb{R} \  G(x,y)$, be
+true for predicate $G(x,y)$. 
+
+For each of the following statements, decide if the statement is certainly true, certainly false, or possibly true. 
+
+\begin{enumerate}[(i)]
+
+\item
+$G(3,4)$
+
+\item
+$\forall x \in \mathbb{R}$ $G(x,3)$
+
+\item
+$\exists y$ $G(3,y)$
+
+\item
+$\forall y$ $\neg G(3,y)$
+
+\item
+$\exists x$ $G(x,4)$
+
+\end{enumerate}
+
+\Part
+Give an expression using terms involving $\lor,\land$ and $\neg$ which is true if and only if
+exactly one of $X,Y$, and $Z$ are true.  (Just to remind you: $(X \land Y \land Z)$ means
+all three of $X$,$Y$,$Z$ are true, $(X \lor Y \lor Z)$ means at least one of $X$,$Y$
+and $Z$ is true.)
+    
+\end{Parts}
+
+
+\Question{Prove or Disprove}
+
+\begin{Parts}
+	\Part $\forall n \in \mathbb{N}$, if $n$ is odd then $n^2 + 2n$ is odd.
+	
+    \Part $\forall x, y \in \mathbb{R}$, $\min(x, y) = (x + y - |x - y|)/2$.
+
+	\Part $\forall a, b \in \mathbb{R}$ if $a + b \le 10$ then $a \le 7$ or $b \le 3$.
+
+	\Part $\forall r \in \mathbb{R}$, if $r$ is irrational then $r + 1$ is irrational.
+
+	\Part $\forall n \in \mathbb{N}$, $10n^2 > n!$.
+\end{Parts}
+
+
+\Question{Preserving Set Operations}
+
+Define the image of a set $X$ to be the set $f(X) = \{y~|~y = f(x) \text{ for some } x \in X\}$. Define the inverse image of a set $Y$ to be the set $f^{-1}(Y) = \{x~|~f(x) \in Y\}$. Prove the following statements, in which $A$ and $B$ are sets. By doing so, you will show that inverse images preserve set operations, but images typically do not.
+
+\textit{Hint: For sets $X$ and $Y$, $X=Y$ if and only if $X \subseteq Y \text{ and } Y \subseteq X$. To prove that $X \subseteq Y$, it is sufficient to show that $\forall x,~x \in X \implies x \in Y$.}
+
+\begin{enumerate}
+    \item $f^{-1}(A \cup B) = f^{-1}(A) \cup f^{-1}(B)$.
+    \item $f^{-1}(A \cap B) = f^{-1}(A) \cap f^{-1}(B)$.
+    \item $f^{-1}(A \setminus B) = f^{-1}(A) \setminus f^{-1}(B)$.
+    \item $f(A \cup B) = f(A) \cup f(B)$.
+    \item $f(A \cap B) \subseteq f(A) \cap f(B)$, and give an example where equality does not hold.
+    \item $f(A \setminus B) \supseteq f(A) \setminus f(B)$, and give an example where equality does not hold.
+\end{enumerate}
+
+
+\Question{Hit or Miss?}
+
+State which of the proofs below is correct or incorrect.
+For the incorrect ones, please explain clearly where the logical error in the proof lies.
+Simply saying that the claim or the induction hypothesis is false is \emph{not} a valid explanation of what is wrong with the proof.
+You do not need to elaborate if you think the proof is correct.
+
+\begin{Parts}
+	\Part
+		\textbf{Claim:} For all positive numbers $n \in \mathbb{R}$, $n^2 \ge n$.
+		\begin{proof}
+			The proof will be by induction on $n$.	\\
+			\emph{Base Case:} $1^2 \ge 1$. It is true for $n=1$.	\\
+			\emph{Inductive Hypothesis:} Assume that $n^2 \ge n$. 	\\
+			\emph{Inductive Step:} We must prove that $(n+1)^2 \ge n+1$.
+			Starting from the left hand side,
+			\begin{align*}
+				(n+1)^2 &= n^2+2n+1 \\
+						&\ge n+1.
+			\end{align*}
+			Therefore, the statement is true.
+		\end{proof}
+
+	\Part
+		\textbf{Claim:} For all negative integers $n$, $-1-3-\cdots+(2n+1) = -n^2$.
+		\begin{proof}
+			The proof will be by induction on $n$.	\\
+			\emph{Base Case:} $-1 = -(-1)^2$. It is true for $n=-1$. \\
+			\emph{Inductive Hypothesis:} Assume that $-1-3-\cdots+(2n+1) = -n^2$. \\
+			\emph{Inductive Step:} We need to prove that the statement is also true for $n-1$ if it is true for $n$, that is,
+			 $-1-3-\cdots+(2(n-1)+1) = -(n-1)^2$. Starting from the left hand side,
+			\begin{align*}
+				-1-3-\cdots+(2(n-1)+1)
+				&= (-1-3-\cdots + (2n+1))+(2(n-1)+1)	\\
+				&= -n^2 + (2(n-1)+1)				\quad \text{(Inductive Hypothesis)}\\
+				&= -n^2 + 2n - 1					\\
+				&= -(n-1)^2.
+			\end{align*}
+			Therefore, the statement is true.
+		\end{proof}
+
+	\Part
+		\textbf{Claim:} For all nonnegative integers $n$, $2n=0$.
+		\begin{proof}
+			We will prove by strong induction on $n$.	\\
+			\emph{Base Case:} $2 \times 0 = 0$. It is true for $n=0$.	\\
+			\emph{Inductive Hypothesis:} Assume that $2k=0$ for all $0 \le k \le n$.	\\
+			\emph{Inductive Step:} We must show that $2(n+1)=0$. Write $n+1 = a+b$ where $0 < a,b \le n$.
+			From the inductive hypothesis, we know $2a = 0$ and $2b=0$, therefore,
+			\begin{align*}
+				2(n+1) = 2(a+b) = 2a + 2b = 0+0 =0.
+			\end{align*}
+			The statement is true.
+		\end{proof}
+
+\end{Parts}
+
+
+
+\Question{Badminton Ranking}
+
+A team of $n$ ($n \geq 2$) badminton players held a tournament, where every person plays with every other person exactly once, and there are no ties. Prove by induction that after the tournament, we can arrange the $n$ players in a sequence, so that every player in the sequence has won against the person immediately to the right of him.
+
+

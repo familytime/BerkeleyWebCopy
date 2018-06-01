@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec8/lec8 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Inheritance1 Study Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Inheritance1 Study Guide</header><div class="due-date">Author: Wayne Li</div><ul id="markdown-toc">
+  <li><a href="#lecture-code" id="markdown-toc-lecture-code">Lecture Code</a></li>
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#exercises" id="markdown-toc-exercises">Exercises</a></li>
+</ul>
+
+<h2 id="lecture-code">Lecture Code</h2>
+
+<p>Code from this lecture available at</p>
+
+<p><a href="https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/Inheritance1">https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/Inheritance1</a>.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Method Overloading</strong> In Java, methods in a class can have the same name, but
+different parameters. For example, a <code class="highlighter-rouge">Math</code> class can have an <code class="highlighter-rouge">add(int a, int b)</code>
+method and an <code class="highlighter-rouge">add(float a, float b)</code> method as well. The Java compiler is smart
+enough to choose the correct method depending on the parameters that you pass in.
+Methods with the same name but different parameters are said to be overloaded.</p>
+
+<p><strong>Making Code General</strong> Consider a <code class="highlighter-rouge">largestNumber</code> method that only takes an AList
+as a parameter. The drawback is that the logic for <code class="highlighter-rouge">largestNumber</code> is the same
+regardless of if we take an <code class="highlighter-rouge">AList</code> or <code class="highlighter-rouge">SLList</code>. We just operate on a different
+type of list. If we use our previous idea of method overriding, we result in a very
+long Java file with many similar methods. This code is hard to maintain; if we
+fix a bug in one method, we have to duplicate this fix manually to all the other
+methods.</p>
+
+<p>The solution to the above problem is to define a new reference
+type that represents both <code class="highlighter-rouge">AList</code> and <code class="highlighter-rouge">SLList</code>. We will call it a <code class="highlighter-rouge">List</code>. Next,
+we specify an “is-a” relationship: An <code class="highlighter-rouge">AList</code> is a <code class="highlighter-rouge">List</code>. We do the same for
+<code class="highlighter-rouge">SLList</code>. Let’s formalize this into code.</p>
+
+<p><strong>Interfaces</strong> We will use the keyword <code class="highlighter-rouge">interface</code> instead of <code class="highlighter-rouge">class</code> to create
+our <code class="highlighter-rouge">List</code>. More explicitly, we write:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public interface List&lt;Item&gt; { ... }
+</code></pre></div></div>
+
+<p>The key idea is that interfaces specify what this <code class="highlighter-rouge">List</code> can do, not how to do
+it. Since all lists have a <code class="highlighter-rouge">get</code> method, we add the following method signature
+to the interface class:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public Item get(int i);
+</code></pre></div></div>
+
+<p>Notice we did not define this method. We simply stated that this method should
+exist as long as we are working with a <code class="highlighter-rouge">List</code> interface.</p>
+
+<p>Now, we want to specify that an <code class="highlighter-rouge">AList</code> is a <code class="highlighter-rouge">List</code>. We will change our class
+declaration of <code class="highlighter-rouge">AList</code> to:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public AList&lt;Item&gt; implements List&lt;Item&gt; { ... }
+</code></pre></div></div>
+
+<p>We can do the same for <code class="highlighter-rouge">SLList</code>. Now, going back to our <code class="highlighter-rouge">largestNumber</code> method,
+instead of creating one method for each type of list, we can simply create one
+method that takes in a <code class="highlighter-rouge">List</code>. As long as our actual object implements the <code class="highlighter-rouge">List</code>
+interface, then this method will work properly!</p>
+
+<p><strong>Overriding</strong> For each method in <code class="highlighter-rouge">AList</code> that we also defined in <code class="highlighter-rouge">List</code>, we
+will add an @Override right above the method signature. As an example:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Override
+public Item get(int i) { ... }
+</code></pre></div></div>
+
+<p>This is not necessary, but is good style and thus we will require it. Also, it
+allows us to check against typos. If we mistype our method name, the compiler
+will prevent our compilation if we have the @Override tag.</p>
+
+<p><strong>Interface Inheritance</strong> Formally, we say that subclasses inherit from the
+superclass. Interfaces contain all the method signatures, and each subclass
+must implement every single signature; think of it as a contract. In addition,
+relationships can span multiple generations. For example, C can inherit from B,
+which can inherit from A.</p>
+
+<p><strong>Default Methods</strong> Interfaces can have default methods. We define this via:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>default public void method() { ... }
+</code></pre></div></div>
+
+<p>We can actually implement these methods inside the interface. Note that there
+are no instance variables to use, but we can freely use the methods that are
+defined in the interface, without worrying about the implementation. Default
+methods should work for any type of object that implements the interface! The
+subclasses do not have to re-implement the default method anywhere; they can
+simply call it for free. However, we can still override default methods, and
+re-define the method in our subclass.</p>
+
+<p><strong>Static vs. Dynamic Type</strong> Every variable in Java has a static type. This is
+the type specified when the variable is declared, and is checked at compile
+time. Every variable also has a dynamic type; this type is specified when
+the variable is instantiated, and is checked at runtime. As an example:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thing a;
+a = new Fox();
+</code></pre></div></div>
+
+<p>Here, <code class="highlighter-rouge">Thing</code> is the static type, and <code class="highlighter-rouge">Fox</code> is the dynamic type. This is fine
+because all foxes are things. We can also do:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Animal b = a;
+</code></pre></div></div>
+
+<p>This is fine, because all foxes are animals too. We can do:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fox c = b;
+</code></pre></div></div>
+
+<p>This is fine, because <code class="highlighter-rouge">b</code> points to a <code class="highlighter-rouge">Fox</code>. Finally, we can do:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = new Squid()
+</code></pre></div></div>
+
+<p>This is fine, because the static type of <code class="highlighter-rouge">a</code> is a <code class="highlighter-rouge">Thing</code>, and <code class="highlighter-rouge">Squid</code> is a
+thing.</p>
+
+<p><strong>Dynamic Method Selection</strong> The rule is, if we have a static type <code class="highlighter-rouge">X</code>, and a
+dynamic type <code class="highlighter-rouge">Y</code>, then if <code class="highlighter-rouge">Y</code> overrides the method from <code class="highlighter-rouge">X</code>, then on runtime,
+we use the method in <code class="highlighter-rouge">Y</code> instead. Student often confuse overloading
+and overriding.</p>
+
+<p><strong>Overloading and Dynamic Method Selection</strong> Dynamic method selection plays
+no role when it comes to overloaded methods. Consider the following piece of code, where
+<code class="highlighter-rouge">Fox extends Animal</code>.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1  Fox f = new Fox();
+2  Animal a = f;
+3  define(f);
+4  define(a);
+</code></pre></div></div>
+
+<p>Let’s assume we have the following overloaded methods in the same class:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static void define(Fox f) { ... }
+public static void define(Animal a) { ... }
+</code></pre></div></div>
+
+<p>Line 3 will execute <code class="highlighter-rouge">define(Fox f)</code>, while line 4 will execute <code class="highlighter-rouge">define(Animal a)</code>.
+Dynamic method selection only applies when we have overridden methods. There
+is no overriding here, and therefore dynamic method selection does not apply.</p>
+
+<h2 id="exercises">Exercises</h2>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec8/lec8 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:18 GMT -->
+</html>

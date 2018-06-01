@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec18/lec18 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Asymptotics II Study Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Asymptotics II Study Guide</header><div class="due-date">Author: Josh Hug and Kartik Kapur</div><ul id="markdown-toc">
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#recommended-problems" id="markdown-toc-recommended-problems">Recommended Problems</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Runtime Analysis.</strong> Understanding the runtime of code involves deep thought.
+It amounts to asking: “How long does it take to do stuff?”, where stuff can be
+any conceivable computational process whatsoever. It simply cannot be done
+mechanically, at least for non-trivial problems. As an example, a pair of nested
+for loops does NOT mean $\Theta(N^2)$ runtime as we saw in lecture.</p>
+
+<p><strong>Cost Model.</strong> As an anchor for your thinking, recall the idea of a “cost
+model” from last lecture. Pick an operation and count them. You want the one
+whose count has the highest order of growth as a function of the input size.</p>
+
+<p><strong>Important Sums.</strong> This is not a math class so we’ll be a bit sloppy, but the
+two key sums that should know are that:</p>
+<ul>
+  <li>$1 + 2 + 3 + … + N \in \Theta(N^2)$</li>
+  <li>$1 + 2 + 4 + 8 + … + N \in \Theta(N)$</li>
+</ul>
+
+<p><strong>Practice.</strong> The only way to learn this is through plenty of practice.
+Naturally, project 2 is going on right now, so you probably don’t have the spare
+capacity to be thinking too deeply, but make sure to work through the problems
+in lecture and below once you have room to breathe again.</p>
+
+<h2 id="recommended-problems">Recommended Problems</h2>
+
+<h3 id="c-level">C level</h3>
+<ol>
+  <li>
+    <p>Prove that $O(N + \frac{N}{2} + \frac{N}{4} +…. 2 + 1)= O(N)$ (hand wavy proof is okay as
+long as you gain the intuition)</p>
+  </li>
+  <li>
+    <p>What would the runtime of <code class="highlighter-rouge">modified_fib</code> be. Assume that values is an array of
+size n. If a value in an int array is not initialized to a number, it is automatically
+set to 0.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public void modified_fib(int n, int[] values){
+   if(n == 0){
+     values[0] = 0;
+     return
+   }
+   if(n == 1){
+     values[1] = 1;
+     return 1;
+   }
+   else{
+     int val = values[n];
+     if(n == 0){
+       val = modified_fib(n-1) + modified_fib(n-2);
+       values[n] = val;
+     }
+     return val;
+   }
+ }  
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Prove to yourself that $\Theta(log_2(n)) = \Theta(log_3(n)) $</p>
+  </li>
+</ol>
+
+<h3 id="b-level">B level</h3>
+
+<ol>
+  <li>
+    <p>Find the runtime of running print_fib with for arbitrary large n.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public void print_fib(int n){
+   for(int i = 0; i &lt; n; i++i){
+       System.out.println(fib(i));
+   }
+ }
+
+ public int fib(int n){
+   if(n &lt;= 0){
+     return 0;
+   }
+   elif(n == 1){
+     return 1;
+   }
+   else{
+     return fib(n-1) + fib(n-2);
+   }
+ }
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Do problem 5 again, but change the body of the for loop in <code class="highlighter-rouge">print_fib</code> to be</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> System.out.println(fib(n));
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Find the runtime of this function</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public void melo(int N){
+   for(int i = 0; i &lt; N*N; i++){
+     System.out.println("Gelo is fruit pudding");
+   }
+   for(int i = 0; i &lt; N*N*N; i++){
+     System.out.println("Zo Two the Warriors");
+   }
+ }
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Find the runtime of this function</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public void grigobreath(int N){
+     for(int i  = 0; i &lt; N; i++){
+       System.out.println("Gul-great")
+     }
+     grigobreath(N * 1/2);
+     grigobreath(N * 1/4);
+     grigobreath(N * 1/4);
+ }
+</code></pre></div>    </div>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec18/lec18 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:22 GMT -->
+</html>

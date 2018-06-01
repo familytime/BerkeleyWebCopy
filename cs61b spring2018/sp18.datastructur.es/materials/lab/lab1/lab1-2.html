@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab1/lab1.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:21:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lab 1: javac, java, git | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lab 1: javac, java, git</header><ul id="markdown-toc">
+  <li><a href="#before-you-begin" id="markdown-toc-before-you-begin">Before You Begin</a>    <ul>
+      <li><a href="#find-a-partner" id="markdown-toc-find-a-partner">Find A Partner</a></li>
+    </ul>
+  </li>
+  <li><a href="#a-java-compilation--development" id="markdown-toc-a-java-compilation--development">A. Java Compilation &amp; Development</a>    <ul>
+      <li><a href="#introduction-to-java" id="markdown-toc-introduction-to-java">Introduction to Java</a></li>
+    </ul>
+  </li>
+  <li><a href="#b-git--local-repos" id="markdown-toc-b-git--local-repos">B. Git &amp; Local Repos</a></li>
+  <li><a href="#c-git-exercise" id="markdown-toc-c-git-exercise">C. Git Exercise</a></li>
+  <li><a href="#d-git--remote-repos" id="markdown-toc-d-git--remote-repos">D. Git &amp; Remote Repos</a>    <ul>
+      <li><a href="#working-on-the-skeleton" id="markdown-toc-working-on-the-skeleton">Working on the Skeleton</a></li>
+    </ul>
+  </li>
+  <li><a href="#e-git-checkoff" id="markdown-toc-e-git-checkoff">E. Git Checkoff</a></li>
+  <li><a href="#f-leap-year" id="markdown-toc-f-leap-year">F. Leap Year</a></li>
+  <li><a href="#g-submitting-lab-1" id="markdown-toc-g-submitting-lab-1">G. Submitting Lab 1</a></li>
+  <li><a href="#recap" id="markdown-toc-recap">Recap</a></li>
+</ul>
+
+<h2 id="before-you-begin">Before You Begin</h2>
+<ul>
+  <li>If you haven’t signed up to receive a GitHub repository, follow the
+  instructions <a href="https://piazza.com/class/j9j0udrxjjp758?cid=59">here</a>.</li>
+  <li>The vast majority of students use their own computer instead of the lab
+  computers. If you want to use your own computer, complete
+  <a href="../lab1setup/lab1setup-2.html">lab1setup</a> before beginning this lab.</li>
+  <li>Since most students work on their own computers, your instructional account is not likely to be useful to you other than
+  checking your grades. To see how to use your instructional account, see the
+  <a href="../../guides/instructional-accounts.html">instructional accounts guide</a>.</li>
+  <li>Be aware that there are a large number of setup steps this first week.
+  <strong>Don’t be discouraged</strong>, and make sure to ask for help if you’re stuck! If
+  you’re an on-campus student, the best place to ask for help is in the
+  actual lab. If you’re not, Piazza is your best bet.</li>
+  <li>Project 0 will allow pair-partnerships subject to <a href="../../guides/partnerships-2.html">these
+  rules</a>. Lab might be a good place to meet a
+  partner – but make sure you both have the same Java background and are
+  willing to work together in the same room (see partnership rules for
+  details)!</li>
+  <li>
+    <p class="redtext">For those of you who have been working ahead, do not use
+  IntelliJ  (from lab 2) today. For today's lab, please work from the command
+  line to compile and run your code.</p>
+  </li>
+  <li>Warning: This lab runs a little long, and it’s normal if you do not finish during your lab period, especially if you end up having a tricky setup issue that requires a lot of assistance.</li>
+  <li>It’s OK to talk to other students while you work on this lab (or any other), but you should ultimately do all the typing/programming/entering-of-commands yourself. There’s a lot of important setup information in this lab that you need to have done independently of anyone else.</li>
+</ul>
+
+<h4 id="find-a-partner">Find A Partner</h4>
+
+<p>Introduce yourself to someone you don’t know who has the same OS to collaborate with you as you complete the setup steps for today’s lab. Try to find someone who has similar programming experience - you’re encouraged to partner up for project 0!</p>
+
+<h2 id="a-java-compilation--development">A. Java Compilation &amp; Development</h2>
+<p>Java 9 is currently installed on the instructional machines. You may need to
+install it on your personal computer. You can find instructions to do this
+above.</p>
+
+<h4 id="introduction-to-java">Introduction to Java</h4>
+
+<p>Complete exercises 1.1.1 and 1.1.2 from the <a href="https://joshhug.gitbooks.io/hug61b/content/chap1/chap11.html">H61B
+textbook</a>. Also consider reading Chapter 1.1 as a review of what you’ve already seen in lecture (either on video or in person). Note that the videos embedded in the textbook are just the lecture videos, so there’s no need to watch them again.</p>
+
+<p>For this lab, you should use the command line,
+not an IDE like IntelliJ or Eclipse (see lab 2). Don’t worry about submitting
+your work yet, we’ll cover how to do that later in this lab.</p>
+
+<h2 id="b-git--local-repos">B. Git &amp; Local Repos</h2>
+
+<p>In 61B, you’ll be required to use the git version control tool, which is wildly
+popular out in the real world. Unfortunately, the abstractions behind it are
+fairly tricky to understand, so it is likely that you will encounter significant
+frustration at some point as you learn to use git.</p>
+
+<p>Before you proceed, read sections A-C of Sarah Kim’s <a href="../../guides/using-git-2.html">Using Git
+Guide</a></p>
+
+<div class="redtext">STOP! Do not proceed until you have read sections A
+through C of the Using Git Guide.</div>
+<p>You do not need to read section D or later.</p>
+
+<h2 id="c-git-exercise">C. Git Exercise</h2>
+
+<p>Now that you’ve read the first 3 sections of the Using Git Guide, you’re now ready to
+start using git! As part of your lab checkoff, you will be working through a
+small git workflow by setting up a git repository and making a couple commits
+to the repository. An academic intern or TA will look at the git repository during
+checkoff to ensure that it is in a good state. Please do the following actions.
+If you’re stuck on a step at any point, don’t hesitate to ask a TA or an 
+academic intern for help!</p>
+
+<p>If you need help with creating directories, creating files, changing
+directories, etc., see section B of <a href="../lab1setup/lab1setup-2.html">lab1setup</a>.</p>
+
+<ol>
+  <li>Create a directory called lab1-checkoff. You can put this directory anywhere
+ on your computer.</li>
+  <li>Move into the lab1-checkoff directory, and initialize a git repository in
+ this directory.</li>
+  <li>Create a file called <code class="highlighter-rouge">61b.txt</code> in any way you’d like. In this .txt file, add
+ the text “61b version 1” into it.</li>
+  <li>Create another file called <code class="highlighter-rouge">61c.txt</code> in any way you’d like. In this .txt
+ file, add the text “61c version 1” into it.</li>
+  <li>Begin tracking only <code class="highlighter-rouge">61b.txt</code>, and create a new commit containing just this
+ file, with the following commit message: “Add 61b.txt”.</li>
+  <li>Make a modification in <code class="highlighter-rouge">61b.txt</code> by changing the text in the file to:
+ “61b changed to version 2”.</li>
+  <li>Make another commit, this time containing both <code class="highlighter-rouge">61b.txt</code> and <code class="highlighter-rouge">61c.txt</code>. The
+ commit message should be: “Update 61b.txt and add 61c.txt”.</li>
+  <li>Finally, make one more modification to <code class="highlighter-rouge">61b.txt</code> by changing the text in the
+ file to: “61b changed to version 3”. Don’t commit this version.</li>
+</ol>
+
+<p>Again, if there are any questions for any of these steps, please ask in
+lab or on Piazza.</p>
+
+<p>At this point, if you were to type in <code class="highlighter-rouge">git status</code>, something close to this
+should show:</p>
+
+<p><img src="img/exercise-status.png" alt="Git Exercise Status" /></p>
+
+<p>Also, if you were to run <code class="highlighter-rouge">git log</code>, something close to this should show:</p>
+
+<p><img src="img/exercise-log.png" alt="Git Exercise Log" /></p>
+
+<p>Be sure to save this repository and directory until you get checked-off by an
+academic intern or TA. See section E for more information on getting credit for
+the lab checkoff. <strong>Along with other short conceptual questions involving
+git, you will be asked to revert 61b.txt back to the version in the most recent
+commit, as well as back to the earliest version of the file, so make sure
+you know how to do this!</strong> Hint: Look into the <em>checkout</em> command.</p>
+
+<p>Note: Be careful when using the <em>checkout</em> command, as your repo might end up
+in an unexpected state. Specifically, if you see something about
+your repository being in a detached HEAD state as a result of a checkout
+command, that is something we don’t want. Read
+<a href="../../guides/git-wtfs-2.html#head-detached-at--">here</a> for more on what it is
+and how to fix it.</p>
+
+<h2 id="d-git--remote-repos">D. Git &amp; Remote Repos</h2>
+
+<p>We’re now ready to finish off the lab. But first…</p>
+
+<p class="redtext">STOP! Before you proceed, read section D of the Using Git Guide</p>
+<p><a href="../../guides/using-git-2.html">Here</a> is the link to the guide. There is no need
+to read sections E or later. Those are for your later reference, and do not
+need to be read during this lab.</p>
+
+<p>In 61B, you’ll be required to submit your code to your personal GitHub
+repository. This is for several reasons:</p>
+
+<ul>
+  <li>To spare you the incredible agony of losing your files.</li>
+  <li>To submit your work for grading and to get results back from the autograder.</li>
+  <li>To save you from the tremendous anguish of making unknown changes to your
+  files that break everything.</li>
+  <li>To ensure that we have easy access to your code so that we can help if you’re
+  stuck.</li>
+  <li><strong>To dissuade you from posting your solutions on the web in a public GitHub
+  repository</strong>. This is a major violation of course policy!</li>
+  <li>To expose you to a realistic workflow that is common on every major project
+  you’ll ever work on again.</li>
+  <li>To enable safer, more equitable partner collaborations.</li>
+</ul>
+
+<p>Before beginning this section ensure that the name of your GitHub repository in
+the <a href="https://github.com/Berkeley-CS61B-Student">Berkeley-CS61B-Student
+organization</a> matches
+your instructional account login. If this is not true, please let your TA know.</p>
+
+<p><strong>Note</strong>: You’ll need to perform this series of steps to set up your Git repo
+on each computer you use (e.g. instructional computer, personal computer). If
+you know that you’ll only be using your personal computer, feel free to do this
+only on your personal computer (and not your lab account).</p>
+
+<ol>
+  <li>
+    <p>Clone your <a href="https://github.com/Berkeley-CS61B-Student">Berkeley-CS61B-Student
+organization</a> repository.</p>
+
+    <ul>
+      <li>Navigate to the spot in your folders on your computer that you’d like to
+ start your repository. In the example below, I’m assuming you want all your stuff in a folder named cs61b, but you can pick a different name if you’d like.
+        <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span><span class="nb">cd </span>cs61b
+</code></pre></div>        </div>
+      </li>
+      <li>Enter the following command to clone your GitHub repo. Make sure to
+ replace the <code class="highlighter-rouge">**</code> with your own instructional account login/repo name.
+        <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git clone https://github.com/Berkeley-CS61B-Student/sp18-<span class="k">**</span>.git
+</code></pre></div>        </div>
+        <p>If you’d like to SSH instead of HTTPS (and <a href="https://help.github.com/articles/generating-ssh-keys/">set up your own SSH
+ key</a>), feel free
+ to also do that instead. If you don’t know what any of this means, just use the command above. The advantage of SSH is that you won’t have to type in
+ your GitHub password every time you use your repository.</p>
+      </li>
+      <li>Move into your newly created repo! (Make sure you do this part, or the
+ rest of the steps below will not work correctly.)
+        <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span><span class="nb">cd </span>sp18-<span class="k">**</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Add the <code class="highlighter-rouge">skeleton</code> remote repository. You will pull from this remote
+repository to get starter code for assignments. (Make sure that you are
+within the newly created repository folder when the continue with these
+commands.)</p>
+    <ul>
+      <li>Enter the following command to add the <code class="highlighter-rouge">skeleton</code> remote.
+        <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git remote add skeleton https://github.com/Berkeley-CS61B/skeleton-sp18.git
+</code></pre></div>        </div>
+      </li>
+      <li>Listing the remotes should now show both the <code class="highlighter-rouge">origin</code> and <code class="highlighter-rouge">skeleton</code>
+ remotes.
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ git remote -v
+</code></pre></div>        </div>
+      </li>
+      <li>If you get an error that says “Not a git repository”, make sure you’re in the <code class="highlighter-rouge">sp18-**</code> directory.</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="working-on-the-skeleton">Working on the Skeleton</h4>
+
+<ol>
+  <li>You must now pull from the <code class="highlighter-rouge">skeleton</code> remote in order to get the starter code
+for lab 1. You will also do this when new projects and assignments are
+released. To do this, use the spookiest command in the whole git toolbox:
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>git pull skeleton master
+</code></pre></div>    </div>
+    <p>What this does is grab all remote files from the repo named <code class="highlighter-rouge">skeleton</code>
+ (which is located at <code class="highlighter-rouge">https://github.com/Berkeley-CS61B/skeleton-sp18.git</code>)
+ and copies them into your current folder.</p>
+
+    <p>If you get an error similar to “fatal: refusing to merge unrelated histories”, you probably ran
+ GitHub’s suggested commands when you created your repository. To fix this, you can instead run:</p>
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>git pull <span class="nt">--rebase</span> <span class="nt">--allow-unrelated-histories</span> skeleton master
+</code></pre></div>    </div>
+    <p>this time only.</p>
+  </li>
+  <li>
+    <p>If you list the files in your current directory, you’ll see that there are now two folders: <code class="highlighter-rouge">lab1</code> and <code class="highlighter-rouge">library-sp18</code>. Look in the <code class="highlighter-rouge">library-sp18</code> folder, and you’ll see that it is currently empty and will receive some sweet stuff in the lab2 setup. Don’t delete it. Look in the <code class="highlighter-rouge">lab1</code> folder and you’ll see files called <code class="highlighter-rouge">LeapYear.java</code> and <code class="highlighter-rouge">magic_word.txt</code> that you’ll work with in later parts of this lab.</p>
+  </li>
+  <li>
+    <p>Move the <code class="highlighter-rouge">HelloWorld.java</code> and <code class="highlighter-rouge">HelloNumbers.java</code> that you previously
+created into the <code class="highlighter-rouge">lab1</code> directory. If you didn’t create <code class="highlighter-rouge">HelloNumbers.java</code>,
+go back and do Exercise 1.1.2 (see part A of this lab).</p>
+  </li>
+  <li>Stage and commit <code class="highlighter-rouge">HelloWorld.java</code> and <code class="highlighter-rouge">HelloNumbers.java</code>.
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>git add lab1/<span class="k">*</span>
+ <span class="nv">$ </span>git commit <span class="nt">-m</span> <span class="s2">"completed first part of lab1"</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Push these changes to the <code class="highlighter-rouge">master</code> branch on the <code class="highlighter-rouge">origin</code> remote repo.
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>git push origin master
+</code></pre></div>    </div>
+    <p>You can verify that this has been successful by checking your repo on
+ <a href="https://github.com/">github.com</a>. For example, if your repo were <code class="highlighter-rouge">sp18-alf</code>, you’d go to <a href="https://github.com/Berkeley-CS61B-Student/sp18-alf">https://github.com/Berkeley-CS61B-Student/sp18-alf</a>.</p>
+  </li>
+</ol>
+
+<h2 id="e-git-checkoff">E. Git Checkoff</h2>
+
+<p>Once you’ve verified that your code was pushed to github, put your name down on the lab whiteboard to get your git exercise (from part C) checked off. The TA or lab
+assistant, upon completion of the lab checkoff, will tell you what to put into the magic word file in order to pass the autograder. If there’s a wait, feel free to move on to part F until your name is called.</p>
+
+<h2 id="f-leap-year">F. Leap Year</h2>
+
+<p>In the lab1 folder, you should see a file called <code class="highlighter-rouge">LeapYear.java</code>. This program is supposed to test whether or not a given year is a Leap Year. The user will
+give a year as a command line parameter (examples given below), and then print out whether or not that year is a leap year, e.g.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ java LeapYear 2000
+2000 is a leap year.
+$ java LeapYear 1999
+1999 is not a leap year.
+$ java LeapYear 2004
+2004 is a leap year.
+$ java LeapYear 2100
+2100 is not a leap year.
+</code></pre></div></div>
+
+<p>A leap year is either:</p>
+
+<ul>
+  <li>divisible by 400 or</li>
+  <li>divisible by 4 and not by 100.</li>
+</ul>
+
+<p>For example, 2000 and 2004 are leap years. 1900, 2003, and 2100 are not leap years.</p>
+
+<p>Your code must declare a method as follows: <code class="highlighter-rouge">public static boolean
+isLeapYear(int year)</code>. This method will be tested by the Gradescope autograder. Make sure to provide a description of the method as a comment. Your description should be contained by <code class="highlighter-rouge">/**</code> and <code class="highlighter-rouge">*/</code>. Comments contained by <code class="highlighter-rouge">/**</code> and <code class="highlighter-rouge">*/</code> are also called “Javadoc comments” or just “Javadocs”. These comments can span multiple lines if need the extra space, e.g. the <code class="highlighter-rouge">checkLeapYear</code> Javadocs.</p>
+
+<p>Javdocs may contain optional tags, e.g. <code class="highlighter-rouge">@param</code>. We do not require you to use any tags like this in 61B except the <code class="highlighter-rouge">@source</code> tag. Use the <code class="highlighter-rouge">@source</code> tag any time you receive significant help on a project. The <code class="highlighter-rouge">@source</code> tag is not required for HW or lab, though we recommend it anyway, since it’s a good scholarly and professional habit to cite your sources.</p>
+
+<p>Some Java tips:</p>
+<ul>
+  <li>The <code class="highlighter-rouge">%</code> operator implements remainder. Thus, the value of <code class="highlighter-rouge">year % 4</code> will be
+ <code class="highlighter-rouge">0</code>, <code class="highlighter-rouge">1</code>, <code class="highlighter-rouge">2</code>, or <code class="highlighter-rouge">3</code>.</li>
+  <li>The <code class="highlighter-rouge">!=</code> operator compares two values for inequality. The code fragment <code class="highlighter-rouge">if
+ (year % 4 != 0)</code> reads as “if the remainder when dividing year by 4 is not
+ equal to 0.”</li>
+  <li>When one of the arguments of the <code class="highlighter-rouge">+</code> operator is a String, the arguments are
+ concatenated as Strings. For example, <code class="highlighter-rouge">"horse"</code> + <code class="highlighter-rouge">"babies"</code> would return
+ <code class="highlighter-rouge">"horsebabies"</code></li>
+</ul>
+
+<h2 id="g-submitting-lab-1">G. Submitting Lab 1</h2>
+
+<p>The last step is to submit your work with Gradescope. Gradescope is the site that you’ll use to
+submit homework, lab, and project assignments. To sign up for Gradescope,
+head to <a href="http://gradescope.com/">gradescope.com</a> and click on the “Sign up for
+free” link at the top right. Use the entry code posted in this <a href="https://piazza.com/class/j9j0udrxjjp758?cid=51">Piazza
+thread</a>. If you’re already registered somehow (e.g. a TA added you), there’s no need to enter the code again.</p>
+
+<p>To submit your code, do NOT use the Drag and Drop feature. Instead, click the
+little GitHub button in the bottom right (shown below).</p>
+
+<p><img src="img/github_button.png" alt="Github Button" /></p>
+
+<p>After clicking this button, you’ll be taken to a screen where you select your
+repository and branch (shown below). If your login is “sp18-ape”, you’ll select
+“sp18-ape” in the top box, and in the bottom box you’ll pick “master”.
+Later, you can create your own “branches” (as described in the advanced part of the Git Guide) if you want those graded instead,
+though that won’t be required in 61B.</p>
+
+<p><img src="img/github_repo_and_branch_selection.png" alt="Github Repo and Branch Selection" /></p>
+
+<p>Please report any issues you may have to Piazza. Entire error messages
+and/or screenshots are welcome.</p>
+
+<p><strong>Important: ** We HIGHLY encourage you to make frequent commits! **Lack of
+proper version control will not be considered an excuse for lost work,
+particularly after the first few weeks.</strong></p>
+
+<h2 id="recap">Recap</h2>
+
+<ol>
+  <li>
+    <p>Java is a compiled language. You can use <code class="highlighter-rouge">javac</code> and <code class="highlighter-rouge">java</code> to compile and
+run your code.</p>
+  </li>
+  <li>
+    <p>Java is an object-oriented language. Every Java file must contain either a
+class, interface, or enum.</p>
+  </li>
+  <li>
+    <p>When running a Java program, the <code class="highlighter-rouge">main</code> method runs. This <code class="highlighter-rouge">main</code> method
+can call other methods/classes in the program.</p>
+  </li>
+  <li>
+    <p>Git is a version control system that tracks the history of a set of files in
+the form of commits.</p>
+  </li>
+  <li>
+    <p>Commit often and use informative commit messages.</p>
+  </li>
+  <li>
+    <p>Pull from the <code class="highlighter-rouge">skeleton</code> remote repository to get or update starter code for
+assignments.</p>
+  </li>
+  <li>
+    <p>Use Gradescope to submit homework, labs, and projects.</p>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab1/lab1.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:21:58 GMT -->
+</html>

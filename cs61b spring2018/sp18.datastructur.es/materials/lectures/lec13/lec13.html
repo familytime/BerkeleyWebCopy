@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec13/lec13 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:21 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Generics Study Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Generics Study Guide</header><div class="due-date">Author: Kartik Kapur</div><ul id="markdown-toc">
+  <li><a href="#lecture-code" id="markdown-toc-lecture-code">Lecture Code</a></li>
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#exercises" id="markdown-toc-exercises">Exercises</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="lecture-code">Lecture Code</h2>
+
+<p>Code from this lecture available at</p>
+
+<p><a href="https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/syntax1">https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/syntax1</a>.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Autoboxing and Unboxing</strong> Autoboxing is the Java’s automatic conversion
+of between wrappers (Integer) to primitives (int). In most cases, if Java expects
+a wrapper class and gets a primitive instead, it autoboxes the primitive.
+Alternatively, if Java expects a primitive and gets a wrapper, it unboxes
+the wrapper.</p>
+
+<p><strong>Drawbacks of Autoboxing and Unboxing</strong> Though you can almost always interchange
+there are some things to the process.</p>
+<ul>
+  <li>Autoboxing and unboxing can cause your program to slow down if you use it too much</li>
+  <li>Wrappers require a lot more memory than primitives.</li>
+  <li>If an array expects a wrapper and gets a primitive or vice versa, it will error.
+As in you cannot pass ints into an array whose type is Integer[] or the
+other way around.</li>
+</ul>
+
+<p><strong>Immutability</strong> Immutable data types are types that cannot change. To make
+sure that a variable does not change, use the <code class="highlighter-rouge">final</code> keyword. Once
+a variable is declared final, it can never change after initial assignment. An
+important note is that if an address is declared final it means that the address
+can’t change- it says nothing about its contents. For example the below syntax
+is valid:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>final int[] arr = new int[1];
+arr[0] = 1;
+arr[0] = 3
+</code></pre></div></div>
+
+<p>But this one is not:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>final int[] arr = new int[3];
+arr = new int[4];
+</code></pre></div></div>
+
+<p>Because you are changing the address of the actual array the variable is pointing
+to.</p>
+
+<p><strong>Generic Classes</strong> To make it so that a class can have variables or methods
+that have a generic type, use the following syntax:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class ArrayMap&lt;K,V&gt;{...}
+</code></pre></div></div>
+
+<p>Then when instantiating the class pass in some “real”, or known, types to the
+class</p>
+
+<p><strong>Generic Methods</strong> You can define a method that takes in generic parameters
+with the following syntax.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static &lt;Chow, Der&gt; Chow get(ArrayMap&lt;Chow, Der)&gt; am, Chow key){...}
+</code></pre></div></div>
+
+<p>From left to right we have the declaration of the generics being used in
+this function then we have the return type. Finally, we have our arguments,
+the first being an ArrayMap with 2 generics and the latter being a generic
+type object.</p>
+
+<p>To use a generic method use the following syntax</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ArrayMap&lt;Integer, String&gt; ismap = new ArrayMap&lt;Integer, String&gt;();
+System.out.println(MapHelper.get(ismap, 5));
+</code></pre></div></div>
+
+<p><strong>Comparing Objects with Generic Methods</strong> Now we have the ability to put vague
+Objects into methods. However this lends itself to a bit of a problem- how
+do we compare these Objects? We cannot simply use ‘&gt;’ because we aren’t sure
+if our object is a numerical primitive. We can get around this by using
+<code class="highlighter-rouge">.compareTo(Object O)</code>.</p>
+
+<p>Now we have a new problem. How do we know if our generic has a compareTo method.
+To get around this, we can make sure that our generic must be a type of
+our <code class="highlighter-rouge">OurComparable</code>. How do we do this? Well take a gander below and check it out.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static &lt;K extends OurComparable, V&gt; K maxKey(ArrayMap&lt;K, V&gt; am) {
+  ...
+  if (k.compareTo(largest) &gt; 0) {
+    ...
+}
+</code></pre></div></div>
+
+<p>Basically what’s happening is that, in the header, we ensure that K needs to
+extend <code class="highlighter-rouge">OurComparable</code>.</p>
+<h2 id="exercises">Exercises</h2>
+
+<h3 id="c-level">C level</h3>
+<ol>
+  <li>Implement the ArrayMap Class that was done in lecture. It should contain the
+following methods
+    <ul>
+      <li>put(key, value): Associate key with value.</li>
+      <li>containsKey(key): Checks to see if arraymap contains the key.</li>
+      <li>get(key): Returns value, assuming key exists..</li>
+      <li>keys(): Returns a list of all keys.</li>
+      <li>size(): Returns number of keys.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="b-level">B level</h3>
+<ol>
+  <li>
+    <p>Say we had a set of classes defined as follows:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public interface Fat&lt;Gar extends comparable, Field&gt;{...}
+ public class FatCat implements Feline&lt;Chubster , Integer&gt;{...}
+ public class Chubster{...}
+</code></pre></div>    </div>
+
+    <p>Would this compile? Assume the class bodies are well defined.</p>
+  </li>
+  <li>
+    <p>Is there a way to compare generics without ensuring the types in the
+class/method header extend <code class="highlighter-rouge">OurComparable</code>?</p>
+  </li>
+  <li>
+    <p>Below are a few reference classes</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public class Grodie(){
+   static final int cow;
+ }
+ public class OdeMiester(){
+   public final int breath;
+   public final Grodie gosh;
+   public final Grodie[] arr;
+ }
+</code></pre></div>    </div>
+
+    <p>Say which of the following lines would cause an error. Assume that if a compilation
+   error exists the rest of the program can run without a problem.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> final OdeMiester groovy = new OdeMiester();
+ groovy.breath = 5;
+ groovy.gosh = new Grodie();
+ groovy.gosh.cow = 10;
+ arr = new Grodie[2];
+ groovy.breath = 6;
+ arr[0] = groovy;
+ OdeMiester radical = new OdeMiester();
+ OdeMiester lit = groovy;
+ arr[0] =  lit;
+ groovy = radical;
+ arr[1]= radical;
+ arr[1] = lit;
+ radical.gosh.cow = 2;
+</code></pre></div>    </div>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec13/lec13 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:21 GMT -->
+</html>

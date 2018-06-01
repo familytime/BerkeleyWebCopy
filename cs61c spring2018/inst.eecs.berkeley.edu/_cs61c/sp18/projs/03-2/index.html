@@ -1,0 +1,685 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/projs/03-2/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:57 GMT -->
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<title>Project 3-2: CPU</title>
+
+  <link rel="stylesheet" type="text/css" media="screen" href="style.css">
+
+<script language="javascript">
+
+</script>
+
+<!-- <style type="text/css"> -->
+
+	<style type="text/css">
+		table{background:#cdc;border-collapse:collapse;font-family:monospace}td{border:0.125em solid #aba;padding:0.25em}thead{background:#676;color:#fff;text-transform:uppercase}
+    td{font-size: 1.2em;}
+		span.inst{color:#d00}span.rgtr{color:#00a}span.immd{color:#a0a}span.label{color:#666}
+		div.highlight{background:#cdc;padding:1em}
+		span.warn{color:#f00;font-weight:bold;}
+		table.colonly{display:inline-block;vertical-align:top;}table.colonly td{border-top:0em;border-bottom:0em;padding-top:0.1em;padding-bottom:0.1em;}td.center{text-align:center}
+	</style>
+	</style>
+
+</head>
+
+
+
+<body>
+
+<div class="header">
+	<div class="header-text">
+	  <h1>CS61C Spring 2018 Project 3-2: CPU</h1>
+        TA: Qijing Huang and Derek Feng 
+	</div>
+</div>
+
+<div class="content">
+	<!-- <p><b>Due Due 11/06 @ 23:59:59</b></p> -->
+	<p><b>Due March 23rd, 2018 @ 11:59:59 pm</b></p>
+  <p><b>NOTE: All important updates will be posted on Piazza thread. Please prioritize Piazza as the source of truth and check it regularly. </b></p>
+<hr>
+
+  <div class="highlight">
+		<h3>IMPORTANT INFO - PLEASE READ</h3>
+   
+    <ul>    
+      <li>You are allowed to use any of Logisim's built-in blocks for all parts of this project.</li>
+      <li><b> Save often.</b> Logism can be buggy and the last thing you want is to lose some of your hard work. There are students every semester who have had to start over large chunks of their projects due to this. </li>
+      <li>Approach this project like you would any coding assignment: construct it piece by piece and test each component early and often!</li> 
+      <li><b>MAKE SURE TO CHECK YOUR CIRCUITS WITH THE GIVEN HARNESSES TO SEE IF THEY FIT! YOU WILL FAIL ALL OUR TESTS IF THEY DO NOT.</b> <br/>(This also means that you should not be moving around given <b>inputs</b> and <b>outputs</b> ports in the circuit files <em>alu.circ</em>, <em>regfile.circ</em>, <em>mem.circ</em>, and <em>cpu.circ</em>).</li>
+      <li>Because the files you are working on are not plain code and circuit schematics, they can't really be merged. <b>DO NOT WORK ON THE SAME FILE IN TWO PLACES AND TRY TO MERGE THEM. YOU WILL NOT BE ABLE TO MERGE THEM AND YOU WILL BE SAD.</b></li>
+      <li><b>Make sure all your changes are located in <tt>cpu.circ</tt></b>. If you need to modularize, use sub-circuits instead of a new library module.</li>
+    </ul>
+
+	</div>
+
+</ul>
+
+<hr>
+
+    <h2>Overview</h2>
+    
+    
+    <p>In this project you will be using <a href="http://www.cburch.com/logisim/index.html">Logisim</a> to implement a 32-bit two-cycle processor based on RISC-V. This project is meant to give you a better understanding of the actual RISC-V datapath. In fact, after this project you would have everything you needed to know in order to build a RISC-V CPU in Logisim that could understand your assembled and linked input from Project 2! </p>
+
+    <p>In part II, you will complete a 2-stage pipelined processor! </p>
+ 
+ <h2>0) Obtaining the Files</h2>
+
+     <p>We have added the CPU template (cpu.circ) and harness (run.circ), the data memory module (mem.circ). First, commit all changes that you had for part 1. Then, please fetch and merge the changes from the proj3-2 branch of the starter repo. For example, if you have set the <tt>proj3-starter</tt> remote link:</p>
+        
+        <pre>cd proj3-XXX                  # Go inside the project directory
+git fetch proj3-starter
+git merge proj3-starter/master -m "merge proj3-2 skeleton code"</pre>
+
+    <p> If you do not have the <tt>proj3-starter</tt> remote link from part I, you can run:</p>
+    <pre>git remote add proj3-starter https://github.com/61c-teach/sp18-proj3-starter.git</pre>
+
+    <p> If you do have some other incorrect value for the <tt>proj3-starter</tt> remote link, delete it first by running:</p>
+    <pre>git remote rm proj3-starter</pre>
+  <!--  <p> If there are merge conflicts, and you would like to keep your changes of alu.circ and regfile.circ, run 
+    <pre>git checkout --ours &lt;filename&gt;
+git add &lt;filename&gt;
+git commit -m "Merge conflicts"
+git push
+</pre> -->
+    <p> The starter code locates in <tt>sp18-proj3-starter/part2</tt>, before you start, you will need to copy your implementation of ALU and RegFile from part1 over:</p>
+    <pre>cd sp18-proj3-starter
+cp alu.circ regfile.circ part2/</pre>
+
+   <h2>1) Getting Started - Processor</h2>
+
+   <p>We have provided a skeleton for your processor in <tt>cpu.circ</tt>. You will be using your own implementations of the ALU and RegFile as you construct your datapath. If you find any errors in either of these components, you should definitely fix them. You are responsible for constructing the entire datapath and control from scratch. Your completed processor should implement the ISA detailed below in the section Instruction Set Architecture (ISA)</a> using a two-cycle pipeline, specified below. </p>
+                
+        <p>Your processor will get its program from the processor harness <tt>run.circ</tt>. Your processor will output the address of an instruction, and accept the instruction at that address as an input. Inspect <tt>run.circ</tt> to see exactly what's going on. (This same harness will be used to test your final submission, so make sure your CPU fits in the harness before submitting your work!) Your processor has 2 inputs that come from the harness:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <td>Input Name</td>
+                    <td>Bit Width</td>
+                    <td>Description</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>INSTRUCTION</td>
+                    <td>32</td>
+                    <td>Driven with the instruction at the instruction memory address identified by the FETCH_ADDRESS (see below).</td>
+                </tr>
+                <tr>
+                    <td>CLOCK</td>
+                    <td>1</td>
+                    <td>The input for the clock. As with the register file, this can be sent into subcircuits (e.g. the CLK input for your register file) or attached directly to the clock inputs of memory units in Logisim, but should not otherwise be gated (i.e., do not invert it, do not <tt>AND</tt> it with anything, etc.).</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p>Your processor must provide the following  outputs to the harness:</p>
+        <table>
+            <thead>
+                <tr>
+                    <td>Output Name</td>
+                    <td>Bit Width</td>
+                    <td>Description</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>s0</td>
+                    <td>32</td>
+                    <td>Driven with the contents of s0. FOR TESTING</td>
+                </tr>
+                <tr>
+                    <td>s1</td>
+                    <td>32</td>
+                    <td>Driven with the contents of s1. FOR TESTING</td>
+                </tr>
+                <tr>
+                    <td>t0</td>
+                    <td>32</td>
+                    <td>Driven with the contents of t0. FOR TESTING</td>
+                </tr>
+                <tr>
+                    <td>t1</td>
+                    <td>32</td>
+                    <td>Driven with the contents of t1. FOR TESTING</td>
+                </tr>
+                <tr>
+                    <td>t2</td>
+                    <td>32</td>
+                    <td>Driven with the contents of t2. FOR TESTING</td>
+                </tr>
+                <tr>
+                    <td>a0</td>
+                    <td>32</td>
+                    <td>Driven with the contents of a0. FOR TESTING</td>
+                </tr>
+                <tr>
+                    <td>ra</td>
+                    <td>32</td>
+                    <td>Driven with the contents of ra. FOR TESTING</td>
+                </tr>
+                <tr>
+                    <td>sp</td>
+                    <td>32</td>
+                    <td>Driven with the contents of sp. FOR TESTING</td>
+                </tr>
+
+                <tr>
+                    <td>FETCH_ADDRESS</td>
+                    <td>32</td>
+                    <td>This output is used to select which instruction is presented to the processor on the INSTRUCTION input.</td>
+                </tr>
+            </tbody>
+        </table>
+
+<!--               <p><b>ONE MORE THING:</b> In addition to these inputs and outputs, you also need to have an <span style="color:red; font-weight:bold;">LED unit</span> which lights up to signify signed overflow. This indicator should be wired to the signed overflow port of your ALU. This should be viewable in your main circuit.</p> -->
+
+        <p>Just like in part I, be careful <b>NOT</b> to move the input or output pins! You should ensure that your processor is correctly loaded by a fresh copy of <tt>run.circ</tt> before you submit. You can download a fresh copy from the starter repo website.</p>
+
+   <h2>1.5) Getting Started - Memory</h2>
+   <p>The memory unit is already fully implemented for you! Here's a quick summary of its inputs and outputs:</p>
+
+  <table>
+    <thead>
+        <tr>
+            <td>Output Name</td>
+            <td>In- or Out-put?</td>
+            <td>Bit Width</td>
+            <td>Description</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>A: ADDR</td>
+            <td>In</td>
+            <td>32</td>
+            <td>Address to read/write to in Memory</td>
+        </tr>
+        <tr>
+            <td>D: WRITE DATA</td>
+            <td>In</td>
+            <td>32</td>
+            <td>Value to be written to Memory</td>
+        </tr>
+        <tr>
+            <td>En: WRITE ENABLE</td>
+            <td>In</td>
+            <td>1</td>
+            <td>Equal to one on any instructions that write to memory, and zero otherwise</td>
+        </tr>
+        <tr>
+            <td>Clock</td>
+            <td>In</td>
+            <td>1</td>
+            <td>Driven by the clock input to cpu.circ</td>
+        </tr>
+        <tr>
+            <td>D: READ DATA</td>
+            <td>Out</td>
+            <td>32</td>
+            <td>Driven by the data stored at the specified address.</td>
+        </tr>
+    </body>
+  </table>
+  <p>Note that the memory is word-addressable, meaning given an address, it will return 4-byte data.  </p>
+<!-- 
+  <p>One important caveat is that the memory is only 64 MB in size, due to the limitations of Logisim's built-in memory block.
+  If you try to read or write addresses greater than or equal to 2<sup>26</sup>, they will alias to lower addresses. 
+  That is, the address 2<sup>26</sup> + X will appear to be the same as X. -->
+
+<h2>2) The Instruction Set Architecture</h2>
+    
+    <p>Your CPU will support the instructions listed below. Most of the instructions should behave the same as the RISC-V you learned in class. If anything surprises you, it is likely that I made a mistake. Please make a Piazza post about it. </p>
+
+<!--     <h3>New Registers</h3>
+    In addition to the registers in the RegFile, you will need to add a few new registers in order to provide for a fully functional datapath as well as multiplication. In your datapath,  -->
+
+    <h3> Instruction Formats </h3>
+    <img src="instruction_format.png" style="width: 80%;"/>
+
+    <h3> The Instructions </h3>
+    <table>
+      <thead>
+        <tr>
+          <td>Instruction</td>
+          <td>Type</td>
+          <td>Opcode</td>
+          <td>Funct3</td>
+          <td>Funct7/IMM</td>
+          <td>Operation</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="inst">add</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td rowspan="12">R</td>
+          <td rowspan="12"><span>0x33</span></td>
+          <td>0x0</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] + <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">mul</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x0</td>
+          <td>0x01</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; (<span class="vars">R</span>[<span class="rgtr">rs1</span>] * <span class="vars">R</span>[<span class="rgtr">rs2</span>])[31:0]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">sub</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x0</td>
+          <td>0x20</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] - <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">sll</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x1</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] &lt;&lt; <span class="vars">R</span>[<span>rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">mulh</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x1</td>
+          <td>0x01</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; (<span class="vars">R</span>[<span class="rgtr">rs1</span>] * <span class="vars">R</span>[<span class="rgtr">rs2</span>])[63:32]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">slt</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x2</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; (<span class="vars">R</span>[<span class="rgtr">rs1</span>] &lt; <span class="vars">R</span>[<span class="rgtr">rs2</span>]) ? 1 : 0 (signed)</td>
+        </tr>
+        <!-- <tr>
+          <td><span class="inst">sltu</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x3</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; (<span class="vars">R</span>[<span class="rgtr">rs1</span>] &lt; <span class="vars">R</span>[<span class="rgtr">rs2</span>]) ? 1 : 0 (unsigned)</td>
+        </tr> -->
+        <tr>
+          <td><span class="inst">xor</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x4</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] ^ <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">div</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x4</td>
+          <td>0x01</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] / <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">srl</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x5</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] &gt;&gt; <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+<!--         <tr>
+          <td><span class="inst">sra</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x5</td>
+          <td>0x20</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] &gt;&gt; <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr> -->
+        <tr>
+          <td><span class="inst">or</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x6</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] | <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">rem</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x6</td>
+          <td>0x01</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] % <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">and</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x7</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] &amp; <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">lb</span> <span class="rgtr">rd</span>, <span class="immd">offset</span>(<span class="rgtr">rs1</span>)</td>
+          <td rowspan="12">I</td>
+          <td rowspan="3"><span>0x03</span></td>
+          <td>0x0</td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="func">SignExt</span>(<span class="func">Mem</span>(<span class="vars">R</span>[<span class="rgtr">rs1</span>] + <span class="immd">offset</span>, <span class="lite">byte</span>))</td>
+        </tr>
+        <tr>
+          <td><span class="inst">lh</span> <span class="rgtr">rd</span>, <span class="immd">offset</span>(<span class="rgtr">rs1</span>)</td>
+          <td>0x1</td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="func">SignExt</span>(<span class="func">Mem</span>(<span class="vars">R</span>[<span class="rgtr">rs1</span>] + <span class="immd">offset</span>, <span class="lite">half</span>))</td>
+        </tr>
+        <tr>
+          <td><span class="inst">lw</span> <span class="rgtr">rd</span>, <span class="immd">offset</span>(<span class="rgtr">rs1</span>)</td>
+          <td>0x2</td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="func">Mem</span>(<span class="vars">R</span>[<span class="rgtr">rs1</span>] + <span class="immd">offset</span>, <span class="lite">word</span>)</td>
+        </tr>
+        <tr>
+          <td><span class="inst">addi</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="immd">imm</span></td>
+          <td rowspan="8">0x13</td>
+          <td>0x0</td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] + <span class="immd">imm</span></td>
+        </tr>
+        <tr>
+          <td><span class="inst">slli</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="immd">imm</span></td>
+          <td>0x1</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] &lt;&lt; <span class="immd">imm</span></td>
+        </tr>
+        <tr>
+          <td><span class="inst">slti</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="immd">imm</span></td>
+          <td>0x2</td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; (<span class="vars">R</span>[<span class="rgtr">rs1</span>] &lt; <span class="immd">imm</span>) ? 1 : 0</td>
+        </tr>
+        <tr>
+          <td><span class="inst">xori</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="immd">imm</span></td>
+          <td>0x4</td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] ^ <span class="immd">imm</span></td>
+        </tr>
+        <tr>
+          <td><span class="inst">srli</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="immd">imm</span></td>
+          <td>0x5</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] &gt;&gt; <span class="immd">imm</span></td>
+        </tr>
+        <tr>
+<!--           <td><span class="inst">srai</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="immd">imm</span></td>
+          <td>0x5</td>
+          <td>0x20</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] &gt;&gt; <span class="immd">imm</span></td> -->
+        </tr>
+        <tr>
+          <td><span class="inst">ori</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="immd">imm</span></td>
+          <td>0x6</td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] | <span class="immd">imm</span></td>
+        </tr>
+        <tr>
+          <td><span class="inst">andi</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="immd">imm</span></td>
+          <td>0x7</td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] &amp; <span class="immd">imm</span></td>
+        </tr>
+        <tr>
+<!--           <td><span class="inst">ecall</span>
+            <td>0x73</td>
+            <td>0x0</td>
+            <td>0x000</td>
+            <td class="c8">
+            <span>(Transfers control to operating system)</span>
+            <br/>
+            <span class="rgtr">a0</span> = <span class="immd">1</span> is print value of <span class="rgtr">a1</span> as an integer.
+            <br/>
+            <span class="rgtr">a0</span> = <span class="immd">10</span> is exit or end of code indicator.
+          </td> -->
+        </tr>
+        <tr>
+<!--          <td><span class="inst">sb</span> <span class="rgtr">rs2</span>, <span class="immd">offset</span>(<span class="rgtr">rs1</span>)</td>
+          <td rowspan="2">S</td>
+          <td rowspan="2">0x23</td>
+          <td>0x0</td>
+          <td></td>
+          <td><span class="func">Mem</span>(<span class="vars">R</span>[<span class="rgtr">rs1</span>] + <span class="immd">offset</span>) &larr; <span class="vars">R</span>[<span class="rgtr">rs2</span>][7:0]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">sh</span> <span class="rgtr">rs2</span>, <span class="immd">offset</span>(<span class="rgtr">rs1</span>)</td>
+          <td>0x1</td>
+          <td></td>
+          <td><span class="func">Mem</span>(<span class="vars">R</span>[<span class="rgtr">rs1</span>] + <span class="immd">offset</span>) &larr; <span class="vars">R</span>[<span class="rgtr">rs2</span>][15:0]</td>
+        </tr>
+-->
+        <tr>
+          <td><span class="inst">sw</span> <span class="rgtr">rs2</span>, <span class="immd">offset</span>(<span class="rgtr">rs1</span>)</td>
+          <td rowspan="2">S</td>
+          <td rowspan="2">0x23</td> 
+          <td>0x2</td>
+          <td></td>
+          <td><span class="func">Mem</span>(<span class="vars">R</span>[<span class="rgtr">rs1</span>] + <span class="immd">offset</span>) &larr; <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">swge</span> <span class="rgtr">rs2</span>, 0(<span class="rgtr">rs1</span>), <span class="immd">offset</span> </td>
+          <td>0x7</td>
+          <td></td>
+          <td class="c8">
+            if(<span class="vars">R</span>[<span class="rgtr">rs2</span>] &gt;= <span class="immd">offset</span> (signed)) 
+            <br/>
+            &nbsp;<span class="func">Mem</span>(<span class="vars">R</span>[<span class="rgtr">rs1</span>]) &larr; <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="inst">beq</span> <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span>, <span class="immd">offset</span></td>
+          <td rowspan="3">SB</td>
+          <td rowspan="3">0x63</td>
+          <td>0x0</td>
+          <td></td>
+          <td class="c8">
+            if(<span class="vars">R</span>[<span class="rgtr">rs1</span>] == <span class="vars">R</span>[<span class="rgtr">rs2</span>]) 
+            <br/>
+            &nbsp;<span class="vars">PC</span> &larr; <span class="vars">PC</span> + {<span class="immd">offset</span>, 1b'0}
+          </td>
+        </tr>
+        <tr>
+          <td><span class="inst">blt</span> <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span>, <span class="immd">offset</span></td>
+          <td>0x4</td>
+          <td></td>
+          <td class="c8">
+            if(<span class="vars">R</span>[<span class="rgtr">rs1</span>] less than  <span class="vars">R</span>[<span class="rgtr">rs2</span>] (signed)) 
+            <br/>
+            &nbsp;<span class="vars">PC</span> &larr; <span class="vars">PC</span> + {<span class="immd">offset</span>, 1b'0}
+          </td>
+        </tr>
+        <tr>
+          <td><span class="inst">bltu</span> <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span>, <span class="immd">offset</span></td>
+          <td>0x6</td>
+          <td></td>
+          <td class="c8">
+            if(<span class="vars">R</span>[<span class="rgtr">rs1</span>] less than  <span class="vars">R</span>[<span class="rgtr">rs2</span>] (unsigned)) 
+            <br/>
+            &nbsp;<span class="vars">PC</span> &larr; <span class="vars">PC</span> + {<span class="immd">offset</span>, 1b'0}
+          </td>
+        </tr>
+        <tr>
+          <td><span class="inst">lui</span> <span class="rgtr">rd</span>, <span class="immd">offset</span></td>
+          <td>U</td>
+          <td>0x37</td>
+          <td></td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; {<span class="immd">offset</span>, 12b'0}</td>
+        </tr>
+        <tr>
+          <td><span class="inst">jal</span> <span class="rgtr">rd</span>, <span class="immd">imm</span></td>
+          <td>UJ</td>
+          <td>0x6f</td>
+          <td></td>
+          <td></td>
+          <td class="c8">
+            <span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">PC</span>  +  <span class="lite">4</span>
+            <br/>
+            <span class="vars">PC</span> &larr; <span class="vars">PC</span> + {<span class="immd">imm</span>, 1b'0}
+          </td>
+        </tr>
+        <tr>
+          <td><span class="inst">jalr</span> <span class="rgtr">rd</span>, <span class="rgtr">rs</span>, <span class="immd">imm</span></td>
+          <td>I</td>
+          <td>0x67</td>
+          <td>0x0</td>
+          <td></td>
+          <td class="c8">
+            <span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">PC</span>  +  <span class="lite">4</span>
+            <br/>
+            <span class="vars">PC</span> &larr; <span class="vars">R</span>[<span class="rgtr">rs</span>] + {<span class="immd">imm</span>}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+<br>    
+    <h2>3) Controls</h2>
+    <p> You can probably guess that control signals will play a very large part in this project. Figuring out all of the control signals may seem intimidating. We suggest taking a look at Discussion 6 to get started, and to remember that there is not a definitive set of control signals--walk through the datapath with different types of instructions, and when you see a mux or other component think about what selector/enable value you will need for that instruction. </p>
+
+    <p> Additionally, implementing the control signals can be done in many ways, including implementing the corresponding truth tables and using comparators. Since you are welcome to use any built-in Logisim circuits, we suggest using whichever component makes the most sense to you, whether performing logical operations on instruction bits and/or comparing fields to certain values.</p>
+    
+    <p> Before you go and add the pipeline stages, we suggest you to verify the correctness of the control singals with the single-cycle CPU tests we give you. 
+   
+   <h2>4) Pipelining</h2>
+    <p>Your processor will have a 2-stage pipeline:</p>
+    
+    <ol>
+    <li><b>Instruction Fetch:</b> An instruction is fetched from the instruction memory. (Note: while you can, please do not calculate jump address in this stage. Instead, you should try to deal with the jump control hazard.)</li>
+    <li><b>Execute:</b> The instruction is decoded, executed, and committed (written back). This is a combination of the remaining stages of a normal five-stage RISC-V pipeline.</li>
+    </ol>
+    <p>First, make sure you understand what hazards you will have to deal with.</p>
+    <p><font color="red">Our ISA does not expose branch delay slots to software.</font> This means that the instruction immediately after a branch or jump is not executed if the branch is taken. This makes your task a bit more complex. By the time you have figured out that a branch or jump is in the execute stage, you have already accessed the instruction memory and pulled out (possibly) the wrong instruction. You will therefore need to "kill" instructions that are being fetched if the instruction under execution is a jump or a taken branch. <font color="red">Instruction kills for this project MUST be accomplished by MUXing a <tt>nop</tt> into the instruction stream and sending the <tt>nop</tt> into the Execute stage instead of using the fetched instruction. Notice that 0x00000000 is a <tt>nop</tt> instruction; please use this, as it will simplify grading and testing.</font> You should only kill if a branch is taken (do not kill otherwise), but do kill on every type of jump.</p>
+    
+    <p>Because all of the control and execution is handled in the Execute stage, <b>your processor should be more or less indistinguishable from a single-cycle implementation, barring the one-cycle startup latency and the branch/jump delays.</b> However, we will be enforcing the two-pipeline design. If you are unsure about pipelining, it is perfectly fine (maybe even recommended) to first implement a single-cycle processor. This will allow you to first verify that your instruction decoding, control signals, arithmetic operations, and memory accesses are all working properly. From a single-cycle processor you can then split off the Instruction Fetch stage with a few additions and a few logical tweaks. Some things to consider:</p>
+    
+    <ul>
+      <li>Will the IF and EX stages have the same or different <tt>PC</tt> values?</li>
+      <li>Do you need to store the <tt>PC</tt> between the pipelining stages?</li>
+      <li>To MUX a <tt>nop</tt> into the instruction stream, do you place it <i>before</i> or <i>after</i> the instruction register?</li>
+      <li>What address should be requested next while the EX stage executes a <tt>nop</tt>?  Is this different than normal?</li>
+    </ul>
+
+    <p>You might also notice a bootstrapping problem here: during the first cycle, the instruction register sitting between the pipeline stages won't contain an instruction loaded from memory. How do we deal with this? It happens that Logisim automatically sets registers to zero on reset; the instruction register will then contain a <tt>nop</tt>. We will allow you to depend on this behavior of Logisim. Remember to go to Simulate <tt>--&gt;</tt> Reset Simulation (Ctrl+R) to reset your processor.</p>
+
+    <h2>Logisim Notes</h2>
+        
+    <p>If you are having trouble with Logisim, <b><i>RESTART IT and RELOAD your circuit!</i></b> Don't waste your time chasing a bug that is not your fault. However, if restarting doesn't solve the problem, it is more likely that the bug is a flaw in your project. Please post to Piazza about any crazy bugs that you find and we will investigate.</p>
+  
+    <h3>Things to Look Out For</h3>
+    <ul>
+        <li>Do <b>NOT</b> gate the clock! This is very bad design practice when making real circuits, so we will discourage you from doing this by heavily penalizing your project if you gate your clock.</li>
+        <li><span style="color:red; font-weight:bold;">BE CAREFUL with copying and pasting from different Logisim windows.</span> Logisim has been known to have trouble with this in the past.</li>
+        <li>When you import another file (Project <tt>--&gt;</tt> Load Library <tt>--&gt;</tt> Logisim Library...), it will appear as a folder in the left-hand viewing pane. The skeleton files should have already imported necessary files.</li>
+        <li>Changing attributes <em>before</em> placing a component changes the default settings for that component.  So if you are about to place many 16-bit pins, this might be desireable.  If you only want to change that particular component, place it first before changing the attributes.</li>
+        <li>When you change the inputs &amp; outputs of a sub-circuit that you have already placed in <tt>main</tt>, Logisim will automatically add/remove the ports when you return to <tt>main</tt> and this sometimes shifts the block itself.  If there were wires attached, Logisim will do its automatic moving of these as well, which can be extremely dumb in some cases.  Before you change the inputs and outputs of a block, it can sometimes be easier to first disconnect all wires from it.</li>
+        <li>Error signals (red wires) are obviously bad, but they tend to appear in complicated wiring jobs such as the one you will be implementing here.  It's good to be aware of the common causes while debugging:<br><br><img src="error_wire.png"></li>
+    </ul>
+    <p>Lastly, before you go into implementation, one last piece of advice from me: Modularize, modularize, modularize!</p>
+
+
+<h3>Logisim's Combinational Analysis Feature</h3> 
+    <p>Logisim offers some functionality for automating circuit implementation given a truth table, or vice versa. Though not disallowed (enforcing such a requirement is impractical), use of this feature is discouraged. Remember that you will not be allowed to have a laptop running Logisim on the final.</p>
+
+    <hr>
+    
+    <h2>Testing</h2>
+   
+    <p>For part 2, it is somewhat difficult to provide small unit tests such as the ones from part 1 since you are completing the full datapath. As such, <b>the best approach to test would be to write short RISC-V programs and exercise your datapath in different ways</b>. You can use <a href="http://www.kvakil.me/venus/">Venus</a> to convert RISC-V program into Machine code (Under the <i>Simulation</i> tab, click on the <i>Dump </i>button to copy the machine code to clipboard).</p>
+
+    <p>Once you have generated the machine code, you'll have to load it into the instruction memory unit in <tt>run.circ</tt> and begin execution. To do so, first open <tt>run.circ</tt> and locate the Instruction Memory Unit.</p>
+    <img style="max-width:1000px" src="inst_mem.png"/>
+    <p>Click on the memory module and then, in the left sidebar, click on the "(Click to edit)" option next to "Contents". This will bring up a hex editor with the option to open a previously created hex file. This is where we load the file outputted by the assembler earlier.</p>
+    <img style="max-width:1000px" src="file_select.png"/>
+
+    <p>Once you've loaded the machine code you can tick the clock manually and watch your CPU execute your program! You can double click on the CPU using the poke tool to take a look at how your datapath is behaving under the given input. You can compare the behavior of your CPU to the output of Venus emulator.</p>
+
+<!--     <p> However, to give you examples for tests, as well as a basic sanity check on your CPU, we have provided some tests for the basic functionality of the CPU. As a reminder, these are not comprehensive, and you will need to write your own tests to verify the complete behavior of your CPU. In order to run the provided tests, just run:</p>
+    <pre> make cpu </pre>
+    <p>A log file will then be outputted named <tt> TEST_LOG</tt></p> -->
+
+    <h3>Sanity tests</h3>
+
+    <p>
+<b>a) Single-Cycle CPU</b>
+
+<p>It is good practice to build a working single-cycle CPU before adding pipeline stages to it. 
+The test harness for the single-cycle CPU is given to you in <em>tests/cpu_single</em>. 
+You can run the single cycle sanity test using the following command from your project folder:
+<pre> ./cpu-sanity-test-single.sh 
+</pre>
+</p>
+
+This will copy your <em>cpu.circ, mem.circ, alu.circ</em> and <em>regfile.circ</em> into the <em>tests/cpu_single</em> folder and then run the tests specified in <em>sanity_test.py</em>.</p>
+
+<b>b) Two-Cycle CPU</b>
+
+<p>You can run the pipelined sanity test using the following command from your project folder:
+<pre> ./cpu-sanity-test-pipelined.sh 
+</pre></p>
+
+<p>The output of your cpu will be dumped in the <em>tests/cpu-pipelined/output</em> folder. 
+You can examine the output with the <em>binary_to_hex.py</em> script by: 
+ <pre>
+ cd tests/cpu_pipelined
+ python binary_to_hex.py output/CPU-&lt;test_name&gt;.out 
+</pre></p>
+
+<p>To see what happened during a test, you can go to <em>tests/cpu_pipelined</em> and open the <em>CPU-&lt;test_name&gt;.circ</em> files.
+These are harnesses that are modified to have testing inputs in them. 
+You can tick the clock and see the outputs of your circuit and compare them to what you would expect.</p>
+
+<b>c) Logisim Command-Line</b>
+<p> If you are interested in how the circuits are being run through command-line, read the <a href="http://www.cburch.com/logisim/docs/2.6.0/en/guide/verify/index.html">Logisim Command-line Verification</a> page. Running the following command under <em>tests/cpu-pipelined/</em> will load the circuit <i>CPU-&lt;test_name&gt;.circ</i> and execute the test in logisim: 
+<pre> java -jar logisim.jar CPU-&lt;test_name&gt;.circ -tty table
+</pre>
+ Logisim loads the current values of the output pins; if any have changed from the previous propagation, then all values are displayed in tab-delimited format. </p> 
+ 
+    
+<h2>Submission</h2>
+<h4>Files to submit</h4>
+    <pre>part2/cpu.circ
+part2/alu.circ
+part2/regfile.circ
+</pre>
+    
+    <p> We will be using our own versions of the <tt>run.circ</tt> files, so you do not need to submit those. In addition, you should not depend on any changes you make to those files.</p>
+
+<h4>Submission Instructions</h4>    
+    <p>There are <strong>two</strong> steps required to submit proj3-2. Failure to perform both steps will result in loss of credit:</p>
+
+    <ol>
+        <li><p>First, you must submit glookup on the instructional servers. This assumes that you followed the earlier instructions and did all of your work inside of your <tt>git</tt> repository. To submit, follow these instructions after logging into your -XXX class account:</p>
+
+            <pre>
+cd ~/proj3-XXX                             # Or where your shared git repo is
+cd part2
+submit proj3-2</pre>
+                
+            <p> Once you type <tt>submit proj3-2</tt>, follow the prompts generated by the submission system. It will tell you when your submission has been successful and you can confirm this by looking at the output of <tt>glookup -t</tt>.</p>
+            <br />
+        </li>
+
+        <li><p>Additionally, you must submit proj3-2 to your Bitbucket repository:</p>
+
+            <pre>
+cd ~/proj3-XXX                            # Or where your shared git repo is
+git add -u                           
+git commit -m "project 3-2 submission"       # The commit message doesn't have to match exactly.
+git tag "proj3-2-sub"                        # The tag MUST be "proj3-2-sub". Failure to do so will result in loss of credit.
+git push origin proj3-2-sub                  # This tells git to push the commit tagged proj3-2-sub</pre>
+        </li>
+    </ol>
+
+    <h4>Resubmitting</h4>
+
+    <p>If you need to re-submit, you can follow the same set of steps that you would if you were submitting for the first time, but you will need to use the <tt>-f</tt> flag to tag and push to Bitbucket:</p>
+
+    <pre>
+# Do everything as above until you get to tagging
+git tag -f "proj3-2-sub"
+git push -f origin proj3-2-sub</pre>
+
+    <p>Note that in general, force pushes should be used with caution. They will overwrite your remote repository with information from your local copy. As long as you have not damaged your local copy in any way, this will be fine.</p>
+    
+<h2>Grading</h2>
+    
+    <p>This project will be graded in large part by an automatic grading script. For regrades, we will try to look to see if there is a simple wiring problem. If we can find one, we will give you the new score from the autograder minus a deduction based on the severity of the wiring problem. For this reason, neatness wil play a factor in wiring - please try to make your circuits neat and readable.</p>
+    
+</div>
+</body>
+
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/projs/03-2/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:58 GMT -->
+</html>

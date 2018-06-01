@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+  
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/projs/02-1/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:37 GMT -->
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <link rel="stylesheet" type="text/css" href="style.css">
+		<style type="text/css">
+			table{background:#cdc;border-collapse:collapse;font-family:monospace}td{border:0.125em solid #aba;padding:0.5em}thead{background:#676;color:#fff;text-transform:uppercase}
+			span.inst{color:#d00}span.vars{color:#a00}span.rgtr{color:#00a}span.lite{color:#0a8}span.immd{color:#a0a}span.func{font-style:oblique;color:#666}
+		</style>
+    <title>CS61C Spring 2018 Project 2</title>
+  </head>
+  <body>
+    <div class='header'>
+      <h1>CS61C Spring 2018 Project 2: RISC-V Instruction Set Emulator</h1>
+    </div>
+    <div class='content'>
+      <p><b>TAs: Tejas Kannan</b></p>
+    	<p>
+				<b><font color="red">Part 1 due Friday, February 16th @ 23:59:59 PST</font></b><br/>
+        <b><font color="red">Part 2 due Friday, February 23th @ 23:59:59 PST</font></b><br/>
+			</p>
+
+      <h3>Updates:</h3>
+      <ul>
+        <li>2/4/2018 1:00 PM: Fixed typo in spec about registers for store instructions.</li>
+      </ul>
+
+      <h2>Goals</h2>
+      <p>We hope this project will enhance your C programming skills, familiarize you with some of the details of RISC-V, and prepare you for what's to come later in this course.</p>
+      <h2>Background</h2>
+      <p>In this project, you will create an emulator that is able to execute a subset of the RISC-V ISA. You'll provide the machinery to decode and execute a couple dozen RISC-V instructions.</p>
+      <p>The <a name="green card" href="http://inst.eecs.berkeley.edu/~cs61c/fa17/img/riscvcard.pdf" target="_blank">RISC-V green card</a> provides some information necessary for completing this project.</p>
+      <h2>Getting started</h2>
+      <p>Make sure you read through the entire spec before starting the project.</p>
+
+<p>To obtain the proj2 files, pull from the skeleton git repo. The commands here will place a folder containing the starter code in a directory called proj2. You may run these commands from either your local machine or your instructional account.</p>
+<pre class="input"><span class='output'>$ </span> mkdir proj2
+<span class='output'>$ </span> cd proj2
+<span class='output'>$ </span> git clone https://github.com/61c-teach/sp18-proj2-starter.git</pre>
+
+      <p>The files you will need to modify and submit are:</p>
+			<ul>
+				<li><code>part1.c</code>: The main file which you will modify for part 1.</li>
+        <li><code>utils.c</code>: The helper file which will hold various helper functions for part 1.</li>
+				<li><code>part2.c</code>: The main file which you will modify for part 2. You will not be submitting this file for part 1.</li>
+			</ul>
+      <p><b><font color="red">You will NOT be submitting any files other than the ones listed above. This means that you will not be submitting header files. If you add helper functions, please place the function prototypes in the corresponding C files. If you do not follow this step, your code will likely not compile and you will get a zero on the project.</font></b></p>
+			<p>You should definitely consult through the following, thoroughly:</p>
+			<ul>
+    		<li><code>types.h</code>: C header file for the data types you will be dealing with.</li>
+    		<li><code>Makefile</code>: File which records all dependencies.</li>
+    		<li><code>riscvcode/*</code>: Various files to run tests.</li>
+        <li><code>utils.h</code>: File that contains the format for instructions to print for part 1.</li>
+    	</ul>
+    	<p>You should not need to look at these files, but here they are anyway:</p>
+    	<ul>
+    		<li><code>riscv.h</code>: C header file for the functions you are implementing.</li>
+    		<li><code>riscv.c</code>: C source file for the program loader and main function.</li>
+    	</ul>
+
+      <p><b><font color="red">Your code will be tested (via our autograder) on the hive machines. BEFORE YOU SUBMIT, please make sure your code is functioning on a hive machine as opposed to just your local machine.</font></b></p>
+    	
+    	<h2>The RISC-V Emulator</h2>
+    	<p>The files provided in the start kit comprise a framework for a RISC-V emulator. In part 1, you will add code to <code>part1.c</code> and <code>utils.c</code> to print out the human-readable disassembly
+  corresponding to the instruction's machine code. In part 2, you'll complete the program by adding code to <code>part2.c</code> to execute each instruction (including performing memory accesses). Your simulator must be able to handle the machine code versions of the RISC-V machine instructions below. We've already given you a framework for what cases of instruction types you should be handling.</p>
+      <p><font color="red">It is critical that you read and understand the definitions in <code>types.h</code> before starting the project. If they look mysterious, consult chapter 6 of K&amp;R, which covers structs, bitfields, and unions.</font></p>
+
+      <p>Check yourself: why does <code>sizeof(Instruction)==4</code>?</p>
+
+<p>
+  The instruction set that your emulator must handle is listed below. All of the information here is copied from the RISC-V green sheet for your convenience; you may still use the green card as a reference.
+<table>
+      <thead>
+        <tr>
+          <td>Instruction</td>
+          <td>Type</td>
+          <td>Opcode</td>
+          <td>Funct3</td>
+          <td>Funct7/IMM</td>
+          <td>Operation</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="inst">add</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td rowspan="13">R</td>
+          <td rowspan="13"><span>0x33</span></td>
+          <td>0x0</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] + <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">mul</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x0</td>
+          <td>0x01</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; (<span class="vars">R</span>[<span class="rgtr">rs1</span>] * <span class="vars">R</span>[<span class="rgtr">rs2</span>])[31:0]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">sub</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x0</td>
+          <td>0x20</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] - <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">sll</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x01</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] &lt;&lt; <span class="vars">R</span>[<span>rs2</span></td>
+        </tr>
+        <tr>
+          <td><span class="inst">mulh</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x1</td>
+          <td>0x01</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; (<span class="vars">R</span>[<span class="rgtr">rs1</span>] * <span class="vars">R</span>[<span class="rgtr">rs2</span>])[63:32]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">slt</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x2</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; (<span class="vars">R</span>[<span class="rgtr">rs1</span>] &lt; <span class="vars">R</span>[<span class="rgtr">rs2</span>]) ? 1 : 0</td>
+        </tr>
+        <tr>
+          <td><span class="inst">xor</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x4</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] ^ <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">div</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x4</td>
+          <td>0x01</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] / <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">srl</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x5</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] &gt;&gt; <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">sra</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x5</td>
+          <td>0x20</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] &gt;&gt; <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">or</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x6</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] | <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">rem</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x6</td>
+          <td>0x01</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; (<span class="vars">R</span>[<span class="rgtr">rs1</span>] % <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">and</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span></td>
+          <td>0x7</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] &amp; <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">lb</span> <span class="rgtr">rd</span>, <span class="immd">offset</span>(<span class="rgtr">rs1</span>)</td>
+          <td rowspan="12">I</td>
+          <td rowspan="3"><span>0x03</span></td>
+          <td>0x0</td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="func">SignExt</span>(<span class="func">Mem</span>(<span class="vars">R</span>[<span class="rgtr">rs1</span>] + <span class="immd">offset</span>, <span class="lite">byte</span>))</td>
+        </tr>
+        <tr>
+          <td><span class="inst">lh</span> <span class="rgtr">rd</span>, <span class="immd">offset</span>(<span class="rgtr">rs1</span>)</td>
+          <td>0x1</td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="func">SignExt</span>(<span class="func">Mem</span>(<span class="vars">R</span>[<span class="rgtr">rs1</span>] + <span class="immd">offset</span>, <span class="lite">half</span>))</td>
+        </tr>
+        <tr>
+          <td><span class="inst">lw</span> <span class="rgtr">rd</span>, <span class="immd">offset</span>(<span class="rgtr">rs1</span>)</td>
+          <td>0x2</td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="func">Mem</span>(<span class="vars">R</span>[<span class="rgtr">rs1</span>] + <span class="immd">offset</span>, <span class="lite">word</span>)</td>
+        </tr>
+        <tr>
+          <td><span class="inst">addi</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="immd">imm</span></td>
+          <td rowspan="8">0x13</td>
+          <td>0x0</td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] + <span class="immd">imm</span></td>
+        </tr>
+        <tr>
+          <td><span class="inst">slli</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="immd">imm</span></td>
+          <td>0x1</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] &lt;&lt; <span class="immd">imm</span></td>
+        </tr>
+        <tr>
+          <td><span class="inst">slti</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="immd">imm</span></td>
+          <td>0x2</td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; (<span class="vars">R</span>[<span class="rgtr">rs1</span>] &lt; <span class="immd">imm</span>) ? 1 : 0</td>
+        </tr>
+        <tr>
+          <td><span class="inst">xori</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="immd">imm</span></td>
+          <td>0x4</td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] ^ <span class="immd">imm</span></td>
+        </tr>
+        <tr>
+          <td><span class="inst">srli</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="immd">imm</span></td>
+          <td>0x5</td>
+          <td>0x00</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] &gt;&gt; <span class="immd">imm</span></td>
+        </tr>
+        <tr>
+          <td><span class="inst">srai</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="immd">imm</span></td>
+          <td>0x5</td>
+          <td>0x20</td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] &gt;&gt; <span class="immd">imm</span></td>
+        </tr>
+        <tr>
+          <td><span class="inst">ori</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="immd">imm</span></td>
+          <td>0x6</td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] | <span class="immd">imm</span></td>
+        </tr>
+        <tr>
+          <td><span class="inst">andi</span> <span class="rgtr">rd</span>, <span class="rgtr">rs1</span>, <span class="immd">imm</span></td>
+          <td>0x7</td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">R</span>[<span class="rgtr">rs1</span>] &amp; <span class="immd">imm</span></td>
+        </tr>
+        <tr>
+          <td><span class="inst">ecall</span>
+            <td>0x73</td>
+            <td>0x0</td>
+            <td>0x000</td>
+            <td class="c8">
+            <span>(Transfers control to operating system)</span>
+            <br/>
+            <span class="rgtr">a0</span> = <span class="immd">1</span> is print value of <span class="rgtr">a1</span> as an integer.
+            <br/>
+            <span class="rgtr">a0</span> = <span class="immd">10</span> is exit or end of code indicator.
+          </td>
+        </tr>
+        <tr>
+          <td><span class="inst">sb</span> <span class="rgtr">rs2</span>, <span class="immd">offset</span>(<span class="rgtr">rs1</span>)</td>
+          <td rowspan="3">S</td>
+          <td rowspan="3">0x23</td>
+          <td>0x0</td>
+          <td></td>
+          <td><span class="func">Mem</span>(<span class="vars">R</span>[<span class="rgtr">rs1</span>] + <span class="immd">offset</span>) &larr; <span class="vars">R</span>[<span class="rgtr">rs2</span>][7:0]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">sh</span> <span class="rgtr">rs2</span>, <span class="immd">offset</span>(<span class="rgtr">rs1</span>)</td>
+          <td>0x1</td>
+          <td></td>
+          <td><span class="func">Mem</span>(<span class="vars">R</span>[<span class="rgtr">rs1</span>] + <span class="immd">offset</span>) &larr; <span class="vars">R</span>[<span class="rgtr">rs2</span>][15:0]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">sw</span> <span class="rgtr">rs2</span>, <span class="immd">offset</span>(<span class="rgtr">rs1</span>)</td>
+          <td>0x2</td>
+          <td></td>
+          <td><span class="func">Mem</span>(<span class="vars">R</span>[<span class="rgtr">rs1</span>] + <span class="immd">offset</span>) &larr; <span class="vars">R</span>[<span class="rgtr">rs2</span>]</td>
+        </tr>
+        <tr>
+          <td><span class="inst">beq</span> <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span>, <span class="immd">offset</span></td>
+          <td rowspan="2">SB</td>
+          <td rowspan="2">0x63</td>
+          <td>0x0</td>
+          <td></td>
+          <td class="c8">
+            if(<span class="vars">R</span>[<span class="rgtr">rs1</span>] == <span class="vars">R</span>[<span class="rgtr">rs2</span>]) 
+            <br/>
+            &nbsp;<span class="vars">PC</span> &larr; <span class="vars">PC</span> + {<span class="immd">offset</span>, 1b'0}
+          </td>
+        </tr>
+        <tr>
+          <td><span class="inst">bne</span> <span class="rgtr">rs1</span>, <span class="rgtr">rs2</span>, <span class="immd">offset</span></td>
+          <td>0x1</td>
+          <td></td>
+          <td class="c8">
+            if(<span class="vars">R</span>[<span class="rgtr">rs1</span>] != <span class="vars">R</span>[<span class="rgtr">rs2</span>]) 
+            <br/>
+            &nbsp;<span class="vars">PC</span> &larr; <span class="vars">PC</span> + {<span class="immd">offset</span>, 1b'0}
+          </td>
+        </tr>
+        <tr>
+          <td><span class="inst">lui</span> <span class="rgtr">rd</span>, <span class="immd">offset</span></td>
+          <td>U</td>
+          <td>0x37</td>
+          <td></td>
+          <td></td>
+          <td><span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; {<span class="immd">offset</span>, 12'b0}</td>
+        </tr>
+        <tr>
+          <td><span class="inst">jal</span> <span class="rgtr">rd</span>, <span class="immd">imm</span></td>
+          <td>UJ</td>
+          <td>0x6f</td>
+          <td></td>
+          <td></td>
+          <td class="c8">
+            <span class="vars">R</span>[<span class="rgtr">rd</span>] &larr; <span class="vars">PC</span>  +  <span class="lite">4</span>
+            <br/>
+            <span class="vars">PC</span> &larr; <span class="vars">PC</span> + {<span class="immd">imm</span>, 1b'0}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>For further reference, here are the bit lengths of the instruction components.</p>
+    <table>
+    	<tr><td>R-TYPE</td><td><span class="inst">funct7</span></td><td><span class="rgtr">rs2</span></td><td><span class="rgtr">rs1</span></td><td><span class="inst">funct3</span></td><td><span class="rgtr">rd</span></td><td><span class="inst">opcode</span></td></tr>
+    	<tr><td>Bits</td><td>7</td><td>5</td><td>5</td><td>3</td><td>5</td><td>7</td></tr>
+    </table>
+    <br/>
+    <table>
+    	<tr><td>I-TYPE</td><td><span class="immd">imm[11:0]</span></td><td><span class="rgtr">rs1</span></td><td><span class="inst">funct3</span></td><td><span class="rgtr">rd</span></td><td><span class="inst">opcode</span></td></tr>
+    	<tr><td>Bits</td><td>12</td><td>5</td><td>3</td><td>5</td><td>7</td></tr>
+    </table>
+    <br/>
+    <table>
+      <tr><td>S-TYPE</td><td><span class="immd">imm[11:5]</span></td><td><span class="rgtr">rs2</span></td><td><span class="rgtr">rs1</span></td><td><span class="inst">funct3</span></td><td><span class="immd">imm[4:0]</span></td><td><span class="inst">opcode</span></td></tr>
+      <tr><td>Bits</td><td>7</td><td>5</td><td>5</td><td>3</td><td>5</td><td>7</td></tr>
+    </table>
+    <br/>
+    <table>
+      <tr><td>SB-TYPE</td><td><span class="immd">imm[12]</span></td><td><span class="immd">imm[10:5]</span></td><td><span class="rgtr">rs2</span></td><td><span class="rgtr">rs1</span></td><td><span class="inst">funct3</span></td><td><span class="immd">imm[4:1]</span></td><td><span class="immd">imm[11]</span></td><td><span class="inst">opcode</span></td></tr>
+      <tr><td>Bits</td><td>1</td><td>6</td><td>5</td><td>5</td><td>3</td><td>4</td><td>1</td><td>7</td></tr>
+    </table>
+    <br/>
+    <table>
+      <tr><td>U-TYPE</td><td><span class="immd">imm[31:12]</span></td><td><span class="rgtr">rd</span></td><td><span class="inst">opcode</span></td></tr>
+      <tr><td>Bits</td><td>20</td><td>5</td><td>7</td></tr>
+    </table>
+    <br/>
+    <table>
+      <tr><td>UJ-TYPE</td><td><span class="immd">imm[20]</span></td><td><span class="immd">imm[10:1]</span></td><td><span class="immd">imm[11]</span></td><td><span class="immd">imm[19:12]</span></td><td><span class="rgtr">rd</span></td><td><span class="inst">opcode</span></td></tr>
+      <tr><td>Bits</td><td>1</td><td>10</td><td>1</td><td>8</td><td>5</td><td>7</td></tr>
+    </table>
+
+			<p>Just like the regular RISC-V architecture, the RISC-V system you're implementing is little-endian. This means that when given a value comprised of multiple bytes, the least-significant byte is stored at the lowest address. Look at P&amp;H (4th edition) page B-43 for further information on endianness (byte order). </p>
+
+			<h2>The Framework Code</h2>
+			<p>The framework code we've provided operates by doing the following.</p>
+			<ol>
+    		<li>It reads the program's machine code into the simulated memory (starting at address 0x01000). The program to "execute" is passed as a command line parameter. Each program is given 1 MiB of memory and is byte-addressable. </li>
+    		<li>It initializes all 32 RISC-V registers to 0 and sets the program counter (PC) to 0x01000. The only exceptions to the initial initializations are the stack pointer (set to 0xEFFFF) and the global pointer (set to 0x03000). In the context of our emulator, the global pointer will refer to the static portion of our memory. The registers and Program Counter are managed by the <code>Processor struct</code> defined in <code>types.h</code>.</li>
+    		<li>It sets flags that govern how the program interacts with the user. Depending on the options specified on the command line, the simulator will either show a dissassembly dump (-d) of the program on the command line, or it will execute the program. More information on the command line options is below.</li>
+  		</ol>
+  		<p>It then enters the main simulation loop, which simply executes a single instruction repeatedly until the simulation is complete. Executing an instruction performs the following tasks:</p>
+  		<ol>
+    		<li>It fetches an instruction from memory, using the PC as the address.</li>
+    		<li>It examines the opcode/funct3 to determine what instruction was fetched.</li>
+    		<li>It executes the instruction and updates the PC.</li>
+  		</ol>
+  		<p>The framework supports a handful of command-line options:</p>
+  		<ul>
+  			<li><code>-i</code> runs the simulator in interactive mode, in which the simulator executes an instruction each time the Enter key is pressed. The disassembly of each executed instruction is printed.</li>
+    		<li><code>-t</code> runs the simulator in tracing mode, in which each instruction executed is printed.</li>
+    		<li><code>-r</code> instructs the simulator to print the contents of all 32 registers after each instruction is executed. This option is most useful when combined with the -i flag.</li>
+    		<li><code>-d</code> instructs the simulator to disassemble the entire program, then quit before executing.</li>
+  		</ul>
+			<p>In part 2, you will be implementing the following:</p>
+        <ul>
+          <li> The <code>execute_instruction()</code></li>
+          <li> The various <code>executes</code></li>
+          <li> The <code>store()</code></li>
+          <li> The <code>load()</code></li>
+        </ul>
+      <p> By the time you're finished, your code should handle all of the instructions in the table above. </p>
+			
+  		<h2>Part 1 (Due 2/16 at 11:59 PM)</h2>
+        In part 1, you will be writing a disassembler that translates RISC-V machine code into human-readable assembly code. You will also be laying the building blocks for the actual emulator that you will implement in part 2. You will be implementing the following functions. The files in which they are located are in parentheses.
+        <ol>
+          <li><code>parse_instruction(instruction_bits)</code> (utils.c): Uses the given instruction (encoded as a 32-bit integer) and returns the corresponding instruction. You will have to determine the proper format of the given instruction and use the correspdonding member of the instruction struct. You will find the green sheet particularly helpful here.</li>
+          <li><code>sign_extend_number(field, n)</code> (utils.c): This function interprets the number in <code>field</code> as an <code>n</code>-bit number and sign-extends it to a 32-bit integer.</li>
+          <li><code>get_*_offset(instruction)</code> (utils.c): For the corresponding instruction type (either branch, jump, or store), this function unpacks the immediate value and returns the number of bytes to offset by. In this case of branches and jumps, these functions should return the number of bytes to add to the PC to get to the desired label. In the case of stores, the corresponding function will return the offset on the destination address.</li>
+          <li><code>print_*(instruction)</code> (part1.c): Prints the instruction to standard output. You should use the constants defined in the file <code>utils.h</code> to properly format your instructions. Failure to do so will cause issues with the autograder. You should also refer to registers by their numbers and not their names.</li>  
+        </ol>
+
+<h4> Testing </h4>
+      <p>There are two types of tests for this project: unit tests and end-to-end tests. The unit tests can be found in the file <tt>test_utils.c</tt>. This suite tests the <tt>sign_extend_number</tt> and <tt>parse_instruction</tt> functions. You can run these tests using the command below.</p>
+      <pre class="output">
+      $ <span class="input">make test-utils</span>
+      </pre>
+      <p>To create your own unit tests, you should create a new function in the <tt>test_utils.c</tt> that contains your logic. You then must add your test function to the test suite located in the <tt>main</tt> function. You can look at the other tests in the file as examples. The unit tests use the <a href="http://cunit.sourceforge.net/doc/writing_tests.html" target="_blank">CUnit</a> framework. <b>It is more than likely that CUnit is not configured on your local machine, so you should only run these tests on the hive machines.</b></p>
+
+  		<p>To test part1 in its entirety, you can run the full disassembly end-to-end tests. You may run the disassembly test by typing in the following command. If you pass the tests, you will see the output listed here:</p>
+  		
+      <pre class="output">
+      $ <span class="input">make part1</span>
+      gcc -g -Wall -Werror -Wfatal-errors -O2 -o riscv utils.c part1.c part2.c riscv.c
+      simple_disasm TEST PASSED!
+      multiply_disasm TEST PASSED!
+      random_disasm TEST PASSED!
+      ---------Disassembly Tests Complete---------
+      </pre>
+
+
+      <p> The tests provided do not test every single possiblity, so creating your own tests to check for edge cases is vital.
+  If you would like to only run one specific test, you can run the following command:</p>
+  <code> make [test_name]_disasm </code>
+<p> To create your own end-to-end tests, you first need to create the relevant machine code. This can either be done by hand or by using the <a href="https://kvakil.github.io/venus/" target="_blank">Venus</a> simulator built by Keyhan Vakil (currently a CS161 TA). You should put the machine instructions in a file named <code>[test_name].input</code> and place that file inside <code>riscvcode/code</code>. Then, create what the output file will look like in <code>[test_name].solution</code> and put this output file in <code>riscvcode/ref</code>. See the provided tests for examples on these files. To integrate your tests with the <code>make</code> command, you must modify the Makefile. On Line 4 of the Makefile, where it says <code> ASM_TESTS</code>, add <code>[test_name]</code> to the list with spaces in between file names.</p>
+  
+  		<p>If your disassembly does not match the output, you will get the difference between the reference output and your output. Make sure you at least pass this test before submitting <code>part1.c</code></p>
+</pre>
+  
+  		<p>For this part, only changes to the files <code>part1.c</code> and <code>utils.c</code> will be considered by the autograder. To submit, enter in the command from within the hive: </p>
+	
+<h4> Debugging and GDB </h4>
+<p>The best way to debug your project will be to use GDB. To run GDB, you should use the following command.</p>
+      <pre class="output">
+      $ <span class="input">cgdb riscv</span>
+      </pre>
+<p>Once inside GDB, you should use the following command to run your code. The possible test files are called <tt>simple</tt>, <tt>multiply</tt>, <tt>random</tt>.</p>
+<pre class="output">
+      $ <span class="input">run -d riscvcode/code/[test-name].input</span>
+      </pre>
+
+<h4> Submission </h4>
+<p>To submit your project, run the command on the hive machines. <b>You will only be submitting your <tt>part1.c</tt> and <tt>utils.c</tt> files.</b> Furthermore, before you submit, please ensure that your code works on the hive machines, as this is where we will be running the autograder.</p> 
+<pre class="output">
+$ <span class="input">submit proj2-1</span>
+</pre>
+
+  		<h2>Part 2 (Due on 2/23 at 11:59 PM)</h2>
+        <p>For part 2 of this project, you will be implementing the actual emulator that can execute RISC-V machine code. In order to accomplish this task, you will need to complete the functions below.</p>
+        <ul>
+          <li><tt>execute_*()</tt>: These functions handle the majority of the execution of the reduced RISC-V instruction set we are implementing in this project. To reduce the amount of busy work, the ladders of switch statements are already implemented for you. To complete the implementation, you will only need to fill in the switch cases. You should be updating the appropriate register values and interacting with memory when applicable.</li>
+          <li><tt>store()</tt>: This function takes an address, a size, and a value and stores the first -size- bytes of the given value at the given address.</li>
+          <li><tt>load()</tt>: This function accepts an address and a size and returns the next -size- bytes starting at the given address.<b><font color="red"> You will need to implement <tt>load()</tt> first in order to fetch instructions properly; without a functioning <tt>load()</tt> you will get errors due to invalid instructions.</font></b><br/></li>
+        </ul>
+        <p>Note that a correct implementation of this part will depend on the functions in <tt>utils.c</tt>. Thus, you should ensure that these functions (which you wrote in part 1) are working correctly.</p>
+
+        <h4>Fetching Updates</h4>
+        <p>There are a few updates that have been made to the starter code for part 2. To integrate these changes, run the following command.</p>
+        <pre class="output">
+          $ <span class="input">git pull [name-of-starter-repo] master</span>
+        </pre>
+        <p>To find the name of the starter repo, you should run the command below and find the remote name that corresponds to the url <tt>https://github.com/61c-teach/sp18-proj2-starter</tt></p>
+        <pre class="output">
+          $ <span class="input">git remote -v</span>
+        </pre>
+        <p>If there is no such remote repository, then you will need to add the starter code as a remote. To accomplish this, run the command below. This command gives the remote repository the name <tt>proj2-starter</tt></p>
+        <pre class="output">
+          $ <span class="input">git remote add proj2-starter https://github.com/61c-teach/sp18-proj2-starter.git</span>
+        </pre>
+
+        <h4>Testing</h4>
+        <p>You are provided with three test files that evaluate your emulator's correctness. The input files are the same as those in part 1. The output files are those with the <tt>.trace</tt> extension. The solutions are located in the folder <tt>riscvcode/ref</tt>, while your project's code will write it's output to the folder <tt>riscvcode/out</tt>. These trace files dump the contents of the registers after the execution of each instruction.</p>
+
+        <p>To run your code on all of the tests, you should run the command below.</p>
+        <pre class="output">
+          $ <span class="input">make part2</span>
+        </pre>
+
+        <p>If you would like to run a specific test, then run the following command. You should replace <tt>[test_name]</tt> with either <tt>simple</tt>, <tt>random</tt>, or <tt>multiply</tt>.</p>
+        <pre class="output">
+          $ <span class="input">make [test_name]_execute</span>
+        </pre>
+
+        <p>The testing suite is run through the python script <tt>part2_tester.py</tt>. This file will read in your output and compare it against the reference trace by looking at changes in the registers between instructions. If a test fails, you should see an output that lists which instruction and register was incorrect. You can then cross-reference this information with the tests' <tt>.solution</tt> file (the disassembled version from part 1) to find the erroneous error.</p>
+
+        <p>If you would like to add new tests, you should follow the same steps as those outlined when creating tests for part 1. The only difference is that you need to create a <tt>.trace</tt> reference file that contains the register values after every instruction</p>
+
+        <h4>Submission</h4>
+
+        <p><b><font color="red">For this part, you will only be submitting the files <tt>part2.c</tt> and <tt>utils.c</tt>. If you modify any other files (including header files), you will likely get a zero on the project. Any function prototypes you add should be placed at the top of the corresponding C file (and not the header file).</font></b></p>
+
+        <p><b>As always, your code will be tested (via our autograder) on the hive machines. BEFORE YOU SUBMIT, please make sure your code is functioning on a hive machine as opposed to just your local machine.</b></p>
+
+        <p>When you are ready, you can submit your project on the hive machines via glookup using the following command.</p>
+        <pre class="output">
+          $ <span class="input">submit proj2-2</span>
+        </pre>
+        <p>To check that your submission was successful, you should see a submission timestamp when you run the command below. Note that we will grade your most recent submission.</p>
+        <pre class="output">
+          $ <span class="input">glookup -t</span>
+        </pre>
+
+	</body>
+
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/projs/02-1/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:37 GMT -->
+</html>

@@ -1,0 +1,260 @@
+<html>
+  
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/6/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:56 GMT -->
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <title>CS61C Spring 2018 Lab 6</title>
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <style type="text/css"> img{border:1px dotted black;} </style>
+  </head>
+  <body id="frame">
+    <div class="header">
+      <div class="header-text">
+        <h1>CS61C Spring 2018 Lab 6 - Pipelining and CPU Prep</h1>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="section" id="id1">
+        <h2>Setup</h2>
+
+        <p>Copy the starter lab files: <tt>cp -r ~cs61c/labs/06 .</tt></p>
+
+        <h2>Exercises</h2>
+        <p>The lab this week is intended to be very short. It consists of a pipelining exercise which you will need to check off like normal. We want to give you as much time as possible to start project 3-2 when it is released! </p>
+
+      </div>
+      <h2>Exercise 1: Pipelining</h2>
+      <p>Assume that on power-on, registers initially contain zeros.</p>
+      <div class="section" id="id2">
+        <p>Consider the following 2-input FSM. Its next state and output is computed by multiplying the inputs and adding it to the current state.</p>
+        <p><center><img src="fsm.png"/></center></p>
+        <p>Say the propogation delay of a adder block is 50ns, the propogation delay of a multiplication block is 55 ns, and the clk-to-q delay of a register is 5ns. Calculate the maximum clock rate at which this circuit can operate. Assume that the register setup time is negligible, and that both inputs come from clocked registers that receive their data from an outside source.
+        </p>
+        <div class="checkoff">
+          <h4><a name="checkoff">Checkoff</a></h4>
+          <ul>
+            <li>Show your TA the calculations you performed to find the maximum clock rate (non-pipelined).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="section" id="id3">
+        <p>We want to improve the performance of this circuit, and let it operate at a higher clock rate. To do so, we will divide up the multiplication and addition into two different pipeline stages; in the first pipeline stage, we will perform the multiplication of the two inputs. In the second pipeline stage, we will add the product to the state.</p>
+        <p>Our definition of &quot;correctness&quot; will be simple: we will consider the sequence of outputs from this circuit &quot;correct&quot; iff it corresponds to the sequence of outputs the non-pipelined version would emit, potentially with some leading zeros. For example, if for some sequence of inputs the non-pipelined version emits [3,5,1,2,4, ...], a correct circuit might emit the sequence of outputs [0,3,5,1,2,4, ...] for that same sequence of inputs.</p>
+
+        <p>For your convenience and to help standardize check-offs, we are providing a starting point in the files <a href="pipeline.html"><tt>pipeline.circ</tt></a> and <a href="ROMdata.html"><tt>ROMdata</tt></a> (use the links or pull from <tt>~cs61c/labs/06/</tt>). In <tt>pipeline.circ</tt>, the sub-circuit <tt>Non-pipelined</tt> is set up exactly as the figure above.  The <tt>main</tt> circuit is set up to produce the output sequence [3,5,1,2,4,-1,0,0,...] on the non-pipelined version of this circuit.  It is also a handy example of how to use memory from a file.  The ROM block should be initialized to the proper data, but if it is zero-ed out, right-click it and choose "Load image..." and select <tt>ROMdata</tt>.</p>
+
+        <p>Note that we need a register to hold the intermediate value of the computation between pipeline stages. This is a general theme with pipelines.</p>
+        <ol>
+          <li>Complete the sub-circuit <tt>Pipelined</tt>.  You will need to add a register to divide the multiplication and addition into separate pipeline stages.</li>
+          <li>Calculate the maximum clock rate for the pipelined version of the circuit.</li>
+          <li>When we talked about pipelining in lecture, we discussed that if a computation depends on the output of a previous computation, it's difficult to pipeline them and we often need to insert a pipeline &quot;bubble&quot; (or several) to ensure that the output of the first computation is ready to be an input to the second. As a reminder a bubble is the process of purposely delaying an instruction in the pipeline. Explain why inserting such &quot;bubbles&quot; is unnecessary for this particular circuit.</li>
+        </ol>
+      </div>
+      <div class="checkoff">
+          <h4><a name="checkoff">Checkoff</a></h4>
+          <ul>
+            <li>Show your TA the completed, pipelined circuit.</li>
+            <li>Show your TA the calculations you performed to find the maximum clock rate (pipelined).</li>
+            <li>Explain to your TA why bubbles are unecessary in this circuit.</li>
+          </ul>
+      </div>
+
+
+      <div class="section">
+        <h2>Exercise 2: Feedback</h2>
+        <p> Complete the <a href="https://docs.google.com/forms/d/e/1FAIpQLSd6p_fBZJqx6Gi8cNY6K4AvHqMGhrQrSMoAcMtbPbodVOo8Mg/viewform?usp=sf_link">mid-semester feedback form</a>. All responses are anonymous, but we are requiring everyone to complete the form as a part of the checkoff. As a result when you complete the form <strong>do not close the tab indicating you have completed it.</strong> Thank you for taking the time to fill this out, your feedback can help us continue to improve as instructors and the course as a whole.</p>
+
+      <div class="checkoff">
+        <h4><a name="checkoff">Checkoff</a></h4>
+        <ul>
+          <li>Show your TA the page on the google form indicating it has been completed.</li>
+        </ul>
+      </div>
+        <p>You have now completed everything that needs to be checked off for this lab.</p>
+      
+
+
+      <div class="section">
+        <h2>Exercise 3: CPU Project Guide</h2>
+        <p> We wanted to include this to guide you through part 2 of the CPU project when it is released. Please use this guide to your advantage for getting started with part 2. </p>
+        <p>
+          We know that starting off part 2 with a blank slate might be intimidating, so we want to guide you through how to think about this project by implementing a simple R-type instruction, <tt>add</tt>. In addition, we provide a pre-proj exercise with questions/tricks to prepare you for the project. It's highly recommended to work through this guide and work on the pre-proj before you start part2. <b>The pre-proj exercise is available on edx. You don't need this pre-proj to check-off lab7; it is optional but for your benefit.</b></p>
+
+        <p>Recall the five stages of the CPU pipeline:</p>
+        <ol>
+          <li>Instruction Fetch</li>
+          <li>Instruction Decode</li>
+          <li>Execute</li>
+          <li>Memory</li>
+          <li>Write Back</li>
+        </ol>
+        <p>This guide will help you work through each of these stages, as it pertains to the <tt>add</tt> instruction. Each section will contain questions for you to think through, pointers to important details, and references to lecture material - but won't tell you exactly how to implement it. You may need to read and understand each question before going to the next one, and you can see the answers by <em>clicking on the question</em>. During your implementation, feel free to place things in subcircuits as you see fit.</p>
+
+        <h3>Stage 1: Instruction Fetch</h3>
+        <p>The main thing we are concerned about in this stage is: how do we get the current instruction? From lecture, we know that instructions are stored in the instruction memory, and each of these instructions can be accessed through an address.</p>
+        <ol>
+          <li>
+            <details>
+              <summary>Which file in the project holds your instruction memory? How does it connect to your <tt>cpu.circ</tt> file?</summary>
+              <p>The instruction memory is the ROM module in <tt>run.circ</tt>. It provides an input into your CPU named "instruction" and takes an output named "fetch_addr".</p>
+            </details>
+          </li>
+          <li>
+            <details>
+              <summary>In your CPU, how would changing the address you output to <tt>fetch_address</tt> affect the <tt>instruction</tt> input?</summary>
+              The instruction that <tt>run.circ</tt> outputs to your CPU should be the instruction at address <tt>fetch_address</tt> in instruction memory.
+            </details>
+          </li>
+          <li>
+            <details>
+              <summary>How do you know what the <tt>fetch_address</tt> should be? (Hint: it is also known as PC)</summary>
+              <tt>fetch_address</tt> is the address of the current instruction being executed, so it is saved in the PC register. For this project, it's fine for the PC to start at 0, and that is the default value for registers.
+            </details>  
+          </li>
+          <li>
+            <details>
+              <summary>For this project, does your PC hold an address of a byte or a word?</summary>
+              If you look in <tt>run.circ</tt>, you will see that the address coming from your CPU will go through a splitter before entering the word-addressed memory module. This means that your PC should hold a byte address. 
+            </details>
+          </li>
+          <li>
+            <details>
+              <summary>For basic programs without any jumps or branches, how would the PC change from line to line?</summary>
+              The PC must increment by 1 instruction in order to go to the next instruction, as the address held by the PC register represents what instruction to execute.
+            </details>
+          </li>
+          <li>
+            We have provided the PC register in the <tt>cpu.circ</tt> file. Please implement the PC's behavior for simple programs - ignoring jumps and branches. You will have to add in the latter two in the project, but for now we are only concerned with being able to run strings of <tt>add</tt> instructions. Where should the output of the PC register go? Remember to connect the clock!
+          </li>
+        </ol>
+
+        <h3>Stage 2: Instruction Decode</h3>
+        <p>Now that we have our instruction coming from the <tt>instruction</tt> input, we have break it down in the Instruction Decode step, according to the RISCV Instruction Format you have learned.</p>
+        <ol>
+          <li>
+            <details>
+              <summary>What type of instruction is <tt>add</tt>? What are the different bit fields and which bits are needed for each?</summary>
+              R type. The fields are:
+              <ul>
+                <li>funct7 [31-25]</li>
+                <li>rs2 [24-20]</li>
+                <li>rs1 [19-15]</li>
+                <li>funct3 [14-12]</li>
+                <li>rd [11-7]</li>
+                <li>opcode [6-0]</li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details>
+              <summary>In Logisim, what tool would you use to <em>split</em> out different groups of bits?</summary>
+              Splitter!
+            </details>
+          </li>
+          <li>
+            Please implement the instruction field decode stage using the <tt>instruction</tt> input. You should use tunnels to label and group the bits.
+          </li>
+          <li>
+            <details>
+              <summary>Now we need to get the data from the corresponding registers, using the register file. Which instruction fields should be connected to the register file? Which inputs of the register file should it connect to?</summary>
+              Instruction fields <tt>rs1</tt> and <tt>rs2</tt> will need to connect to read register 1 and 2.
+            </details>
+          </li>
+          <li>
+            Please implement reading from the register file. You will have to bring in your register file from part 1 of the project. Remember to connect the clock!
+          </li>
+        </ol>
+
+        <h3>Stage 3: Execute</h3>
+        <p>The Execute stage, also known as the ALU stage, is where the computation of most instructions is performed. This is also where we will introduce the idea of using a Control Module.</p>
+        <ol>
+          <li>
+            <details>
+              <summary>For the <tt>add</tt> instruction, what should be your inputs in to the ALU?</summary>
+              Read Data 1 and 2 should go into ports A and B of the ALU.
+            </details>
+          </li>
+          <li>
+            <details>
+              <summary>In the ALU, what is the purpose of the Switch, also called the ALU_ctr? </summary>
+              It chooses which operation the ALU should perform.
+            </details>
+          </li>
+          <li>
+            <details>
+              <summary>Although it is possible for now to just put a constant as the switch input, why would this be infeasible as you need to implement more instructions?</summary>
+              With more instructions, the input to the ALU might need to change, so you would need to have some sort of circuit that changes the switch depending on the instruction being executed.
+            </details>
+          </li>
+          <li>
+            Please create a new subcircuit for the Control Module. This module will need to take in as inputs the opcode and funct, using these to output a value for the ALU Switch, depending on what the current instruction is. There are a few ways of doing this. As you implement more instructions, this circuit will have to expand and become more complex.
+          </li>
+          <li>
+            Please bring in your ALU from part 1 of the project and connect the ALU inputs correctly. Do you need to connect the clock? Why or why not?
+          </li>
+        </ol>
+
+        <h3>Stage 4: Memory</h3>
+        <p>The memory stage is where the memory can be written to using store instructions and read from using load instructions. Because the <tt>add</tt> instruction does not use memory, we will not spend too much time here.</p>
+        <ol>
+          <li>
+            Please bring in the MEM module that we provided. At this point, we cannot connect most of the inputs, as we don't know where they should come from. However, you can still connect the clock.
+          </li>
+        </ol>
+
+        <h3>Stage 5: Write back</h3>
+        <p>The write back stage is where the results of the operation is saved back to the registers. Although not all instructions will write back to the register file (can you think of some which do not?), the <tt>add</tt> instruction does.</p>
+        <ol>
+          <li>
+            <details>
+              <summary>Looking at the entire ISA, what are some of the instructions that will write back to a register? Where in the datapath would it get the values?</summary>
+              <tt>add</tt> is an example that will take the output from the ALU and write it back. <tt>lhw</tt> will take the output from MEM and write it to a register. There are more not specified here.
+            </details>
+          </li>
+          <li>
+            Let's create the write back phase so that it is able to write both ALU and MEM outputs to the Register File. Later, when you implement branching/jumping, you may need to add more to this mux. However, at the moment, we need to choose between the ALU and MEM outputs, as only one wire can end up being an input to the register file. Bring a wire from both the ALU and MEM, and connect it to a MUX.
+          </li>
+          <li>
+            <details>
+              <summary>What should you use as the Select input to the MUX? What does the input depend on?</summary>
+              This input should be able to choose between the two MUX inputs, ALU and MEM, which means that its value depends on which instruction is executing. This suggests that the input should originate from the Control Module, as the Control Module is responsible for figuring out which instruction is executing (using the opcode or funct).
+            </details>
+          </li>
+          <li>
+            <p>
+              We now come to the second, and arguably more important, role of Control Modules - determining what values to output to the CPU, in order to control the path of execution. These values are called Control Signals.
+            </p>
+            <p>
+              One example of this is the control signal that connects to the MUX from the previous step, which is commonly called WBSel. WBSel determines which value to write back to the register file.
+            </p>
+            <p>
+              You can find more control signals on the lecture slides, and you'll need to define some yourself. If you find yourself needing a MUX, it's very likely that you'll need to define a control signal for it.
+            </p>
+          </li>
+          <li>
+            There are a few ways of implementing the Control so that it can translate the opcode/functs to the corresponding instruction and then set the control signals correctly. One way to do so is outlined in lecture, using a ROM. The other method uses "AND" logic and "OR" logic to accomplish both tasks. If you are unfamiliar with it, review the slide now and try implementing it for the <tt>add</tt> instruction and the MemToReg control signal.
+          </li>
+          <li>
+            <details>
+              <summary>Now that we have the inputs to the MUX sorted out, we need to wire the output. Where should the output connect to?</summary>
+              Because the output is the data that you want to write into the Register File, it should connect to the Write Data input on the Register File.
+            </details>
+          </li>
+          <li>
+            There are two more inputs on the Register File which are important for writing data: RegWEn and Write Register. One of these will come from the Instruction Decode stage and the other one will be a new control signal that you need to design. Please finish off the Write Back stage by these inputs on the Register File correctly.
+          </li>
+        </ol>
+
+        <p>
+          If you have done all of the following steps correctly, you should have a processor that works for <tt>add</tt> instructions. For the rest of the project, you will be implementing more instructions in much of the same ways - connecting outputs to inputs, adding MUXes and other Logisim components, and defining new control signals. Hopefully, this will be an easier task now that you have a basic skeleton to work off of. Remember, the lecture slides have a lot of information already, and will help you to continue building on the circuits you have now. Good luck!
+        </p>
+    </div>
+  </body>
+  <HEAD>
+      <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+  </HEAD>
+
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/6/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:57 GMT -->
+</html>
+

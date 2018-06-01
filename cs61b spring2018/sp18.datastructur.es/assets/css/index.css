@@ -1,0 +1,98 @@
+table {
+    margin: 20px 0;
+    width: 100%;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+td {
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 300;
+    text-align: center;
+    min-width: 80px;
+    padding: 0 10px;
+}
+
+
+/* Announcements Table */
+#announcements td {
+    line-height: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+#announcements td:first-child {
+    width: 20%;
+}
+#announcements td:nth-child(2) {
+    text-align: left;
+}
+#announcements td:nth-child(3) {
+    text-align: left;
+}
+
+/* Calendar */
+.odd {
+    background-color: #DDD;
+}
+.curweek {
+    background-color: #e9f2fd;
+}
+.emph1, .emph1 a {
+    color: white;
+    background-color: #2F86EB;
+}
+.emph1 a {
+  text-decoration: underline dotted;
+}
+
+.emph1 a:hover {
+  color: #cce3ff;
+}
+
+.emph2 {
+    background-color: #777;
+    color: white;
+}
+.emph3 {
+    background-color: #CC0000;
+    color: white;
+}
+.proj {
+    color: #4CBB17;
+}
+
+.unreleased {
+    color: #aaaaaa;
+    cursor: not-allowed;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                          supported by Chrome and Opera */
+}
+
+/* Google Calendars */
+.calendar {
+    text-align: center;
+    margin-top: 20px;
+}
+@media (min-width: 900px) {
+.curweek {
+    background-color: #e9f2fd;
+}
+.curweek {
+    background-color: #e9f2fd;
+}
+    .small-calendar {
+        display: none;
+    }
+}
+@media (max-width: 900px) {
+    .large-calendar {
+        display: none;
+    }
+}

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec3/lec3.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lists1 Study Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lists1 Study Guide</header><div class="due-date">Author: Wayne Li and Josh Hug</div><ul id="markdown-toc">
+  <li><a href="#lecture-code" id="markdown-toc-lecture-code">Lecture Code</a></li>
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#exercises" id="markdown-toc-exercises">Exercises</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C Level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B Level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="lecture-code">Lecture Code</h2>
+
+<p>Code from this lecture available at
+<a href="https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/lists1">https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/lists1</a>.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Bits</strong> The computer stores information as memory, and represents this
+information using sequences of bits, which are either 0 or 1.</p>
+
+<p><strong>Primitives</strong> Primitives are representations of information. There are 8
+primitive types in Java: byte, short, int, long, float, double, boolean, and
+char. Each primitive is represented by a certain number of bits. For example,
+ints are 32 bit primitives, while bytes are 8 bit primitives.</p>
+
+<p><strong>Declaring Primitives</strong> When we declare a variable to be a primitive (i.e.
+<code class="highlighter-rouge">int x;</code>), we set aside enough memory space to hold the bits (in this case,
+32). We can think of this as a box holding the bits. Java then maps the
+variable name to this box. Say we have a line of code <code class="highlighter-rouge">int y = x;</code> where <code class="highlighter-rouge">x</code>
+was defined before. Java will copy the bits inside the <code class="highlighter-rouge">x</code> box into the bits in
+the <code class="highlighter-rouge">y</code> box.</p>
+
+<p><strong>Creating Objects</strong> When we create an instance of a class using the <code class="highlighter-rouge">new</code>
+keyword, Java creates boxes of bits for each field, where the size of each box
+is defined by the type of each field. For example, if a Walrus object has an
+<code class="highlighter-rouge">int</code> variable and a <code class="highlighter-rouge">double</code> variable, then Java will allocate two boxes
+totaling 96 bits (32 + 64) to hold both variables. These will be set to a
+default value like 0. The constructor then comes in and fills in these bits to
+their appropriate values. The return value of the constructor will return the
+location in memory where the boxes live, usually an address of 64 bits. This
+address can then be stored in a variable with a “reference type.”</p>
+
+<p><strong>Reference Types</strong> If a variable is not a primitive type, then it is a
+reference type. When we declare object variables, we use reference type
+variables to store the location in memory of where an object is located.
+Remember this is what the constructor returns. A reference type is always a box
+of size 64 bits. Note that the variable does not store the entire object
+itself!</p>
+
+<p><strong>Golden Rule of Equals</strong> For primitives, the line <code class="highlighter-rouge">int y = x</code> copies the bits
+inside the <code class="highlighter-rouge">x</code> box into the <code class="highlighter-rouge">y</code> box. For reference types, we do the exact same
+thing. In the line <code class="highlighter-rouge">Walrus newWalrus = oldWalrus;</code>, we copy the 64 bit address
+in the <code class="highlighter-rouge">oldWalrus</code> box into the <code class="highlighter-rouge">newWalrus</code> box. So we can think of this golden
+rule of equals (GroE) as: when we assign a value with equals, we are just
+copying the bits from one memory box to another!</p>
+
+<p><strong>Parameter Passing</strong> Say we have a method <code class="highlighter-rouge">average(double a, double b)</code>. This
+method takes two doubles as parameters. Parameter passing also follows the
+GRoE, i.e. when we call this method and pass in two doubles, we copy the bits
+from those variables into the parameter variables.</p>
+
+<p><strong>Array Instantiation.</strong> Arrays are also Objects, and are also instantiated
+using the <code class="highlighter-rouge">new</code> keyword. This means declaring an array variable (i.e. <code class="highlighter-rouge">int[]
+x;</code>) will create a 64-bit reference type variable that will hold the location
+of this array. Of course, right now, this box contains the value null, as we
+have not created the array yet. The <code class="highlighter-rouge">new</code> keyword for arrays will create the
+array and return the location of this array in memory. So by saying <code class="highlighter-rouge">int[] x =
+new int[]{0, 1, 2, 3, 4};</code>, we set the location of this newly created array to
+the variable x. Note that the size of the array was specified when the array
+was created, and cannot be changed!</p>
+
+<p><strong>IntLists.</strong> Using references, we recursively defined the <code class="highlighter-rouge">IntList</code> class.
+<code class="highlighter-rouge">IntLists</code> are lists of integers that can change size (unlike arrays), and
+store an arbitrarily large number of integers. Writing a <code class="highlighter-rouge">size</code> helper method
+can be done with either recursion or iteration.</p>
+
+<h2 id="exercises">Exercises</h2>
+
+<h3 id="c-level">C Level</h3>
+
+<ol>
+  <li>
+    <p>Complete the exercises from the <a href="https://joshhug.gitbooks.io/hug61b/content/chap2/chap21.html">online
+textbook</a>.</p>
+  </li>
+  <li>
+    <p>If doubles are more versatile than ints, why don’t we always use them?
+Are there any disadvantages to doing this?</p>
+  </li>
+  <li>
+    <p>How much does the memory cost differ between the storing of an address
+of a 32 entry int array and a 300 entry int array?</p>
+  </li>
+</ol>
+
+<h3 id="b-level">B Level</h3>
+
+<ol>
+  <li>
+    <p>Rewrite the <code class="highlighter-rouge">size</code>, <code class="highlighter-rouge">iterativeSize</code>, and <code class="highlighter-rouge">get</code> methods from lecture by using
+this the <a href="https://github.com/Berkeley-CS61B/lectureCode-sp18/blob/master/exercises/lists1/IntList.java">starter code for the IntList
+class</a>.</p>
+  </li>
+  <li>
+    <p>Write methods <code class="highlighter-rouge">incrList</code> and <code class="highlighter-rouge">dincrList</code> as described in
+<a href="https://github.com/Berkeley-CS61B/lectureCode-sp18/blob/master/exercises/lists1/Lists1Exercises.java">Lists1Exercises</a>.
+If your solution uses <code class="highlighter-rouge">size</code>, <code class="highlighter-rouge">iterativeSize</code>, or <code class="highlighter-rouge">get</code>, you’ll need to
+complete the previous exercise first.</p>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec3/lec3.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:03 GMT -->
+</html>

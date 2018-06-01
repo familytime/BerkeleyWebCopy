@@ -1,0 +1,336 @@
+<html>
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/10/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:54:08 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>CS61C Spring 2018 Lab 10</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+<div class="header">
+	<h1>CS61C Spring 2018 Lab 10 - SIMD Intrinsics and loop-unrolling</h1>
+</div>
+
+<div class="content">
+
+<p><strong>Shout-out</strong>: Part of today's exercises (3-5) were made possible by TA <b>Nikhil</b>!</p>
+
+<h2>The Lab Files</h2>
+
+<p>Copy the lab files from the instructional servers to your lab account with</p>
+  <pre class="output">$ <span class="input">cp -r ~cs61c/labs/10/ ~/labs/10/</span></pre>
+
+<p><b><h2 style="color: black">Note that all code using SSE instructions is only guaranteed to work on the hive machines.</h2></b> <br> Many newer processors support SSE intrinsics, so it is certainly possible that your machine will be sufficient, but you may not see accurate speedups. <b>Ideally</b>, you should ssh into one of the hive machines to run this lab. Additionally, many of the performance characteristics asked about later on this lab are more likely to show up on the Hive.</p> 
+
+<h2>Exercises</h2>
+<h3>Exercise 1: Familiarize Yourself with the SIMD Functions</h3>
+<p>Given the large number of available SIMD intrinsics we want you to learn how to find the ones that you'll need in your application.</p>
+
+<p>Intel hosts a variety of tools related to intrinsics, which you can find <a href="https://software.intel.com/en-us/isa-extensions">here</a> (<b>but these are not necessary for this lab</b>).</p>
+
+
+
+<p>The one that we're particularly interested in is the <a href="https://software.intel.com/sites/landingpage/IntrinsicsGuide/">Intel Intrinsics Guide</a>. Open this page and once there, click the checkboxes for everything that begins with "SSE" (SSE all the way to SSE4.2).</p>
+
+<p>Do your best to interpret the new syntax and terminology. Find the 128-bit intrinsics for the following SIMD operations (one for each):</p>
+<ul>
+	<li>Four floating point divisions in single precision (i.e. <tt>float</tt>)</li>
+	<li>Sixteen max operations over signed 8-bit integers (i.e. <tt>char</tt>)</li>
+	<li>Arithmetic shift right of eight signed 16-bit integers (i.e. <tt>short</tt>)</li>
+</ul>
+<p><b>HINT</b>: If you're overwhelmed, just try clicking on a function whose name you understand! Maybe try one of the "add" functions.
+Now read the "Description" and "Operation" sections in the drop-down menu opened by clicking the instruction. If you clicked an "add" function, you should've read something like, "Add packed X-bit integers in <tt>a</tt> and <tt>b</tt>, and store the results in <tt>dst</tt>."
+Then you should realize that the value "X" also appears in the function name! The pattern you see here can be described as follows:</p>
+<p align=center><tt>__m128i _mm_add_epiX</tt> adds together (128/X) packed X-bit integers.</p>
+<p>Another hint: Things that say "epi" or "pi" deal with integers, and those that say "<b>ps</b>" or "<b>pd</b>" deal with <b>s</b>ingle <b>p</b>recision
+and <b>d</b>ouble <b>p</b>recision floats.</p>
+
+<div class='checkoff'>
+<h4><a name="checkoff">Checkoff [1/5]</a></h4>
+<ul>
+  <li>Record the 3 (three) intrinsics we specified above in a text file to show your TA.</li>
+</ul>
+</div>
+
+<h2>Exercise 2: Reading SIMD Code</h2>
+<p>In this exercise you will consider (not implement) the vectorization of 2-by-2 matrix multiplication in double precision (the code we looked at in the SIMD lecture):</p>
+<p><img src="matmul.png"></p>
+<p>The math in the above image amounts to the following arithmetic operations:</p>
+
+<pre>
+    C[0] += A[0]*B[0] + A[2]*B[1];
+    C[1] += A[1]*B[0] + A[3]*B[1];
+    C[2] += A[0]*B[2] + A[2]*B[3];
+    C[3] += A[1]*B[2] + A[3]*B[3];
+</pre>
+
+<p>You are given the code <tt>sseTest.c</tt> that implements these operations in a SIMD manner.<br>The following intrinsics are used:</p>
+
+<table border=1  cellspacing=0>
+  <tr>
+    <td><tt>__m128d _mm_loadu_pd( double *p )</tt></td>
+    <td>returns vector (p[0], p[1])</td>
+  </tr>
+  <tr>
+    <td><tt>__m128d _mm_load1_pd( double *p )</tt></td>
+    <td>returns vector (p[0], p[0])</td>
+  </tr>
+  <tr>
+    <td><tt>__m128d _mm_add_pd( __m128d a, __m128d b )</tt></td>
+    <td>returns vector (a<sub>0</sub>+b<sub>0</sub>, a<sub>1</sub>+b<sub>1</sub>)</td>
+  </tr>
+  <tr>
+    <td><tt>__m128d _mm_mul_pd( __m128d a, __m128d b )</tt></td>
+    <td>returns vector (a<sub>0</sub>b<sub>0</sub>, a<sub>1</sub>b<sub>1</sub>)</td>
+  </tr>
+  <tr>
+    <td><tt>&nbsp; &nbsp;void _mm_storeu_pd( double *p, __m128d a )</tt></td>
+    <td>stores p[0]=a<sub>0</sub>, p[1]=a<sub>1</sub></td>
+  </tr>
+</table>
+
+<p>Compile sseTest.c into <b>x86 assembly</b> (not MIPS!) by running:</p>
+<pre class='output'>
+<span class='input'>make sseTest.s</span><span style="color:#666666;"></span>
+</pre>
+
+<p><b>Now, observe the general structure of the code in <tt>sseTest.s</tt>. See if you can find the for-loop in <tt>sseTest.s</tt> (hint: it's a trick question, see exercise 4) and see if you can identify which instructions are performing SIMD operations.</b> Be prepared to describe to your TA what is happening in general, but you do not need to spend too much time on this section (recall that we are not interested in x86 assembly in this class). We <strong>don't</strong> expect you to tell us exactly what the code is doing line by line. If you're stuck with decipering the x86 assembly, refer to the original <tt>sseTest.c</tt> file that contains the matching C code.</p
+
+<p><b>HINT</b>: Usually loops in assembly code require some kind of jumping or branching... can you find any in this code?</p>
+
+<div class='checkoff'>
+<h4><a name="checkoff">Checkoff [2/5]</a></h4>
+<ul>
+  <li>Describe where the loop from <tt>sseTest.c</tt> went in <tt>sseTest.s</tt>, and point out some of the SIMD instructions.</li>
+</ul>
+</div>
+
+<h2>Exercise 3: Writing SIMD Code</h2>
+<h3>COMMON LITTLE MISTAKES</h3>
+<p>The following are bugs that the staff have noticed were preventing students from
+passing the tests (bold text is what you should not do):
+<ul>
+  <li><b>Trying to store your sum vector into a <tt>long long int</tt> array</b>. Use an <tt>int</tt> array. <b>Side note: why??</b> 
+  The return value of this function is indeed a <tt>long long int</tt>, but that's because an <tt>int</tt> isn't big enough
+  to hold the sum of all the values across all iterations of the <u>outer loop</u>. However, it <b>is</b> big enough to hold the sum of 
+  all the value accross a <u>single</u> iteration of the outer loop. This means you'll want to store your sum vector
+  into an <tt>int</tt> array after every iteration of the outer loop and add the total sum to the final result <tt>result</tt>.</li>
+  <li><b>Re-initializing your sum vector</b>. Make sure when you add to your running sum vector, you aren't <b>declaring</b>
+  a new sum vector!!</li>
+  <li><b>Forgetting the CONDITIONAL in the tail case!</b></li>
+  <li><b>Adding to an UNINITIALIZED array!</b> If you add stuff to your result array without initializing it, you are adding
+  stuff to garbage, which makes the array still garbage! Using <tt>storeu</tt> before adding stuff is okay though.</li>
+</ul>
+<p><b>NOTE</b>: We'll be changing directories now! Run the command:</p>
+<pre class='output'>
+$ <span class='input'> cd lab10-branch_prediction</span>
+</pre>
+<br><br>
+We've got one header file <tt>common.h</tt> that has some code to sum the elements of a <i><b>really big</b></i> array.
+It's a minor detail that it randomly does this <tt>1 << 16</tt> times... but you don't need to worry about that. 
+We also pincer the execution of the code between two timestamps (that's what the <tt>clock()</tt> function does) to measure
+how fast it runs! The file <a href=lab10-branch_prediction/randomized.c>randomized.c</a> is the one which will have a <tt>main</tt> function
+to run the <tt>sum</tt> functions. The file <a href=lab10-branch_prediction/sorted.c>sorted.c</a> does the same, but with an extra detail
+which we will not worry about unitl Exercise 5.</p>
+
+<p>For Exercise 3, you will vectorize/SIMDize the following code in <tt>common.h</tt> to speed up the naive implementation shown here:
+
+<pre>
+ long long int sum(unsigned int vals[NUM_ELEMS]) {
+  long long int sum = 0;
+  
+  for(unsigned int w = 0; w < OUTER_ITERATIONS; w++) {
+    for(unsigned int i = 0; i < NUM_ELEMS; i++) {
+      if(vals[i] >= 128) {
+        sum += vals[i];
+      }
+    } 
+  }
+  return sum;
+</pre>
+
+<p><b>Note</b>: you need <b>only</b> vectorize the inner loop.</p>
+
+<p>You might find the following intrinsics useful (Hint: <b>You're going to need all of these functions</b>):</p>
+<table border=1  cellspacing=0>
+  <tr>
+    <td><tt>__m128i _mm_setzero_si128( )</tt></td>
+    <td>returns 128-bit zero vector</td>
+    <td>Maybe to initialize something</td>
+  </tr>
+  <tr>
+    <td><tt>__m128i _mm_loadu_si128( __m128i *p )</tt></td>
+    <td>returns 128-bit vector stored at pointer p</td>
+    <td>You've got an array <tt>vals</tt>... how do you get some elements in vector (<tt>__m128i</tt>) form?</td>
+  </tr>
+  <tr>
+    <td><tt>__m128i _mm_add_epi32( __m128i a, __m128i b )</tt></td>
+    <td>returns vector (a<sub>0</sub>+b<sub>0</sub>, a<sub>1</sub>+b<sub>1</sub>, a<sub>2</sub>+b<sub>2</sub>, a<sub>3</sub>+b<sub>3</sub>)</td>
+    <td>This is a <b>summing</b> function after all! You'll definitely need to add some stuff together!</td>
+  </tr>
+  <tr>
+    <td><tt>void _mm_storeu_si128( __m128i *p, __m128i a )</tt></td>
+    <td>stores 128-bit vector a at pointer p</td>
+    <td>Load goes from pointer to vector, this goes from vector to pointer!</td>
+  </tr>
+  <tr>
+    <td><tt>__m128i _mm_cmpgt_epi32( __m128i a, __m128i b )</tt></td>
+    <td>returns the vector (<tt>a<sub>i</sub>&gt;b<sub>i</sub> ? 0xffffffff : 0x0</tt> for i from 0 to 3)
+    <br>
+    AKA a 32-bit all-1s mask if <tt>a<sub>i</sub> &gt; b<sub>i</sub></tt> and a 32-bit all-0s mask otherwise</td>
+    <td><tt>cmpgt</tt> is how SSE says, "compare greater than." How do you use this to implement the <tt>if</tt> statement?</td>
+  </tr>
+  <tr>
+    <td><tt>__m128i _mm_and_si128( __m128i a, __m128i b )</tt></td>
+    <td>returns vector (a<sub>0</sub>&b<sub>0</sub>, a<sub>1</sub>&b<sub>1</sub>, a<sub>2</sub>&b<sub>2</sub>, a<sub>3</sub>&b<sub>3</sub>)</td>
+    <td>Mask stuff</td>
+  </tr>
+</table>
+
+
+<p><b>Task</b>: Start with <tt>sum</tt>, and use SSE instrinsics to implement the <tt>sum_simd()</tt>
+function, which needs to be vectorized and achieve a significant amount of speedup.</p>
+<p><i><b>How do I do this?</b></i></p>
+<p>Recall that the SSE intrinsics are basically functions which perform operations on <i>multiple</i> pieces
+of data in a vector <b>in parallel</b>. This turns out to be faster than running through a <tt>for</tt> loop and 
+applying the operation once for each element in the vector.
+<br><br>
+In our <tt>sum</tt> function, we've got a basic structure of iterating through an array. On every iteration,
+we add an array element to a running <tt>sum</tt>. To vectorize, you should add a <b>few</b> array elements to a sum <b>vector</b> in <b>parallel</b> and then consolidate the individual values of the sum vector into our desired sum at the end.</p>
+
+<p><b>Hint 1</b>: <tt>__m128i</tt> is the data type for 128-Bit vectors which will be handled by Intel's special 128-bit vector. We'll be using them to encode
+4 (four) 32-bit ints.</p>
+<p><b>Hint 2</b>: We've left you a vector called <tt>_127</tt> which contains four copies of the number 127. You should
+use this to compare with some stuff when you implement the condition within the sum loop.</p>
+<p><b>Hint 3</b>: DON'T use the store function (<tt>_mm_storeu_si128</tt>) until after completing the inner loop! It turns out that storing
+is very costly and performing a store in every iteration will actually cause your code to slow down. However, if you wait until after the outer loop completes you may have overflow issues.</p>
+<p><b>Hint 4</b>: It's bad practice to index into the <tt>__m128i</tt> vector like they are arrays. You should store them into arrays first with the <tt>storeu</tt>
+function, and then access the integers elementwise by indexing into the array.</p>
+<p><b>Hint 5</b>: READ the function declarations in the above table carefully! You'll notice that the <tt>loadu</tt>
+and <tt>storeu</tt> take <tt>__m128i*</tt> type arguments. You can just cast an int array to a <tt>_m128i</tt> pointer. Alternatively,
+you could skip the typecast at the cost of a bunch of compiler warnings.</p>
+
+<p>To compile and run your code, run the following commands:</p>
+<pre class='output'>
+$ <span class='input'>cd lab10-branch_prediction</span>
+$ <span class='input'>make</span>
+$ <span class='input'>./randomized</span></pre>
+
+<p><b>Sanity check</b>: The naive version runs at about 25 seconds on the hive machines, and your SIMDized version should
+run in about 5-6 seconds. <b>The naive function may take a long time to run! Do not try commenting it out, since we rely on that result for comparing against a reference;
+sometimes code can take a long time to run and this is one of those cases.</b></p>
+<div class='checkoff'>
+<h4><a name="checkoff">Checkoff [3/5]</a></h4>
+<ul>
+  <li>Show your TA your working code and performance improvement from <tt>sum</tt> to <tt>sum_simd</tt>.</li>  
+</ul>
+</div>
+
+
+<h2>Exercise 4: Loop Unrolling</h2>
+<p>To obtain even more performance improvement, carefully <b>unroll</b> the SIMD vector sum code that you created in the previous exercise.
+This should get you a little more increase in performance from <tt>sum_simd</tt> (a few fractions of a second).
+As an example of loop unrolling, consider the supplied function <tt>sum_unrolled()</tt>:
+
+<pre>
+long long int sum_unrolled(unsigned int vals[NUM_ELEMS]) {
+  long long int sum = 0;
+
+  for(unsigned int w = 0; w < OUTER_ITERATIONS; w++) { 
+    for(unsigned int i = 0; i < NUM_ELEMS / 4 * 4; i += 4) {
+      if(vals[i] >= 128) sum += vals[i];
+      if(vals[i + 1] >= 128) sum += vals[i + 1];
+      if(vals[i + 2] >= 128) sum += vals[i + 2];
+      if(vals[i + 3] >= 128) sum += vals[i + 3];
+    }
+
+    // This is what we call the TAIL CASE
+    for(unsigned int i = NUM_ELEMS / 4 * 4; i < NUM_ELEMS; i++) {
+      if (vals[i] >= 128) {
+        sum += vals[i];
+      }
+    }
+  }
+  return sum;
+}
+</pre>
+
+<p><b>Conceptual Task</b>: Consider why unrolling the loop like this is useful at all. <br>
+<b>Hint</b>: What part of the for loop do we have to do <b>LESS</b> if we unroll the loop?</p>
+
+<p><b>Task</b>: Within <tt>common.h</tt>, copy your <tt>sum_simd()</tt> code into <tt>sum_simd_unrolled()</tt> and unroll it 4 (four) times.</p>
+
+<p>To compile your code, run the following command:</p>
+<pre class='output'>
+<span class='input'>make</span><span style="color:#666666;"></span>
+</pre>
+<p>To run your code, run the following command:</p>
+<pre class='output'>
+<span class='input'>./randomized</span><span style="color:#666666;"></span>
+</pre>
+<br>
+<div class='checkoff'>
+<h4><a name="checkoff">Checkoff [4/5]</a></h4>
+<ul>
+  <li>Show your TA your working code and performance improvement from <tt>sum_simd</tt> to <tt>sum_simd_unrolled</tt>.</li>  
+  <li>Answer question: Why does loop unrolling get you a speedup?</li>
+</ul>
+</div>
+
+<h2>Exercise 5: Performance Comparisons</h2>
+<p>You might have noticed that we've only been running the <tt>randomized</tt> executable so far.
+That's because now, we want to compare it to the code in <tt>sorted.c</tt>! Recall that executing the code
+in <tt>randomized.c</tt> just sums up the elements of a huge array of random <tt>int</tt>s. 
+The <i><b>only</b></i> difference with <tt>sorted.c</tt> is that the array is sorted before running
+the <tt>sum</tt> functions! Let's check out the performance by running:</p>
+
+<pre class='output'>
+$ <span class='input'>./sorted</span>
+</pre>
+<p><b>Task 1</b>: You should have noticed that the <i>naive</i> <tt>sum</tt> function ran a <b>lot</b>
+faster than it did when the array was randomized. Your <b>task</b> is to think about <b>WHY</b>.
+<br><br>
+Recall that there is a check within our <tt>sum</tt> function which tells us to only add to the running total
+if the current element is greater than or equal to 128. <b>Question</b>: what kind of assembly instruction
+would need to be used to implement this? From your answer to the preceding question, recall that these kinds
+of instructions introduce <b>hazards</b> in the datapath pipeline, and that one technique to deal with them was
+to have a __________ that chooses to always execute the first instruction of one of the outcomes of the
+_________.</p>
+
+<p>It turns out that much like caches, these mechanism fare better when our code is more predictable. They 
+make their predictions based on what's been happening <i>most recently</i> at the ________ in question. In particular,
+if our code seems to make the same decision at the __________ many times in a row, it will probably predict that
+that particular outcome will happen <i>again</i>.</p>
+
+<p><b>Task 2</b>: It's neat that sorting the array gets us such a high degree of speedup, 
+but <b>why didn't the <tt>sum_simd</tt> or <tt>sum_simd_unrolled</tt> speed up?</b> To think about this,
+you need to think about <i>how exactly</i> the original condition is checked in the SIMDized versions that
+you wrote. What is the important SSE function that you used?
+<br><br>
+It turns out that this function is implemented without the use of branch instructions at the assembly level!
+What does this fact tell you about the advantages of sorting the array in the SIMDized code?</p>
+
+<p><b>Task 3</b>: The last observation we should make is that out of the 4 versions
+of the <tt>sum</tt> function running on a sorted array, the one that performs best is actually <tt>sum_unrolled</tt>
+as opposed to <tt>sum_simd_unrolled</tt> (if you didn't see this result when running your code (it can be finicky), don't worry and 
+just presume that this could happen; explain why this is possible)! If you ran <tt>randomized</tt> however, the <tt>sum_simd</tt> version
+is actually better than <tt>sum_unrolled</tt>.
+
+<b>Question</b>: What does this tell you about
+the advantages of successful branch prediction <i>in comparison</i> to data-level parallelism in this 
+special case where the data is sorted?</p>
+
+<div class='checkoff'>
+<h4><a name="checkoff">Checkoff [5/5]</a></h4>
+<ul>
+  <li>Why does sorting the array make <tt>sum</tt> faster?</li>
+  <li>Why does sorting the array NOT make <tt>sum_simd</tt> or <tt>sum_simd_unrolled</tt> much faster?</li>
+  <li>Why does <tt>sum_unrolled</tt> outperform <tt>sum_simd</tt> when the array is sorted (if you didn't see this explain why this is possible)? Why DOESN'T it
+  do so when the array is random?</li>
+</ul>
+</div>
+
+</body>
+
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/10/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:54:09 GMT -->
+</html>

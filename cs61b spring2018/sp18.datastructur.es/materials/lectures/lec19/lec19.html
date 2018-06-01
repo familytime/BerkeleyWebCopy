@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec19/lec19 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Asymptotics III Study Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Asymptotics III Study Guide</header><div class="due-date">Author: Josh Hug and Kartik Kapur</div><ul id="markdown-toc">
+  <li><a href="#recommended-problems" id="markdown-toc-recommended-problems">Recommended Problems</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B level</a></li>
+      <li><a href="#a-level" id="markdown-toc-a-level">A level</a></li>
+      <li><a href="#a-level-1" id="markdown-toc-a-level-1">A+ level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="recommended-problems">Recommended Problems</h2>
+
+<h3 id="c-level">C level</h3>
+
+<ol>
+  <li>Prove that if some operation takes O(N) time for the first N iterations and
+$O(N^{2})$ time for the $N+1$st operation, the amortized runtime is O(N). Remember
+that you can think of amortized runtime as the average runtime.</li>
+</ol>
+
+<h3 id="b-level">B level</h3>
+
+<ol>
+  <li>
+    <p><a href="http://www.cs.princeton.edu/courses/archive/fall13/cos226/exams/mid-s13.pdf">Problem
+1</a>
+of my Spring 2013 midterm.</p>
+  </li>
+  <li>
+    <p>Is it possible to have an Ω bound and O bound that are different for the best
+case?</p>
+  </li>
+  <li>
+    <p>Find the tightest possible bounds for the following function using Ω bound
+and O where best is initially set to N.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public void caGreeno(int bet, int N){
+     double somenum = Math.random() //returns a double from 0 to 1
+     double newnum;
+     if(somnum &lt; .5){
+         newnum = Math.random();
+         if(newnum &lt; .5){
+           caGreeno(bet/2, N);
+           caGreeno(bet/2, N);
+         }
+         else{
+           caGreeno(bet * 2/bet , N);
+         }
+     }
+     else{
+       newnum = Math.random();
+       if(newnum &lt; .5){
+         caGreeno(bet - 50 , N);
+         caGreeno(bet - 100, N);
+       }
+       else{
+         caGreeno(bet - 1, N);
+       }
+     }
+ }
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="a-level">A level</h3>
+
+<ol>
+  <li>
+    <p>Find the minimum ai such that the potential is never negative for <a href="https://docs.google.com/presentation/d/1yg9IJctev9nRwZoeB8G9p3S2OU3UA8C526C5E3l37wU/edit#slide=id.g7553924f9_0959">this
+example from
+class</a>.</p>
+  </li>
+  <li>Suppose the optimal (and possibly unknown) solution to problem P has order of
+ growth F(N). Suppose that the best known solution has runtime that is
+ Θ(B(N)). Finally, suppose that there is a clever proof that no solution can
+ possibly have order of growth that is less than L(N). Which of the following
+ can you surmise?
+    <ul>
+      <li>F(N) = O(B(N))</li>
+      <li>B(N) = O(F(N))</li>
+      <li>The limit of $\frac{F(N)}{B(N)}$ as N goes to infinity cannot be infinity.</li>
+      <li>F(N) = Ω(L(N))</li>
+      <li>L(N) = Ω(F(N))</li>
+      <li>B(N) &gt; F(N) for sufficiently large N.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Find the runtime of the following function</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public void tree(int N){
+     for(int i = 0; i &lt; N; i++){
+       System.out.println("Oi I'm a tree and I can't get up");
+     }
+     tree(Math.sqrt(N));
+ }
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="a-level-1">A+ level</h3>
+<ol>
+  <li>We say that fibonnaci is O($2^n$). However, as we learned in this lecture, O
+is a bit of a blanket statement. There is in fact a tighter bound for fibonnaci
+called the <a href="https://en.wikipedia.org/wiki/Golden_ratio">golden ratio</a>.
+Prove that the standard fibonnaci function runs in $O(1.618034^n)$</li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec19/lec19 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:22 GMT -->
+</html>

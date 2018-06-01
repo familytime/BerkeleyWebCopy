@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec38/lec38 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Compression Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Compression Guide</header><div class="due-date">Author: Josh Hug</div><ul id="markdown-toc">
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#recommended-problems" id="markdown-toc-recommended-problems">Recommended Problems</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Compression Model #1: Algorithms Operating on Bits.</strong> Given a sequence of bits B, 
+we put them through a compression algorithm C to form a new bitstream C(B). We can
+run C(B) through a corresponding decompression algorithm to recover B. Ideally, 
+C(B) is less than B.</p>
+
+<p><strong>Variable Length Codewords.</strong> Basic idea: Use variable length codewords to represent
+symbols, with shorter keywords going with more common symbols. For example, instead of
+representing every English character by a 8 bit ASCII value, we can represent more
+common values with shorter sequences. Morse code is an example of a system of
+variable length codewords.</p>
+
+<p><strong>Prefix Free Codes.</strong> If some codewords are prefixes of others, then we have ambiguity,
+as seen in Morse Code. A prefix free code is a code where no codeword is a prefix of 
+any other. Prefix free codes can be uniquely decoded.</p>
+
+<p><strong>Shannon-Fano Coding.</strong> Shannon-Fano coding is an intuitive procedure for
+generating a prefix free code. First, one counts the occurrence of all symbols.
+Then you recursively split characters into halves over and over based on 
+frequencies, with each half either having a 1 or a 0 appended to the end 
+of the codeword.</p>
+
+<p><strong>Huffman Coding.</strong> Huffman coding generates a provably optimal prefix free code, 
+unlike Shannon-Fano, which can be suboptimal. First, one counts the occurrence
+of all symbols, and create a “node” for each symbol. We then merge the two lowest
+occurrence nodes into a tree with a new supernode as root, with each half either
+having a 1 or a 0 appended to the beginning of the codeword. We repeat this until all
+symbols are part of the tree. Resulting code is optimal.</p>
+
+<p><strong>Huffman Implementation.</strong> To compress a sequence of symbols, we count
+frequencies, build an encoding array and a decoding trie, write the trie to the
+output, and then look up each symbol in the encoding array and write out the
+appropriate bit sequence to the output. To decompress, we read in the trie,
+then repeatedly use longest prefix matching to recover the original symbol.</p>
+
+<p><strong>General Principles Behind Compression.</strong> Huffman coding is all about representing
+common symbols with a small number of bits. There are other ideas, like run length
+encoding where you replace every character by itself followed by its number of occurrences,
+and LZW which searches for common repeated patterns in the input. More generally,
+the goal is to exploit redundancy and existing order in the input.</p>
+
+<p><strong>Universal Compression is Impossible.</strong> It is impossible to create an algorithm that
+can compress any bitstream by 50%. Otherwise, you could just compress repeatedly until
+you ended up with just 1 bit, which is clearly absurd. A second argument is that for
+an input bitstream of say, size 1000, only 1 in 2^499 is capable of being compressed
+by 50%, due to the pigeonhole principle.</p>
+
+<p><strong>Compression Model #2: Self Extracting Bits.</strong> Treating the algorithm and the input 
+bitstream separately (like we did in model #1) is a more accurate model, but it seems
+to leave open strange algorithms like one in which we simply hardcode our desired output
+into the algorithm itself. For example, we might have a .java decompression algorithm 
+that has a giant <code class="highlighter-rouge">byte[]</code> array of your favorite TV show, and if the algorithm
+gets the input <code class="highlighter-rouge">010</code>, it outputs this <code class="highlighter-rouge">byte[]</code> array.</p>
+
+<p>In other words, it seems to make more sense to include not just the compressed bits
+when considering the size of our output, but also the algorithm used to do the
+decompression.</p>
+
+<p>One conceptual trick to make this more concrete is to imagine that our algorithm
+and the bits themselves are a single entity, which we can think of a self-extracting
+bit sequence. When fed to an interpreter, this self-extracting bit sequence
+generates a particular output sequence.</p>
+
+<p><strong>Hugplant Example.</strong> If we have an image file of something like the hugplant.bmp
+from lecture, we can break it into 8 bit chunks and 
+then Huffman encode it. If we give this file to someone else, they probably won’t know 
+how to decompress it, since Huffman coding is not a standard compression algorithm
+supported by major operating systems. Thus, we also need to provide the Huffman 
+decoding algorithm. We could send this as a separate .java file, but for conceptual
+convenience and in line with compression model #2, we’ll imagine that we have packaged
+our compressed bit stream into a <code class="highlighter-rouge">byte[]</code> array in a .java file. When passed to an
+interpreter, this bitstream yields the original hugplant.bmp, which is 4 times larger
+than the compressed bitstream + huffman interpreter.</p>
+
+<p><strong>Cliffhanger.</strong> We continue our discussion of compression in lec39.</p>
+
+<h2 id="recommended-problems">Recommended Problems</h2>
+
+<h3 id="c-level">C level</h3>
+
+<ol>
+  <li>Problem <a href="http://www.cs.princeton.edu/courses/archive/fall12/cos226/exams/fin-s08.pdf#page=5">4 from the Princeton 2008 Spring Final</a>.</li>
+</ol>
+
+<h3 id="b-level">B level</h3>
+
+<ol>
+  <li>
+    <p>Inspired by optional textbook 5.5.3: Give an example of a 4 symbol code that is not prefix free or suffix free, but which is still “uniquely decodable”. By uniquely decodable, we mean that any sequence of bits can be unambiguously converted back into the 
+correct sequence of bits.</p>
+  </li>
+  <li>
+    <p>Inspired by optional textbook 5.5.13: Suppose that all character frequencies are equal. Describe any interesting features of the resulting Huffman code.</p>
+  </li>
+  <li>
+    <p>Problem <a href="http://www.cs.princeton.edu/courses/archive/fall11/cos226/exams/fin-f11.pdf#page=12">10A from the Princeton Fall 2011 Final</a>.</p>
+  </li>
+</ol>
+
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec38/lec38 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:50 GMT -->
+</html>

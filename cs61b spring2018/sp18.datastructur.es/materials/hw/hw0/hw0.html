@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/hw/hw0/hw0 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>HW 0: A Java Crash Course | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">HW 0: A Java Crash Course</header><ul id="markdown-toc">
+  <li><a href="#hw-goals" id="markdown-toc-hw-goals">HW Goals</a></li>
+  <li><a href="#a-basic-program" id="markdown-toc-a-basic-program">A Basic Program</a></li>
+  <li><a href="#conditionals" id="markdown-toc-conditionals">Conditionals</a>    <ul>
+      <li><a href="#basic-conditionals" id="markdown-toc-basic-conditionals">Basic Conditionals</a></li>
+      <li><a href="#curly-braces-and-conditionals" id="markdown-toc-curly-braces-and-conditionals">Curly Braces (and Conditionals)</a></li>
+      <li><a href="#curly-brace-standards" id="markdown-toc-curly-brace-standards">Curly Brace Standards</a></li>
+    </ul>
+  </li>
+  <li><a href="#else" id="markdown-toc-else">Else</a></li>
+  <li><a href="#while" id="markdown-toc-while">While</a></li>
+  <li><a href="#doubles-and-strings" id="markdown-toc-doubles-and-strings">Doubles and Strings</a></li>
+  <li><a href="#creative-exercise-1a-drawing-a-triangle" id="markdown-toc-creative-exercise-1a-drawing-a-triangle">Creative Exercise 1a: Drawing a Triangle</a></li>
+  <li><a href="#defining-functions-aka-methods" id="markdown-toc-defining-functions-aka-methods">Defining Functions (a.k.a. Methods)</a>    <ul>
+      <li><a href="#python" id="markdown-toc-python">Python</a></li>
+      <li><a href="#matlab" id="markdown-toc-matlab">MATLAB</a></li>
+      <li><a href="#scheme" id="markdown-toc-scheme">Scheme</a></li>
+      <li><a href="#java" id="markdown-toc-java">Java</a></li>
+    </ul>
+  </li>
+  <li><a href="#creative-exercise-1b-drawtriangle" id="markdown-toc-creative-exercise-1b-drawtriangle">Creative Exercise 1b: DrawTriangle</a></li>
+  <li><a href="#arrays" id="markdown-toc-arrays">Arrays</a>    <ul>
+      <li><a href="#python-1" id="markdown-toc-python-1">Python</a></li>
+      <li><a href="#matlab-1" id="markdown-toc-matlab-1">MATLAB</a></li>
+      <li><a href="#scheme-1" id="markdown-toc-scheme-1">Scheme</a></li>
+      <li><a href="#java-1" id="markdown-toc-java-1">Java</a></li>
+      <li><a href="#alternate-java" id="markdown-toc-alternate-java">Alternate Java</a></li>
+    </ul>
+  </li>
+  <li><a href="#exercise-2" id="markdown-toc-exercise-2">Exercise 2</a></li>
+  <li><a href="#for-loops" id="markdown-toc-for-loops">For Loops</a></li>
+  <li><a href="#exercise-3" id="markdown-toc-exercise-3">Exercise 3</a></li>
+  <li><a href="#break-and-continue" id="markdown-toc-break-and-continue">Break and Continue</a></li>
+  <li><a href="#optional-exercise-4" id="markdown-toc-optional-exercise-4">Optional: Exercise 4</a></li>
+  <li><a href="#the-enhanced-for-loop" id="markdown-toc-the-enhanced-for-loop">The Enhanced For Loop</a></li>
+</ul>
+
+<h2 id="hw-goals">HW Goals</h2>
+<p>In this assignment, we will go through basic Java syntax concepts. While this
+assignment is optional and you will not submit your answers, it is highly
+recommended for those with no prior Java experience. The lectures will NOT cover
+this material explicitly, though you are expected to understand it.</p>
+
+<p>This tutorial assumes that you have significant (one semester) experience with
+at least some programming language, and is intended only to highlight the Java
+way of doing some previously familiar things.</p>
+
+<p>While I hope this document should stand alone for the curious and self-motivated
+student, you may find it helpful to read the suggested supplementary reading
+when provided.</p>
+
+<p><strong>Feel free to skim and read at whatever pace you feel comfortable with.</strong> It is
+OK to skip parts of this HW. Use your best judgment. The directions are a bit
+more verbose than is probably necessary.</p>
+
+<h2 id="a-basic-program">A Basic Program</h2>
+
+<p><em>Supplementary Reading: N/A</em></p>
+
+<p>In Lab 1, we’ll learn how to run Java code on your computer. Since lab 1 hasn’t
+happened yet, we’ll instead use an in-browser Java compiler for this HW only.
+Head to <a href="http://goo.gl/lKJP1Z">this link</a>, or try <a href="https://goo.gl/65eZ1B">this
+link</a> if the link if that first one doesn’t work.</p>
+
+<p>You’ll find yourself looking at what is perhaps your first Java program. There
+sure is a lot of weird stuff here, like <code class="highlighter-rouge">public class</code> and <code class="highlighter-rouge">public static void
+main(String[] args)</code>. We’ll discuss these in more detail later, but for this HW,
+you should ignore all of this mysterious garbage.</p>
+
+<p><strong>Click on the ‘Forward &gt;’ link twice.</strong> You’ll see an <code class="highlighter-rouge">x</code> appear in a blue box
+the right with the value <code class="highlighter-rouge">5</code> once the line <code class="highlighter-rouge">int x = 5 is executed</code>. Perhaps
+unsurprisingly, this statement assigns the value 5 to the variable x.</p>
+
+<p>Unlike other programming languages (like Python, Scheme, and MATLAB), Java
+variables have a static type. By this, I mean that <code class="highlighter-rouge">x</code> will only ever be able to
+store an integer. If you tried to put a number like <code class="highlighter-rouge">5.3</code> into it, the code
+would fail.</p>
+
+<p>Also unlike these other languages, every statement in Java must be followed by a
+semicolon. The semicolon is very important, as it tells Java where one statement
+ends and another begins.</p>
+
+<p><strong>Click forward again</strong>, and you’ll see that <code class="highlighter-rouge">x</code> has changed to <code class="highlighter-rouge">6</code>. <strong>Click
+forward one more time</strong>, and you’ll see that <code class="highlighter-rouge">x</code> is printed in the Program
+output box below using the rather verbose command name <code class="highlighter-rouge">System.out.println</code>.
+Yes, this is really how you print in Java. And, it’ll get more verbose, trust
+me.</p>
+
+<p>Ordinarily, when you write Java programs, you won’t be able to see into your
+program’s brain (i.e. there will be no blue box listing all the variables).
+However, this visualizer is a pedagogical tool that makes such brain scanning
+possible.</p>
+
+<p><strong>Click forward until the program completes execution.</strong> Everything should
+behave more or less as you’d expect. If anything surprises you, post to the HW0
+thread on the course Piazza page.</p>
+
+<p><strong>Optional: Try editing the code and running it again.</strong> Experiment and see what
+happens as you tweak the program. If you have interesting observations or any
+questions arise, post them on Piazza. Maybe try assigning a real number (e.g.
+3.3) and see what occurs (I promise your computer won’t explode).</p>
+
+<h2 id="conditionals">Conditionals</h2>
+
+<p><em>Optional Supplementary Reading: <a href="hw0_supplementary_conditionals.txt">Shewchuk</a></em></p>
+
+<h3 id="basic-conditionals">Basic Conditionals</h3>
+
+<p>Now open up <a href="http://goo.gl/q0wIQu">this program</a> (or
+<a href="https://goo.gl/BFTWZq">this</a>), shown below:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ClassNameHere</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">10</span><span class="o">;</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">10</span><span class="o">;</span>
+
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p><strong>Step forward until the program completes and observe the flow of the
+program.</strong> The <code class="highlighter-rouge">if</code> statement in java checks the condition that you put inside
+parentheses, and if the result is true, it executes the next statement below.</p>
+
+<h3 id="curly-braces-and-conditionals">Curly Braces (and Conditionals)</h3>
+
+<p>It is also possible to execute multiple statements in response to a single
+condition. We do this by wrapping the statements in curly braces, as in <a href="http://goo.gl/wzuPsZ">this
+program</a> (or <a href="https://goo.gl/JouKwc">this</a>), shown below:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConditionalsWithBlocks</span> <span class="o">{</span>
+   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span>
+
+      <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">)</span> <span class="o">{</span>
+         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"I shall increment x by 10."</span><span class="o">);</span>
+         <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">10</span><span class="o">;</span>
+      <span class="o">}</span>
+
+      <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">)</span> <span class="o">{</span>
+         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"I shall increment x by 10."</span><span class="o">);</span>
+         <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">10</span><span class="o">;</span>
+      <span class="o">}</span>
+
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Curly braces are very important in Java! Unlike Python, statements are grouped
+by braces, and NOT by indentation. For an example of how this can go terribly
+wrong, try running the <a href="http://goo.gl/GwhZXB">following program</a> (or <a href="https://goo.gl/Czywp3">use this
+link</a>), which is supposed to print the absolute value of
+X. <strong>Then try changing the value of x to a positive number. Run it and make sure
+you understand why things go wrong.</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PrintAbsoluteValue</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="o">;</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"I should negate X"</span><span class="o">);</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="n">x</span><span class="o">;</span>
+
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Unlike Python, most whitespace including indentation does not matter with
+regards to the functionality of your program. In fact, you can get away with
+replacing every whitespace in your entire program with a single space (given
+that semicolons are the separators between statements), though this is a
+horrible idea and we will be very sad if you write programs like the following
+valid Java program:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ClassNameHere</span> <span class="o">{</span> <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span> <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">)</span> <span class="o">{</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"I shall increment x by 10."</span><span class="o">);</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">10</span><span class="o">;</span> <span class="o">}</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">)</span> <span class="o">{</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"I shall increment x by 10."</span><span class="o">);</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">10</span><span class="o">;</span> <span class="o">}</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">x</span><span class="o">);</span> <span class="o">}</span> <span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="curly-brace-standards">Curly Brace Standards</h3>
+
+<p>There are two common styles for curly braces:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="o">)</span> <span class="o">{</span>              <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="o">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">5</span><span class="o">;</span>            <span class="o">{</span>
+<span class="o">}</span>                            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">5</span><span class="o">;</span>
+                          <span class="o">}</span>
+</code></pre></div></div>
+
+<p>Which of these two styles is a bit of a holy war. Both are fine for use in 61B.
+Note that in this example, we’ve wrapped curly braces around a single statement,
+which isn’t required in Java. In 61B, we’ll ALWAYS use curly braces, even if we
+have only one statement to execute. This is to avoid bugs. Don’t fret too much
+about these little details, the automated style checker will yell at you if you
+do something uncouth.</p>
+
+<p>For more than you ever wanted to know about indentation styles, see <a href="http://en.wikipedia.org/wiki/Indent_style">this wiki
+page</a>.</p>
+
+<h2 id="else">Else</h2>
+
+<p>The <code class="highlighter-rouge">else</code> keyword allows you to specify behavior that should occur if a
+condition is false. For example, <a href="http://goo.gl/bzCra2">this program</a> (or
+<a href="https://goo.gl/ZbbFHx">this</a>), shown below:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">9</span><span class="o">;</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">&gt;</span> <span class="mi">8</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"x - 3 is greater than 8"</span><span class="o">);</span>
+<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"x - 3 is not greater than 8"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>We can also chain else statements, like in <a href="https://goo.gl/ggFo2c">this program</a>
+(or <a href="https://goo.gl/tAC9Pf">this</a>):</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">dogSize</span> <span class="o">=</span> <span class="mi">20</span><span class="o">;</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">dogSize</span> <span class="o">&gt;=</span> <span class="mi">50</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"woof!"</span><span class="o">);</span>
+<span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">dogSize</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"bark!"</span><span class="o">);</span>
+<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"yip!"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Note that in the code above, I’ve used <code class="highlighter-rouge">&gt;=</code>, which means greater than or equal.</p>
+
+<h2 id="while">While</h2>
+
+<p><em>Optional Supplementary Reading: <a href="hw0_supplementary_loops.txt">Shewchuk</a></em></p>
+
+<p>The <code class="highlighter-rouge">while</code> keyword lets you repeat a block of code as long as some condition is
+true. For example, <a href="http://goo.gl/mB8DXi">this program</a> (or <a href="https://goo.gl/GQpkPx">this</a>), shown below:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">bottles</span> <span class="o">=</span> <span class="mi">99</span><span class="o">;</span>
+<span class="k">while</span> <span class="o">(</span><span class="n">bottles</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">bottles</span> <span class="o">+</span> <span class="s">" bottles of beer on the wall."</span><span class="o">);</span>
+    <span class="n">bottles</span> <span class="o">=</span> <span class="n">bottles</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>Try running this program, and watch what happens.</strong> Note that as soon as the
+code inside curly braces is completed, we head straight back to the while
+condition. Optionally, experiment a bit: Try and see what happens if you start
+bottles off at -4. Also try and see what happens if you remove the line:
+<code class="highlighter-rouge">bottles = bottles - 1</code>;</p>
+
+<p>Important note: You should think of your program as running in order, line by
+line. If the condition becomes false in the middle of the loop, the code does
+not simply stop. So for example, the <a href="http://goo.gl/pBg2qf">code below</a> (also
+<a href="https://goo.gl/uXaKny">here</a>) will print “-312 bottles of beer on the wall.”
+even though -312 is not greater than 0.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">bottles</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span>
+<span class="k">while</span> <span class="o">(</span><span class="n">bottles</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">bottles</span> <span class="o">=</span> <span class="o">-</span><span class="mi">312</span><span class="o">;</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">bottles</span> <span class="o">+</span> <span class="s">" bottles of beer on the wall."</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="doubles-and-strings">Doubles and Strings</h2>
+
+<p>Above, all of our variables have been of type int. There are many other types
+that you can use in Java. Two examples of these are double and String. double
+stores approximations of real numbers, and String stores strings of characters.
+<a href="http://goo.gl/25irIR">The program below</a> (also <a href="https://goo.gl/PKTBgW">here</a>)
+simulates a race between Achilles and a Tortoise. Achilles is twice as fast, so
+should overtake the Tortoise (who has a head start of 100 distance units).</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">a</span> <span class="o">=</span> <span class="s">"Achilles"</span><span class="o">;</span>
+<span class="n">String</span> <span class="n">t</span> <span class="o">=</span> <span class="s">"Tortoise"</span><span class="o">;</span>
+<span class="kt">double</span> <span class="n">aPos</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+<span class="kt">double</span> <span class="n">tPos</span> <span class="o">=</span> <span class="mi">100</span><span class="o">;</span>
+<span class="kt">double</span> <span class="n">aSpeed</span> <span class="o">=</span> <span class="mi">20</span><span class="o">;</span>
+<span class="kt">double</span> <span class="n">tSpeed</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>
+<span class="kt">double</span> <span class="n">totalTime</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+<span class="k">while</span> <span class="o">(</span><span class="n">aPos</span> <span class="o">&lt;</span> <span class="n">tPos</span><span class="o">)</span> <span class="o">{</span> 
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"At time: "</span> <span class="o">+</span> <span class="n">totalTime</span><span class="o">);</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"    "</span> <span class="o">+</span> <span class="n">a</span> <span class="o">+</span> <span class="s">" is at position "</span> <span class="o">+</span> <span class="n">aPos</span><span class="o">);</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"    "</span> <span class="o">+</span> <span class="n">t</span> <span class="o">+</span> <span class="s">" is at position "</span> <span class="o">+</span> <span class="n">tPos</span><span class="o">);</span>
+
+    <span class="kt">double</span> <span class="n">timeToReach</span> <span class="o">=</span> <span class="o">(</span><span class="n">tPos</span> <span class="o">-</span> <span class="n">aPos</span><span class="o">)</span> <span class="o">/</span> <span class="n">aSpeed</span><span class="o">;</span>
+    <span class="n">totalTime</span> <span class="o">=</span> <span class="n">totalTime</span> <span class="o">+</span> <span class="n">timeToReach</span><span class="o">;</span>
+    <span class="n">aPos</span> <span class="o">=</span> <span class="n">aPos</span> <span class="o">+</span> <span class="n">timeToReach</span> <span class="o">*</span> <span class="n">aSpeed</span><span class="o">;</span>
+    <span class="n">tPos</span> <span class="o">=</span> <span class="n">tPos</span> <span class="o">+</span> <span class="n">timeToReach</span> <span class="o">*</span> <span class="n">tSpeed</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="creative-exercise-1a-drawing-a-triangle">Creative Exercise 1a: Drawing a Triangle</h2>
+
+<p>Finally! A chance to do something on your own.</p>
+
+<p>Your goal is to create a program that prints the following figure. Your code
+should use loops (i.e. shouldn’t just be five print statements, that’s no fun).</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>*
+**
+***
+****
+*****
+</code></pre></div></div>
+<p>You can either write the program from scratch, or you can copy and paste lines
+of code from <a href="hw0_copy_and_paste.html">this link</a>. You may find
+<code class="highlighter-rouge">System.out.print</code> to be a useful alternative to <code class="highlighter-rouge">System.out.println</code>. The
+difference is that <code class="highlighter-rouge">System.out.print</code> does not include an automatic newline.</p>
+
+<p>If you go the copy and paste route, note that lines may be used once, multiple
+times, or not at all.</p>
+
+<p>Run your code and verify that it works correctly by comparing it by eye to the
+program above. In next week’s lab and hw, we’ll discuss more sophisticated ways
+of verifying program correctness.</p>
+
+<p>Save your code someplace (say by emailing it to yourself), as you’ll need it
+again soon.</p>
+
+<h2 id="defining-functions-aka-methods">Defining Functions (a.k.a. Methods)</h2>
+
+<p>The following four pieces of code are all equivalent in Python, MATLAB, Scheme,
+and Java. Each defines a function that returns the maximum of two values and
+then prints the maximum of 5 and 15.</p>
+
+<h3 id="python">Python</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span>
+    <span class="k">return</span> <span class="n">y</span>
+
+<span class="k">print</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h3 id="matlab">MATLAB</h3>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="n">m</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="k">else</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="nb">disp</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h3 id="scheme">Scheme</h3>
+
+<div class="language-cl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nv">define</span> <span class="nb">max</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">&gt;</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span>
+<span class="p">(</span><span class="nv">display</span> <span class="p">(</span><span class="nb">max</span> <span class="mi">5</span> <span class="mi">15</span><span class="p">))</span> <span class="p">(</span><span class="nv">newline</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="java">Java</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">max</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">y</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">max</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">15</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>(program link <a href="http://goo.gl/LzWQD4">1</a>, <a href="https://goo.gl/8x5DYQ">2</a>)</p>
+
+<p>Functions in Java, like variables, have a specific return type. The <code class="highlighter-rouge">max</code>
+function has a return type of <code class="highlighter-rouge">int</code> (indicated by the word int right before the
+function name). Also functions in Java are called methods, so I’m going to start
+calling them from this moment on forever.</p>
+
+<p>We refer to the entire string <code class="highlighter-rouge">public static int max(int x, int y)</code> as the
+method’s <strong>signature</strong>, as it lists the parameters, return type, name, and any
+modifiers. Here our modifiers are <code class="highlighter-rouge">public</code> and <code class="highlighter-rouge">static</code>, though we won’t learn
+what these mean for a few days.</p>
+
+<p>For this homework, all methods are going to have “public static” at the front of
+their signature. Just accept this for now. We’ll talk more about this on Friday
+in lecture.</p>
+
+<h2 id="creative-exercise-1b-drawtriangle">Creative Exercise 1b: DrawTriangle</h2>
+
+<p>Starting from the default program at <a href="http://cscircles.cemc.uwaterloo.ca/java_visualize/#">our Java
+visualizer</a> (also found
+<a href="http://www.pythontutor.com/java.html#">here</a>), create a program
+with one additional method (in addition to the default main method that is there
+when you open the visualizer).</p>
+
+<p>Name this new method <code class="highlighter-rouge">drawTriangle</code> and give it a return type of <code class="highlighter-rouge">void</code> (this
+means that it doesn’t return anything at all).</p>
+
+<p>The <code class="highlighter-rouge">drawTriangle</code> method should take one parameter named <code class="highlighter-rouge">N</code>, and it should
+print out a triangle exactly like your triangle from exercise 1a, but <code class="highlighter-rouge">N</code>
+asterisks tall instead of 5.</p>
+
+<p>After writing <code class="highlighter-rouge">DrawTriangle</code>, modify the main function so that it calls
+<code class="highlighter-rouge">DrawTriangle</code> with <code class="highlighter-rouge">N = 10</code>.</p>
+
+<p>Depending on your programming background, you may find this task quite
+challenging. We encourage you to work with others or post to Piazza. If you’re
+just confused about where to start, <a href="http://goo.gl/bl22pF">this program</a> (also
+found <a href="https://goo.gl/g3vfM2">here</a>) starts with <code class="highlighter-rouge">DrawTriangle</code> already defined
+(but without the details implemented).</p>
+
+<h2 id="arrays">Arrays</h2>
+
+<p><em>Optional Supplementary Reading: <a href="hw0_supplementary_arrays.txt">Shewchuk</a></em></p>
+
+<p>Our final new syntax item of this HW is the array. Arrays are like vectors in
+Scheme, lists in Python, and arrays in MATLAB.</p>
+
+<p>The following four programs in Python, MATLAB, Scheme, and Java declare a new
+array of the integers 4, 7, and 10, and then prints the 7.</p>
+
+<h3 id="python-1">Python</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">numbers</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</code></pre></div></div>
+
+<h3 id="matlab-1">MATLAB</h3>
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span> <span class="mi">7</span> <span class="mi">10</span><span class="p">]</span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">numbers</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h3 id="scheme-1">Scheme</h3>
+<div class="language-cl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nv">define</span> <span class="nv">numbers</span> <span class="o">#(</span><span class="mi">4</span> <span class="mi">7</span> <span class="mi">10</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">display</span> <span class="p">(</span><span class="nv">vector-ref</span> <span class="nv">numbers</span> <span class="mi">1</span><span class="p">))</span> <span class="p">(</span><span class="nv">newline</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="java-1">Java</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span><span class="o">[]</span> <span class="n">numbers</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">3</span><span class="o">];</span>
+<span class="n">numbers</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+<span class="n">numbers</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="mi">7</span><span class="o">;</span>
+<span class="n">numbers</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">numbers</span><span class="o">[</span><span class="mi">1</span><span class="o">]);</span>
+</code></pre></div></div>
+
+<p>Or in an alternate (but less general) shorthand:</p>
+
+<h3 id="alternate-java">Alternate Java</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span><span class="o">[]</span> <span class="n">numbers</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]{</span><span class="mi">4</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">10</span><span class="o">};</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">numbers</span><span class="o">[</span><span class="mi">1</span><span class="o">]);</span>
+</code></pre></div></div>
+<p>(<a href="http://goo.gl/U6xLky">program link</a>)</p>
+
+<p>You can get the length of an array by using <code class="highlighter-rouge">.length</code>, for example, the
+following code would print 3:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span><span class="o">[]</span> <span class="n">numbers</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]{</span><span class="mi">4</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">10</span><span class="o">};</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">numbers</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h2 id="exercise-2">Exercise 2</h2>
+
+<p>Using everything you’ve learned so far on this homework, you’ll now create a
+function with the signature <code class="highlighter-rouge">public static int max(int[] m)</code> that returns the
+maximum value of an int array. You may assume that all of the numbers are
+greater than or equal to zero.</p>
+
+<p>Modify the <a href="http://goo.gl/engJ93">code below</a> (also found
+<a href="https://goo.gl/YhZLf3">here</a>) so that <code class="highlighter-rouge">max</code> works as described. Furthermore,
+modify <code class="highlighter-rouge">main</code> so that the <code class="highlighter-rouge">max</code> method is called on the given array and its max
+printed out (in this case, it should print 22).</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ClassNameHere</span> <span class="o">{</span>
+    <span class="cm">/** Returns the maximum value from m. */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">max</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">m</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+       <span class="kt">int</span><span class="o">[]</span> <span class="n">numbers</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]{</span><span class="mi">9</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">15</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">22</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">6</span><span class="o">};</span>      
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="for-loops">For Loops</h2>
+
+<p>Consider the function below, which sums the elements of an array.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ClassNameHere</span> <span class="o">{</span>
+    <span class="cm">/** Uses a while loop to sum a. */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">whileSum</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="c1">//initialization</span>
+      <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+      <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">a</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span> <span class="c1">//termination</span>
+            <span class="n">sum</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span> <span class="c1">//increment</span>
+      <span class="o">}</span>
+      <span class="k">return</span> <span class="n">sum</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Programmers in the 1950s observed that it was very common to have code that featured <strong>initialization</strong> of a variable, followed by a loop that begins by checking for a <strong>termination</strong> condition and ends with an <strong>increment</strong> operation. Thus was born the <a href="https://en.wikipedia.org/wiki/For_loop">for loop</a>.</p>
+
+<p>The <code class="highlighter-rouge">sum</code> function below uses a basic for loop to do the exact same job of the <code class="highlighter-rouge">whileSum</code> function above.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ClassNameHere</span> <span class="o">{</span>
+    <span class="cm">/** Uses a basic for loop to sum a. */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">sum</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+      <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">a</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">sum</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+      <span class="o">}</span>
+      <span class="k">return</span> <span class="n">sum</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Try it out using <a href="https://goo.gl/5fvnE7">this link</a>.</p>
+
+<p>In Java, the <a href="https://docs.oracle.com/javase/tutorial/java/nutsandbolts/for.html"><code class="highlighter-rouge">for</code> keyword</a> has the syntax below:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="o">(</span><span class="n">initialization</span><span class="o">;</span> <span class="n">termination</span><span class="o">;</span> <span class="n">increment</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">statement</span><span class="o">(</span><span class="n">s</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The initialization, termination, and increment must be semicolon separated. Each of these three can feature multiple comma-separated statements, e.g.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="o">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Comma separated for loops should be used sparingly.</p>
+
+<h2 id="exercise-3">Exercise 3</h2>
+
+<p>Rewrite your solution to Exercise 2 so that it uses a for loop. Use your original solution as starter code, or if you’ve lost it, you can use <a href="http://goo.gl/engJ93">this</a> or <a href="https://goo.gl/YhZLf3">this</a>).</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ClassNameHere</span> <span class="o">{</span>
+    <span class="cm">/** Returns the maximum value from m using a for loop. */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">forMax</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">m</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+       <span class="kt">int</span><span class="o">[]</span> <span class="n">numbers</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]{</span><span class="mi">9</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">15</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">22</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">6</span><span class="o">};</span>      
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="break-and-continue">Break and Continue</h2>
+
+<p>Occasionally, you may find it useful to use the <code class="highlighter-rouge">break</code> or <code class="highlighter-rouge">continue</code> keywords. The <code class="highlighter-rouge">continue</code> statement skips the current iteration of the loop, effectively jumping straight to the increment condition.</p>
+
+<p>For example the code below prints each String from an array three times, but skips any strings that contain “horse”. You can try it out at <a href="https://goo.gl/SqX8oz">this link</a>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ContinueDemo</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span><span class="o">[]</span> <span class="n">a</span> <span class="o">=</span> <span class="o">{</span><span class="s">"cat"</span><span class="o">,</span> <span class="s">"dog"</span><span class="o">,</span> <span class="s">"laser horse"</span><span class="o">,</span> <span class="s">"ketchup"</span><span class="o">,</span> <span class="s">"horse"</span><span class="o">,</span> <span class="s">"horbse"</span><span class="o">};</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">a</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">contains</span><span class="o">(</span><span class="s">"horse"</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">continue</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span> <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>By contrast, the <code class="highlighter-rouge">break</code> keyword completely terminates the innermost loop when it is called. For example the code below prints each String from an array three times, except for strings that contain horse, which are only printed once. You can try it out at <a href="https://goo.gl/e7X3E9">this link</a>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BreakDemo</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span><span class="o">[]</span> <span class="n">a</span> <span class="o">=</span> <span class="o">{</span><span class="s">"cat"</span><span class="o">,</span> <span class="s">"dog"</span><span class="o">,</span> <span class="s">"laser horse"</span><span class="o">,</span> <span class="s">"ketchup"</span><span class="o">,</span> <span class="s">"horse"</span><span class="o">,</span> <span class="s">"horbse"</span><span class="o">};</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">a</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span> <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">contains</span><span class="o">(</span><span class="s">"horse"</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="o">}</span>                
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">break</code> and <code class="highlighter-rouge">continue</code> also work for <code class="highlighter-rouge">while</code> loops and <code class="highlighter-rouge">do-while</code> loops. If you’re curious about <code class="highlighter-rouge">do-while</code> loops, see the <a href="https://docs.oracle.com/javase/tutorial/java/nutsandbolts/while.html">official Java looping tutorial</a>.</p>
+
+<h2 id="optional-exercise-4">Optional: Exercise 4</h2>
+
+<p>This is a particularly challenging exercise, but strongly recommended.</p>
+
+<p>Write a function <code class="highlighter-rouge">windowPosSum(int[] a, int n)</code> that replaces each element a[i] with the sum of a[i] through a[i + n], but only if a[i] is positive valued. If there are not enough values because we reach the end of the array, we sum only as many values as we have.</p>
+
+<p>For example, suppose we call <code class="highlighter-rouge">windowPosSum</code> with the array <code class="highlighter-rouge">a = {1, 2, -3, 4, 5, 4}</code>, and <code class="highlighter-rouge">n = 3</code>. In this case, we’d:</p>
+<ul>
+  <li>Replace a[0] with a[0] + a[1] + a[2] + a[3].</li>
+  <li>Replace a[1] with a[1] + a[2] + a[3] + a[4].</li>
+  <li>Not do anything to a[2] because it’s negative.</li>
+  <li>Replace a[3] with a[3] + a[4] + a[5].</li>
+  <li>Replace a[4] with a[4] + a[5].</li>
+  <li>Not do anything with a[5] because there are no values after a[5].</li>
+</ul>
+
+<p>Thus, the result after calling <code class="highlighter-rouge">windowPosSum</code> would be <code class="highlighter-rouge">{4, 8, -3, 13, 9, 4}</code>.</p>
+
+<p>As another example, if we called <code class="highlighter-rouge">windowPosSum</code> with the array <code class="highlighter-rouge">a = {1, -1, -1, 10, 5, -1}</code>, and <code class="highlighter-rouge">n = 2</code>, we’d get <code class="highlighter-rouge">{-1, -1, -1, 14, 4, -1}</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BreakContinue</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">windowPosSum</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+    <span class="cm">/** your code here */</span> 
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span><span class="o">[]</span> <span class="n">a</span> <span class="o">=</span> <span class="o">{</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="o">-</span><span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">4</span><span class="o">};</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+    <span class="n">windowPosSum</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">n</span><span class="o">);</span>
+
+    <span class="c1">// Should print 4, 8, -3, 13, 9, 4</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">a</span><span class="o">));</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Starter code is available at <a href="https://goo.gl/bh5zaZ">this link</a>.</p>
+
+<p>Hint 1: Use two for loops.</p>
+
+<p>Hint 2: Use <code class="highlighter-rouge">continue</code> to skip negative values.</p>
+
+<p>Hint 3: Use <code class="highlighter-rouge">break</code> to avoid going over the end of the array.</p>
+
+<h2 id="the-enhanced-for-loop">The Enhanced For Loop</h2>
+
+<p>Java also supports iteration through an array using an “enhanced for loop”. The basic idea is that there are many circumstances where we don’t actually care about the index at all. In this case, we avoid creating an index variable using a special syntax involving a colon.</p>
+
+<p>For example, in the code below, we do the exact thing as in <code class="highlighter-rouge">BreakDemo</code> above. However, in this case, we do not create an index <code class="highlighter-rouge">i</code>. Instead, the String <code class="highlighter-rouge">s</code> takes on the identity of each String in <code class="highlighter-rouge">a</code> exactly once, starting from <code class="highlighter-rouge">a[0]</code>, all the way up to <code class="highlighter-rouge">a[a.length - 1]</code>. You can try out this code at <a href="https://goo.gl/wmhVPM">this link</a>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EnhancedForBreakDemo</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span><span class="o">[]</span> <span class="n">a</span> <span class="o">=</span> <span class="o">{</span><span class="s">"cat"</span><span class="o">,</span> <span class="s">"dog"</span><span class="o">,</span> <span class="s">"laser horse"</span><span class="o">,</span> <span class="s">"ketchup"</span><span class="o">,</span> <span class="s">"horse"</span><span class="o">,</span> <span class="s">"horbse"</span><span class="o">};</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">s</span> <span class="o">:</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span> <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">"horse"</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="o">}</span>                
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/hw/hw0/hw0 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:03 GMT -->
+</html>

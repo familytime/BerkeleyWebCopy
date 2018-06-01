@@ -1,0 +1,27 @@
+HTTrack3.49-1+htsswf+htsjava launched on Wed, 16 May 2018 20:58:28 at https://cs162.eecs.berkeley.edu/ +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(winhttrack -qwC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2A25000%f#f -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2014], %s -->" -%l "en, *" https://cs162.eecs.berkeley.edu/ -O1 "C:\Users\yzkti\Desktop\cs162 spring2018" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+21:03:12	Error: 	"NOT FOUND" (404) at link https://cs162.eecs.berkeley.edu/. (from https://cs162.eecs.berkeley.edu/)
+21:03:14	Warning: 	Moved Temporarily for cs162.eecs.berkeley.edu/robots.txt
+21:03:14	Warning: 	Redirected link is identical because of 'URL Hack' option: cs162.eecs.berkeley.edu/robots.txt and https://cs162.eecs.berkeley.edu/robots.txt
+21:03:14	Warning: 	Warning moved treated for cs162.eecs.berkeley.edu/robots.txt (real one is https://cs162.eecs.berkeley.edu/robots.txt)
+21:03:14	Warning: 	Moved Temporarily for cs162.eecs.berkeley.edu/info/
+21:03:14	Warning: 	Redirected link is identical because of 'URL Hack' option: cs162.eecs.berkeley.edu/info/ and https://cs162.eecs.berkeley.edu/info/
+21:03:14	Warning: 	File has moved from cs162.eecs.berkeley.edu/info/ to https://cs162.eecs.berkeley.edu/info/
+21:03:14	Warning: 	Moved Temporarily for cs162.eecs.berkeley.edu/staff/
+21:03:14	Warning: 	Redirected link is identical because of 'URL Hack' option: cs162.eecs.berkeley.edu/staff/ and https://cs162.eecs.berkeley.edu/staff/
+21:03:14	Warning: 	File has moved from cs162.eecs.berkeley.edu/staff/ to https://cs162.eecs.berkeley.edu/staff/
+21:03:14	Warning: 	Moved Temporarily for cs162.eecs.berkeley.edu/resources/
+21:03:14	Warning: 	Redirected link is identical because of 'URL Hack' option: cs162.eecs.berkeley.edu/resources/ and https://cs162.eecs.berkeley.edu/resources/
+21:03:14	Warning: 	File has moved from cs162.eecs.berkeley.edu/resources/ to https://cs162.eecs.berkeley.edu/resources/
+21:03:14	Warning: 	Moved Temporarily for cs162.eecs.berkeley.edu/autograder/
+21:03:14	Warning: 	Redirected link is identical because of 'URL Hack' option: cs162.eecs.berkeley.edu/autograder/ and https://cs162.eecs.berkeley.edu/autograder/
+21:03:14	Warning: 	File has moved from cs162.eecs.berkeley.edu/autograder/ to https://cs162.eecs.berkeley.edu/autograder/
+
+HTTrack Website Copier/3.49-1 mirror complete in 4 minutes 57 seconds : 104 links scanned, 97 files written (224428260 bytes overall) [224385289 bytes received at 755506 bytes/sec], 148010 bytes transferred using HTTP compression in 3 files, ratio 21%, 6.2 requests per connection
+(1 errors, 15 warnings, 0 messages)

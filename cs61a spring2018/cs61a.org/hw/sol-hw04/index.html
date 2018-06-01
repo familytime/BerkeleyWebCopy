@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/hw/sol-hw04/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:01 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+<link rel="stylesheet" type="text/css" href="../../assets/css/hw.css">
+
+
+    <title>
+Homework 4 Solutions | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Homework 4 Solutions
+
+        
+        <ul class="inline-block list-inline">
+          <li><a href="hw04.zip" class="label label-outline">hw04.zip</a></li>
+        </ul>
+        
+      </h1>
+    </header>
+    
+<h2>Solution Files</h2>
+<p>You can find solutions for all questions in <a href="hw04.py">hw04.py</a>.</p>
+
+    
+<p>The <code>construct_check</code> module is used in this assignment, which defines a
+function <code>check</code>.  For example, a call such as</p>
+
+<pre><code>check(&quot;foo.py&quot;, &quot;func1&quot;, [&quot;While&quot;, &quot;For&quot;, &quot;Recursion&quot;])</code></pre>
+
+<p>checks that the function <code>func1</code> in file <code>foo.py</code> does <em>not</em> contain
+any <code>while</code> or <code>for</code> constructs, and is not an overtly recursive function (i.e.,
+one in which a function contains a call to itself by name.)</p>
+
+
+<h2 id="required-questions">Required questions</h2>
+
+
+<h3 class="question" id="q1">Q1: Taxicab Distance</h3>
+
+<p>An intersection in midtown Manhattan can be identified by an avenue and a
+street, which are both indexed by positive integers. The <em>Manhattan distance</em> or
+<em>taxicab distance</em> between two intersections is the number of blocks that must
+be traversed to reach one from the other, ignoring one-way street restrictions
+and construction. For example, <a href="https://goo.gl/maps/LeXMb2vHuAB2">Times Square</a>
+is on 46th Street and 7th Avenue.
+<a href="https://goo.gl/maps/nM9ecFDD66D2">Ess-a-Bagel</a> is on 51st Street and 3rd
+Avenue. The taxicab distance between them is 9 blocks (5 blocks from 46th
+to 51st street and 4 blocks from 7th avenue to 3rd avenue). Taxicabs
+cannot cut diagonally through buildings to reach their destination!</p>
+
+<p>Implement <code>taxicab</code>, which computes the taxicab distance between two
+intersections using the following data abstraction. <em>Hint</em>: You don't need to
+know what a Cantor pairing function is; just use the abstraction.</p>
+
+<pre><code>def intersection(st, ave):
+    &quot;&quot;&quot;Represent an intersection using the Cantor pairing function.&quot;&quot;&quot;
+    return (st+ave)*(st+ave+1)//2 + ave
+
+def street(inter):
+    return w(inter) &#x2d; avenue(inter)
+
+def avenue(inter):
+    return inter &#x2d; (w(inter) ** 2 + w(inter)) // 2
+
+w = lambda z: int(((8*z+1)**0.5&#x2d;1)/2)
+
+def taxicab(a, b):
+    &quot;&quot;&quot;Return the taxicab distance between two intersections.
+
+    &gt;&gt;&gt; times_square = intersection(46, 7)
+    &gt;&gt;&gt; ess_a_bagel = intersection(51, 3)
+    &gt;&gt;&gt; taxicab(times_square, ess_a_bagel)
+    9
+    &gt;&gt;&gt; taxicab(ess_a_bagel, times_square)
+    9
+    &quot;&quot;&quot;
+<div class="sol-highlight">    return abs(street(a)&#x2d;street(b)) + abs(avenue(a)&#x2d;avenue(b))</div></code></pre>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q taxicab</code></pre>
+
+<div class="sol-highlight">
+
+<p>The main focus of this problem is to get familiar with using data
+abstraction. With some previous problems involving abstract data types, it
+might have been possible to break the abstraction barrier and still solve
+the problem. This time around, the abstraction uses the Cantor pairing
+function to obfuscate the original data!</p>
+
+<p>Through the power of abstraction however, you don't need to understand how
+the Cantor pairing function works. In truth, we could have also not told
+you anything about how the abstract data type was implemented. As long as
+you use the provided selectors, you should be able to solve the problem.</p>
+
+<p>Speaking of which, the selectors give the <code>street</code> and <code>avenue</code> of an
+intersection. If we have the street and the avenue for each intersection,
+the taxicab distance is just the sum of the absolute difference of the
+two.</p>
+
+<p>For more information,
+<a href="https://en.wikipedia.org/wiki/Taxicab_geometry">Wikipedia</a> has a useful
+visualization.</p>
+
+<p>Video walkthrough: <a href="https://youtu.be/QueVasKQQBI">https://youtu.be/QueVasKQQBI</a></p>
+
+</div>
+<h3 class="question" id="q2">Q2: Squares only</h3>
+
+<p>Implement the function <code>squares</code>, which takes in a list of positive integers.
+It returns a list that contains the square roots of the elements of the original
+list that are perfect squares. Try using a list comprehension.</p>
+
+<blockquote><p>You may find the <code>round</code> function useful.</p>
+
+<pre><code>&gt;&gt;&gt; round(10.5)
+10
+&gt;&gt;&gt; round(10.51)
+11</code></pre></blockquote>
+
+<solution>
+
+<pre><code>def squares(s):
+    &quot;&quot;&quot;Returns a new list containing square roots of the elements of the
+    original list that are perfect squares.
+
+    &gt;&gt;&gt; seq = [8, 49, 8, 9, 2, 1, 100, 102]
+    &gt;&gt;&gt; squares(seq)
+    [7, 3, 1, 10]
+    &gt;&gt;&gt; seq = [500, 30]
+    &gt;&gt;&gt; squares(seq)
+    []
+    &quot;&quot;&quot;
+<div class="sol-highlight">    return [round(n ** 0.5) for n in s if n == round(n ** 0.5) ** 2]</div></code></pre>
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q squares</code></pre>
+
+<div class="sol-highlight">
+
+<p>It might be helpful to construct a skeleton list comprehension to begin
+with:</p>
+
+<pre><code>[sqrt(x) for x in s if is_perfect_square(x)]</code></pre>
+
+<p>This is great, but it requires that we have an <code>is_perfect_square</code>
+function. How might we check if something is a perfect square?</p>
+
+<ul>
+  <li>If the square root of a number is a whole number, then it is a perfect
+  square. For example, <code>sqrt(61) = 7.81024...</code> (not a perfect square) and
+  <code>sqrt(49) = 7</code> (perfect square).</li>
+  <li><p>Once we obtain the square root of the number, we just need to check if
+  something is a whole number. The <code>is_perfect_square</code> function might
+  look like:</p>
+
+<pre><code>def is_perfect_square(x):
+    return is_whole(sqrt(x))</code></pre></li>
+  <li>One last piece of the puzzle: to check if a number is whole, we just
+  need to see if it has a decimal or not. The way we've chosen to do it in
+  the solution is to compare the original number to the round version
+  (thus removing all decimals), but a technique employing floor division
+  (<code>//</code>) or something else entirely could work too.</li>
+</ul>
+
+<p>We've written all these helper functions to solve this problem, but they
+are actually all very short. Therefore, we can just copy the body of each
+into the original list comprehension, arriving at the solution we finally
+present.</p>
+
+<p>Video walkthrough: <a href="https://youtu.be/YwLFB9paET0">https://youtu.be/YwLFB9paET0</a></p>
+
+</div>
+<h3 class="question" id="q3">Q3: G function</h3>
+
+<p>A mathematical function <code>G</code> on positive integers is defined by two
+cases:</p>
+
+<pre><code>G(n) = n,                                       if n &lt;= 3
+G(n) = G(n &#x2d; 1) + 2 * G(n &#x2d; 2) + 3 * G(n &#x2d; 3),  if n &gt; 3</code></pre>
+
+<p>Write a recursive function <code>g</code> that computes <code>G(n)</code>. Then, write an
+iterative function <code>g_iter</code> that also computes <code>G(n)</code>:</p>
+
+<solution>
+
+<pre><code>def g(n):
+    &quot;&quot;&quot;Return the value of G(n), computed recursively.
+
+    &gt;&gt;&gt; g(1)
+    1
+    &gt;&gt;&gt; g(2)
+    2
+    &gt;&gt;&gt; g(3)
+    3
+    &gt;&gt;&gt; g(4)
+    10
+    &gt;&gt;&gt; g(5)
+    22
+    &gt;&gt;&gt; from construct_check import check
+    &gt;&gt;&gt; check(HW_SOURCE_FILE, &#x27;g&#x27;, [&#x27;While&#x27;, &#x27;For&#x27;])
+    True
+    &quot;&quot;&quot;
+<div class="sol-highlight">    if n in (1, 2, 3):
+        return n
+    return g(n&#x2d;1) + 2*g(n&#x2d;2) + 3*g(n&#x2d;3)</div>
+def g_iter(n):
+    &quot;&quot;&quot;Return the value of G(n), computed iteratively.
+
+    &gt;&gt;&gt; g_iter(1)
+    1
+    &gt;&gt;&gt; g_iter(2)
+    2
+    &gt;&gt;&gt; g_iter(3)
+    3
+    &gt;&gt;&gt; g_iter(4)
+    10
+    &gt;&gt;&gt; g_iter(5)
+    22
+    &gt;&gt;&gt; from construct_check import check
+    &gt;&gt;&gt; check(HW_SOURCE_FILE, &#x27;g_iter&#x27;, [&#x27;Recursion&#x27;])
+    True
+    &quot;&quot;&quot;
+<div class="sol-highlight">    if n == 1 or n == 2 or n == 3:
+        return n
+    a, b, c = 1, 2, 3
+    while n &gt; 3:
+        a, b, c = b, c, c + 2*b + 3*a
+        n = n &#x2d; 1
+    return c</div></code></pre>
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q g
+python3 ok -q g_iter</code></pre>
+
+<div class="sol-highlight">
+
+<p>This is an example of how a function might be easier to write recursively
+versus iteratively. Since we have defined the <code>g</code> function in terms of
+older versions of itself, the solution tends very naturally towards
+recursion.</p>
+
+<p>The iterative solution is trickier, since we can only track a finite
+amount of state at a given time. We need to pick our variables carefully
+so that we have just the information we need to calculate the next step.
+In a sense, this problem is very similar to the Fibonacci sequence
+(assuming we start at the 0th Fibonacci number):</p>
+
+<pre><code>f(n) = n,               if n &lt;= 2
+f(n) = f(n&#x2d;1) + f(n&#x2d;2), if n &gt; 2</code></pre>
+
+<p>As you may recall, the solution for Fibonacci carried two variables around
+for the two previous values.</p>
+
+<pre><code>def fib_iter(n):
+    prev, curr = 0, 1
+    while n &gt; 0:
+        prev, curr = curr, prev + curr
+    return prev</code></pre>
+
+<p>Since the <code>g</code> function depends on the three previous values, it might make
+sense that we might have to track three values instead!</p>
+
+<p>Consider the three previous values <code>old</code>, <code>older</code>, and <code>oldest</code>. To do an
+update, the <code>older</code> value ages and becomes <code>oldest</code>, the <code>old</code> value ages
+and becomes <code>older</code>. Finally, <code>old</code> gets the new value which is derived
+from the three previous values: <code>old + 2 * older + 3 * oldest</code>.</p>
+
+<p>Video walkthrough: <a href="https://youtu.be/pltx7u2kGGEw">https://youtu.be/pltx7u2kGGE</a></p>
+
+</div>
+
+<h3 class="question" id="q4">Q4: Ping pong</h3>
+
+<p>The ping-pong sequence counts up starting from 1 and is always either counting
+up or counting down.  At element <code>k</code>, the direction switches if <code>k</code> is a
+multiple of 7 or contains the digit 7.  The first 30 elements of the ping-pong
+sequence are listed below, with direction swaps marked using brackets at the
+7th, 14th, 17th, 21st, 27th, and 28th elements:</p>
+
+<pre><code>1 2 3 4 5 6 [7] 6 5 4 3 2 1 [0] 1 2 [3] 2 1 0 [&#x2d;1] 0 1 2 3 4 [5] [4] 5 6</code></pre>
+
+<p>Implement a function <code>pingpong</code> that returns the nth element of the
+ping-pong sequence. <em>Do not use any assignment statements; however, you
+may use <code>def</code> statements</em>.</p>
+
+<blockquote><p><em>Hint</em>: If you're stuck, try implementing <code>pingpong</code> first using
+assignment and a <code>while</code> statement. Any name that changes value will become
+an argument to a function in the recursive definition.</p></blockquote>
+
+<solution>
+
+<pre><code>def pingpong(n):
+    &quot;&quot;&quot;Return the nth element of the ping&#x2d;pong sequence.
+
+    &gt;&gt;&gt; pingpong(7)
+    7
+    &gt;&gt;&gt; pingpong(8)
+    6
+    &gt;&gt;&gt; pingpong(15)
+    1
+    &gt;&gt;&gt; pingpong(21)
+    &#x2d;1
+    &gt;&gt;&gt; pingpong(22)
+    0
+    &gt;&gt;&gt; pingpong(30)
+    6
+    &gt;&gt;&gt; pingpong(68)
+    2
+    &gt;&gt;&gt; pingpong(69)
+    1
+    &gt;&gt;&gt; pingpong(70)
+    0
+    &gt;&gt;&gt; pingpong(71)
+    1
+    &gt;&gt;&gt; pingpong(72)
+    0
+    &gt;&gt;&gt; pingpong(100)
+    2
+    &gt;&gt;&gt; from construct_check import check
+    &gt;&gt;&gt; check(HW_SOURCE_FILE, &#x27;pingpong&#x27;, [&#x27;Assign&#x27;, &#x27;AugAssign&#x27;])
+    True
+    &quot;&quot;&quot;
+<div class="sol-highlight">    def pingpong_next(x, i, step):
+        if i == n:
+            return x
+        return pingpong_next(x + step, i + 1, next_dir(step, i+1))
+
+    def next_dir(step, i):
+        if i % 7 == 0 or has_seven(i):
+            return &#x2d;step
+        return step
+
+    return pingpong_next(1, 1, 1)
+
+# Alternate solution
+def pingpong(n):
+    if n &lt;= 7:
+        return n
+    return direction(n) + pingpong(n&#x2d;1)
+
+def direction(n):
+    if n &lt; 7:
+        return 1
+    if (n&#x2d;1) % 7 == 0 or has_seven(n&#x2d;1):
+        return &#x2d;1 * direction(n&#x2d;1)
+    return direction(n&#x2d;1)</div></code></pre>
+
+</solution>
+
+<p>You may use the function <code>has_seven</code>, which returns True if a number <code>k</code>
+contains the digit 7 at least once.</p>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q pingpong</code></pre>
+
+<div class="sol-highlight">
+
+<p>This is a fairly involved recursion problem, which we will first solve
+through iteration and then convert to a recursive solution.</p>
+
+<p>Note that at any given point in the sequence, we need to keep track of the
+current <em>value</em> of the sequence (this is the value that might be output)
+as well as the current <em>index</em> of the sequence (how many items we have
+seen so far, not actually output).</p>
+
+<p>For example, 14th element has <em>value</em> 0, but it's the 14th <em>index</em> in
+the sequence. We will refer to the value as <code>x</code> and the index as <code>i</code>. An
+iterative solution may look something like this:</p>
+
+<pre><code>def pingpong(n):
+    i = 1
+    x = 1
+    while i &lt; n:
+        x += 1
+        i += 1
+    return x</code></pre>
+
+<p>Hopefully, it is clear to you that this has a big problem. This doesn't
+account for changes in directions at all! It will work for the first seven
+values of the sequence, but then fail after that. To fix this, we can add
+in a check for direction, and then also keep track of the current
+direction to make our lives a bit easier (it's possible to compute the
+direction from scratch at each step, see the <code>direction</code> function in the
+alternate solution).</p>
+
+<pre><code>def pingpong(n):
+    i = 1
+    x = 1
+    is_up = True
+    while i &lt; n:
+        is_up = next_dir(...)
+        if is_up:
+            x += 1
+        else:
+            x &#x2d;= 1
+        i += 1
+    return x</code></pre>
+
+<p>All that's left to do is to write the <code>next_dir</code> function, which will take
+in the <em>current direction</em> and <em>index</em> and then tell us what direction to
+go in next (which could be the same direction):</p>
+
+<pre><code>def next_dir(is_up, i):
+    if i % 7 == 0 or has_seven(i):
+        return not is_up
+    return is_up</code></pre>
+
+<p>There's a tiny optimization we can make here. Instead of calculating an
+increment based on the value of <code>is_up</code>, we can make it directly store the
+direction of change into the variable (<code>next_dir</code> is also updated, see the
+solution for the new version):</p>
+
+<pre><code>def pingpong(n):
+    i = 1
+    x = 1
+    step = 1
+    while i &lt; n:
+        step = next_dir(step, i)
+        x += step
+        i += 1
+    return x</code></pre>
+
+<p>This will work, but it uses assignment. To convert it to an equivalent
+recursive version without assignment, make each local variable into a
+parameter of a new helper function, and then add an appropriate base case.
+Lastly, we seed the helper function with appropriate starting values by
+calling it with the values we had in the iterative version.</p>
+
+<p>You should be able to convince yourself that the version of <code>pingpong</code> in
+the solutions has the same logic as the iterative version of <code>pingpong</code>
+above.</p>
+
+<p>Video walkthrough: <a href="https://youtu.be/74gwPjgrN_k">https://youtu.be/74gwPjgrN_k</a></p>
+
+</div>
+
+<pre><code>def has_seven(k):
+    &quot;&quot;&quot;Returns True if at least one of the digits of k is a 7, False otherwise.
+
+    &gt;&gt;&gt; has_seven(3)
+    False
+    &gt;&gt;&gt; has_seven(7)
+    True
+    &gt;&gt;&gt; has_seven(2734)
+    True
+    &gt;&gt;&gt; has_seven(2634)
+    False
+    &gt;&gt;&gt; has_seven(734)
+    True
+    &gt;&gt;&gt; has_seven(7777)
+    True
+    &quot;&quot;&quot;
+    if k % 10 == 7:
+        return True
+    elif k &lt; 10:
+        return False
+    else:
+        return has_seven(k // 10)</code></pre>
+
+<h3 class="question" id="q5">Q5: Count change</h3>
+
+<p>Once the machines take over, the denomination of every coin will be a
+power of two: 1-cent, 2-cent, 4-cent, 8-cent, 16-cent, etc.  There will
+be no limit to how much a coin can be worth.</p>
+
+<p>A set of coins makes change for <code>amount</code> if the sum of the values of the
+coins is <code>amount</code>.  For example, the following sets make change for <code>7</code>:</p>
+
+<ul>
+  <li>7 1-cent coins</li>
+  <li>5 1-cent, 1 2-cent coins</li>
+  <li>3 1-cent, 2 2-cent coins</li>
+  <li>3 1-cent, 1 4-cent coins</li>
+  <li>1 1-cent, 3 2-cent coins</li>
+  <li>1 1-cent, 1 2-cent, 1 4-cent coins</li>
+</ul>
+
+<p>Thus, there are 6 ways to make change for <code>7</code>.  Write a function
+<code>count_change</code> that takes a positive integer <code>amount</code> and returns the number
+of ways to make change for <code>amount</code> using these coins of the future:</p>
+
+<solution>
+
+<pre><code>def count_change(amount):
+    &quot;&quot;&quot;Return the number of ways to make change for amount.
+
+    &gt;&gt;&gt; count_change(7)
+    6
+    &gt;&gt;&gt; count_change(10)
+    14
+    &gt;&gt;&gt; count_change(20)
+    60
+    &gt;&gt;&gt; count_change(100)
+    9828
+    &quot;&quot;&quot;
+<div class="sol-highlight">    return count_using(amount, max_coin(amount))
+
+def max_coin(amount):
+    coin = 1
+    while coin * 2 &lt; amount:
+        coin *= 2
+    return coin
+
+def count_using(amount, largest_coin):
+    if amount == 0:
+        return 1
+    elif amount &lt; 0:
+        return 0
+    elif largest_coin == 0:
+        return 0
+    else:
+        with_largest = count_using(amount &#x2d; largest_coin, largest_coin)
+        without_largest = count_using(amount, largest_coin // 2)
+        return with_largest + without_largest</div></code></pre>
+
+</solution>
+
+<blockquote><p>Hint: you may find it helpful to refer to the
+<a href="http://composingprograms.com/pages/17-recursive-functions.html#example-partitions">implementation</a>
+of <code>count_partitions</code>.</p></blockquote>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q count_change</code></pre>
+
+<div class="sol-highlight">
+
+<p>This is remarkably similar to the <code>count_partitions</code> problem, with a
+few minor differences:</p>
+
+<ul>
+  <li>A maximum partition size <code>m</code> is not given, so we need to create a helper
+  function that takes in two arguments and also create another helper function
+  to find the max coin.</li>
+  <li>Partition size is not linear, but rather multiples of two. To get the next
+  partition you need to divide by two instead of subtracting one.</li>
+</ul>
+
+<p>One other implementation detail here is that we enforce a <em>maximum</em> partition
+size, rather than a <em>minimum</em> coin. Many students attempted to
+start at 1 and work there way up. That will also work, but is less similar
+to <code>count_partitions</code>. As long as there is some ordering on the coins being enforced, we ensure we cover all the combinations of coins without any duplicates.</p>
+
+<p>See the walkthrough for a more thorough explanation and a visual of the
+recursive calls. Video walkthrough: <a href="https://youtu.be/EgZJPNFnoxM">https://youtu.be/EgZJPNFnoxM</a>.</p>
+
+</div>
+
+
+<h2 id="extra-questions">Extra questions</h2>
+
+
+<blockquote><p>Extra questions are not worth extra credit and are entirely optional.
+They are designed to challenge you to think creatively!</p></blockquote>
+
+<h3 class="question" id="q6">Q6: Anonymous factorial</h3>
+
+<p>The recursive factorial function can be written as a single expression
+by using a <a href="http://docs.python.org/py3k/reference/expressions.html#conditional-expressions">conditional expression</a>.</p>
+
+<pre><code>&gt;&gt;&gt; fact = lambda n: 1 if n == 1 else mul(n, fact(sub(n, 1)))
+&gt;&gt;&gt; fact(5)
+120</code></pre>
+
+<p>However, this implementation relies on the fact (no pun intended) that
+<code>fact</code> has a name, to which we refer in the body of <code>fact</code>.  To write a
+recursive function, we have always given it a name using a <code>def</code> or
+assignment statement so that we can refer to the function within its
+own body.  In this question, your job is to define fact recursively
+without giving it a name!</p>
+
+<p>Write an expression that computes <code>n</code> factorial using only call
+expressions, conditional expressions, and lambda expressions (no
+assignment or def statements).  <em>Note in particular that you are not
+allowed to use <code>make_anonymous_factorial</code> in your return expression.</em>
+The <code>sub</code> and <code>mul</code> functions from the <code>operator</code> module are the only
+built-in functions required to solve this problem:</p>
+
+<solution>
+
+<pre><code>from operator import sub, mul
+
+def make_anonymous_factorial():
+    &quot;&quot;&quot;Return the value of an expression that computes factorial.
+
+    &gt;&gt;&gt; make_anonymous_factorial()(5)
+    120
+    &gt;&gt;&gt; from construct_check import check
+    &gt;&gt;&gt; check(HW_SOURCE_FILE, &#x27;make_anonymous_factorial&#x27;, [&#x27;Assign&#x27;, &#x27;AugAssign&#x27;, &#x27;FunctionDef&#x27;, &#x27;Recursion&#x27;])
+    True
+    &quot;&quot;&quot;
+<div class="sol-highlight">    return (lambda f: lambda k: f(f, k))(lambda f, k: k if k == 1 else mul(k, f(f, sub(k, 1))))</div></code></pre>
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q make_anonymous_factorial</code></pre>
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#required-questions">Required questions</a></li>
+  <ul>
+    <li><a href="#q1">Q1: Taxicab Distance</a></li>
+    <li><a href="#q2">Q2: Squares only</a></li>
+    <li><a href="#q3">Q3: G function</a></li>
+    <li><a href="#q4">Q4: Ping pong</a></li>
+    <li><a href="#q5">Q5: Count change</a></li>
+  </ul>
+  <li><a href="#extra-questions">Extra questions</a></li>
+  <ul>
+    <li><a href="#q6">Q6: Anonymous factorial</a></li>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+
+<!-- Mirrored from cs61a.org/hw/sol-hw04/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:03 GMT -->
+</html>

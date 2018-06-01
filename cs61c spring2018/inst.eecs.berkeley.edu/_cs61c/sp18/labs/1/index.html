@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/1/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:35 GMT -->
+<head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <title>CS61C Spring 2018 Lab 1</title>
+        <link rel="stylesheet" type="text/css" href="../style.css">
+        <style>
+            .update {
+                color: red;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="header">
+            <div class='header-text'>
+                <h1>CS61C Spring 2018 Lab 1 - C Pointers and GDB</h1>
+            </div>
+        </div>
+
+        <div class="content">
+            <p>
+                HEY! WELCOME TO LAB 1 OF CS61C. IT'S LAB 1 BUT IT'S THE SECOND
+                LAB. THAT'S ZERO-BASED INDEXING.
+            </p>
+
+            <h2>Goals</h2>
+            <ul>
+                <li>
+                    Learn how to compile and run a C program on the <i>EECS 
+                    instructional computers</i>
+                </li>
+                <li>Examine different types of control flow in C</li>
+                <li>Introduce you to the C debugger</li>
+                <li>
+                    Gain some practical experience using gdb to debug C
+                    programs
+                </li>
+                <li>Get more comfortable working with pointers</li>
+            </ul>    
+            <p>
+                <b class="update">BEFORE YOU ASK FOR CHECKOFF:</b>
+                Have the following open and ready to show to the TA or lab
+                assistant. Doing this before asking for a checkoff will speed
+                up the checkoff process.
+            </p>
+            <ul>
+                <li>The file <code>eccentric.c</code></li>
+                <li>
+                    Your answers to the questions regarding GDB commands
+                    (Exercise 2)
+                </li>
+                <li>
+                    The output from running the <code>ll_equal</code> program
+                </li>
+                <li>The file <code>ll_cycle.c</code></li>
+                <li>
+                    The output from running the <code>ll_cycle</code> program
+                </li>
+            </ul>
+
+            <h2>Setup</h2>
+            <p>
+                Copy the contents of <code>~cs61c/labs/01</code> to a suitable
+                location in your home directory. These are all the files you'll
+                need to complete this lab. Below is an example of how to do so.
+                Lab files will <b>always</b> be located in
+                <code>~cs61c/labs</code>.
+            </p>
+
+            <pre class='output'>
+$ <span class='input'>mkdir labs      # only run this if you don't have the 'labs' directory</span>
+$ <span class='input'>cp -r ~cs61c/labs/01/ ~/labs</span></pre>
+            <p>
+                Note: <code>cp</code> means "copy" and the <code>-r</code> flag
+                is for copying folders (<i>recursively</i>)
+            </p>
+
+            <h2>Compiling and Running a C Program</h2>
+                <p>In this lab, we will be using the command line program
+                <code>gcc</code> to compile programs in C. The simplest way to
+                run <code>gcc</code> is as follows:
+            </p>
+            <pre class="output">$ <span class="input">gcc program.c</span></pre>
+            <p>
+                This compiles <code>program.c</code> into an executable file 
+                named <code>a.out</code>. If you've taken CS61B or have
+                experience with Java, you can kinda think of <code>gcc</code> as
+                the C equivalent of <code>javac</code>. This file can be run
+                with the following command:
+            </p>
+            <pre class="output">$ <span class="input">./a.out</span></pre>
+            <p>
+                The executable file is <code>a.out</code>, so what the heck is
+                the <code>./</code>? Answer: when you want to execute an
+                executable, you need to prepend a filepath in order to
+                distinguish your command from a command like
+                <code>python3</code>. The dot refers to the "current directory."
+                Incidentally, double dots (<code>..</code>) would refer to the
+                directory one level up.
+            </p>
+            <p>
+                <code>gcc</code> has various command line options which you are
+                encouraged to explore. In this lab, however, we will only be
+                using <code>-o</code>, which is used to specify the name of the
+                executable file that <code>gcc</code> creates. Using 
+                <code>-o</code>, you would use the following commands to compile
+                <code>program.c</code> into a program named <code>program</code>,
+                and then run it. This is helpful if you don't want all of your
+                executable files to be named <code>a.out</code>.
+            </p>
+            <pre class="output">
+$ <span class="input">gcc -o program program.c</span>
+$ <span class="input">./program</span></pre>
+
+            <h3>Exercise 1: Simple C Program</h3>
+            <p>
+                In this exercise, we will see an example of preprocessor macro
+                definitions. Macros can be a messy topic, but in general the
+                way they work is that before a C file is compiled, all macro
+                constant names are replaced exactly with the value they refer
+                to.
+            </p>
+            <p>
+                In the scope of this exercise, we will be using macro
+                definitions exclusively as global constants. Here we define
+                <code>CONSTANT_NAME</code> to refer to <code>literal_value</code>
+                (an integer literal). Note that there is only a space
+                separating name from value.
+            </p>
+            <pre>#define CONSTANT_NAME literal_value</pre>
+            <p>
+                Now, look at the code contained in 
+                <a href='eccentric.c' target='_blank'>eccentric.c</a>.
+                <b>Notice</b> the four different examples of basic C control
+                flow. (What are they?) Also, do you recognize these 
+                <i>eccentric</i> sayings and people from Berkeley?
+            </p>
+            <p>
+                First compile and run the program to see what it does. Play
+                around with the constant values of the four macros:
+                <code>V0</code> through <code>V3</code>. See how changing
+                <b>each</b> of them changes the program output.
+            </p>
+            <p>
+                Your task: Modifying only these four values, make the program
+                produce the following output.
+            </p>
+            <pre class="output">
+$ <span class="input">gcc -o eccentric eccentric.c</span>
+$ <span class="input">./eccentric</span>
+Berkeley eccentrics:
+====================
+Happy Happy Happy
+Yoshua
+
+Go BEARS!</pre>
+            <p>
+                There are actually several different combinations of macros
+                that can give this output. Here's the challenge for you in this
+                exercise: consider what the minimum number of <b>distinct</b>
+                values that <code>V0</code> through <code>V3</code> can have
+                such that they still give this exact output. For example, the
+                theoretical maximum is four, when they are all distinct from
+                each other.
+            </p>
+
+            <div class='checkoff'>
+                <h4>Checkoff</h4>
+                <ul>
+                    <li>Explain the changes you made.</li>
+                    <li>
+                        Explain the minimum number of distinct values needed
+                        for the preprocessor macros.
+                    </li>
+                    <li>What does the -o flag do with <code>gcc</code>?</li>
+                </ul>
+            </div>
+
+            <h3>Exercise 2: Debugger</h3>
+            <p><b>What is a debugger?</b></p>
+            <p>
+                This section is intended for students who aren't familiar with
+                what debuggers are. A <b>debugger</b>, as the name suggests,
+                is a program which is designed specifically to help you find
+                bugs, or logical errors and mistakes in your code (side note:
+                if you want to know why errors are called bugs, look
+                <a href="https://www.quora.com/Why-are-errors-in-software-codes-called-bugs" target="_blank">here</a>).
+                Different debuggers have different features, but it is common
+                for all debuggers to be able to do the following things:
+            </p>
+            <ol>
+                <li>
+                    Set a <b>breakpoint</b> in your program. A breakpoint
+                    is a specific line in your code where you would like to
+                    <b>stop</b> execution of the program so you can take a
+                    look at what's going on nearby.
+                </li>
+                <li>
+                    <b>Step line-by-line</b> through the program. Code only
+                    ever executes line by line, but it happens too quickly
+                    for us to figure out which lines cause mistakes. Being
+                    able to step line-by-line through your code allows you
+                    to hone in on <b>exactly</b> what is causing a bug in
+                    your program.
+                </li>
+            </ol>
+            <p>
+                For this exercise, you will find the
+                <a href="http://inst.eecs.berkeley.edu/~cs61c/resources/gdb5-refcard.pdf" target="_blank">GDB reference card</a>
+                useful. GDB stands for "GNU De-Bugger." Compile
+                <a href="hello.c" target="_blank"><code>hello.c</code></a> with
+                the "-g" flag:
+            </p>
+            <pre class='output'>
+$ <span class='input'>gcc -g -o hello hello.c</span></pre>
+            <p>
+                This causes gcc to store information in the executable program
+                for gdb to make sense of it. Now start the debugger, (c)gdb:
+            </p>
+<pre class='output'>$ <span class='input'>cgdb hello</span></pre>
+            <p>
+                Notice what this command does! You are running the program
+                <code>cgdb</code> on the <b>executable</b> file
+                <code>hello</code> generated by <code>gcc</code>. Don't try
+                running cgdb on the source code in <code>hello.c</code>! It
+                won't know what to do.
+            </p>
+            <p>
+                If cgdb does not work, you can also use gdb to complete the
+                following exercises (start gdb with <code>gdb hello</code>).
+                The cgdb debugger is only installed on your cs61c-xxx accounts.
+                Please use the hive machines or one of the computers in 27x Soda
+                to run cgdb, since our version of cgdb was built for Ubuntu.
+            </p>
+            <p><b>Task: step through the whole program by:</b></p>
+            <ol>
+                <li>setting a breakpoint at main</li>
+                <li>using gdb's run command</li>
+                <li>using gdb's single-step command</li>
+            </ol>
+            <p>
+                Type <code>help</code> from within gdb to find out the commands
+                to do these things, or use the reference card.
+            </p>
+            <p>
+                <b>Look here if you see an error message like</b>
+                <code>printf.c: No such file or directory.</code> You probably
+                <i>stepped</i> into a <code>printf</code> function! If you keep
+                stepping, you'll feel like you're going nowhere! CGDB is
+                complaining because you don't have the actual file where
+                <code>printf</code> is defined. This is pretty annoying. To free
+                yourself from this black hole, use the command
+                <code>finish</code> to run the program until the current frame
+                returns (in this case, until printf is finished). And
+                <b>NEXT</b> time, use <code>next</code> to skip over the line
+                which used <code>printf</code>.
+            </p>
+            <p><b>Note: cgdb vs gdb</b></p>
+            <p>
+                In this exercise, we use cgdb to debug our programs. cgdb is
+                identical to gdb, except it provides some extra nice features
+                that make it more pleasant to use in practice. All of the
+                commands on the reference sheet work in gdb.
+            </p>
+            <p>
+                In cgdb, you can press <code>ESC</code> to go to the code window
+                (top) and <code>i</code> to return to the command window
+                (bottom) &mdash; similar to <code>vim</code>. The bottom command
+                window is where you'll enter your gdb commands.
+            </p>
+            <p><b>Task: Learn MORE gdb commands</b></p>
+            <p>
+                Learning these commands will prove useful for the rest of this
+                lab, and your C programming career in general. Create a text
+                file containing answers to the following questions (or write
+                them down on a piece of paper, or just memorize them if you
+                think you want to become a GDB pro).
+            </p>
+            <ol>
+                <li>
+                    How do you <b>pass command line arguments</b> to a
+                    program when using gdb?
+                </li>
+                <li>
+                    How do you <b>set a breakpoint</b> which only occurs
+                    when a <b>set of conditions is true</b> (e.g. when
+                    certain variables are a certain value)?
+                </li>
+                <li>
+                    How do you <b>execute the next line of C code</b> in
+                    the program after stopping at a breakpoint?
+                </li>
+                <li>
+                    If the next line of code is a function call, you'll
+                    execute the whole function call at once if you use
+                    your answer to #3. (If not, consider a different
+                    command for #3!) How do you tell GDB that you <b>want
+                    to debug the code inside the function</b> instead? (If
+                    you changed your answer to #3, then that answer is most
+                    likely now applicable here.)
+                </li>
+                <li>
+                    How do you <b>resume the program after stopping</b> at
+                    a breakpoint?
+                </li>
+                <li>
+                    How can you <b>see the value of a variable</b> (or even
+                    an expression like <code>1+2</code>) in gdb?
+                </li>
+                <li>
+                    How do you configure gdb so it <b>prints the value of a
+                        variable after every step</b>?
+                </li>
+                <li>
+                    How do you <b>print a list of all variables and their
+                    values</b> in the current function?
+                </li>
+                <li>How do you <b>exit</b> out of gdb?</li>
+            </ol>
+
+            <div class='checkoff'>
+                <h4>Checkoff</h4>
+                <ul>
+                    <li>
+                        Set the breakpoint at main, and show your TA how you
+                        run up to that breakpoint.
+                    </li> 
+                    <li>
+                        Show your TA your text document containing the
+                        additional gdb commands (or verbally recite them,
+                        whatever is easier).
+                    </li>
+                </ul>
+            </div>
+
+            <h3>Exercise 3: Debugging a buggy C program with GDB</h3>
+            <p>
+                You will now use your newly acquired gdb knowledge to debug a
+                short C program! Consider the program
+                <a href="ll_equal.c" target="_blank"><code>ll_equal.c</code></a>.
+                Compile and run the program, and experiment with it. By
+                default, it will give you the following result:
+            </p>
+            <pre class='output'>
+$ <span class='input'>gcc -g -o ll_equal ll_equal.c</span>
+$ <span class='input'>./ll_equal</span>
+equal test 1 result = 1
+Segmentation fault</pre>
+
+            <p><b>Figure out what's causing that segmentation fault!</b></p>
+            <p>
+                Start gdb on the program, following the instructions for
+                compilation in exercise 1. We recommend setting a breakpoint in
+                the <code>ll_equal()</code> function. When the debugger stops at
+                the breakpoint, try stepping through the program to see if you
+                can figure out what's causing the error.
+            </p>
+            <p>
+                Hint 1: run <code>bt</code> after the program crashes in gdb. It will output the program trace. 
+            </p>
+            <p>
+                Hint 2: pay attention to the values of the pointers
+                <code>a</code> and <code>b</code> in the function (print them!).
+                Are they always pointed to the right address?
+            </p>
+            <p>
+                Hint 3: Look at the source code in <code>main</code> to see the
+                structure of the nodes and what exactly is being passed into
+                <code>ll_equal</code>.
+            </p>
+
+            <div class='checkoff'>
+                <h4>Checkoff</h4>
+                <ul>
+                    <li>Explain the bug and your fix to the function.</li>
+                </ul>
+            </div>
+
+            <h3>
+                Exercise 4: "Debugging" a C program that requires user input
+            </h3>
+            <p>
+                Let's see what happens if your program requires user input and
+                you try to run GDB on it. First, run the program defined by
+                <a href="interactive_hello.c" target="_blank"><code>interactive_hello.c</code></a>
+                to talk to an overly friendly program.
+            </p>
+            <pre class='output'>
+$ <span class='input'>gcc -g -o int_hello interactive_hello.c</span>
+$ <span class='input'>./int_hello</span></pre>
+            <p>
+                Now, we're going to try to debug it (even though there really
+                are no bugs).
+            </p>
+            <pre class='output'>
+$ <span class='input'>cgdb int_hello</span></pre>
+            <p>
+                What happens when you try to run the program to completion?
+            </p>
+            <p>
+                We'll be learning about a tool to help us avoid this situation.
+                The purpose of this exercise is to make you unafraid of running
+                the debugger even when your program needs user input.
+            </p>
+            <p>
+                It turns out that you can send text to
+                <a href="https://en.wikipedia.org/wiki/Standard_streams#Standard_input_.28stdin.29" target="_blank">stdin</a>,
+                the file stream read by the function <code>fgets</code> in this
+                silly program, with some special characters right from the
+                command line. Take a look at "redirection" on
+                <a href="https://www.cs.bu.edu/teaching/c/file-io/intro" target="_blank">this website</a>,
+                and see if you can figure out how to send some input to the
+                program without explicitly providing it while it's running
+                (which, I hope you've realized, gets you stuck in CGDB).
+            </p>
+            <p>
+                Look at
+                <a href="https://stackoverflow.com/questions/19467865/how-to-use-redirection-in-c-for-file-input" target="_blank">this stackoverflow post</a>
+                for more inspiration.
+            </p>
+            <p>
+                Hint 1: If you're creating a text file containing your input,
+                you're on the right track!
+            </p>
+            <p>
+                Hint 2: Remember you can run things with <b>command line
+                args (<i>including the redirection symbols</i>) from CGDB</b>
+                as well!
+            </p>
+
+            <div class='checkoff'>
+                <h4>Checkoff</h4>
+                <ul>
+                    <li>
+                        Demonstrate how you run CGDB to completion on the
+                        executable created by compiling
+                        <code>interactive_hello.c</code> without getting stuck.
+                    </li>
+                </ul>
+            </div>
+
+            <p>
+                Hopefully you appreciate how redirection helped you avoid that
+                nasty situation with CGDB. Don't ever be afraid of the debugger!
+                We know it looks kind of nasty, but it's there to help you.
+            </p>
+
+            <h3>Exercise 5: Pointers and Structures in C</h3>
+            <p>
+                Here's one to help you in your interviews. In
+                <a href="ll_cycle.c" target="_blank"><code>ll_cycle.c</code></a>,
+                complete the function <code>ll_has_cycle()</code> to implement
+                the following algorithm for checking if a singly-linked list
+                has a cycle.
+            </p>
+            <ol>
+                <li>
+                    Start with two pointers at the head of the list. We'll
+                    call the first one <code>tortoise</code> and the second
+                    one <code>hare</code>.
+                </li>
+                <li>
+                    Advance <code>hare</code> by two nodes. If this is not
+                    possible because of a null pointer, we have found the
+                    end of the list, and therefore the list is acyclic.
+                </li>
+                <li>
+                    Advance <code>tortoise</code> by one node. (A null
+                    pointer check is unnecessary. <i>Why?</i>)
+                </li>
+                <li>
+                    If tortoise and hare point to the same node, the list
+                    is cyclic. Otherwise, go back to step 2.
+                </li>
+            </ol>
+            <p>
+                After you have correctly implemented <code>ll_has_cycle()</code>,
+                the program you get when you compile <code>ll_cycle.c</code>
+                will tell you that <code>ll_has_cycle()</code> agrees with
+                what the program expected it to output.
+            </p>
+            <p>
+                Hint: There are two common ways that students usually write
+                this function. They differ in how they choose to encode the 
+                stopping criteria. If you do it one way, you'll have to account
+                for a special case in the beginning. If you do it another way, 
+                you'll have some extra NULL checks, which is OK. The previous 2
+                sentences are meant to urge you to not stress over cleanliness.
+                If they don't help you, just ignore them. The point of this
+                exercise is to make sure you know how to use pointers.
+            </p>
+            <p>
+                Here's a
+                <a href="https://en.wikipedia.org/wiki/Cycle_detection#Floyd.27s_Tortoise_and_Hare" target="_blank">Wikipedia article</a>
+                on the algorithm and why it works. Don't worry about it if you
+                don't completely understand it. We won't test you on this.
+            </p>
+            <p>
+                <b>By the way</b>, the pointers are called "tortoise" and
+                "hare" because the tortoise pointer is incremented slowly (like
+                a tortoise, which moves slowly) and the hare pointer is
+                incremented quickly (twice as fast as the tortoise; like a hare,
+                which moves quickly).
+            </p>
+            <p>
+                As a closing note, the story of the
+                <a href="http://read.gov/aesop/025.html" target="_blank">tortoise and the hare</a>
+                is always relevant, especially in CS61C. Writing your C
+                programs slowly and steadily, using debugging programs like
+                CGDB, is what will win you the race.
+            </p>
+
+            <div class='checkoff'>
+                <h4>Checkoff</h4>
+                <ul>
+                    <li>
+                        Show your <code>ll_has_cycle()</code> function to the
+                        TA.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/1/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:37 GMT -->
+</html>
+

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/guides/git-wtfs.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:21:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Git WTFS | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../assets/css/lab.css">
+    
+
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../assets/js/script.js"></script>
+    <script src="../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Git WTFS</header><div class="due-date">Author: Gilbert Ghang, Josh Hug</div><ul id="markdown-toc">
+  <li><a href="#head-detached-at--" id="markdown-toc-head-detached-at--">HEAD detached at […] ??</a></li>
+  <li><a href="#error-failed-to-push-some-refs" id="markdown-toc-error-failed-to-push-some-refs">Error: failed to push some refs??</a></li>
+  <li><a href="#what-are-all-these-symbols-in-my-code" id="markdown-toc-what-are-all-these-symbols-in-my-code">What are all these »» symbols in my code??</a></li>
+</ul>
+
+<p>This document is intended to help you through frequently encountered weird
+technical failure scenarios (WTFS) in Git. It will be populated as questions
+arise.</p>
+
+<h2 id="head-detached-at--">HEAD detached at […] ??</h2>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git status
+HEAD detached at 1193e06
+Untracked files:
+  <span class="o">(</span>use <span class="s2">"git add &lt;file&gt;..."</span> to include <span class="k">in </span>what will be commited<span class="o">)</span>
+
+        ../seitan/
+
+nothing added to commit but untracked files preset <span class="o">(</span>use <span class="s2">"git add"</span> to track<span class="o">)</span>
+</code></pre></div></div>
+
+<p>Chances are, you’ve probably used the <code class="highlighter-rouge">git checkout</code> command without specifying
+a file (or a directory). That’s OK! If you haven’t made any changes, you can
+fix this by using the command <code class="highlighter-rouge">git checkout master</code>. If everything is ok, you
+should a message similar to this:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git checkout master
+Previous HEAD position was b405852... added tofu recipes
+Switched to branch <span class="s1">'master'</span>
+</code></pre></div></div>
+
+<p>If you have made some changes (i.e. using the command <code class="highlighter-rouge">git status</code> tells you
+that you have modified some file(s) like the image below), there are a few
+more steps to take.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git status
+HEAD detached at 1193e06
+Changes not staged <span class="k">for </span>commit:
+  <span class="o">(</span>use <span class="s2">"git add &lt;file&gt;..."</span> to update what will be committed<span class="o">)</span>
+  <span class="o">(</span>use <span class="s2">"git checkout -- &lt;file&gt;..."</span> to discard changes <span class="k">in </span>working directory<span class="o">)</span>
+
+        modified: kung_pao_tofu.txt
+
+Untracked files:
+  <span class="o">(</span>use <span class="s2">"git add &lt;file&gt;..."</span> to include <span class="k">in </span>what will be commited<span class="o">)</span>
+
+        ../seitan/
+
+no changes added to commit <span class="o">(</span>use <span class="s2">"git add"</span> and/or <span class="s2">"git commit -a"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>First, use the command <code class="highlighter-rouge">git stash</code>. Your modifications may have magically
+disappeared! Dont worry - we’ll be able to retrieve them in a second!</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git stash
+Saved working directory and index state WIP on <span class="o">(</span>no branch<span class="o">)</span>: 1193e06 added tofu
+recipes HEAD is now at 1193e06 added tofu recipes
+
+<span class="nv">$ </span>git status
+HEAD detached at 1193e06
+Untracked files:
+  <span class="o">(</span>use <span class="s2">"git add &lt;file&gt;..."</span> to include <span class="k">in </span>what will be commited<span class="o">)</span>
+
+        ../seitan/
+
+nothing added to commit but untracked files preset <span class="o">(</span>use <span class="s2">"git add"</span> to track<span class="o">)</span>
+</code></pre></div></div>
+
+<p>From here, use the command <code class="highlighter-rouge">git checkout master</code>. You should see the all clear
+message from before:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git checkout master
+Previous HEAD position was b405852... added tofu recipes
+Switched to branch <span class="s1">'master'</span>
+</code></pre></div></div>
+
+<p>Almost done! Let’s go get our changes. Use <code class="highlighter-rouge">git stash pop</code>. But wait, we’ve
+got a conflict!</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git stash pop
+Auto-merging tofu/kung_pao_tofu.txt
+CONFLICT <span class="o">(</span>content<span class="o">)</span>: Merge conflict <span class="k">in </span>tofu/kung_pao_tofu.txt
+
+<span class="nv">$ </span>git status
+On branch master
+Unmerged paths:
+  <span class="o">(</span>use <span class="s2">"git reset HEAD &lt;file&gt;..."</span> to unstage<span class="o">)</span>
+  <span class="o">(</span>use <span class="s2">"git add &lt;file&gt;..."</span> to mark resolution<span class="o">)</span>
+
+        both modified: kung_pao_tofu.txt
+
+Untracked files:
+  <span class="o">(</span>use <span class="s2">"git add &lt;file&gt;..."</span> to include <span class="k">in </span>what will be committed<span class="o">)</span>
+
+        ../seitan/
+
+no changes added to commit <span class="o">(</span>use <span class="s2">"git add"</span> and/or <span class="s2">"git commit -a"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>Now use <code class="highlighter-rouge">git stash drop</code>:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git stash drop
+Dropped refs/stash@<span class="o">{</span>0<span class="o">}</span> <span class="o">(</span>57f0ac5c5480964cdf29a94ed6b87e38da823488<span class="o">)</span>&lt;Paste&gt;
+</code></pre></div></div>
+
+<p>Now we’ve got to fix this merge conflict. To learn how, take a look
+<a href="#what-are-all-these-symbols-in-my-code">here</a>!</p>
+
+<h2 id="error-failed-to-push-some-refs">Error: failed to push some refs??</h2>
+<p>Sometimes when working with others, you’ll get a message like this when you push:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git push origin master
+To https://github.com/gilbertghang/recipes.git
+ <span class="o">!</span> <span class="o">[</span>rejected]     master -&gt; master <span class="o">(</span>non-fast-forward<span class="o">)</span>
+error: failed to push some refs to <span class="s1">'https://github.com/gilbertghang/recipes.git"
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: '</span>git pull ...<span class="s1">') before pushing again.
+hint: See the '</span>Note about fast-forwards<span class="s1">' in '</span>git push <span class="nt">--help</span><span class="s1">' for details.
+</span></code></pre></div></div>
+
+<p>What has happened here is that your remote (i.e. your online Github repository)
+contains commits that your local repository does not have. Luckily, Git is very
+good about telling you how to fix these errors: if you read the error message
+carefully, you’ll see that is suggests that you <code class="highlighter-rouge">git pull</code>. Do that, fix any
+<a href="#what-are-all-these-symbols-in-my-code">merge conflicts</a>, and push. Done!</p>
+
+<h2 id="what-are-all-these-symbols-in-my-code">What are all these »» symbols in my code??</h2>
+
+<p>Sometimes when you pull from a repository, you’ll get a message like this when you pull:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git pull origin master
+From github.com:Berkeley-CS61B/course-materials-sp16
+ <span class="k">*</span> branch            master     -&gt; FETCH_HEAD
+Auto-merging proj/proj0/solution/canonical/Planet.java
+CONFLICT <span class="o">(</span>content<span class="o">)</span>: Merge conflict <span class="k">in </span>proj/proj0/solution/canonical/Planet.java
+Automatic merge failed<span class="p">;</span> fix conflicts and <span class="k">then </span>commit the result.
+</code></pre></div></div>
+
+<p>The problem here is that the code on your computer had a conflict with the code
+in the remote repository you’re pulling from, and Git couldn’t figure out how
+to resolve it. Since it is unsure, Git refuses to overwrite your local code.</p>
+
+<p>However, when you open your Planet.java, you see some kind of crazy garbage
+like:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="nf">Planet</span><span class="o">(</span><span class="n">Planet</span> <span class="n">p</span><span class="o">)</span> <span class="o">{</span>
+<span class="o">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> <span class="n">HEAD</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">xPos</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">xPos</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">yPos</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">yPos</span><span class="o">;</span>
+<span class="o">=======</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">xxPos</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">xxPos</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">yyPos</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">yyPos</span><span class="o">;</span>
+<span class="o">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span> <span class="mi">27</span><span class="n">ddd0c71515e5cfc7f58a43bcf0e2144c127aed</span>
+</code></pre></div></div>
+
+<p>This is a good thing! Everything between <code class="highlighter-rouge">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> and <code class="highlighter-rouge">=======</code> is what
+was on your computer, and everything between <code class="highlighter-rouge">=======</code> and
+<code class="highlighter-rouge">27ddd0c71515e5cfc7f58a43bcf0e2144c127aed</code> is what was on the remote server.</p>
+
+<p>Your job is to look for these and resolve the merge conflict yourself. In this
+case, the remote repository is right, so we simply delete out everything
+between <code class="highlighter-rouge">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> and <code class="highlighter-rouge">=======</code>, and also delete the
+<code class="highlighter-rouge">&gt;&gt;&gt;&gt;&gt;&gt;&gt; 27ddd0c71515e5cfc7f58a43bcf0e2144c127aed</code> marker, leaving:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nf">Planet</span><span class="o">(</span><span class="n">Planet</span> <span class="n">p</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">xxPos</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">xxPos</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">yyPos</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">yyPos</span><span class="o">;</span>
+</code></pre></div></div>
+
+<p>Once you’ve resolved all of your merge conflicts, add all the files you
+manually edited, and commit them as usual, e.g.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add Planet.java
+git commit <span class="nt">-m</span> <span class="s2">"resolved merge conflict"</span>
+git push origin master
+</code></pre></div></div>
+
+<!--####
+
+(created a repo inside a repo)-->
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/guides/git-wtfs.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:21:57 GMT -->
+</html>

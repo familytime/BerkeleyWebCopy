@@ -1,0 +1,98 @@
+\Question{Build-Up Error?}
+
+What is wrong with the following "proof"? In addition to finding a counterexample, you should explain what is fundamentally wrong with this approach, and why it demonstrates the danger build-up error.
+
+{\bf False Claim:}~If every vertex in an undirected graph has degree at least 1, then the graph is connected.
+
+{\em Proof:}~We use induction on the number of vertices $n \ge 1$.
+
+{\em Base case:} There is only one graph with a single vertex and it has degree 0. Therefore, the base case is vacuously true, since the if-part is false.
+
+{\em Inductive hypothesis:} Assume the claim is true for some $n \ge 1$.
+
+{\em Inductive step:} We prove the claim is also true for $n+1$. Consider an undirected graph on $n$ vertices in which every vertex has degree at least 1. By the inductive hypothesis, this graph is connected. Now add one more vertex $x$ to obtain a graph on $(n + 1)$ vertices, as shown below.
+\vspace{-8pt}
+  \begin{center}
+    \includegraphics[width=0.2\textwidth]{src/problems/graphtheory/resources/falseind.png}
+  \end{center}
+\vspace{-8pt}
+All that remains is to check that there is a path from $x$ to every other vertex $z$. Since $x$
+has degree at least 1, there is an edge from $x$ to some other vertex; call it $y$. Thus, we
+can obtain a path from $x$ to $z$ by adjoining the edge $\{x,y\}$ to the path from $y$ to $z$. This
+proves the claim for $n+1$. 
+
+
+\Question{Leaves in a Tree}
+
+A {\em leaf} in a tree is a vertex with degree $1$.
+
+\begin{Parts}
+  \Part 
+  Consider a tree with $n \ge 3$ vertices. What is the largest possible number of leaves the tree could have? Prove that this maximum $m$ is possible to achieve, and further that there cannot exist a tree with more than $m$ leaves.
+
+  \Part 
+  Prove that every tree on $n \ge 2$ vertices must have at least two leaves.
+
+  \Part
+  Let $k$ be the maximum degree of a tree (The maximum degree of a graph is defined as the largest degree of any vertex in that graph). Prove that the tree contains at least $k$ leaves. 
+
+\end{Parts}
+
+
+\Question{Bipartite Graphs}
+
+An undirected graph is bipartite if its vertices can be partitioned into two disjoint sets $L$, $R$ such that each edge connects a vertex in $L$ to a vertex in $R$ (so there does not exist an edge that connects two vertices in $L$ or two vertices in $R$).
+
+\begin{Parts}
+    \Part 	
+	Suppose that a graph $G$ is bipartite, with $L$ and $R$ being a bipartite partition of the vertices. Prove that $\sum\limits_{v \in L} \deg(v) = \sum\limits_{v \in R} \deg(v)$.
+	\Part
+	Suppose that a graph $G$ is bipartite, with $L$ and $R$ being a bipartite partition of the vertices. Let $s$ and $t$ denote the average degree of vertices in $L$ and $R$ respectively. Prove that $s/t = |R|/|L|$.
+	\Part
+    A double of a graph $G$ consists of two copies of $G$ with edges joining
+    the corresponding ``mirror'' points. Now suppose that $G_1$ is a bipartite
+    graph, $G_2$ is a double of $G_1$, $G_3$ is a double of $G_2$, and so on. (Each $G_{i+1}$ has twice as many vertices as $G_i$).
+    Show that $\forall n \geq 1$, $G_n$ is bipartite.
+    \Part
+    Prove that a graph is bipartite if and only if it can be $2$-colored. (A graph can be $2$-colored if every vertex can be assigned one of two colors such that no two adjacent vertices have the same color).
+
+\end{Parts}
+
+
+\Question{Edge-Disjoint Paths in a Hypercube}
+
+Prove that between any two distinct vertices $x,y$ in the $n$-dimensional hypercube graph, there are at least $n$ edge-disjoint paths from $x$ to $y$ (i.e., no two paths share an edge, though they may share vertices).
+
+
+\Question{Connectivity}
+
+Consider the following claims regarding connectivity:
+\begin{Parts}
+    \Part  Prove: If $G$ is a graph with $n$ vertices such that for any two non-adjacent vertices $u$ and $v$, it holds that $\deg u + \deg v \ge n - 1$, then $G$ is connected. 
+    
+    [\textit{Hint:} Show something more specific: for any two non-adjacent vertices $u$ and $v$, there must be a vertex $w$ such that $u$ and $v$ are both adjacent to $w$.]
+
+    \Part  Give an example to show that if the condition $\deg u + \deg v \ge n - 1$ is replaced with $\deg u + \deg v \ge n - 2$, then $G$ is not necessarily connected.
+
+    \Part Prove: For a graph $G$ with $n$ vertices, if the degree of each vertex is at least $n/2$, then $G$ is connected. 
+    
+    \Part Prove: If there are exactly two vertices with odd degrees in a graph, then they must be connected to each other (meaning, there is a path connecting these two vertices). 
+    
+    [\textit{Hint:} Proof by contradiction.]
+\end{Parts}
+
+
+\Question{Euclid's Algorithm}
+
+\begin{Parts}
+    \Part Use Euclid's algorithm from lecture to compute the greatest common divisor of 527 and 323. List the values of $x$ and $y$ of all recursive calls.
+
+    \Part Use extended Euclid's algorithm from lecture to compute the multiplicative inverse of 5 mod 27. List the values of $x$ and $y$ and the returned values of all recursive calls.
+
+    \Part Find $x \pmod{27}$ if $5x + 2 6 \equiv 3 \pmod{27}$. You can use the result computed in (b).
+
+    \Part Assume $a$, $b$, and $c$ are integers and $c>0$. Prove or disprove: If $a$ has no multiplicative inverse mod $c$, then $ax \equiv b \pmod{c}$ has no solution.
+
+\end{Parts}
+
+

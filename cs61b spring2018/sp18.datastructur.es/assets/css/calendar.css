@@ -1,0 +1,37 @@
+/* Styling for FullCalendar */
+.fc * table {
+    margin: 0px !important;
+}
+
+.fc-event {
+    font-size: 0.9em;
+    cursor: pointer;
+    background-color: #2F86EB;
+    border: 1px solid #1e87ff;
+}
+
+div.ui-tooltip {
+        max-width: 300px;
+        z-index: 9999;
+        background-color: #ffffff;
+}
+
+.lecture-event {
+    background-color: #939393;
+    border: 1px solid #474747;
+}
+
+.special-disc-event {
+    background-color: #59e07b;
+    border: 1px solid #26d351;
+}
+
+.hug-event {
+    background-color: #ff4136;
+    border: 1px solid #d6372f;
+}
+
+.qtip-light {
+    font-size: 14px;
+    line-height: 1em;
+}

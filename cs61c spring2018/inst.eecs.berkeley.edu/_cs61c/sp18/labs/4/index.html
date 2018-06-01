@@ -1,0 +1,104 @@
+<html>
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/4/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:49 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>CS61C Spring 2018 Lab 4</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<style type='text/css'>
+    .checkoff {
+      background:#eeeee0;
+      padding:1em;
+      border-radius:1em;
+      border:1px solid #ddd;
+    }
+    </style>
+</head>
+
+<body>
+<div class="header">
+    <div class="header-text">
+	<h1>CS61C Spring 2018 Lab 4 - RISC-V Functions and Pointers</h1>
+    </div>
+</div>
+
+<div class="content">
+  <h2>Goals</h2>
+  <ul>
+    <li>Practice debugging RISC-V Code.</li>
+    <li>Write RISC-V functions that use pointers.</li>
+  </ul>
+
+  <h2>Setup</h2>
+  <p>Copy the lab files from the instructional servers to your lab account with</p>
+  <pre class="output">$ <span class="input">cp -r ~cs61c/labs/04/ ~/labs/04/</span></pre>
+
+  <p>Alternatively, secure-copy (<tt>scp</tt>) them from the instructional servers to your own laptop with</p>
+  <pre class="output">$ <span class="input">scp -r cs61c-xxx@hive10.cs.berkeley.edu:~cs61c/labs/04/ ~/YOUR_FILEPATH</span></pre>
+
+  <p>And if you want to secure-copy them back to your class account:</p>
+  <pre class="output">$ <span class="input">scp -r ~/YOUR_FILEPATH/04 cs61c-xxx@hive10.cs.berkeley.edu:~/YOUR_LABACCT_FILEPATH</span></pre>
+
+  <h2>Exercise 1: Debugging <tt>megalistmanips.s</tt></h2>
+
+  <p>In Lab 3, you completed a RISC-V procedure that applied a function to every element of a linked list. In this lab, you will be working with a similar (but slightly more complex) version of that procedure.</p>
+  
+  <p>Now, instead of having a linked list of <tt>int</tt>s, our data structure is a linked list of <tt>int</tt> arrays. Remember that
+  when dealing with arrays in <tt>struct</tt>s, we need to explicitly store the size of the array. In C code, here's what the data structure
+  looks like:</p>
+
+  <pre>struct node {
+    int *arr;
+    int size;
+    struct node *next;
+};</pre>
+
+  <p>Also, here's what the new <tt>map</tt> function does: it traverses the linked list and for each element in each array of each <tt>node</tt>,
+  it applies the passed-in function to it, and stores it back into the array.</p>
+  <pre>void map(struct node *head, int (*f)(int)) {
+    if (!head) { return; }
+    for (int i = 0; i < head->size; i++) {
+      head->arr[i] = f(head->arr[i]);
+    }
+    map(head-&gt;next, f);
+}</pre>
+
+  <p><b>Task</b>: Find the mistakes inside the <tt>map</tt> function in <a href=megalistmanips.html><tt>megalistmanips.s</tt></a>. Read all of the commented lines under the <tt>map</tt> function in <tt>megalistmanips.s</tt> (before
+  it returns with <tt>jr ra</tt>), and <strong>make sure that the lines do what the comments say.</strong></p>
+  <p>Some <b>hints</b>:</p>
+  <ul>
+    <li>Why do we need to save stuff on the stack before we call <tt>jal</tt>?</li>
+    <li>What's the difference between <tt>add t0, s0, x0</tt> and <tt>lw t0, 0(s0)</tt>?</li>
+    <li>Pay attention to the types of attributes in a <tt>struct node</tt>!
+  </ul>
+  <div class='checkoff'>
+<h4>Checkoff [1/2]</h4>
+<ul><li>Display the result of running the code in <tt>megalistmanips.s</tt>.</li></ul>
+</div>
+
+  <h2>Exercise 2: Write a function without branches</h2>
+  <p>Consider the discrete-valued function <tt>f</tt> defined on integers in the set <tt>{-3, -2, -1, 0, 1, 2, 3}</tt>. Here's the function definition:</p>
+  <ul><tt>
+    <li>f(-3) = 6</li>
+    <li>f(-2) = 61</li>
+    <li>f(-1) = 17</li>
+    <li>f(0) = -38</li>
+    <li>f(1) = 19</li>
+    <li>f(2) = 42</li>
+    <li>f(3) = 5</li>
+  </tt></ul>
+
+  <p>Your <b>task</b> is to implement this function in RISC-V, with the condition that
+  your code may <u>NOT</u> use <b>any</b> branch and/or jump instructions!</p>
+
+  <p>Luckily, you have access to an array of integers in the <tt>.data</tt> section of <a href=discrete_fn.html>discrete_fn.s</a>. How can you 
+  use this to your advantage?</p>
+  <div class='checkoff'>
+<h4>Checkoff [2/2]</h4>
+<ul><li>Display the result of assembling and running the code in <tt>discrete_fn.s</tt></li></ul>
+</div>
+</div>
+
+</body>
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/4/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:50 GMT -->
+</html>
+

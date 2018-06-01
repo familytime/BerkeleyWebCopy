@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/about.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:17:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>About | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/sunburst.css">
+    
+    
+
+    <script src="assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="assets/js/script.js"></script>
+    <script src="assets/js/cheet.min.js"></script>
+    
+</head>
+
+<link rel="stylesheet" type="text/css" href="assets/css/about.css">
+<script type="text/javascript" async src="../cdn.mathjax.org/mathjax/latest/MathJaxb198.js?config=TeX-MML-AM_CHTML"></script>
+
+<body>
+    <div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="index-2.html"><div class="navitem">Main</div></a>
+        <a href="about.html"><div class="navitem">Course Info</div></a>
+        <a href="staff.html"><div class="navitem">Staff</div></a>
+        <a href="resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="coursename">
+        <a href="index.html"><span id="courseid">CS 61B</span> Data Structures, Spring 2018</a>
+    </div>
+    <div id="courseinfo">
+        Instructor: Josh Hug<br>
+        Lecture: MWF 3-4 PM, Wheeler 150<br>
+    </div>
+    <div id="content" class="about">
+        <p><a href="#" id="scroll" style="display: none;"><span></span></a></p>
+<h3></h3>
+<ul id="markdown-toc">
+  <li><a href="#welcome-to-cs-61b" id="markdown-toc-welcome-to-cs-61b">Welcome to CS 61B</a></li>
+  <li><a href="#background-knowledge" id="markdown-toc-background-knowledge">Background Knowledge</a></li>
+  <li><a href="#is-this-the-right-course-for-me" id="markdown-toc-is-this-the-right-course-for-me">Is this the right course for me?</a></li>
+  <li><a href="#discussion-and-lab-sections" id="markdown-toc-discussion-and-lab-sections">Discussion and Lab Sections</a></li>
+  <li><a href="#online-resources" id="markdown-toc-online-resources">Online Resources</a></li>
+  <li><a href="#course-materials" id="markdown-toc-course-materials">Course Materials</a></li>
+  <li><a href="#software" id="markdown-toc-software">Software</a></li>
+  <li><a href="#hw-and-labs" id="markdown-toc-hw-and-labs">HW and Labs</a></li>
+  <li><a href="#vitamins" id="markdown-toc-vitamins">Vitamins</a></li>
+  <li><a href="#programming-projects" id="markdown-toc-programming-projects">Programming Projects</a></li>
+  <li><a href="#exams" id="markdown-toc-exams">Exams</a>    <ul>
+      <li><a href="#exam-supersession" id="markdown-toc-exam-supersession">Exam Supersession</a></li>
+    </ul>
+  </li>
+  <li><a href="#grades" id="markdown-toc-grades">Grades</a></li>
+  <li><a href="#extra-credit" id="markdown-toc-extra-credit">Extra Credit</a></li>
+  <li><a href="#gold-points-boosting" id="markdown-toc-gold-points-boosting">Gold Points Boosting</a></li>
+  <li><a href="#policy-on-collaboration-and-cheating" id="markdown-toc-policy-on-collaboration-and-cheating">Policy on Collaboration and Cheating</a></li>
+  <li><a href="#hw-and-lab-collaboration-policy" id="markdown-toc-hw-and-lab-collaboration-policy">HW and Lab Collaboration Policy</a></li>
+  <li><a href="#project-collaboration-policy" id="markdown-toc-project-collaboration-policy">Project Collaboration Policy</a></li>
+  <li><a href="#lateness" id="markdown-toc-lateness">Lateness</a></li>
+  <li><a href="#acknowledgements" id="markdown-toc-acknowledgements">Acknowledgements</a></li>
+</ul>
+
+<h3 id="welcome-to-cs-61b">Welcome to CS 61B</h3>
+<p>The CS 61 series is an introduction to computer science, with particular
+emphasis on software and machines from a programmer’s point of view. CS 61A
+covered high-level approaches to problem-solving, providing you with a variety
+of ways to organize solutions to programming problems as compositions of
+functions, collections of objects, or sets of rules. In CS 61B, we move to a
+somewhat more detailed (and to some extent, more basic) level of programming.</p>
+
+<p>In 61A, the <em>correctness</em> of a program was our primary goal. In CS61B, we’re
+concerned also with <em>engineering</em>. An engineer, it is said, is someone who can
+do for a dime what any fool can do for a dollar. Much of 61B will be concerned
+with the tradeoffs in time and memory for a variety of methods for structuring
+data.  We’ll also be concerned with the engineering knowledge and skills needed
+to build and maintain moderately large programs.</p>
+
+<h3 id="background-knowledge">Background Knowledge</h3>
+<p>This class assumes you have taken CS61A or E7, or have equivalent
+background to a student who has taken one of these courses. The course is
+largely built upon the assumption that you have taken CS61A, and E7
+students may find the beginning of the course to be a bit scarier, particularly
+when it comes to object oriented programming.</p>
+
+<p>We assume you are coming in with zero Java experience. Nonetheless, we will move
+through basic Java syntax very quickly. Though the syntaxes of Java, Python,
+MATLAB, Scheme, etc. are enormously different, the underlying computational
+models are surprisingly similar.</p>
+
+<p>If you already have Java experience, great! We hope that you’ll help out your
+fellow students in discussion, lab, and on Piazza, particularly in the opening
+weeks when everyone is catching up on Java.</p>
+
+<p>Knowledge of UNIX is not required, though you might find it useful if you want
+to use the lab computers instead of your own computer. Lab 1 will give you
+resources to learn UNIX if you end up deciding use the lab computers instead of
+your own.</p>
+
+<h3 id="is-this-the-right-course-for-me">Is this the right course for me?</h3>
+<p>This is a course about data structures and programming methods. It happens to
+also teach Java, since it is hard to teach programming without a language.
+However, it is not intended as an exhaustive course on Java, the World-Wide Web,
+creating Android apps, user interfaces, graphics, or any of that fun stuff.</p>
+
+<p>Some of you may have already had a data structures course, and simply want to
+learn Java or C++. For you, self-study may be a better option. CS 9F (C++ for
+programmers) and CS 9G (Java for programmers) are both one-unit self-paced
+courses that will teach you more of what you want to know in less time. There is
+no enrollment limit for that course, and you work through it at your own pace
+after the first and only lecture.</p>
+
+<p>Finally, the 1-unit self-paced course CS 47B is for students “with sufficient
+partial credit in 61B,” allowing them (with instructor’s permission) to complete
+the 61B course requirement without taking the full course.</p>
+
+<h3 id="discussion-and-lab-sections">Discussion and Lab Sections</h3>
+<p>Each week there is a 1 hour discussion section and a 2 hour lab section headed
+by a GSI and supported by volunteer academic interns. Information about the staff
+running each section can be found on the <a href="staff-2.html">staff</a> page.</p>
+
+<p>If you decide to permanently switch sections, it’d be best to switch in
+CalCentral. However, if the section is officially full or doing so would somehow
+cause you significant grief, it’s OK to simply clear it with the two TAs
+involved.</p>
+
+<p>Discussion attendance is not mandatory, but each discussion you attend earns you two “gold points” (up to a maximum of 20), which are extra credit points
+described in more detail below. Attendance will not be taken for the first two
+weeks. Lab attendance is optional for most labs, but we think you’ll find it
+useful to go anyway. Attendance of lab 1, the project 1 code review lab and the project 2 checkoff lab are mandatory for full credit. Lab deadlines on gradescope will always reflect the “true” deadline (in the event that we need to push anything back for reasons like technical glitches).</p>
+
+<p>Lab materials are available online, so you will be able to do much of the work
+ahead of time. Nonetheless, we encourage you to attend your scheduled lab time.
+One major purpose of the labs is to give your TA a chance to check up on you and
+to find out what people are and are not understanding. <strong>We’ve found that with
+the increasing ability to work anywhere has come an increasing tendency for
+students to go off by themselves and fall behind.</strong> Don’t make this mistake.
+Keep up with homework and lab work and above all <em>let us know when you don’t
+understand something!</em></p>
+
+<h3 id="online-resources">Online Resources</h3>
+<p>The <a href="index.html">course home page</a> will provide one-stop shopping for course information.
+The course schedule as well as all handouts, homework, labs, FAQs, etc., will be
+posted there.</p>
+
+<p>Our discussion forum this semester will be <a href="piazza.com/berkeley/spring2018/cs61b.html">Piazza</a>. For most
+questions about the course, Piazza is the right place to ask them. The course
+staff read it regularly, so you will get a quick answer. Furthermore, by posting
+online as opposed to emailing us directly, other students benefit by seeing the
+question and the answer. Don’t forget to check Piazza before asking your
+question, just in case someone else has already posted it.</p>
+
+<p>The e-mail address <span class="blue">cs61b (at) berkeley.edu</span> will send a
+message to the course staff (Josh and the head TAs). You can use it for
+correspondence that you don’t want to send to Piazza. The head TAs and Josh all read it, so you
+will usually get a quick reply. If you send a question that is of general
+interest, we may post the response on Piazza (we will keep personal information
+out of it, of course). If you have any problems that require an exception (e.g.
+medical emergencies, sudden necessary travel), please contact email
+<span class="blue">cs61b (at) berkeley.edu</span>. Emailing only your TA or Josh
+may result in significant delays in resolving your issue. <strong>Please do not email
+Josh for exceptions. Email</strong> <b><span class="blue">cs61b (at) berkeley.edu</span></b>.</p>
+
+<p>To talk with us, the best way is to come during regular office hours (posted on
+the home page). Many of us are available at other times by appointment. Please
+don’t be shy. Web pages, email, and Piazza are useful, but it’s still much
+easier to understand something when you can talk about it face-to-face. Even if
+you’re an “online section” student, you’re still welcome to come to office
+hours. Office hours are concentrated Monday to Wednesday because we hold labs
+all day Thursday and Friday.</p>
+
+<h3 id="course-materials">Course Materials</h3>
+<p>I’ve written our own course notes for the first seven weeks of the course. These
+should be sufficient for you to understand what we need to know about Java. They
+can be found at <a href="https://joshhug.gitbooks.io/hug61b">https://joshhug.gitbooks.io/hug61b</a>.</p>
+
+<p>If you find these notes insufficient, you might consider consulting <a href="http://www-inst.eecs.berkeley.edu/~cs61b/fa14/book1/java.pdf">Paul
+Hilfinger’s (free) Java
+Reference</a> or
+<a href="https://www.google.com/search?q=head+first+java">Head First Java, 2nd Edition by Sierra and Bates (O’Reilly,
+2005)</a>.</p>
+
+<p>The optional textbook for the weeks 8-14 of the course is Algorithms, 4th
+Edition by Wayne and Sedgewick.</p>
+
+<p>All textbooks for this course are optional. Homework will not be assigned from
+them, and alternate readings will be provided when possible.</p>
+
+<p>The official description of the Java core language is available online in <a href="http://docs.oracle.com/javase/specs/jls/se8/html">The
+Java Language Specification</a>
+(Java SE 8 Edition) by James Gosling, Bill Joy, Guy Steele, Gilad Bracha, and
+Alex Buckley. It’s extremely thorough and easy to read (once you understand how
+to read it).</p>
+
+<h3 id="software">Software</h3>
+<p>This official coding environment and text editor for the course is the
+Integrated Development Environment (IDE) called IntelliJ, though we will not
+introduce this IDE until Week 2. At your own discretion, you may instead use
+Vim, Emacs, Sublime, or IDEs like Eclipse, Netbeans, Emacs etc. Whatever you
+use, however, your submitted solutions must conform to our expected layouts, as
+indicated in the assignments. We strongly recommend that you use IntelliJ
+starting as soon as you finish project 0. We will not officially support any
+editing / programming environment other than IntelliJ.</p>
+
+<p>This semester, we will officially use Java 9, but using Java 8 is also OK.</p>
+
+<p>You will be able to do any work you’d like on any Windows, Mac OS X, or Linux
+computer. You may also remotely log into the instructional machines (which you
+will receive an account for during the first week), though you should be able to
+most everything in the course by working natively on your own computer.
+Information for setting up your own computer is linked in <a href="materials/lab/lab1b.html">Lab
+1b</a>.</p>
+
+<p>We’ll be using the version-control system <a href="https://git-scm.com/">Git</a> this
+semester. Version-control systems allow you maintain a series of “snapshots” of
+your files at various points in their development. Used properly, this provides
+you some back-up protection, so that you can recover previous states of your
+work when something goes wrong. Also for team-oriented projects (as well as in
+the real world), version-control systems help manage collaborative work.</p>
+
+<p>You will be learning and using Git for this course to track your work and submit
+your assignment. In addition to the advantages above, using Git will allow the
+staff to track your progress in the course and maybe even help you out when
+you’re stuck on bugs. The first lab will teach you the basics of what you will
+need to know. Feel free to also read official <a href="http://git-scm.com/doc">Git
+documentation</a>.</p>
+
+<h3 id="hw-and-labs">HW and Labs</h3>
+<p>There are 14 weeks of lab in the course, as well as 5 required homeworks. In addition there is 1 makeup lab as well as 2 makeup homeworks that you can optionally complete at any time before the final exam to replace a lower score.</p>
+
+<p>During Phase I of the course (Weeks 1
+through 4), labs will provide you with help getting your computer set up and how to use essential Java programming tools. During
+Phase II of the course (Weeks 5 through 7), labs will provide you with structure
+for the open ended design project (project 2). In Phase III of the course, labs
+will give you a chance to implement important data structures and algorithms.
+All labs will take approximately two hours to complete, though some may run
+slightly longer. HWs will vary from 3 to 10 hours of work. You will turn in
+everything electronically using GitHub, and your results will be available on
+Gradescope. All homeworks and labs are individual efforts (without partners).
+Two of the homeworks and one of the labs will be released during RRR week. If
+you complete all of your work during the semester, you don’t need to do these
+(as they will be dropped). For the three labs with no official work to turn in
+(labs 6, 7, and 12, subject to change), everybody gets full credit automatically, even if they do not attend lab that week.</p>
+
+<p><strong>No extensions or grace hours will be granted for labs or homework.</strong> 
+Only your 12 (of 15) best lab scores and 5 (of 7) best homework scores count towards your final score.</p>
+
+<p>Homework will be graded on a rigorous suite of correctness tests while labs will
+receive full credit for “reasonable effort,” as evaluated by a small number of
+relatively simple correctness tests. Passing all tests on Gradescope for
+homework or labs will ensure full credit as there are no hidden tests. Each lab
+will be worth 8 points (for a total of 96 points), and each homework will be
+worth 32 points (for a total of 160 points).</p>
+
+<h3 id="vitamins">Vitamins</h3>
+
+<p>While lecture attendance is not required, not even expected, we do expect you to stay up to date with lecture material. To help keep you on track, there will be 14 weekly “vitamins” due on Sundays at 11:59 PM that cover the previous week’s material. Vitamins will be released to Gradescope. Each vitamin will consist of a small number of very short questions that evaluate your basic comprehension of lecture material. Each vitamin is worth 4 points, for a total of 48 points. Your two lowest vitamins will be dropped. You can submit vitamins as many times as you would like. <strong>No extensions or grace hours will be granted for vitamins.</strong></p>
+
+<h3 id="programming-projects">Programming Projects</h3>
+<p>In addition to the HWs and labs, there will be 4 programming projects. In these
+projects you will build an entire system. For project 0, you will be able to
+work with a <a href="materials/guides/partnerships.html">partner</a>. For project 2 you will be
+required to work with a partner, unless you specifically request otherwise
+(details TBA).</p>
+
+<p>Project 0 and 1 will be relatively easier than projects 2 and 3, taking less
+time and with greater levels of scaffolding. Project 2 will be a very difficult
+project (on par with what you might expect from Hilfinger’s harder projects).
+Project 3 will be challenging, but not as time consuming as project 2.</p>
+
+<p>Each project has a specific theme:</p>
+<ul>
+  <li>Project 0: Introduction to Java</li>
+  <li>Project 1: Basic Design, Testing, and Code Review</li>
+  <li>Project 2: Large Scale Design and Testing</li>
+  <li>Project 3: Working with an Existing Code Base</li>
+</ul>
+
+<p>For all projects, we will ultimately release all tests that determine your
+grade. In other words, passing all tests on Gradescope will allow you to earn
+full points for the autograded portion of the project.</p>
+
+<p>Projects 0, 1, 2, and 3 will be worth 50, 80, 200, and 150 points
+respectively. For projects 2 and 3, there are opportunities for “gold points”
+described in each project specification.</p>
+
+<h3 id="exams">Exams</h3>
+<p>There will be two evening midterms on February 12th from 8 - 10 PM and on March 20th from 8 - 10 PM. There will also be a three hour final exam
+on May 9th at 7 PM. Midterm 1 will be worth 160 points, midterm 2 will be worth 240 points, and the final exam will be worth 400 points.</p>
+
+<p>You will be allowed to bring one letter size page of handwritten
+notes (front and back) to the first midterm, two to the second midterm, and
+three to the final. You will not be required to turn in these sheets, and you
+may reuse them from exam to exam.</p>
+
+<p>Inspired by the great Paul Hilfinger tradition, exams may cover any material
+whatsoever. For fear of our lives, exams will almost exclusively test material
+covered in the course.</p>
+
+<p>There will be <strong>no alternate exams</strong>. If you miss an exam, your score will be
+reweighted with your performance on other exams (see “supersession” elsewhere in this document). Students with disabilities that require alternate exam timing will be honored, so long as you can make a time that overlaps the official time. If you have a disability that prevents your ability to make such a time, we will discuss alternate arrangements with you directly. If you are traveling on official UC business, and have a proctor available, we will allow remote exams to be taken at the same time as the official exam.</p>
+
+<p>We release grades for exams on <a href="https://gradescope.com/">Gradescope</a>. If you
+believe we have misgraded an exam, request a regrade on the same site with a
+note explaining your complaint.  You should check the online solutions first to
+make sure that this regrade will make your total score go up as it is possible
+to lose points from a regrade request.</p>
+
+<p>Midterm 1 grades will be available by the night of 2/14, giving you two days
+to decide whether to drop the course. If you’re a prospective CS major and you
+do poorly, we will provide advising sessions to help you decide what to do.
+Details will be announced at that time.</p>
+
+<h4 id="exam-supersession">Exam Supersession</h4>
+
+<p>For those of you who miss an exam, have a bad night, or make major improvements over the semester, the exam supersession policy gives you a chance to replace one of your midterm exams.</p>
+
+<p>Specifically, if it helps your score, we will replace one of your midterm scores by its “final statistical equivalent” (FSE). We compute the FSE of an exam as follows:</p>
+
+<p>Let <script type="math/tex">F</script> be the number of standard deviations above the mean that you score on the final. For example, if you are 0.3 standard deviations below the mean, <script type="math/tex">F=-0.3</script>. Let <script type="math/tex">\overline{M}</script> be the class-wide mean (not including zeroes) on an midterm. Let <script type="math/tex">\sigma_M</script> be the class-wide standard deviations (not including zeroes) on a midterm. Your FSE for that exam is <script type="math/tex">\sigma_MF + \overline{M}</script>.</p>
+
+<p>If one of your FSEs is better than your original midterm score, we will use the FSE instead. If both are better (e.g. you do much better on the final than either midterm), then we will replace the exam that gives you a bigger overall benefit. If both of your FSE are worse, nothing happens (i.e. doing badly on the final won’t hurt your earlier exam scores).</p>
+
+<p>In pseudocode, supersession works as follows:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>F = (your_final_score - final_mean) / final_stddev
+
+FSE_m1 = m1_stddev * F + m1_mean
+FSE_m2 = m2_stddev * F + m2_mean
+
+score_with_m1_replaced = FSE_m1 + your_m2_score + your_final_score
+score_with_m2_replaced = your_m1_score + FSE_m2 + your_final_score
+score_with_no_replacements = your_m1_score + your_m2_score = your_final_score
+
+your_total_exam_score = max(score_with_m1_replaced, score_with_m2_replaced, score_with_no_replacements)
+</code></pre></div></div>
+
+<h3 id="grades">Grades</h3>
+<p>Your letter grade will be determined by the total points out of the possible
+1,584. In other words, there is <em>no curving in this course</em>, other than the
+supersession policy above. Your grade will depend solely on how well you do, and
+not on how well everyone else does. Unlike other CS courses, the grading bins
+for 61B generally do not get tweaked at the end of the semester.</p>
+
+<table id="grade-breakdown">
+	<thead>
+		<tr>
+			<th>Category</th>
+			<th>Percentage</th>
+			<th>Points</th>
+		</tr>
+	</thead>
+	<tr><td>Homework/Labs</td> <td>~16.2%</td> <td>256</td></tr>
+  <tr><td>Vitamins</td> <td>~3.0%</td> <td>48</td></tr>  
+	<tr><td>Projects</td> <td>~30.3%</td> <td>480</td></tr>
+	<tr><td>Midterms</td> <td>~25.25%</td> <td>400</td></tr>
+	<tr><td>Final Exam</td> <td>~25.25%</td> <td>400</td></tr>
+	<tr><td>Total</td> <td>100%</td> <td>1,584</td></tr>
+</table>
+<table id="letter-grades">
+	<tr>
+        <td>A+</td>
+        <td>A</td>
+        <td>A-</td>
+        <td>B+</td>
+        <td>B</td>
+        <td>B-</td>
+        <td>C+</td>
+        <td>C</td>
+        <td>C-</td>
+        <td>D+</td>
+        <td>D</td>
+        <td>D-</td>
+        <td>F</td>
+	</tr>
+	<tr>
+        <td>1550</td>
+        <td>1474</td>
+        <td>1393</td>
+        <td>1290</td>
+        <td>1195</td>
+        <td>1145</td>
+        <td>1050</td>
+        <td>925</td>
+        <td>744</td>
+        <td>646</td>
+        <td>544</td>
+        <td>400</td>
+        <td>0</td>
+	</tr>
+</table>
+
+<p>These bins were designed to comply with departmental guidelines that the average GPA for a lower-division required course be in the range 2.8 - 3.3, not including students who drop or take the class for a P/NP grade. The design process involved setting of specific standards I expect students to achieve for the A, B, and C bins, with numbers adjusted and other bins interpolated based on a model that I built of predicted student performance. At the end of the semester, we might make the bin boundaries slightly friendlier, though I don’t typically move them very much, if at all.</p>
+
+<p>We will grant grades of Incomplete <em>only</em> for dire medical or personal
+emergencies that cause you to miss the final, and only if your work up to that
+point has been satisfactory. Do <em>not</em> try to get an incomplete simply as a way
+to have more time to study or do a project. That is contrary to University
+policy.</p>
+
+<h3 id="extra-credit">Extra Credit</h3>
+<p>There will be a total of 32 points of extra credit in the course:</p>
+
+<ol>
+  <li>6 points each for projects 2 and 3. Details in project specs.</li>
+  <li>4 points for the pre-semester survey (released 1/20/2018).</li>
+  <li>4 points for mid-semester survey.</li>
+  <li>8 points for taking the staff created end-of-semester survey.</li>
+  <li>4 points for taking the official university end-of-semester survey.</li>
+</ol>
+
+<h3 id="gold-points-boosting">Gold Points Boosting</h3>
+<p>There are two ways to earn gold points: Attending discussion and completing the
+‘stretch’ goals on the projects. Gold points act sort of like extra credit,
+though the lower your exam scores, the more your gold points will count. You
+should only pursue project gold points if you really enjoy the projects, as the
+amount of credit you’ll earn per hour spent is relatively low compared to other
+facets of the course (e.g. exam studying).</p>
+
+<p>If you earn <script type="math/tex">g</script> gold points and <script type="math/tex">T</script> points on all exams (after taking into
+account shadowing), then your total score in the course will be boosted by
+<script type="math/tex">2\left(g - g \cdot \dfrac{T}{800}\right)</script>.</p>
+
+<p>For example, if you earn <script type="math/tex">4</script> gold points on project 2, <script type="math/tex">12</script> gold points from
+attendance, and have <script type="math/tex">480</script> points on your exams including shadowing, then
+you’ll earn a gold boost of <script type="math/tex">2\left(16 - 16 \cdot \dfrac{480}{800}\right) = 12.8</script>
+to your total score in the class.</p>
+
+<p>If we decide a project is too difficult, we reserve the right to move some part
+of the project into the gold parts section. In such a case, we may readjust the
+distribution of gold points.</p>
+
+<h3 id="policy-on-collaboration-and-cheating">Policy on Collaboration and Cheating</h3>
+<p>Deadlines can be stressful, and we know that under extreme pressure, it becomes
+tempting to start rationalizing actions that you would otherwise yourself
+consider inappropriate. Perhaps you’ll find yourself facing a 61B project
+deadline, and under all this stress you’ll convince yourself that you’re just
+going to cheat for the moment so you can get the points, and that you’ll come
+back later and really learn the thing you were supposed to have learned in order
+to restore your karmic balance (I’ve heard something along these lines a few
+times).</p>
+
+<p>This is a terrible idea. Obviously it’s important to learn how to deal with
+deadlines, but far more important than that, giving into this sort of pressure
+under not-so-dire circumstances is going to do some damage to your moral
+compass. Someday, when the consequences are higher than potentially losing a
+1/3rd of a letter grade, you may find yourself committing dishonest acts at the
+cost of someone else’s livelihood or life.</p>
+
+<p>Plagiarism on any hw, lab or project will result in a score of -100 on that
+assignment, which will likely reduce your letter grade by several bins. A second
+instance of plagiarism on a homework, lab, or project will result in an F in the
+course. All incidents of plagiarism will be referred to the Office of Student
+Conduct, including carelessly leaving code up on GitHub.</p>
+
+<p>During the Spring 2017 semester, we compiled a series of <a href="materials/guides/incident-reports-2017.html">incident reports written by students who were caught plagiarizing</a>. If you find yourself tempted to cheat, you might turn to the words of others who have made the wrong choice for guidance.</p>
+
+<h3 id="hw-and-lab-collaboration-policy">HW and Lab Collaboration Policy</h3>
+<p>In CS61B, we have three types of assignments: homeworks, labs, and projects. The
+entire point of homeworks and labs is to learn. For homeworks or labs, you
+should feel free to collaborate with others however you choose, though keep in
+mind that greater independence is likely to give you a better learning
+experience (as long as you aren’t totally stuck). <strong>Even though we will allow
+close collaborations on HWs and labs, your code should still be your own work!</strong>
+Identical or near identical submissions will be treated as plagiarism.</p>
+
+<h3 id="project-collaboration-policy">Project Collaboration Policy</h3>
+<p>By contrast, the projects were designed not just for learning (particularly how
+to be self-reliant in the context of large unfamiliar systems), but also for the
+dual purpose of evaluating of your mastery of the course material. As such, they
+are intended to be completed primarily on your own (or with your partner for the
+first two projects), particularly when it comes to writing the actual code.</p>
+
+<p><strong>For exams, we will be absolutely unforgiving.</strong> Any incident will result in a
+failing grade for the course, though Berkeley will let you retake 61B next
+semester. As above, all incidents of cheating will be referred to the Office of
+Student Conduct.</p>
+
+<p>What constitutes cheating? <strong>The golden rule of academic dishonesty is that you
+should not claim to be responsible for work that is not yours.</strong></p>
+
+<p>This is obviously open to some interpretation, and you’ll be getting some help
+from instructors, the internet, other students, and more throughout the course.
+This is OK, and we hope that the class is an open, welcoming, collaborative
+environment where we can help each other build the highest possible
+understanding of the course material.
+To help (but not entirely define) the bounds of acceptable behavior, we have
+three important rules for projects:</p>
+
+<ol>
+  <li>
+    <p><strong>By You Alone</strong>: All project code that you submit (other than skeleton code)
+should be written by you (and if applicable, your project 0 or project 2
+partner) alone, except for small snippets that solve tiny subproblems
+(examples in the Permitted section below).</p>
+  </li>
+  <li>
+    <p><strong>Do Not Possess or Share Code</strong>: Before you’ve submitted your final work for a project, you should never
+be in possession of solution code that you (or your partner) did not write.
+You will be equally culpable if you distribute such code to other students or
+future students of 61B (within reason). DO NOT GIVE ANYONE YOUR CODE – EVEN
+IF THEY ARE DESPERATELY ASKING. DO NOT POST SOLUTIONS TO PROJECTS ONLINE (on
+GitHub or anywhere else)! If you’re not sure what you’re doing is OK, please
+ask.</p>
+  </li>
+  <li>
+    <p><strong>Cite Your Sources</strong>: When you receive significant assistance on a project
+from someone else, you should cite that assistance somewhere in your source
+code with the <code class="highlighter-rouge">@source</code> tag as described in lab 1.  We leave it to you to decide what constitutes ‘significant’.</p>
+  </li>
+</ol>
+
+<p>For clarity, examples of specific activities are listed below:</p>
+
+<p><strong>Permitted</strong>:</p>
+
+<ul>
+  <li>
+    <p>Discussion of approaches for solving a problem.</p>
+  </li>
+  <li>
+    <p>Giving away or receiving significant conceptual ideas towards a problem
+solution. Such help should be cited as comments in your code. For the sake of
+other’s learning experience, we ask that you try not to give away anything
+juicy, and instead try to lead people to such solutions.</p>
+  </li>
+  <li>
+    <p>Discussion of specific syntax issues and bugs in your code.</p>
+  </li>
+  <li>
+    <p>Using small snippets of code that you find online for solving tiny problems
+(e.g. googling “uppercase string java” may lead you to some sample code that
+you copy and paste into your solution). Such usages should be cited as
+comments in your hw, lab, and especially project code!</p>
+  </li>
+</ul>
+
+<p>Permitted with <strong>Extreme Caution</strong>:</p>
+
+<ul>
+  <li>
+    <p>Looking at someone else’s project code to assist with debugging. Typing or
+  dictacting code into someone else’s computer is a violation of the “By You
+  Alone” rule.</p>
+  </li>
+  <li>
+    <p>Looking at someone else’s project code to understand a particular idea or part
+  of a project. This is strongly discouraged due to the danger of plagiarism,
+  but not absolutely forbidden. We are very serious about the “By You Alone”
+  rule!</p>
+  </li>
+  <li>
+    <p>Working on a project alongside another person or group of people. Your code
+  should not substantially resemble anyone else’s!</p>
+  </li>
+</ul>
+
+<p><strong>Absolutely Forbidden</strong>:</p>
+
+<ul>
+  <li>
+    <p>Possessing another student’s project code in any form before a final deadline,
+  be it electronic or on paper. This includes the situation where you’re
+  trying to help someone debug. Distributing such code is equally forbidden.</p>
+  </li>
+  <li>
+    <p>Possessing project solution code that you did not write yourself (from online
+  (e.g. GitHub), staff solution code found somewhere on a server it should not
+  have been, etc.) before a final deadline. Distributing such code is equally
+  forbidden.</p>
+  </li>
+  <li>
+    <p>Posting solution code to any assignment in a public place (e.g. a public git
+  repository, mediafire, etched into stones above the Mediterranean, etc).
+  This applies even after the semester is over.</p>
+  </li>
+  <li>
+    <p>Working in lock-step with other students. Your workflow should not involve a
+  group of people identifying, tackling, and effectively identically solving a
+  sequence of subproblems.</p>
+  </li>
+</ul>
+
+<p>We have advanced cheating detection software, and we will routinely run this
+code to detect cheating. Every semester, we catch and penalize a significant
+number of people (100+ cases in Spring 2017). Do not be one of them. If you find
+yourself at such a point of total desperation that cheating begins to look
+attractive, contact one of the instructors and we can maybe help somehow.
+Likewise, if 61B is causing massive disruption to your personal life, please
+contact us directly.</p>
+
+<p>If you admit guilt to an act of plagiarism before we catch you, you will be
+given zero points on that assignment, and we will not refer your case to the
+university administration.</p>
+
+<p>Obviously, the expressive power of Java is a subset of the English language. And
+yes, you can obviously obey the letter of this entire policy while completely
+violating its spirit. However, this policy is not a game to be defeated, and
+such circumventions will be seen as plagiarism.</p>
+
+<h3 id="lateness">Lateness</h3>
+<p>We will give no credit for homeworks or labs after the deadline. Your 12 best
+labs and 5 best homeworks will be counted towards your grade. There are makeup
+labs and homeworks at the end of the semester that are intended to handle any
+contingencies. With ~1500 students, we cannot afford to handle individual cases,
+though if you have an extreme situation that warrants our attention, please
+contact someone from the <span class="blue">cs61b (at) berkeley.edu</span>. If you
+have a disability, we will contact you with details about deadline
+accommodations. If you don’t hear from us, please contact
+<span class="blue">cs61b (at) berkeley.edu</span></p>
+
+<p>For each hour a project is late, you’ll incur a penalty of 5/12 percent
+(0.417%), rounded off in some unspecified fashion. This means that you will lose
+roughly 10% of the points for a project each day late (though tracking is by
+hours late, not days).</p>
+
+<p>For each project, you’ll also receive 24 hours of slip time, during which there
+is no penalty. Unusued slip hours do not earn you points, nor can they be
+applied to later projects.</p>
+
+<h3 id="acknowledgements">Acknowledgements</h3>
+<p>Some course handout material derived froms <a href="https://inst.eecs.berkeley.edu/~cs61b/fa14/handout0.pdf">Paul Hilfinger’s CS61B
+handout</a>.</p>
+
+    </div>
+</body>
+<script>
+  $(document).ready(function(){
+      $(window).scroll(function(){
+          if ($(this).scrollTop() > 100) {
+              $('#scroll').fadeIn();
+          } else {
+              $('#scroll').fadeOut();
+          }
+      });
+      $('#scroll').click(function(){
+          $("html, body").animate({ scrollTop: 0 }, 300);
+          return false;
+      });
+  });
+</script>
+
+
+
+<!-- Mirrored from sp18.datastructur.es/about.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:17:55 GMT -->
+</html>

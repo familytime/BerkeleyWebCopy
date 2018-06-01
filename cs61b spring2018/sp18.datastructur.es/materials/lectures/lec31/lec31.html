@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec31/lec31 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Dynamic Programming | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Dynamic Programming</header><div class="due-date">Author: Josh Hug</div><ul id="markdown-toc">
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#recommended-problems" id="markdown-toc-recommended-problems">Recommended Problems</a>    <ul>
+      <li><a href="#b-level" id="markdown-toc-b-level">B level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>DAGs.</strong> One very special type of graph is the directed acyclic graph, also
+called a <a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a>.</p>
+
+<p><strong>DAGSPT.</strong> While Dijkstra’s will work fine on any DAG with non-negative edges,
+and will complete in $O(E \log V + V \log V)$ time, we can do slightly better
+performance wise using the DAGSPT algorithm. DAGSPT simply consists of first
+finding a topological ordering of the vertices, then relaxing all of the edges
+from each vertex in topological order. The runtime of this algorithm is
+$\Theta(E + V)$. This algorithm does not work general graphs, only DAGs. This
+algorithm works, even if we have negative edges.</p>
+
+<p><strong>Dynamic Programming.</strong> Dynamic programming is the following process:</p>
+<ul>
+  <li>Identify a collection of subproblems.</li>
+  <li>Solve subproblems, working from smallest to largest.</li>
+  <li>Use the answers from the smaller problems to help solve the larger ones.</li>
+</ul>
+
+<p><strong>Dynamic Programming and SPT.</strong> The DAGSPT algorithm is an example of dynamic
+programming. We start by solving the simplest subproblem (distance from the
+source to the source), and then use the results of that subproblem to solve
+larger subproblems (distance from the source to vertices two edges away), and so
+forth.</p>
+
+<p><strong>Longest Increasing Subsequence.</strong> As an example of Dynamic Programming, we studied the longest
+increasing subsequence (LIS) problem. This is not because the LIS problem is
+particularly important, but rather than its one of the easiest non-trivial DP
+problems. The LIS problem is: Given a sequence of numbers, find the longest (not
+necessarily contiguous) subsequence that is increasing. For example, given the
+sequence [6, 2, 8, 4, 5, 7], the LIS is [2, 4, 5, 7]. The length of the longest
+increasing subsequence (LLIS) problem says to simply find the length of the LIS.
+For example, given the sequence [6, 2, 8, 4, 5, 7], the LLIS is 4.</p>
+
+<p><strong>The LLIS Problem and Longest Path.</strong> We can represent an instance of the LLIS
+problem as a DAG. We create one vertex per item in the sequence numbered from 0
+to N - 1. We draw an arrow from i to j if the ith element of the sequence is
+less than the jth element. The solution to the LLIS problem is then simply: Find
+the path with the most edges in this DAG, starting from any vertex.</p>
+
+<p><strong>Solving the Most-Edges Path Problem.</strong> One solution to the most-edges path
+problem is to set all edge weights to -1, then use the DAGSPT algorithm to find
+the shortest-paths-tree from each vertex. Since the edge weights all have weight
+-1, the shortest path in each SPT will be the one with the most edges. Or in
+other words, given the SPT for vertex i, the LLIS that starts at item i will be
+given by the absolute value of the minimum of the <code class="highlighter-rouge">distTo</code> array. In class, I
+called this DAG problem “longest path”, but in retrospect, I think “most edges
+path” is a clearer name, so I will use it throughout this study guide instead.</p>
+
+<p><strong>Implementing Our Most-Edges Based Approach.</strong> Our LLIS algorithm thus consists
+of first forming a DAG with edges of length -1, then finding a topological
+ordering on this graph, then running DAGSPT N times and recording the minimum of
+the <code class="highlighter-rouge">distTo</code> array, and finally returning 1 + the absolute value of the minimum
+of these minimums. The runtime of this algorithm is $O(N^3)$. See the B level
+problems and/or extra slides for why.</p>
+
+<p><strong>Reduction.</strong> Transforming a problem from one domain and solving it in that new
+domain is sometimes called “reduction”. For example, we reduced the LLIS problem
+to N solutions of the most-edges on a DAG problem. Other informal examples of
+reduction: we can reduce “illuminating a room” to “flipping a light switch”, we
+can reduce “getting to work” to “riding BART”, we can reduce “8puzzle” to “A*”.</p>
+
+<p><strong>Inefficiency of Using Most-Edges to Solve LLIS.</strong> Reduction to N-solutions of
+the most-edges path problem works, but is inefficient. In particular, we observe
+that the latest shortest paths trees are in fact sub-trees of the earlier
+shortest paths problem. In effect, we are solving a bunch of subproblems in the
+wrong order!</p>
+
+<p><strong>LLIS Using DP.</strong> Our earlier approach boiled down to solving the LLIS problem
+<em>starting</em> from each separate vertex V. However, if we solve the LLIS problem
+<em>ending</em> at each vertex V, we can save ourselves lots of work. Define Q(K) to be
+the LLIS ending at vertex number K. For example, given the sequence [6, 2, 8, 4,
+5, 7], Q(3) is 2, since the length of the longest path ending at 4 (which is
+item #3) is 2. Calculating these Q(K) values are the subproblems of our DP
+approach.</p>
+
+<p><em>*Using Smaller Qs to Solve Larger Qs.</em> For our approach to be dynamic
+programming, we must be able to solve our larger subproblems in terms of our
+smaller ones. Trivially, we have that Q(0) is 1, since the LLIS ending at vertex
+0 is 1. For subsequent Q(K), we have that Q(K) is equal to 1 + Q(M), where M is
+the vertex such that Q(M) is the largest known Q value such that there is an
+edge from K to M (equivalently that the Kth item is less than the Mth item).</p>
+
+<p><strong>Using Qs to Solve Our DP.</strong> Supposing that we have calculated Q(K) for all K.
+Recalling that Q(K) is defined as the length of the largest subsequence ending
+at K, then the length of the largest subsequence is simply the maximum of all
+Q(K).</p>
+
+<p><strong>Implementing our LLIS DP Algorithm.</strong> While the DAG is a useful abstraction to
+guide our thinking, it is ultimately unnecessary. Our solution to LLIS can be
+simply presented as:</p>
+<ul>
+  <li>Create Q, an array of length N. Set Q[0] to 1, and Q[K] to negative infinity.</li>
+  <li>For each K = 1, …, N, then for each item L = 0, … K - 1, if item L is less than item K, and if Q[L] + 1 &gt; Q[K], then set Q[K] = Q[L] + 1</li>
+</ul>
+
+<p>The runtime or this algorithm is simply $\Theta(N^2).</p>
+
+<h2 id="recommended-problems">Recommended Problems</h2>
+
+<h3 id="b-level">B level</h3>
+
+<ol>
+  <li>Why is the runtime of the DAGSPT-based LLIS algorithm $O(N^3)$? Answer below
+(highlight to see):</li>
+</ol>
+
+<font color="WHITE">The runtime of this algorithm is $\Theta(EV + V^2)$, because:
+ - $\Theta(E + V)$ to create the weighted DAG.
+ - $\Theta(E + V)$ to compute a topological ordering of the vertices.
+ - $V$ executions of DAGSPT, for a total runtime of $\Theta(EV + V^2)$.
+ - $\Theta(V)$ time to find the minimum of each `distTo` array.
+ - $\Theta(V)$ time to find the minimum of minimums.
+
+In turn, we have $O(N^2)$ edges, and exactly $N$ vertices, so the overall
+runtime is $O(N^3)$.
+</font>
+
+<ol>
+  <li>Try out some of the problems (with animated solutions) from <a href="https://people.cs.clemson.edu/~bcdean/dp_practice/">Brian Dean’s
+website</a>. Some of these
+are A level problems.</li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec31/lec31 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:31 GMT -->
+</html>

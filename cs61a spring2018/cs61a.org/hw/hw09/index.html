@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/hw/hw09/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+<link rel="stylesheet" type="text/css" href="../../assets/css/hw.css">
+
+
+    <title>
+Homework 09 | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Homework 09
+
+        
+        <ul class="inline-block list-inline">
+          <li><a href="hw09.zip" class="label label-outline">hw09.zip</a></li>
+        </ul>
+        
+      </h1>
+    </header>
+    
+<p><em>Due by 11:59pm on Thursday, 4/5</em></p>
+
+
+
+
+<h2>Instructions</h2>
+
+<p>Download <a href="hw09.zip">hw09.zip</a>.</p>
+
+<blockquote><p>Our course uses a custom version of Scheme (which you will build for Project
+4) included in the starter ZIP archive. To start the interpreter, type
+<code>python3 scheme</code>. To run a Scheme program interactively, type <code>python3 scheme
+&#x2d;i &lt;file.scm&gt;</code>. To exit the Scheme interpreter, type <code>(exit)</code>.</p></blockquote>
+
+<p><strong>Submission:</strong> When you are done, submit with
+<code>python3 ok --submit</code>.
+You may submit more than once before the deadline; only the final submission
+will be scored. Check that you have successfully submitted your code on
+<a href="https://okpy.org/">okpy.org</a>.
+See <a href="../../lab/lab00/index.html#submit-the-assignment">Lab 0</a>
+for more instructions on submitting assignments.</p>
+
+<p><strong>Using Ok:</strong> If you have any questions about using Ok, please
+refer to <a href="../../articles/using-ok.html">this guide.</a>
+
+
+  <p><strong>Readings:</strong> You might find the following references
+  useful:</p>
+  <ul>
+  <li><a href="../../articles/scheme-spec.html">Scheme Specification</a></li>
+  <li><a href="../../articles/scheme-primitives.html">Scheme Primitives Reference</a></li>
+  <li><a href="http://composingprograms.com/pages/29-recursive-objects.html#linked-list-class">2.9.1 - Linked Lists</a></li>
+  <li><a href="http://composingprograms.com/pages/32-functional-programming.html">3.2 - Functional Programming</a></li>
+</ul>
+
+
+
+
+    
+<h3 class="question" id="q1">Q1: How Many Dots?</h3>
+
+<p>Implement <code>how&#x2d;many&#x2d;dots</code>, which takes in a nested scheme list <code>s</code> and returns
+the number of dots that appear when it is displayed by the interpreter (not
+counting decimal points). You may assume that <code>s</code> is a nested list that
+contains only numbers.</p>
+
+<p><em>Hints</em>: A dot appears when the second element of a pair is not a well formed
+list. The procedures <code>pair?</code>, <code>null?</code>, and <code>number?</code> test whether a value is a
+pair, <code>nil</code>, or a number, respectively.</p>
+
+<solution>
+
+<pre><code>(define (how&#x2d;many&#x2d;dots s)
+  'YOUR-CODE-HERE
+)</code></pre>
+
+</solution>
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q how-many-dots -u
+python3 ok -q how-many-dots</code></pre>
+
+
+
+
+<h3 id="differentiation">Differentiation</h3>
+
+
+<p>The following problems develop a system for
+<a href="http://en.wikipedia.org/wiki/Table_of_derivatives#Elementary_rules_of_differentiation">symbolic differentiation</a>
+of algebraic expressions.  The <code>derive</code> Scheme procedure takes an
+algebraic expression and a variable and returns the derivative of the
+expression with respect to the variable. Symbolic differentiation is of
+special historical significance in Lisp. It was one of the motivating
+examples behind the development of the language. Differentiating is a
+recursive process that applies different rules to different kinds of
+expressions.</p>
+
+<pre><code>; derive returns the derivative of EXPR with respect to VAR
+(define (derive expr var)
+  (cond ((number? expr) 0)
+        ((variable? expr) (if (same&#x2d;variable? expr var) 1 0))
+        ((sum? expr) (derive&#x2d;sum expr var))
+        ((product? expr) (derive&#x2d;product expr var))
+        ((exp? expr) (derive&#x2d;exp expr var))
+        (else &#x27;Error)))</code></pre>
+
+<p>To implement the system, we will use the following data abstraction.
+Sums and products are lists, and they are simplified on construction:</p>
+
+<pre><code>; Variables are represented as symbols
+(define (variable? x) (symbol? x))
+(define (same&#x2d;variable? v1 v2)
+  (and (variable? v1) (variable? v2) (eq? v1 v2)))
+
+; Numbers are compared with =
+(define (=number? expr num)
+  (and (number? expr) (= expr num)))
+
+; Sums are represented as lists that start with +.
+(define (make&#x2d;sum a1 a2)
+  (cond ((=number? a1 0) a2)
+        ((=number? a2 0) a1)
+        ((and (number? a1) (number? a2)) (+ a1 a2))
+        (else (list &#x27;+ a1 a2))))
+(define (sum? x)
+  (and (list? x) (eq? (car x) &#x27;+)))
+(define (addend s) (cadr s))
+(define (augend s) (caddr s))
+
+; Products are represented as lists that start with *.
+(define (make&#x2d;product m1 m2)
+  (cond ((or (=number? m1 0) (=number? m2 0)) 0)
+        ((=number? m1 1) m2)
+        ((=number? m2 1) m1)
+        ((and (number? m1) (number? m2)) (* m1 m2))
+        (else (list &#x27;* m1 m2))))
+(define (product? x)
+  (and (list? x) (eq? (car x) &#x27;*)))
+(define (multiplier p) (cadr p))
+(define (multiplicand p) (caddr p))</code></pre>
+
+<blockquote><p>Note that we will not test whether your solutions to this question correctly
+apply the <a href="https://en.wikipedia.org/wiki/Chain_rule">chain rule</a>. For more
+info, check out the <a href="#extensions">extensions</a> section.</p></blockquote>
+
+<h3 class="question" id="q2">Q2: Derive Sum</h3>
+
+<p>Implement <code>derive&#x2d;sum</code>, a procedure that differentiates a sum by
+summing the derivatives of the <code>addend</code> and <code>augend</code>.  Use data abstraction
+for a sum.</p>
+
+<pre><code>(define (derive&#x2d;sum expr var)
+  'YOUR-CODE-HERE
+)</code></pre>
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q derive-sum -u
+python3 ok -q derive-sum</code></pre>
+
+
+
+<h3 class="question" id="q3">Q3: Derive Product</h3>
+
+<p>Implement <code>derive&#x2d;product</code>, which applies <a href="http://en.wikipedia.org/wiki/Product_rule">the product
+rule</a> to differentiate
+products. This means taking the multiplier and multiplicand, and then
+summing the result of multiplying one by the derivative of the other.</p>
+
+<blockquote><p>The <code>ok</code> tests expect the terms of the result in a particular order.
+First, multiply the derivative of the multiplier by the multiplicand. Then,
+multiply the multiplier by the derivative of the multiplicand. Sum these two
+terms to form the derivative of the original product.</p></blockquote>
+
+<pre><code>(define (derive&#x2d;product expr var)
+  'YOUR-CODE-HERE
+)</code></pre>
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q derive-product -u
+python3 ok -q derive-product</code></pre>
+
+
+
+<h3 class="question" id="q4">Q4: Make Exp</h3>
+
+<p>Implement a data abstraction for exponentiation: a <code>base</code> raised to the
+power of an <code>exponent</code>. The <code>base</code> can be any expression, but assume that the
+<code>exponent</code> is a non-negative integer. You can simplify the cases when
+<code>exponent</code> is <code>0</code> or <code>1</code>, or when <code>base</code> is a number, by returning numbers from
+the constructor <code>make&#x2d;exp</code>.  In other cases, you can represent the exp as a
+triple <code>(^ base exponent)</code>.</p>
+
+<blockquote><p>You may want to use the built-in procedure <code>expt</code>, which takes two number
+arguments and raises the first to the power of the second.</p></blockquote>
+
+<pre><code>; Exponentiations are represented as lists that start with ^.
+(define (make&#x2d;exp base exponent)
+  'YOUR-CODE-HERE
+)
+
+(define (base exp)
+  'YOUR-CODE-HERE
+)
+
+(define (exponent exp)
+  'YOUR-CODE-HERE
+)
+
+(define (exp? exp)
+  'YOUR-CODE-HERE
+)
+
+(define x^2 (make&#x2d;exp &#x27;x 2))
+(define x^3 (make&#x2d;exp &#x27;x 3))</code></pre>
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q make-exp -u
+python3 ok -q make-exp</code></pre>
+
+
+
+<h3 class="question" id="q5">Q5: Derive Exp</h3>
+
+<p>Implement <code>derive&#x2d;exp</code>, which uses the <a href="http://en.wikipedia.org/wiki/Power_rule">power
+rule</a> to derive exponents. Reduce
+the power of the exponent by one, and multiply the entire expression by
+the original exponent.</p>
+
+<pre><code>(define (derive&#x2d;exp exp var)
+  'YOUR-CODE-HERE
+)</code></pre>
+
+<p>Use Ok to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q derive-exp -u
+python3 ok -q derive-exp</code></pre>
+
+
+
+
+<h3 id="extensions">Extensions</h3>
+
+
+<p>There are many ways to extend this symbolic differentiation
+system. For example, you could simplify nested exponentiation expression such
+as <code>(^ (^ x 3) 2)</code>, products of exponents such as <code>(* (^ x 2) (^ x 3))</code>, and
+sums of products such as <code>(+ (* 2 x) (* 3 x))</code>. You could apply the <a href="https://en.wikipedia.org/wiki/Chain_rule">chain
+rule</a> when deriving exponents, so that
+expressions like <code>(derive &#x27;(^ (^ x y) 3) &#x27;x)</code> are handled correctly. Enjoy!</p>
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#q1">Q1: How Many Dots?</a></li>
+  <li><a href="#differentiation">Differentiation</a></li>
+  <li><a href="#q2">Q2: Derive Sum</a></li>
+  <li><a href="#q3">Q3: Derive Product</a></li>
+  <li><a href="#q4">Q4: Make Exp</a></li>
+  <li><a href="#q5">Q5: Derive Exp</a></li>
+  <li><a href="#extensions">Extensions</a></li>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+
+<!-- Mirrored from cs61a.org/hw/hw09/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:36:51 GMT -->
+</html>

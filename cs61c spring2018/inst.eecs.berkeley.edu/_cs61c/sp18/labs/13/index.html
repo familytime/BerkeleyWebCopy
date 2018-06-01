@@ -1,0 +1,142 @@
+<html>
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/13/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:54:26 GMT -->
+<head>
+<title>CS61C Spring 2018 Lab 13</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+    <div class="header">
+        <h1>CS61C Spring 2018 Lab 13: Virtual Memory</h1>
+    </div>
+
+    <div class="content">
+    <h2>Goals</h2>
+        <p>The purpose of this lab is to acquaint you with the structure and 
+        workings of the virtual memory system. You will work with two different 
+        simulators to develop this understanding.</p>
+    <h2>Info</h2>
+        <p>For this lab you will be mostly using the virtual memory simulation
+        features of Camera, a cache and virtual memory simulator. You may also
+        find the cache simulations interesting, however we won't be working
+        with those here.  Unfortunately, Camera is known to have issues when
+        trying to run it on the instructional machines, so it's recommand to
+        download Camera from <a href="Camera.jar">here</a>, and simply double
+        click on the jar file to run it on your own laptop. If you're on a mac,
+        you may need to go to "Security & Privacy" in your settings and click
+        "open anyway" to allow Camera to run. Some displays don't seem to play
+        nice with the standard Camera app, if the values in memory are all
+        squished together, try running this version of
+        <a href="CameraHDPI.jar">Camera</a>.</p>
+
+        <p>Once Camera opens up, select the virtual memory option to open a
+        visualization of the virtual memory system. In the top left you can see
+        the contents of physical memory. Just below that is a listing of all
+        the pages of virtual memory for this process. To the right of these
+        items are the contents of the TLB and the Page Table. At this point
+        these should all be empty as we haven't done anything yet. Read about
+        the statistics of your memory system in the &quot;PROGRESS UPDATE&quot;
+        box at the bottom of the window. This area will keep you updated on
+        your status through the simulation as it progresses. You can move the
+        simulation forward, backward or start it over from the beginning using
+        the buttons to the right of the &quot;PROGRESS UPDATE&quot; box.</p>
+
+
+    <h2>Exercises</h2>
+    <h3>Exercise 1: A Sample Run (CAMERA)</h3>
+        <p>Click the button labeled &quot;Auto Generate Add. Ref. Str.&quot; at
+        the right-hand side of the window. This will generate a set of ten
+        address references. You can think of these as a series of RISC-V
+        &quot;load word&quot; instructions reading from the memory address
+        specified. Click the button labeled &quot;Next&quot; to begin the
+        simulation.</p> <p>For the rest of this exercise you are at the mercy
+        of the &quot;PROGRESS UPDATE&quot; box. After each click of the
+        &quot;Next&quot; button examine the contents of the box and the current
+        state of the memory system. Try to really get an understanding of what
+        is going on in the TLB, the Page Table, and Physical Memory at each
+        step.</p> <p>Once you have reached the end of the simulation note the
+        number of TLB Hits and Misses and Page Hits and Faults. Write these
+        numbers down, along with the sequence of memory accesses used to show
+        to your TA during checkoff.</p>
+
+      <div class="checkoff">
+        <h4>Checkoff </h4>
+        <ul>
+          <li>Show your TA the number of TLB Hits and Misses and Page Hits and Faults, 
+              along with the sequence of memory accesses used. Did you have any Page 
+              Hits? Why or why not? Be ready to describe the steps on a memory 
+              request.</li>
+        </ul>
+      </div>
+
+    <h3>Exercise 2: MISS! (CAMERA)</h3>
+        <p>Now that you've seen what a random workload looks like in the VM system 
+        let's try creating a custom workload with a specific property. Your goal 
+        for this exercise is to create a workload of ten memory accesses that 
+        will cause ten TLB misses and ten Page Faults. You should be able to 
+        come up with such a workload on paper, but then you should run it in 
+        CAMERA to verify your work. You can specify a custom workload in CAMERA 
+        by clicking the button labeled &quot;Self Generate Add. Ref. Str.&quot; and 
+        entering in the addresses you want to reference one at a time. When you 
+        are satisfied that you've got a valid sequence write it down and be 
+        ready to show it to your TA during checkoff.</p>
+
+      <div class="checkoff">
+         <h4>Checkoff</h4>
+         <ul>
+          <li>Show your TA a workload of ten memory accesses that will cause ten TLB 
+              misses and ten Page Faults.</li>
+         </ul>
+       </div>
+
+    <h3>Exercise 3: Memory Systems Engineering (CAMERA)</h3>
+        <p>Given your sequence of memory accesses from Exercises 2, can you find a 
+        change to a single parameter (e.g. TLB size, page table size, memory 
+        size, etc...) that would result in the same number (ten) of TLB misses 
+        but result in fewer than ten page faults? Work through this on paper and 
+        be ready to show your results to your TA during checkoff.</p>
+
+    <div class="checkoff">
+        <h4>Checkoff</h4>
+        <ul>
+          <li>Explain the single parameter change that would result in ten TLB misses, 
+              but fewer than ten page faults.</li>
+        </ul>
+      </div>
+
+    <h3>Exercise 4: Putting it all in Context (VMSIM)</h3>
+        <p>VMSIM is another online virtual memory simulator. You have three options for this exercise.</p>
+        <ul>
+          <li> Go to the VMSIM <a href="http://denninginstitute.com/workbenches/vmsim/vm.html">website</a> and inspect the VMSIM applet. On this site you can run the simulation, step through it, and reset it. However, this application may not run correctly on Chrome, so if you are running it on your home machine or on hive you should use Firefox. You may also run into security settings with Java. More about java security permissions can be found <a href="https://java.com/en/download/faq/exception_sitelist.xml">here</a> </li>
+          <li>If you are unable to open the link in your browser, you may also use the <tt>appletviewer</tt> command in terminal like so: <pre class="output">$ <span class="input">appletviewer http://denninginstitute.com/workbenches/vmsim/vm.html</span> </pre></li>
+          <li> Watch this <a href="vm.webm">webm</a> of the simulation, and answer the questions using it.</li>
+        </ul>
+
+
+
+
+           <!--  a href=""></a> You can find VMSIM 
+        <a href="http://denninginstitute.com/workbenches/vmsim/vm.html">here</a>.
+        If you are unable to open the link in your browser, you may also use the <tt>appletviewer</tt> command in terminal like so:
+        <pre class="output">$ <span class="input">appletviewer http://denninginstitute.com/workbenches/vmsim/vm.html</span> </pre></p>
+        <p><i>You might not be able to run this exercise on your own machine due to permission problems. To edit your java security permissions. Instructions can be found <a href="https://java.com/en/download/faq/exception_sitelist.xml">here</a> </i></p> -->
+        <p>What is different about the setup of the system in VMSIM as
+        compared to CAMERA? In particular, what are P1, P2, P3, and P4? If you watch closely
+        you'll see that this simulation reports a much higher percentage of TLB misses than the
+        random run on CAMERA did. Why might this be? (If you have trouble following the
+        simulation, you can turn down the speed using the slider on the bottom right.)</p>
+    
+
+      <div class="checkoff">
+        <h4>Checkoff</h4>
+        <ul>
+          <li>Explain why there is a much higher percentage of TLB misses in this 
+              simulation.</li>
+        </ul>
+      </div>
+
+    </div>
+</body>
+
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/13/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:54:27 GMT -->
+</html>

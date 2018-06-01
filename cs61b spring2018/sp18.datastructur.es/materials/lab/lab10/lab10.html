@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab10/lab10 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lab 10: Priority Queues | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lab 10: Priority Queues</header><ul id="markdown-toc">
+  <li><a href="#representing-a-tree-with-an-array" id="markdown-toc-representing-a-tree-with-an-array">Representing a Tree With an Array</a></li>
+  <li><a href="#working-with-binary-heaps" id="markdown-toc-working-with-binary-heaps">Working With Binary Heaps</a>    <ul>
+      <li><a href="#binary-heaps-defined" id="markdown-toc-binary-heaps-defined">Binary Heaps Defined</a></li>
+      <li><a href="#complete-trees" id="markdown-toc-complete-trees">Complete Trees</a></li>
+      <li><a href="#writing-heap-methods" id="markdown-toc-writing-heap-methods">Writing Heap Methods</a></li>
+    </ul>
+  </li>
+  <li><a href="#submission" id="markdown-toc-submission">Submission</a></li>
+  <li><a href="#faq" id="markdown-toc-faq">FAQ</a>    <ul>
+      <li><a href="#the-tostring-method-is-causing-a-stack-overflow-andor-the-debugger-seems-super-slow" id="markdown-toc-the-tostring-method-is-causing-a-stack-overflow-andor-the-debugger-seems-super-slow">The toString method is causing a stack overflow and/or the debugger seems super slow.</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="representing-a-tree-with-an-array">Representing a Tree With an Array</h2>
+
+<p>You’ve seen two approaches to implementing a sequence data structure: either using an array, or using linked nodes. Wth BSTs, we extended our idea of linked nodes to implement a tree data structure. As discussed in the heaps lecture, we can also use an array to represent a complete tree.</p>
+
+<p>Here’s how we implement a complete binary tree:</p>
+
+<ul>
+  <li>
+    <p>The root of the tree will be in position 1 of the array (nothing is at position 0). We can define the position of every other node in the tree recursively:</p>
+  </li>
+  <li>
+    <p>The left child of a node at position <code class="highlighter-rouge">n</code> is at position <code class="highlighter-rouge">2n</code>.</p>
+  </li>
+  <li>
+    <p>The right child of a node at position <code class="highlighter-rouge">n</code> is at position <code class="highlighter-rouge">2n + 1</code>.</p>
+  </li>
+  <li>
+    <p>The parent of a node at position <code class="highlighter-rouge">n</code> is at position <code class="highlighter-rouge">n/2</code>.</p>
+  </li>
+</ul>
+
+<h2 id="working-with-binary-heaps">Working With Binary Heaps</h2>
+
+<h4 id="binary-heaps-defined">Binary Heaps Defined</h4>
+
+<p>In this lab, you will be making a priority queue using a binary min-heap (where smaller values correspond to higher priorities). Recall from lecture: Binary min-heaps are basically just binary trees (but <em>not</em> binary search trees) – they have all of the same invariants of binary trees, with two extra invariants:</p>
+
+<ul>
+  <li>
+    <p><strong>Invariant 1:</strong> the tree must be <em>complete</em> (more on this later)</p>
+  </li>
+  <li>
+    <p><strong>Invariant 2:</strong> every node is smaller than its descendants (there is another variation called a binary <em>max</em> heap where every node is greater than its descendants)</p>
+  </li>
+</ul>
+
+<p>Invariant 2 guarantees that the min element will always be at the root of the tree. This helps us access that item quickly, which is what we need for a priority queue.</p>
+
+<p>We need to make sure binary min-heap methods maintain the above two invariants. Here’s how we do it:</p>
+
+<p><strong>Add an item</strong></p>
+
+<ol>
+  <li>
+    <p>Put the item you’re adding in the left-most open spot in the bottom level of the tree.</p>
+  </li>
+  <li>
+    <p>Swap the item you just added with its parent until it is larger than its parent, or until it is the new root. This is called <em>bubbling up</em> or <em>swimming</em>.</p>
+  </li>
+</ol>
+
+<p><strong>Remove the min item</strong></p>
+
+<ol>
+  <li>
+    <p>Swap the item at the root with the item of the right-most leaf node.</p>
+  </li>
+  <li>
+    <p>Remove the right-most leaf node, which now contains the min item.</p>
+  </li>
+  <li>
+    <p><em>Bubble down</em> the new root until it is smaller than both its children. If you reach a point where you can either bubble down through the left or right child, you must choose the smaller of the two. This process is also called <em>sinking</em>.</p>
+  </li>
+</ol>
+
+<h4 id="complete-trees">Complete Trees</h4>
+
+<p>There are a couple different notions of what it means for a tree to be well balanced. A binary heap must always be what is called <em>complete</em> (also sometimes called <em>maximally balanced</em>).</p>
+
+<p>A <strong>complete tree</strong> has all available positions for nodes filled, except for possibly the last row, which must be filled from left-to-right.</p>
+
+<h4 id="writing-heap-methods">Writing Heap Methods</h4>
+
+<p>The class <code class="highlighter-rouge">ArrayHeap</code> implements a binary min-heap using an array. Fill in the missing methods in <code class="highlighter-rouge">ArrayHeap.java</code>. Specifically, you should implement the following methods, ideally in the order shown.</p>
+
+<ul>
+  <li>leftIndex</li>
+  <li>rightIndex</li>
+  <li>parentIndex</li>
+  <li>swim</li>
+  <li>sink</li>
+  <li>insert</li>
+  <li>peek</li>
+  <li>removeMin</li>
+  <li>changePriority</li>
+</ul>
+
+<p>Please try to read over the entire skeleton first before starting!</p>
+
+<p>JUnit tests are provided inside <code class="highlighter-rouge">ArrayHeap</code> that test these methods (with the exception of peek and changePriority). Try out the tests as soon as you write the corresponding methods.</p>
+
+<p>You may find the <a href="http://algs4.cs.princeton.edu/24pq/MinPQ.java.html">Princeton implementation of a heap</a> useful. <a href="https://algs4.cs.princeton.edu/24pq/">Here</a> is a more detailed explanation of each of the methods. Unlike the Princeton implementation, we store items in the heap as an  array of <code class="highlighter-rouge">Nodes</code>, instead of an array of <code class="highlighter-rouge">Key</code>, because we want to leave open the possibility of priority changing operations.</p>
+
+<h2 id="submission">Submission</h2>
+
+<p>To submit, push your <code class="highlighter-rouge">ArrayHeap.java</code> to Github, upload to gradescope, and submit.</p>
+
+<h2 id="faq">FAQ</h2>
+
+<h4 id="the-tostring-method-is-causing-a-stack-overflow-andor-the-debugger-seems-super-slow">The toString method is causing a stack overflow and/or the debugger seems super slow.</h4>
+
+<p>The debugger wants to print everything out nicely as it runs, which means it is constantly calling the toString method. If something about your code causes an infinite recursion, this will cause a stack overflow, which will also make the debugger really slow.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab10/lab10 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:26 GMT -->
+</html>

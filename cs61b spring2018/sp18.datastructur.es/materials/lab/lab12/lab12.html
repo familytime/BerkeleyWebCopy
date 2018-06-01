@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab12/lab12 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lab 12: Merge Sort and Quick Sort | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lab 12: Merge Sort and Quick Sort</header><ul id="markdown-toc">
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#merge-sort" id="markdown-toc-merge-sort">Merge Sort</a>    <ul>
+      <li><a href="#test-driven-development" id="markdown-toc-test-driven-development">Test driven development</a></li>
+      <li><a href="#sorting" id="markdown-toc-sorting">Sorting</a></li>
+    </ul>
+  </li>
+  <li><a href="#quick-sort" id="markdown-toc-quick-sort">Quick Sort</a>    <ul>
+      <li><a href="#test-driven-development-1" id="markdown-toc-test-driven-development-1">Test driven development</a></li>
+      <li><a href="#sorting-1" id="markdown-toc-sorting-1">Sorting</a></li>
+    </ul>
+  </li>
+  <li><a href="#faq" id="markdown-toc-faq">FAQ</a>    <ul>
+      <li><a href="#what-does-the-item-extends-comparable-syntax-mean" id="markdown-toc-what-does-the-item-extends-comparable-syntax-mean">What does the <code class="highlighter-rouge">&lt;Item extends Comparable&gt;</code> syntax mean?</a></li>
+      <li><a href="#my-code-works-fine-but-the-autograder-fails-with-some-sort-of-json-error" id="markdown-toc-my-code-works-fine-but-the-autograder-fails-with-some-sort-of-json-error">My code works fine but the autograder fails with some sort of JSON error.</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>In this week’s lab, you’ll implement two of the sorting algorithms that we
+learned about in lecture this week.  In lecture, we focused on sorting arrays.
+In this lab, you’ll instead focus on sorting linked lists, which requires some
+cleverness and a good understanding of how merge sort and quick sort operate.</p>
+
+<p>All of the functions that you write will operate on the <a href="http://algs4.cs.princeton.edu/43mst/Queue.java.html">Princeton Queue
+Implementation</a>, which
+implements a queue using a linked list.  You should implement sorting using the
+public methods in the <code class="highlighter-rouge">Queue</code> class.</p>
+
+<h2 id="merge-sort">Merge Sort</h2>
+
+<h3 id="test-driven-development">Test driven development</h3>
+
+<p>In this week’s lab, you’ll practice test-driven-development by writing a test
+before writing any code.  With test-driven-development, you start by writing a
+test that fails (because you haven’t written any code yet!).  After writing the
+relevant code, you re-run the test to make sure that it passes.</p>
+
+<p>Today, you’ll write a lightweight test by writing a <code class="highlighter-rouge">main</code> method in
+<code class="highlighter-rouge">MergeSort</code>.  Your main method should create a <code class="highlighter-rouge">Queue</code> of unsorted objects and
+print that queue.  Next, call <code class="highlighter-rouge">MergeSort.mergeSort()</code> on that queue, and print
+both the original queue (which should be unchanged) and the returned, sorted
+queue.</p>
+
+<p>You can put any kind of object you like in your test queue, as long as the
+object implements the <code class="highlighter-rouge">Comparable</code> interface.  It may work well to create a
+<code class="highlighter-rouge">Queue</code> of Strings, as in the code below:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Queue</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">students</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Queue</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+<span class="n">students</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(</span><span class="s">"Alice"</span><span class="o">);</span>
+<span class="n">students</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(</span><span class="s">"Vanessa"</span><span class="o">);</span>
+<span class="n">students</span><span class="o">.</span><span class="na">enqueue</span><span class="o">(</span><span class="s">"Ethan"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>Try running your main method.  Is the output what you expect, based on the implementation we provided of <code class="highlighter-rouge">mergeSort()</code>?</p>
+
+<h3 id="sorting">Sorting</h3>
+
+<p>If you need to review how mergesort works, you may find the <a href="https://docs.google.com/presentation/d/1h-gS13kKWSKd_5gt2FPXLYigFY4jf5rBkNFl3qZzRRw/edit#slide=id.g463de7561_042">Merge sort demo
+from
+lecture</a>
+or this <a href="https://www.youtube.com/watch?v=XaqR3G_NVoo">Merge sort demo</a> to be
+useful.</p>
+
+<p>To help you implement merge sort, start by implementing two helper methods:</p>
+
+<ul>
+  <li>
+    <p>Implement <code class="highlighter-rouge">makeSingleItemQueues</code>. This method takes in a <code class="highlighter-rouge">Queue</code> called
+<code class="highlighter-rouge">items</code>, and should return a <code class="highlighter-rouge">Queue</code> of <code class="highlighter-rouge">Queues</code> that each contain one item
+from <code class="highlighter-rouge">items</code>.  For example, if you called <code class="highlighter-rouge">makeSingleItemQueues</code> on the
+<code class="highlighter-rouge">Queue</code> <code class="highlighter-rouge">"(Alice"  &gt; "Vanessa"  &gt; "Ethan")</code>, it should return <code class="highlighter-rouge">(("Alice")  &gt;
+("Vanessa")  &gt; ("Ethan"))</code>.</p>
+  </li>
+  <li>
+    <p>Implement <code class="highlighter-rouge">mergeSortedQueues</code>. This method takes two sorted queues <code class="highlighter-rouge">q1</code> and
+<code class="highlighter-rouge">q2</code> as parameters, and returns a new queue that has all of the items in <code class="highlighter-rouge">q1</code>
+and <code class="highlighter-rouge">q2</code> in sorted order.  For example, <code class="highlighter-rouge">mergeSortedQueues(("Alice"  &gt;
+"Vanessa"), ("Ethan"))</code> should return <code class="highlighter-rouge">("Alice"  &gt; "Ethan"  &gt; "Vanessa")</code>.
+The provided <code class="highlighter-rouge">getMin</code> heper method may be helpful in implementing
+<code class="highlighter-rouge">mergeSortedQueues</code>.  Your implementation should take time linear in the total
+number of items in <code class="highlighter-rouge">q1</code> and <code class="highlighter-rouge">q2</code> (it should be Θ(q1.size() + q2.size()).</p>
+  </li>
+</ul>
+
+<p>Once you’ve finished implementing these helper methods, use them to implement
+<code class="highlighter-rouge">mergeSort</code>.  With the help of the two methods above, your <code class="highlighter-rouge">mergeSort</code> method
+should be short (fewer than 15 lines of code).  Run the main method you wrote
+above to test whether your <code class="highlighter-rouge">mergeSort</code> implementation works!</p>
+
+<h2 id="quick-sort">Quick Sort</h2>
+
+<h3 id="test-driven-development-1">Test driven development</h3>
+
+<p>As you did for merge sort, begin by writing a main method in <code class="highlighter-rouge">QuickSort.java</code>
+that creates an unsorted <code class="highlighter-rouge">Queue</code>, prints it, sorts it, and then prints the
+result.</p>
+
+<h3 id="sorting-1">Sorting</h3>
+
+<p>If you need to review how quick sort works, take a look at <a href="https://docs.google.com/presentation/d/16f32G93I13gWj0yYk0qh-2ypBpb_ufkBfuuiofkxjrk/edit#slide=id.g4661758db_113">slides 6 through 10
+from this
+lecture</a>.
+You’ll be using the 3-way merge partitioning process described on slide 10. This
+partitioning approach, unfortunately, has no Hungarian dance demo (<a href="https://www.youtube.com/watch?v=ywWBy6J5gz8">the dancers
+chose to partition based on the first item in the array, rather than on a random
+element.</a>).</p>
+
+<p>Begin by implementing the helper function <code class="highlighter-rouge">partition()</code>.  The <code class="highlighter-rouge">partition()</code>
+method takes an unsorted queue called <code class="highlighter-rouge">unsorted</code> and an item to pivot on, and
+three empty queues called <code class="highlighter-rouge">less</code>, <code class="highlighter-rouge">equal</code>, and <code class="highlighter-rouge">greater</code>.  When it returns,
+<code class="highlighter-rouge">less</code> should contain all items from <code class="highlighter-rouge">unsorted</code> that were less than the pivot,
+<code class="highlighter-rouge">equal</code> should contain all items from <code class="highlighter-rouge">unsorted</code> that were equal to the pivot,
+and <code class="highlighter-rouge">greater</code> should contain all items that were greater than the pivot.</p>
+
+<p>Once you’ve implemented <code class="highlighter-rouge">partition()</code>, use it to implement the <code class="highlighter-rouge">quickSort</code>
+function.  You may fund the <code class="highlighter-rouge">getRandomItem()</code> and <code class="highlighter-rouge">catenate()</code> methods that
+we’ve provided to be useful.  Using these helper functions, your <code class="highlighter-rouge">quickSort</code>
+method should be short (fewer than 15 lines of code).</p>
+
+<h2 id="faq">FAQ</h2>
+
+<h4 id="what-does-the-item-extends-comparable-syntax-mean">What does the <code class="highlighter-rouge">&lt;Item extends Comparable&gt;</code> syntax mean?</h4>
+
+<p>In this week’s lab, many of the functions have syntax that looks something like:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">Item</span> <span class="kd">extends</span> <span class="n">Comparable</span><span class="o">&gt;</span> <span class="n">Queue</span><span class="o">&lt;</span><span class="n">Item</span><span class="o">&gt;</span> <span class="nf">mergeSort</span><span class="o">(</span>
+        <span class="n">Queue</span><span class="o">&lt;</span><span class="n">Item</span><span class="o">&gt;</span> <span class="n">items</span><span class="o">)</span> <span class="o">{</span>
+    <span class="o">...</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Recall from <a href="https://docs.google.com/presentation/d/1P1gHXB459IZ0A0M6GZ2mJ68kP0vQ5bOTE9A4RcOjyJY/edit#slide=id.g631db3c57_3217">lecture
+13</a>
+that if a method operates on generic types, the generic type should be defined
+before the return type of the method.  In the example above, the part of the
+function declaration that says <code class="highlighter-rouge">&lt;Item extends Comparable&gt;</code> means that the
+<code class="highlighter-rouge">mergeSort</code> function operates on generic type <code class="highlighter-rouge">Item</code>, which must extend
+<code class="highlighter-rouge">Comparable</code> (we need <code class="highlighter-rouge">Item</code> to extend <code class="highlighter-rouge">Comparable</code> so that we can use the
+<code class="highlighter-rouge">compareTo</code> method to compare items).  In other words, you can interpret the
+declaration above as saying “the <code class="highlighter-rouge">mergeSort</code> function takes a <code class="highlighter-rouge">Queue</code> of things
+that implement the <code class="highlighter-rouge">Comparable</code> interface, and returns a <code class="highlighter-rouge">Queue</code> of those things
+in sorted order.”  If you’re unsure how to write code in functions like this,
+take a look at the helper functions that we provided, which may be helpful
+examples.</p>
+
+<h4 id="my-code-works-fine-but-the-autograder-fails-with-some-sort-of-json-error">My code works fine but the autograder fails with some sort of JSON error.</h4>
+
+<p>The issue is probably that your code is quadratic time instead of linearithmic.
+Your code should be able to easily handle collections of 10,000 items, even if
+there are lots of duplicates and/or the collection is in sorted order already.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab12/lab12 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:43 GMT -->
+</html>

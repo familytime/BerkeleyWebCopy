@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec21/lec21 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>BST Study Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">BST Study Guide</header><div class="due-date">Author: Josh Hug</div><ul id="markdown-toc">
+  <li><a href="#example-implementations" id="markdown-toc-example-implementations">Example Implementations</a></li>
+  <li><a href="#recommended-problems" id="markdown-toc-recommended-problems">Recommended Problems</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B level</a></li>
+      <li><a href="#a-level" id="markdown-toc-a-level">A+ level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="example-implementations">Example Implementations</h2>
+
+<p><a href="http://algs4.cs.princeton.edu/32bst/BST.java.html">BST (also supports ordered operations)</a></p>
+
+<h2 id="recommended-problems">Recommended Problems</h2>
+
+<h3 id="c-level">C level</h3>
+
+<ol>
+  <li>
+    <p>What is the best case BST height in terms of N? Worst case?</p>
+  </li>
+  <li>
+    <p>If shuffling yields $\log N$ tree height (with extremely high probability),
+why don’t we simply shuffle our input data before building our BST based
+symbol table to avoid worst case behavior?</p>
+  </li>
+  <li>
+    <p>[Adapted from Textbook 3.2.3] Give two orderings of the keys <code class="highlighter-rouge">A X C S E R H</code>
+that, when inserted into an empty BST, yield the best case height. Draw the
+tree.</p>
+  </li>
+  <li>
+    <p>Delete the root from the tree you created for question C-3.</p>
+  </li>
+</ol>
+
+<h3 id="b-level">B level</h3>
+<ol>
+  <li>
+    <p>[Adapted from Textbook 3.2.4] Suppose that a certain BST has keys that are
+integers between 1 and 10, and we search for 5. Which sequence(s) of keys
+below are possible during the search for 5?</p>
+
+    <p>a. 10, 9, 8, 7, 6, 5</p>
+
+    <p>b. 4, 10, 8, 7, 53</p>
+
+    <p>c. 1, 10, 2, 9, 3, 8, 4, 7, 6, 5</p>
+
+    <p>d. 2, 7, 3, 8, 4, 5</p>
+
+    <p>e. 1, 2, 10, 4, 8, 5</p>
+  </li>
+  <li>
+    <p>Give an example of something that you might like to store as a key in a
+symbol table for which there is no natural compare method.</p>
+  </li>
+  <li>
+    <p>Do there exist any objects for which it is impossible to define a total
+order? In other words, can we always write a compare method if we’re willing
+to do the work, or are some data types fundamentally impossible to compare
+other than for equality?</p>
+  </li>
+  <li>
+    <p>When we delete from a BST, we always chose either the predecessor or
+successor as a replacement for the root. We said that these two items always
+have zero or one children. Why?</p>
+  </li>
+  <li>
+    <p>Is the delete operation commutative? In other words, if we delete x, then y,
+do we always get the same tree as if we delete y, then x?</p>
+  </li>
+  <li>
+    <p><a href="https://d1b10bmlvqabco.cloudfront.net/attach/hx9h4t96ea8qv/h32s1vxe6mb5o0/i7vkubmrxjn0/fa14_mt2.pdf">Problem
+1</a>
+from the Fall 2014 midterm.</p>
+  </li>
+</ol>
+
+<h3 id="a-level">A+ level</h3>
+
+<ol>
+  <li><a href="http://inst.eecs.berkeley.edu/~cs61b/fa14/samples/2009/test2.pdf">Problem 3</a>
+from the Fall 2009 midterm. This problem is magnificent in its elegance and
+difficulty.</li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec21/lec21 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:22 GMT -->
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab2setup/lab2setup by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lab 2 setup: Setting Up IntelliJ | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lab 2 setup: Setting Up IntelliJ</header><ul id="markdown-toc">
+  <li><a href="#prerequisites" id="markdown-toc-prerequisites">Prerequisites</a></li>
+  <li><a href="#installing-intellij" id="markdown-toc-installing-intellij">Installing IntelliJ</a></li>
+  <li><a href="#installing-the-intellij-cs-61b-plugin" id="markdown-toc-installing-the-intellij-cs-61b-plugin">Installing the IntelliJ CS 61B Plugin</a></li>
+  <li><a href="#project-setup" id="markdown-toc-project-setup">Project Setup</a></li>
+  <li><a href="#relax-for-a-bit" id="markdown-toc-relax-for-a-bit">Relax for a Bit</a></li>
+  <li><a href="#getting-java-libraries" id="markdown-toc-getting-java-libraries">Getting Java Libraries</a></li>
+  <li><a href="#importing-libraries-and-running-code" id="markdown-toc-importing-libraries-and-running-code">Importing Libraries and Running Code</a></li>
+  <li><a href="#joshs-intellij-editor-settings" id="markdown-toc-joshs-intellij-editor-settings">Josh’s IntelliJ Editor Settings</a></li>
+  <li><a href="#embedded-terminal-optional" id="markdown-toc-embedded-terminal-optional">Embedded Terminal (Optional)</a></li>
+</ul>
+
+<h2 id="prerequisites">Prerequisites</h2>
+<ol>
+  <li>Java 9 - You finished <a href="../lab1setup/lab1setup.html">Lab 1 setup</a>.</li>
+  <li>You have successfully created your local repo for the class on your own
+machine. This is the 3-letter directory you created and set up in lab 1.</li>
+  <li>You have pulled from skeleton master, and you have a <code class="highlighter-rouge">lab2setup</code> directory in
+the same directory as your <code class="highlighter-rouge">lab1</code> and <code class="highlighter-rouge">proj0</code> folders.</li>
+  <li>Be mentally prepared to use a real world software development package. It
+will seem very complicated for a while, but we’ll lead you down the narrow
+path to success. <strong>Ask for help if you are stuck!</strong> It can be very hard to
+guess the right thing to do in IntelliJ.</li>
+</ol>
+
+<h2 id="installing-intellij">Installing IntelliJ</h2>
+
+<p>If you’re working on the lab computers, skip this step.</p>
+
+<ol>
+  <li>
+    <p>You’ll need to install the Community Edition of IntelliJ from the
+<a href="https://www.jetbrains.com/idea/download/">Jetbrains</a> website.</p>
+  </li>
+  <li>
+    <p>After selecting the appropriate version for your OS (Mac, Windows, or
+Linux), click download and wait a few minutes for the file to finish
+downloading.</p>
+  </li>
+  <li>
+    <p>Run the install file and follow the prompts to install IntelliJ onto your
+computer. You can stick to all the default settings. Feel free to install
+IdeaVim if you’re a vim user.</p>
+  </li>
+</ol>
+
+<h2 id="installing-the-intellij-cs-61b-plugin">Installing the IntelliJ CS 61B Plugin</h2>
+
+<p>Begin the setup process by starting up IntelliJ. If you’re on one of the lab
+computers, use the command <code class="highlighter-rouge">/share/instsww/bin/idea.sh</code> in a terminal window to
+start IntelliJ. Then follow the steps below.</p>
+
+<ol>
+  <li>
+    <p>In the <em>Welcome</em> window, click the <strong>Configure -&gt; Plugin</strong> button on the
+bottom right of the window.
+<img src="img/plugin-configure.png" alt="Configure Plugin" /></p>
+  </li>
+  <li>
+    <p>Click the button labeled <strong>Browse Repositories…</strong> on the bottom.
+<img src="img/plugin-install-1.png" alt="Browse Repositories" /></p>
+  </li>
+  <li>
+    <p>In the window that appears, enter “CS 61B” in the search bar at the top. The
+CS 61B plugin entry should appear.</p>
+  </li>
+  <li>
+    <p>Click the green <strong>Install</strong> button.
+<img src="img/plugin-install-2.png" alt="Browse Repositories" /></p>
+  </li>
+  <li>
+    <p>Wait for the plugin to download and install</p>
+  </li>
+  <li>
+    <p>Click the grey <strong>Restart IntelliJ IDEA</strong> button to finalize the installation.</p>
+  </li>
+</ol>
+
+<p>For more information on using the plugin, read <a href="../../guides/plugin.html#using-the-plugin">the plugin
+guide</a>. You can skip this reading for
+now.</p>
+
+<h2 id="project-setup">Project Setup</h2>
+<p>IntelliJ is an IDE (Interactive Development Environment). It’s like a text
+editor (i.e. Sublime) but it’s full of extra features. In order to run your
+files in this special environment where we can work our IDE magic, we need to
+import our files into a project, similar to how you might import images or clips
+into a project for a program like iMovie or Windows Movie Maker.  Fortunately,
+this is a fairly painless process.</p>
+
+<p>These instructions apply for both initial setup and for future assignments. When
+you run <code class="highlighter-rouge">git pull skeleton master</code> to retrieve a new assignment and you notice
+that you have a new assignment directory (next week, you’ll have <code class="highlighter-rouge">lab3/</code>),
+simply run through these steps again from 1 to 8. This will likely involve
+pressing next for all steps and, if IntelliJ asks you to overwrite various
+housekeeping files (such as <code class="highlighter-rouge">.iml</code> files) because they already exist, respond
+“Yes” or “Overwite” to those popup windows. This is so IntelliJ can
+automatically mark the new directories for your assignment to work with IntelliJ
+for you as opposed to you manually marking directories as source folders and/or
+modules.</p>
+
+<p>Begin the setup process by starting up IntelliJ. If you’re on one of the lab
+computers, use the command <code class="highlighter-rouge">/share/instsww/bin/idea.sh</code> in a terminal window to
+start IntelliJ. Then follow the steps below.</p>
+
+<ol>
+  <li>
+    <p>Upon opening IntelliJ, click on the “import project” option.
+ <img src="img/intellij_start_menu.png" alt="IntelliJ Start Menu" /></p>
+  </li>
+  <li>
+    <p>Find and choose your lab2setup directory, then press the OK button. From here
+on out, you should be able to simply select next for every screen but to be
+safe in the face of shenanigans, more screenshots follow. <strong>If you keep
+clicking next without paying attention and get to a point where you see a
+message that says No SDK specified, stop and consult step 8!</strong> If you’re on Mac OS or Ubuntu, you may get a different window corresponding to your operating system (the image below is from Windows).
+<img src="img/select_folder.png" alt="IntelliJ Select Folder" /></p>
+  </li>
+  <li>
+    <p>Make sure “Create project from existing sources” is selected and press next.
+You shouldn’t have to change anything at this step.
+ <img src="img/import_project1.png" alt="Import Project" /></p>
+  </li>
+  <li>
+    <p>Leave these fields untouched and press next.
+ <img src="img/project_name.png" alt="Project Name" /></p>
+  </li>
+  <li>
+    <p>Do nothing here and press next. For context, IntelliJ is automagically detecting what your Java files are and self-configuring itself to edit and run them.
+ <img src="img/import_sources.png" alt="Import Sources" /></p>
+  </li>
+  <li>
+    <p>You may not actually see this next window pop up. If it does, click next. If
+it doesn’t, that’s fine.
+ <img src="img/import_lib.png" alt="Import Sources" /></p>
+  </li>
+  <li>
+    <p>You may not actually see this next window pop up. If it does, click next. If
+it doesn’t, that’s fine.
+ <img src="img/module_config.png" alt="Import Sources" /></p>
+  </li>
+  <li>
+    <p>You may not actually see this next window pop up. If it does, and you see 9.0 
+on the left sidebar, you’re in the clear and can simply press next then click
+finish on the final screen and voila, your project is set up and you can skip
+steps 9 and 10! If you do NOT see 9.0 (or whatever version of Java you have installed), continue on to steps 9 and 10.
+ <img src="img/select_sdk.png" alt="Select SDK" /></p>
+  </li>
+  <li>
+    <p>Click the plus in the upper left corner and click JDK from the drop-down menu
+ <img src="img/add_jdk.png" alt="Add JDK" /></p>
+  </li>
+  <li>
+    <p>Find where your jdk is saved, select it, and press ok button. On my Mac, it
+was at <code class="highlighter-rouge">/Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home</code>.
+You can run <code class="highlighter-rouge">/usr/libexec/java_home</code> on your terminal to find out:</p>
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>/usr/libexec/java_home
+/Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home
+</code></pre></div>    </div>
+
+    <p>If you’re on Windows, your path may look like <code class="highlighter-rouge">C:\Program
+Files\Java\jdk9.0.4</code>. If you’re on a lab computer, it should be at
+<code class="highlighter-rouge">/usr/lib/jvm/java-9-oracle/</code>. Once this window closes and your screen looks
+like the image at step 8, press next, then finish, and you’re done!</p>
+  </li>
+</ol>
+
+<p>Once you’ve pressed finish, you should see something really similar to the
+following image. You may need to click the little triangle next to <code class="highlighter-rouge">lab2setup</code>
+in the top left to get the source files (<code class="highlighter-rouge">Dog.java</code> and <code class="highlighter-rouge">DogTest.java</code>) for
+<code class="highlighter-rouge">lab2setup</code> to show up. If you don’t see the sidebar, go to <strong>View -&gt; Tool
+Windows -&gt; Project</strong>.
+<img src="img/main_screen_when_done.png" alt="Select JDK" /></p>
+
+<h2 id="relax-for-a-bit">Relax for a Bit</h2>
+<p>The first time you start up IntelliJ it’s going to spend some time indexing
+files. This may take a few minutes. There should be a little progress bar in the
+bottom right. Once it’s done, a sidebar will appear.</p>
+
+<h2 id="getting-java-libraries">Getting Java Libraries</h2>
+<p>Remember the empty <code class="highlighter-rouge">library-sp18</code> folder? We are going to populate that folder
+with the Java libraries we need for this class.</p>
+
+<ol>
+  <li>First, open up a terminal window and <code class="highlighter-rouge">cd</code> into your three-letter repository.</li>
+  <li>Run
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git submodule update <span class="nt">--init</span>
+</code></pre></div>    </div>
+    <p>You should get output like this:</p>
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Submodule <span class="s1">'library-sp18'</span> <span class="o">(</span>https://github.com/Berkeley-CS61B/library-sp18.git<span class="o">)</span>
+registered <span class="k">for </span>path <span class="s1">'library-sp18'</span>
+Cloning into <span class="s1">'/Users/vivian/class/cs61b/viv/library-sp18'</span>...
+Submodule path <span class="s1">'library-sp18'</span>: checked out
+<span class="s1">'2bd75038edcf1ac7bacdb9e85fc08853153bd4e8'</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Ta-da! You now have libraries!
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">ls </span>library-sp18/
+javalib/
+</code></pre></div>    </div>
+    <p>Below is shown the directory structure of <code class="highlighter-rouge">library-sp18</code>. Look inside the folder and make sure you see the six .jar files listed below. If you’re using your operating system’s file explorer the ‘jar’ part might not show up in the filenames, and that’s OK.</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library-sp18/
+└── javalib
+ ├── algs4.jar
+ ├── hamcrest-core-1.3.jar
+ ├── jh61b.jar
+ ├── junit-4.12.jar
+ ├── stdlib-package.jar
+ └── stdlib.jar
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="importing-libraries-and-running-code">Importing Libraries and Running Code</h2>
+<p>Double check on <code class="highlighter-rouge">DogTest.java</code>. You should see that some of the words in the
+file are red, specifically <code class="highlighter-rouge">Test</code> and <code class="highlighter-rouge">assertEquals</code>. If you mouse over them,
+you’ll see a message along the lines of “cannot resolve symbol”. The trouble is
+that we haven’t told IntelliJ where to find the CS61B libraries we just pulled.</p>
+
+<p>Click <strong>File -&gt; Project Structure</strong> in the top left of IntelliJ. A window should
+pop up, and you should click <strong>Libraries</strong> on the left panel of this window. When
+you’ve done so, it’ll look as shown below:
+<img src="img/project_structure.png" alt="project structure" /></p>
+
+<p>Click the green plus in the top left of this window and pick Java from among
+the given choices. This will pop up a window. Click on the <code class="highlighter-rouge">javalib</code> folder
+(which is in <code class="highlighter-rouge">library-sp18</code>) and press OK. If you get a message that says something like “IDEA cannot determine what kind of files the chosen items contain” then you probably selected the wrong folder. Make sure you’ve selected the “javalib” folder and not the “library-sp18” folder.</p>
+
+<p>Press OK a few times, and you’ll find yourself looking at DogTest.java again.
+This time, the red text should be gone. If it is not, click <strong>File -&gt; Project Structure -&gt; Problems -&gt; Fix -&gt; Add to Dependencies (first option) -&gt; OK</strong>.</p>
+
+<p>Try running the code by clicking <strong>Run -&gt; Run</strong>, as shown below.
+<img src="img/run_run.png" alt="library files" /></p>
+
+<p>This will probably pop up a very small dialog window like the one shown.
+Basically IntelliJ is saying that it isn’t quite sure what you mean by running
+the program and is giving you two choices: 0. is to edit the configuration
+before running the program (which we won’t do). 2. is to run the DogTest class,
+which is what we want.
+<img src="img/run_dialog.png" alt="library files" /></p>
+
+<p>Click on DogTest and a green bar should appear with the message “All 2 tests passed.” as shown below.
+	<img src="img/tests_passed.png" alt="library files" /></p>
+
+<p>You’ll notice after running your code that the green play and green bug icons in
+the upper right are now green; this is because when you clicked “2.”, IntelliJ
+memorized what you meant by Run for this project and you can now click this
+button to run your program. You’ll learn more about this over time as we use
+more advanced features of IntelliJ.</p>
+
+<h2 id="joshs-intellij-editor-settings">Josh’s IntelliJ Editor Settings</h2>
+
+<p>I’m not a big fan of the default IntelliJ colors, so I made my own color scheme, which is a very close imitation of the extremely good Sunburst theme for Sublime. To use my theme, download <a href="hug_sunburst.jar">hug_sunburst</a>, and import it using the “File-&gt;Import Settings” option in IntelliJ. You might end up with large text, which I use for recording videos. To adjust the size of the font in Intellij to your liking, see <a href="https://www.jetbrains.com/help/idea/configuring-colors-and-fonts.html">this link</a>.</p>
+
+<p>Update: If you import my color scheme, you’ll need to update your JDK path again, since importing my settings file seems to overwrite the JDK path you set up in steps 9 and 10 way up at the top.</p>
+
+<h2 id="embedded-terminal-optional">Embedded Terminal (Optional)</h2>
+
+<p>IntelliJ has the cool feature that you can have a working terminal in the
+workspace so you don’t have to constantly switch between having IntelliJ and
+your terminal, if that becomes necessary for whatever reason.</p>
+
+<p>For Mac users, you should be able to skip this setup section. Windows users will
+likely have to put in a little leg work. This setup assumes you are a Windows
+user and you have git bash installed.</p>
+
+<p>First, find the preferences/settings tab and select it (Or use Ctrl+alt+s)
+<img src="img/intellij_preferences.png" alt="Preferences" /></p>
+
+<p>Type in “terminal” in the search bar. Once there, type in
+<code class="highlighter-rouge">"C:\Program Files (x86)\Git\bin\sh.exe" --login -i</code> into the Shell Path field.
+Click ok.</p>
+
+<p><img src="img/terminal_settings_window.png" alt="Terminal" /></p>
+
+<p>To test if you’ve properly set this up, hover over the little box in the bottom
+left corner and select terminal; the bottom third of your screen should now be a
+terminal, the equivalent of having git bash right there.</p>
+
+<p><img src="img/select_terminal.png" alt="Terminal Test" /></p>
+
+<p>Try typing something in! If you’re able to run basic commands like “ls” or “cd”
+or “echo ‘Hello world’” you’ve done it!</p>
+
+<p><img src="img/terminal_test.png" alt="Terminal Test" /></p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab2setup/lab2setup by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:10 GMT -->
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab3/lab3 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lab 3: Unit Testing with JUnit, Debugging | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lab 3: Unit Testing with JUnit, Debugging</header><ul id="markdown-toc">
+  <li><a href="#pre-lab" id="markdown-toc-pre-lab">Pre-lab</a></li>
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a>    <ul>
+      <li><a href="#what-is-junit" id="markdown-toc-what-is-junit">What is JUnit?</a></li>
+      <li><a href="#what-is-unit-testing" id="markdown-toc-what-is-unit-testing">What is Unit Testing?</a></li>
+      <li><a href="#junit-syntax" id="markdown-toc-junit-syntax">JUnit Syntax</a></li>
+    </ul>
+  </li>
+  <li><a href="#running-junit-tests-in-intellij-or-another-ide" id="markdown-toc-running-junit-tests-in-intellij-or-another-ide">Running JUnit Tests in IntelliJ (or another IDE)</a></li>
+  <li><a href="#intlists" id="markdown-toc-intlists">Intlists</a>    <ul>
+      <li><a href="#test-a-reverse-method" id="markdown-toc-test-a-reverse-method">Test a Reverse Method</a></li>
+      <li><a href="#writing-a-reverse-method" id="markdown-toc-writing-a-reverse-method">Writing a Reverse Method</a></li>
+    </ul>
+  </li>
+  <li><a href="#a-debugging-mystery" id="markdown-toc-a-debugging-mystery">A Debugging Mystery</a></li>
+  <li><a href="#running-the-61b-style-checker" id="markdown-toc-running-the-61b-style-checker">Running the 61B Style Checker</a></li>
+  <li><a href="#deque-unit-tests" id="markdown-toc-deque-unit-tests">Deque Unit Tests</a></li>
+  <li><a href="#submission" id="markdown-toc-submission">Submission</a></li>
+  <li><a href="#recap" id="markdown-toc-recap">Recap</a></li>
+</ul>
+
+<h2 id="pre-lab">Pre-lab</h2>
+
+<ul>
+  <li>
+    <p><a href="../../guides/plugin.html#using-the-plugin">Installing and Using the IntelliJ Plugin</a>: Make sure you’ve had a chance to install and use the CS 61B IntelliJ plugin. <strong>Make sure you know how to check style with the plugin.</strong></p>
+  </li>
+  <li>
+    <p>After pulling skeleton, copy your IntList.java from lab2 into the lab3/IntList
+folder.</p>
+  </li>
+  <li>
+    <p>Make sure you’ve watched the lecture on testing. This lab assumes you have
+already seen this lecture.</p>
+  </li>
+  <li>
+    <p>Make sure your version of the CS61B Plugin is at least <strong>1.0.21</strong>. To do this,
+go to Settings   Plugins. You should see a list of plugins, including CS61B.
+Click on it, and the version number should show in the right pane.</p>
+  </li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+<p>In this lab, you will learn about Unit Testing, JUnit, the 61B style checker,
+and we’ll also get a bit more debugging experience.</p>
+
+<h4 id="what-is-junit">What is JUnit?</h4>
+<p><a href="http://junit.org/">JUnit</a> is a Unit Testing Framework for Java.</p>
+
+<h4 id="what-is-unit-testing">What is Unit Testing?</h4>
+<p>Unit Testing is a great way to rigorously test each method of your code and
+ultimately ensure that you have a working project.</p>
+
+<p>The “Unit” part of Unit Testing comes from the idea that you can break your
+program down into units, or the smallest testable part of an application.
+Therefore, Unit Testing enforces good code structure (each method should only do
+“One Thing”), and allows you to consider all of the edge cases for each method
+and test for them individually.</p>
+
+<p>In this class, you will be using JUnit to create and run tests on your code to
+ensure its correctness. And when JUnit tests fail, you will have an excellent
+starting point for debugging. Furthermore, if you have some terrible bug that is
+hard to fix, you can use git to revert back to a state when your code was
+working properly according to the JUnit tests.</p>
+
+<h4 id="junit-syntax">JUnit Syntax</h4>
+<p>JUnit tests are written in Java, similar to what you wrote in Project 1A with
+<code class="highlighter-rouge">LinkedListDequeTest</code>. However, the JUnit library implements all the boring
+stuff like printing error messages, making test writing much simpler.</p>
+
+<p>To see an example JUnit test, navigate to the Arithmetic directory and open
+<code class="highlighter-rouge">ArithmeticTest.java</code> in your favorite text editor (don’t open IntelliJ just
+yet).</p>
+
+<p>The first thing you’ll notice are the imports at the top.  These imports are
+what give you easy access to the JUnit methods and functionality that you’ll
+need to run JUnit tests. For more information, see the Testing lecture video.</p>
+
+<p>Next, you’ll see that there are two methods in <code class="highlighter-rouge">ArithmeticTest.java</code>:
+<code class="highlighter-rouge">testProduct</code> and <code class="highlighter-rouge">testSum</code>. These methods follow this format:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">testMethod</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">assertEquals</span><span class="o">(&lt;</span><span class="n">expected</span><span class="o">&gt;,</span> <span class="o">&lt;</span><span class="n">actual</span><span class="o">&gt;);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">assertEquals</code> is a common method used in JUnit tests. It tests whether a
+variable’s actual value is equivalent to its expected value.</p>
+
+<p>When you create JUnit test files, you should precede each test method with a
+<code class="highlighter-rouge">@Test</code> annotation, and can have one or more <code class="highlighter-rouge">assertEquals</code> or <code class="highlighter-rouge">assertTrue</code>
+methods (provided by the JUnit library). ** All tests must be non-static. **
+This may seem weird since your tests don’t use instance variables and you
+probably won’t instantiate the class. However, this is how the designers of
+JUnit decided tests should be written, so we’ll go with it.</p>
+
+<p>From this point forwards in 61B, we will officially be working in IntelliJ. If
+you want to run your code from the terminal, refer to <a href="../lab3supplement/lab3supplement.html">this supplemental
+guide</a>.
+While you’re welcome to do this, the staff will not provide official support for
+command line compilation and execution.</p>
+
+<h2 id="running-junit-tests-in-intellij-or-another-ide">Running JUnit Tests in IntelliJ (or another IDE)</h2>
+
+<p>Open up IntelliJ and import your lab 3 folder that came with the skeleton.
+Repeat the steps from Lab 2 Setup, <a href="../lab2setup/lab2setup.html#project-setup">Project
+Setup</a>
+and don’t forget to import the javalib libraries!</p>
+
+<p>Open up lab3/Arithmetic/ArithmeticTest.java in IntelliJ. Move your cursor to the
+<code class="highlighter-rouge">main</code> method of <code class="highlighter-rouge">ArithmeticTest</code> and click the <code class="highlighter-rouge">Run...</code> option under the <code class="highlighter-rouge">Run</code>
+menu at the top of IntelliJ.</p>
+
+<p><img src="img/lab3_run.png" alt="Run Options" /></p>
+
+<p>After clicking “Run…”, you should see at least two options that will look
+something like the list below. The number of items in your list may vary.</p>
+
+<p><img src="img/lab3_run_menu.png" alt="Run Options" /></p>
+
+<p>The two most important options in your list will be the one that says only
+“ArithmeticTest” next to the red and green arrows (next to the 2. in the image
+above), and the one that says only “ArithmeticTest” next to the white and blue
+boxes (next to the 1. in the image above).</p>
+
+<p>If you use the version with red/green arrows, then IntelliJ will render the
+results of the tests. If you use the version with the white/blue boxes, the
+renderer that Josh put together will run instead. Which you prefer is a matter
+of personal preference. For the rest of the course we will refer to these as the
+“default renderer” and the “jh61b renderer”, respectively.</p>
+
+<p>For now, run the default renderer, and you should see something like:</p>
+
+<p><img src="img/default_renderer.png" alt="Run Options" /></p>
+
+<p>This is saying that the test on line 25 of ArithmeticTest.java failed. The test
+expected 5 + 6 to be 11, but the <code class="highlighter-rouge">Arithmetic</code> class claims 5 + 6 is 30. You’ll
+see that even though <code class="highlighter-rouge">testSum</code> includes many <code class="highlighter-rouge">assert</code> statements, only one
+failure is shown.</p>
+
+<p>This is because JUnit tests are short-circuiting – as soon as one of the asserts
+in a method fails, it will output the failure and move on to the next test.</p>
+
+<p>Try clicking on the <code class="highlighter-rouge">ArithmeticTest.java:25</code> in the window at the bottom of the screen and IntelliJ will take you straight to the failed test. This can come in handy when running your own tests on later projects.</p>
+
+<p>Next, try running the code with the jh61b renderer. It doesn’t look as nice as
+the default renderer, and doesn’t allow you to click straight to code. In
+earlier versions of this course, we had students run tests from the command
+line, which required me to write our own custom renderer. In this new
+cyber-future where we use IntelliJ, this renderer is no longer necessary.
+However, you might find that you prefer it.</p>
+
+<p><img src="img/jh61b_renderer.png" alt="Run Options" /></p>
+
+<p>For those of you who prefer the jh61b renderer, you can modify your JUnit test
+file so that it only shows the results of failed tests (instead of all tests).
+To do this, simply change the mode argument from “all” in the main method to
+“failed”.</p>
+
+<p>If you just want to use the renderer that you already selected, you can bypass
+having to pick between the two renderers in any of the following four ways:</p>
+<ol>
+  <li>Right-click and then selecting ‘Run’.</li>
+  <li>Use the top item in the Run menu at the top of the IntelliJ screen.</li>
+  <li>Click the green arrow (or debugging symbol) in the top right.</li>
+  <li>Use the appropriate keyboard shortcut.</li>
+</ol>
+
+<p>All four of these are equivalent. If you decide you want to switch renderers,
+you’ll need to use the “Run…” option instead.</p>
+
+<p>Now fix the bug, either by inspecting Arithmetic.java and finding the bug, or
+using the IntelliJ debugger to step through the code until you reach the bug.</p>
+
+<p>After fixing the bug, rerun the test, and if you’re using the default renderer,
+you should get a nice glorious green bar. Enjoy the rush.</p>
+
+<h2 id="intlists">Intlists</h2>
+
+<p>Now a real-CS61B application of JUnit tests: IntLists.</p>
+
+<p>As with last week’s lab, we’re going to take advantage of the ‘of’ method of the
+IntList class, which makes creating IntLists (and writing IntList tests) much
+easier. For example, consider:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">IntList</span> <span class="n">myList</span> <span class="o">=</span> <span class="n">IntList</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>Which will create the IntList <code class="highlighter-rouge">0 -&gt; 1 -&gt; 2 -&gt; 3 -&gt; null</code>.</p>
+
+<h4 id="test-a-reverse-method">Test a Reverse Method</h4>
+
+<p>Copy your IntList.java that you created for lab2 into the lab3/IntList folder.
+In this section, our goal will be to write the reverse method from this week’s
+discussion worksheet.</p>
+
+<p>We’ll showcase the idea of “test-driven development” for this exercise, where we
+write a unit test even before we write the new method.</p>
+
+<p>Add a new test to IntListTest.java that tests the <code class="highlighter-rouge">.reverse()</code> method, which you
+can assume has the following definition:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * Returns the reverse of the given IntList.
+ * This method is destructive. If given null
+ * as an input, returns null.
+ */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="n">IntList</span> <span class="nf">reverse</span><span class="o">(</span><span class="n">IntList</span> <span class="n">A</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p><strong>Don’t add a <code class="highlighter-rouge">reverse</code> method to IntList yet.</strong> We’re going to write a test
+BEFORE we write <code class="highlighter-rouge">reverse</code>.</p>
+
+<p>Your test should test at least the following three situations:</p>
+<ul>
+  <li>That the function returns a reversed list.</li>
+  <li>That the function is destructive, i.e. when it is done running, the list
+pointed to by A has been tampered with. You can use <code class="highlighter-rouge">assertNotEquals</code>. This
+is sort of a silly test.</li>
+  <li>That the method handles a null input properly.</li>
+</ul>
+
+<p>You’ll notice that as you’re typing your code that the <code class="highlighter-rouge">IntList.reverse</code> is
+highlighted in red, and mousing over should say “Cannot resolve method reverse”
+or similar. This is because we haven’t added a reverse method yet. We’ll do this
+in the next section. <strong>Don’t write <code class="highlighter-rouge">reverse</code> yet!</strong></p>
+
+<p>Once you’ve written your test, compare your results to your neighbor in lab and
+discuss. Make sure you’ve both written tests for at least all three situations
+above.</p>
+
+<p>If you’re working from the command line instead of IntelliJ (not recommended):
+Try compiling IntListTest.java, and you should get a compiler error along the
+lines of:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IntListTest.java:72: error: cannot find symbol
+
+  symbol:   method reverse
+</code></pre></div></div>
+
+<p>This error is a great thing! It means that the compiler is actually finding our
+test.</p>
+
+<h4 id="writing-a-reverse-method">Writing a Reverse Method</h4>
+
+<p>Now create a dummy version of the reverse method into IntList.java that simply
+returns null. Your only goal here is to get IntList.java to compile. <strong>Don’t
+fill in the code for the actual reverse method yet, just make it return null</strong></p>
+
+<p>If you’re running IntListTest from the command line, you’ll want to add a main
+method before proceeding. See ArithmeticTest.java for an example. Since you
+should be using IntelliJ, this isn’t necessary unless you want to use the jh61b
+renderer instead of the default renderer.</p>
+
+<p>Try running the test, and it test should fail. This is great! We’ve now reached the “red” phase of the Test-Driven Development (TDD) cycle described in class.</p>
+
+<p>Write a reverse method, and rerun the tests until it passes. If you’re stuck
+(this is a tricky problem with a very clever solution), see the week 3
+discussion solutions. Note that a correct reverse is not required for full
+credit on this week’s lab (it’s an ungraded test in the AG), so if you’re really
+stuck and need to work on project 1A, do that first, and then come back and
+complete this exercise after you’ve finished project 1A.</p>
+
+<p>Protip: If you want to have your tests timeout after a certain amount of time
+(to prevent infinite loops), you can declare your test like this:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span><span class="o">(</span><span class="n">timeout</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>The given parameter specifies the maximum time in milliseconds.</p>
+
+<p>Some people find the rush of TDD addictive. You basically set up a little game
+for yourself to solve. Some people hate it. Your mileage may vary. Whether you
+personally enjoy the TDD flow or not, writing tests will be one of the most
+important skills you learn here at Berkeley, and getting
+“<a href="http://c2.com/cgi/wiki?TestInfected">test-infected</a>” will save you and your
+future colleagues an enormous amount of time and misery.</p>
+
+<h2 id="a-debugging-mystery">A Debugging Mystery</h2>
+
+<p>Another important skill to learn is how to exhaustively debug. When done
+properly, debugging should allow you to rapidly narrow down where a bug might be
+located, even when you are debugging code you don’t fully understand.</p>
+
+<p>Your company, Flik Enterprises, has released a fine software library called
+Flik.java that is able to determine whether two Integers are the same or not.</p>
+
+<p>You receive an email from someone named “Horrible Steve” who describes a problem
+they’re having with your library:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"Dear Flik Enterprises,
+
+Your library is very bad. See the attached code. It should print out 500
+but actually it's printing out 128.
+
+(attachment: HorribleSteve.java)"
+</code></pre></div></div>
+
+<p>Using any combination of the following techniques, figure out whether the bug is
+in Horrible Steve’s code or in Flik enterprise’s library:</p>
+<ul>
+  <li>Writing JUnit tests for the Flik library.</li>
+  <li>Using the IntelliJ debugger, especially <a href="https://www.jetbrains.com/help/idea/2016.3/configuring-breakpoints.html">conditional breakpoints</a>.</li>
+  <li>Using print statements.</li>
+  <li>Refactoring Horrible Steve’s code. Refactoring means changing the syntax
+without changing the functionality. This may be hard to do since HS’s code
+uses lots of weird stuff.</li>
+</ul>
+
+<p>HorribleSteve.java and Flik.java both use syntax we haven’t covered in class.
+<strong>We do not expect you to fix the bug or even understand why it’s happening once
+you have found it.</strong> Instead, your job is simply to find the bug.</p>
+
+<p>Tip: JUnit provides methods <code class="highlighter-rouge">assertTrue(boolean)</code> and <code class="highlighter-rouge">assertTrue(String,
+boolean)</code> that you might find helpful.</p>
+
+<p>Try to come up with a short explanation of the bug! Check in with your TA to see
+if your answer is right (not for a grade).</p>
+
+<h2 id="running-the-61b-style-checker">Running the 61B Style Checker</h2>
+
+<p>We will be using the CS 61B IntelliJ Plugin to check for style. Try it out on
+<code class="highlighter-rouge">IntList.java</code> in your IntList folder. You should see that there are at
+least two style errors (the two we put in, plus whatever you may have introduced
+yourself). Resolve these errors. If you’re ever stuck on style issues, consult
+the <a href="../../guides/style-guide-2.html">official 61B style
+guide</a>.</p>
+
+<p>When you pass the style check, the output should look like:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Running style checker on 1 file(s)...
+Style checker completed with 0 errors
+</code></pre></div></div>
+
+<h2 id="deque-unit-tests">Deque Unit Tests</h2>
+
+<p>In project 1B (to be released 2/3), you’ll be required to write JUnit tests for
+your Deque classes. If you have extra time in lab, start writing some tests for
+<code class="highlighter-rouge">LinkedListDeque</code> and <code class="highlighter-rouge">ArrayDeque</code> as a warmup.</p>
+
+<h2 id="submission">Submission</h2>
+
+<p>As before, submit your code to GitHub and use Gradescope to test your code.</p>
+
+<h2 id="recap">Recap</h2>
+<p>In this lab, we went over:</p>
+
+<ul>
+  <li>Unit Testing (big picture)</li>
+  <li>JUnit syntax and details</li>
+  <li>Writing JUnit tests</li>
+  <li>Debugging Using JUnit</li>
+  <li>Running the Style Checker</li>
+</ul>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lab/lab3/lab3 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:18 GMT -->
+</html>

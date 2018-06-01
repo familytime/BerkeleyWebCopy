@@ -1,0 +1,5 @@
+# HTTrack Website Copier Cookie File
+# This file format is compatible with Netscape cookies
+upload.wikimedia.org	TRUE	/	FALSE	1999999999	WMF-Last-Access	16-May-2018
+.sachachua.com	TRUE	/	FALSE	1999999999	__cfduid	df98e9ef15184102d7696a0362ec43c0e1526514126
+

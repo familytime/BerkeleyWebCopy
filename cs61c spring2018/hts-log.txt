@@ -1,0 +1,49 @@
+HTTrack3.49-1+htsswf+htsjava launched on Wed, 16 May 2018 20:51:28 at https://inst.eecs.berkeley.edu/~cs61c/sp18/ +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(winhttrack -qwC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2A25000%f#f -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2014], %s -->" -%l "en, *" https://inst.eecs.berkeley.edu/~cs61c/sp18/ -O1 "C:\Users\yzkti\Desktop\cs61c spring2018" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+20:53:25	Warning: 	Found for https://inst.eecs.berkeley.edu/~cs61c/sp18/hw/0/
+20:53:25	Warning: 	File has moved from https://inst.eecs.berkeley.edu/~cs61c/sp18/hw/0/ to https://edge.edx.org/courses/course-v1:BerkeleyX+CS61C+SP18/courseware/058873961c164581b0d5e2ebf600625f/f5c2e7389ee04f1db5d500ab7fade5cf/?activate_block_id=block-v1%3ABerkeleyX%2BCS61C%2BSP18%2Btype%40sequential%2Bblock%40f5c2e7389ee04f1db5d500ab7fade5cf
+20:53:37	Warning: 	Found for https://inst.eecs.berkeley.edu/~cs61c/sp18/hw/1/
+20:53:37	Warning: 	File has moved from https://inst.eecs.berkeley.edu/~cs61c/sp18/hw/1/ to https://edge.edx.org/courses/course-v1:BerkeleyX+CS61C+SP18/courseware/dde9a3596edb4b3893fefb745f9b04b8/946dd9c7766a49429fa9f55d584c4c1d/?activate_block_id=block-v1%3ABerkeleyX%2BCS61C%2BSP18%2Btype%40sequential%2Bblock%40946dd9c7766a49429fa9f55d584c4c1d
+20:53:50	Warning: 	Found for https://inst.eecs.berkeley.edu/~cs61c/sp18/hw/2/
+20:53:50	Warning: 	File has moved from https://inst.eecs.berkeley.edu/~cs61c/sp18/hw/2/ to https://edge.edx.org/courses/course-v1:BerkeleyX+CS61C+SP18/courseware/7bb98e9e103143f3a716fedad8c99604/6379672000d4427299eed54f9d56aa7a/?activate_block_id=block-v1%3ABerkeleyX%2BCS61C%2BSP18%2Btype%40sequential%2Bblock%406379672000d4427299eed54f9d56aa7a
+20:53:52	Warning: 	Retry after error -4 (No data (connection closed)) at link https://inst.eecs.berkeley.edu/~cs61c/sp18/labs/5 (from https://inst.eecs.berkeley.edu/~cs61c/sp18/)
+20:53:57	Warning: 	Found for https://inst.eecs.berkeley.edu/~cs61c/sp18/hw/3/
+20:53:57	Warning: 	File has moved from https://inst.eecs.berkeley.edu/~cs61c/sp18/hw/3/ to https://edge.edx.org/courses/course-v1:BerkeleyX+CS61C+SU17/courseware/7bb98e9e103143f3a716fedad8c99604/6379672000d4427299eed54f9d56aa7a/
+20:54:09	Warning: 	Found for https://inst.eecs.berkeley.edu/~cs61c/sp18/hw/4/
+20:54:09	Warning: 	File has moved from https://inst.eecs.berkeley.edu/~cs61c/sp18/hw/4/ to https://edge.edx.org/courses/course-v1:BerkeleyX+CS61C+SP18/courseware/dd5456e9b7bc40b586ecb3dea417c997/9f07f847f1d648949f69063e7b51a957/
+20:54:20	Warning: 	Found for https://inst.eecs.berkeley.edu/~cs61c/sp18/hw/5/
+20:54:20	Warning: 	File has moved from https://inst.eecs.berkeley.edu/~cs61c/sp18/hw/5/ to https://edge.edx.org/courses/course-v1:BerkeleyX+CS61C+SP18/courseware/0f97d07ef116468fb9bf842b467b33bc/8a1cba2c161441deaa1105a888fe2d62/
+20:54:30	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/sp18/js/ie10-viewport-bug-workaround.js (from https://inst.eecs.berkeley.edu/~cs61c/sp18/)
+20:54:30	Warning: 	File not parsed, looks like binary: https://inst.eecs.berkeley.edu/~cs61c/sp18/bootstrap-dist/fonts/glyphicons-halflings-regular.woff2
+20:54:30	Warning: 	File not parsed, looks like binary: https://inst.eecs.berkeley.edu/~cs61c/sp18/bootstrap-dist/fonts/glyphicons-halflings-regular.ttf
+20:54:53	Warning: 	Moved Permanently for https://inst.eecs.berkeley.edu/~cs61c/sp18/labs/5
+20:54:53	Warning: 	File has moved from https://inst.eecs.berkeley.edu/~cs61c/sp18/labs/5 to https://inst.eecs.berkeley.edu/~cs61c/sp18/labs/5/
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/img/icon3.png (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/bootstrap-dist/css/bootstrap.min.css (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/css/navbar-fixed-top.css (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/fullcalendar/fullcalendar.css (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/fullcalendar/fullcalendar.print.css (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/staff.php (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/policies.php (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/img/dphoto2_web.jpg (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/img/P&H.jpg (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/img/WSC.jpg (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/img/K&R.jpg (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/fullcalendar/lib/moment.min.js (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/fullcalendar/lib/jquery.min.js (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/fullcalendar/fullcalendar.min.js (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/fullcalendar/gcal.js (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/weekly_schedule.js (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/bootstrap-dist/js/bootstrap.min.js (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/js/ie10-viewport-bug-workaround.js (from https://inst.eecs.berkeley.edu/~cs61c/sp18/lec/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/sp18/disc/staff.php (from https://inst.eecs.berkeley.edu/~cs61c/sp18/disc/)
+20:55:08	Error: 	"Not Found" (404) at link https://inst.eecs.berkeley.edu/~cs61c/sp18/disc/policies.php (from https://inst.eecs.berkeley.edu/~cs61c/sp18/disc/)
+
+HTTrack Website Copier/3.49-1 mirror complete in 3 minutes 47 seconds : 669 links scanned, 639 files written (208949824 bytes overall) [207943420 bytes received at 916050 bytes/sec], 1780925 bytes transferred using HTTP compression in 427 files, ratio 30%, 20.8 requests per connection
+(21 errors, 17 warnings, 0 messages)

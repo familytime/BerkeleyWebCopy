@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<!--==============================================================================
+	           "GitHub HTML5 Pandoc Template" v1.2 — by Tristano Ajmone           
+	==============================================================================
+	(c) Tristano Ajmone, 2017, MIT License (MIT). Project's home repository:
+
+	- https://github.com/tajmone/pandoc-goodies
+
+	This template reuses source code taken from the following projects:
+
+	- GitHub Markdown CSS: © Sindre Sorhus, MIT License (MIT):
+	  https://github.com/sindresorhus/github-markdown-css
+
+	- Primer CSS: © 2016 GitHub Inc., MIT License (MIT):
+	  http://primercss.io/
+	==============================================================================-->
+<html>
+
+<!-- Mirrored from www.eecs70.org/static/notes/n1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:38:12 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Propositional Logic</title>
+<style type="text/css">@font-face{font-family:octicons-link;src:url(data:font/woff;charset=utf-8;base64,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) format('woff')}.markdown-body{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;color:#24292e;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";font-size:16px;line-height:1.5;word-wrap:break-word;box-sizing:border-box;min-width:200px;max-width:980px;margin:0 auto;padding:45px}.markdown-body .octicon{display:inline-block;fill:currentColor;vertical-align:text-bottom}.markdown-body a{background-color:transparent;-webkit-text-decoration-skip:objects;color:#0366d6;text-decoration:none}.markdown-body a:active,.markdown-body a:hover{outline-width:0}.markdown-body h1{margin:.67em 0}.markdown-body img{border-style:none}.markdown-body svg:not(:root){overflow:hidden}.markdown-body code,.markdown-body kbd,.markdown-body pre{font-family:monospace,monospace}.markdown-body input{font:inherit;margin:0;overflow:visible;font-family:inherit;font-size:inherit;line-height:inherit}.markdown-body [type=checkbox]{box-sizing:border-box;padding:0}.markdown-body *{box-sizing:border-box}.markdown-body a:hover{text-decoration:underline}.markdown-body strong{font-weight:600}.markdown-body hr{box-sizing:content-box;overflow:hidden;background:0 0;border-bottom:1px solid #dfe2e5}.markdown-body hr::before{display:table;content:""}.markdown-body hr::after{display:table;clear:both;content:""}.markdown-body table{border-spacing:0;border-collapse:collapse;display:block;width:100%;overflow:auto}.markdown-body td,.markdown-body th{padding:0}.markdown-body blockquote{margin:0}.markdown-body ol ol,.markdown-body ul ol{list-style-type:lower-roman}.markdown-body ol ol ol,.markdown-body ol ul ol,.markdown-body ul ol ol,.markdown-body ul ul ol{list-style-type:lower-alpha}.markdown-body dd{margin-left:0}.markdown-body code{font-family:SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace}.markdown-body pre{font:12px SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace;word-wrap:normal}.markdown-body .pl-0{padding-left:0!important}.markdown-body .pl-1{padding-left:4px!important}.markdown-body .pl-2{padding-left:8px!important}.markdown-body .pl-3{padding-left:16px!important}.markdown-body .pl-4{padding-left:24px!important}.markdown-body .pl-5{padding-left:32px!important}.markdown-body .pl-6{padding-left:40px!important}.markdown-body::before{display:table;content:""}.markdown-body::after{display:table;clear:both;content:""}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:0}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e1e4e8;border:0}.markdown-body blockquote{padding:0 1em;color:#6a737d;border-left:.25em solid #dfe2e5}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body kbd{font-size:11px;box-shadow:inset 0 -1px 0 #959da5}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#1b1f23;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1{padding-bottom:.3em;font-size:2em;border-bottom:1px solid #eaecef}.markdown-body h2{padding-bottom:.3em;font-size:1.5em;border-bottom:1px solid #eaecef}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#6a737d}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:600}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table th{font-weight:600}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #dfe2e5}.markdown-body table tr{background-color:#fff;border-top:1px solid #c6cbd1}.markdown-body table tr:nth-child(2n){background-color:#f6f8fa}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body code{padding:.2em 0;margin:0;font-size:85%;background-color:rgba(27,31,35,.05);border-radius:3px}.markdown-body code::after,.markdown-body code::before{letter-spacing:-.2em;content:"\00a0"}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:0 0;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f6f8fa;border-radius:3px}.markdown-body pre code{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code::after,.markdown-body pre code::before{content:normal}.markdown-body .full-commit .btn-outline:not(:disabled):hover{color:#005cc5;border-color:#005cc5}.markdown-body kbd{display:inline-block;padding:3px 5px;font:11px SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace;line-height:10px;color:#444d56;vertical-align:middle;background-color:#fcfcfc;border:1px solid #c6cbd1;border-bottom-color:#959da5;border-radius:3px;box-shadow:inset 0 -1px 0 #959da5}.markdown-body :checked+.radio-label{position:relative;z-index:1;border-color:#0366d6}.markdown-body .task-list-item{list-style-type:none}.markdown-body .task-list-item+.task-list-item{margin-top:3px}.markdown-body .task-list-item input{margin:0 .2em .25em -1.6em;vertical-align:middle}.markdown-body hr{border-bottom-color:#eee}.flash{position:relative;padding:16px;color:#246;background-color:#e2eef9;border:1px solid #bac6d3;border-radius:3px}.flash p:last-child{margin-bottom:0}.flash-messages{margin-bottom:24px}.flash-warn{color:#4c4a42;background-color:#fff9ea;border-color:#dfd8c2}.flash-error{color:#911;background-color:#fcdede;border-color:#d2b2b2}.flash-success{color:#22662c;background-color:#e2f9e5;border-color:#bad3be}.flash-plain{color:#4c4a42;background-color:#f5f5f5;border-color:#c1c1c1}.figure{text-align:center;}</style>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {equationNumbers: {autoNumber: "AMS"}}
+    });
+  </script>
+  <script src="../../../cdn.mathjax.org/mathjax/latest/MathJax2ba6.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  
+</head>
+<body>
+<article class="markdown-body">
+<header>
+<h1 class="title">Propositional Logic</h1>
+</header>
+<nav id="TOC">
+<ul>
+<li><a href="#scn:intro">A Brief Introduction</a></li>
+<li><a href="#scn:proplogic">Propositional Logic</a><ul>
+<li><a href="#sscn:contra">The Contrapositive and Converse</a></li>
+<li><a href="#sscn:quantifiers">Quantifiers</a></li>
+<li><a href="#sscn:negation">Much Ado about Negation</a></li>
+</ul></li>
+<li><a href="#scn:exercise">Exercises</a></li>
+</ul>
+</nav>
+<h1 id="scn:intro">A Brief Introduction</h1>
+<p>Welcome to Discrete Math and Probability Theory! You might be wondering what you’ve gotten yourself into — we’re delighted to tell you that the answer is something quite remarkable. For as you will find in this course, computer science is a unique field which straddles the fine line between a wealth of research areas: Natural sciences such as physics and chemistry, applied fields such as engineering, and abstract areas such as mathematics. It is precisely this pervasive diversity that not only allows computer science to have something to offer for everyone, but also makes it a driving force of life as we know it today.</p>
+<p>So let us begin by dispelling a common myth: What exactly <em>is</em> computer science? Is it programming in Java or C++? Networking via the Internet? Or perhaps videogames and troubleshooting personal computers? The answer is that <em>all</em> of these are indeed aspects of computer science; they form part of the “engineering” or applied sides of the field, which works to create useful, reliable, working systems. Yet, this is just part of the answer. For at the heart of computer science lies a fundamental core of highly theoretical areas such as artificial intelligence, algorithms, cryptography, and even quantum computing. These areas investigate questions such as: How can we make a robot smart? Find the shortest path between cities on the map? Or send secretly coded messages to one another? It is this theoretical foundation which makes computer science fundamentally possible.</p>
+<p>Sound interesting so far? Good. In this course, our goal is to equip you with the basic tools and language you need to move forward in your study of computer science. Which language are we talking about? Why, mathematics, of course! It turns out that the underlying principles of computer science can be described very elegantly using mathematics, particularly in theoretical branches.</p>
+<p>With that said, it is quite understandable if aspects of this material seem at first abstract and difficult to master. Yet, do not be discouraged. Any beginning guitarist, for example, dreams of shredding on stage like, say, Jimi Hendrix (or whoever their favorite musician happens to be). To attain this level of mastery, however, first requires the development of basic terminology and skills, such as the ability to read music and to play scales. In this sense, computer science is no different; there are basic mathematical tools which first need to be internalized. Thus, if at any time it should strike you as difficult to appreciate the material in these notes, fret not, and remind yourself that exciting ideas in computer science lie just ahead!</p>
+<h4 id="high-level-overview-of-the-course">High-Level Overview of the Course</h4>
+<p>This course can be thought of as consisting of two halves. The first begins with the basic language of mathematics: logic and proofs. At first, these two topics may seem completely disconnected from anything related to computers; however, it is precisely their study which led to the invention of computers to begin with! Moreover, logic is directly related to digital circuit design, and proofs by induction play a central role in analyzing programs. Indeed, induction is deeply connected to recursion. In this section, developing your ability to write coherent, rigorous proofs will be an important focus. Next, we move on to the study of a special type of arithmetic known as modular arithmetic. The beautiful properties of such numbers leads directly to schemes for computer security, and for storing and transmitting data so that it is immune to noise.</p>
+<p>The second half of the course will introduce you to the basic principles of probability theory. This subject plays a crucial role in every aspect of computer science today, from machine learning and artificial intelligence, to dealing with massive data sets, to computer security.</p>
+<p>Finally, let us close this introduction by highlighting one of the primary skills this course will allow you to develop: problem-solving. Indeed, one of the hallmarks of discrete mathematics is its wealth of interesting and mind-stretching puzzles and problems. As you work through the homework questions, you will learn how to attack questions, even when at first you may have no idea what the answer might look like. This kind of problem solving ability will greatly help you in the rest of your computer science career, in addition to being a critical skill for many job interviews and an invaluable asset throughout life.</p>
+<h1 id="scn:proplogic">Propositional Logic</h1>
+<p>To begin, we introduce the language of <em>propositional logic</em>. What use is this language? It gives us a clean formalism in which to write and prove mathematical statements. In particular, it treats statements in a black or white fashion — either a statement is true, or it is false; there are no “shades of gray” in between. The formal name for this “black or white” behavior is the <em>law of the excluded middle</em>, which states that either a statement or its negation must be true.</p>
+<p>The basic construct we begin with is the <strong>proposition</strong>. A proposition is simply a statement which is either true or false, such as:</p>
+<ul>
+<li><span class="math inline">\(\sqrt{3}\)</span> is irrational.</li>
+<li><span class="math inline">\(1+1=5\)</span>.</li>
+<li>Julius Caesar had 2 eggs for breakfast on his <span class="math inline">\(10^{\text{th}}\)</span> birthday.</li>
+</ul>
+<p>Given two propositions <span class="math inline">\(P\)</span> (for example, <span class="math inline">\(P\)</span> could stand for “3 is odd”) and <span class="math inline">\(Q\)</span>, we can next <em>combine</em> them in a number ways to obtain more interesting propositions. Specifically, we introduce the connectives AND, OR, and NOT for accomplishing this below:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Conjunction (AND)</strong>: <span class="math inline">\(P \wedge Q\)</span> (i.e. “<span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span>&quot;). True only when both <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span> are true.</p></li>
+<li><p><strong>Disjunction (OR)</strong>: <span class="math inline">\(P \vee Q\)</span> (i.e. “<span class="math inline">\(P\)</span> or <span class="math inline">\(Q\)</span>&quot;). True when at least one of <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span> is true.</p></li>
+<li><p><strong>Negation (NOT)</strong>: <span class="math inline">\(\lnot P\)</span> (i.e. “not <span class="math inline">\(P\)</span>&quot;). True when <span class="math inline">\(P\)</span> is false.</p></li>
+</ol>
+<p>We call a statement which is <em>always true</em>, regardless of the truth values of its variables, a <strong>tautology</strong>. For example, consider <span class="math inline">\(P\vee \neg P\)</span>. In contrast, a statement which is <em>always false</em> is a <strong>contradiction</strong>; an example is the statement <span class="math inline">\(P \wedge \neg P\)</span>.</p>
+<blockquote>
+<p><em>Sanity check!</em> Let <span class="math inline">\(P\)</span> denote the proposition “<span class="math inline">\(10^2 = 100\)</span>” and <span class="math inline">\(Q\)</span> denote “<span class="math inline">\(4+5 = 49\)</span>”. What are the values of <span class="math inline">\(P \land Q\)</span>, <span class="math inline">\(P \lor Q\)</span>, and <span class="math inline">\(\neg Q\)</span>? (Answer: False, True, True).</p>
+</blockquote>
+<p>By using connectives to combine propositions, we can obtain complicated statements such as <span class="math display">\[\neg((P_1 \vee P_2) \wedge \neg (P_1\vee P_3)) \vee ((P_2 \vee P_3) \wedge \neg (P_4\vee P_5)).\]</span> However, such statements quickly become difficult to digest. Thankfully, there is a simple equivalent representation of propositions called a <strong>truth table</strong>. A truth table is exactly what you might expect: For a given proposition, we simply list all possible input values for its variables, along with the outputs given those inputs. (The order does not matter.) To illustrate, here are the truth tables for conjunction (AND) and negation (<span class="math inline">\(\neg\)</span>), where <span class="math inline">\(T\)</span> and <span class="math inline">\(F\)</span> stand for true and false, respectively:</p>
+<p><span class="math display">\[
+\begin{array}{|c|c||c|}
+\hline
+P &amp; Q &amp; P \land Q \\
+\hline
+T &amp; T &amp; T \\
+T &amp; F &amp; F \\
+F &amp; T &amp; F \\
+F &amp; F &amp; F \\
+\hline
+\end{array}
+\qquad
+\begin{array}{|c||c|}
+\hline
+P &amp; \neg P \\
+\hline
+T &amp; F \\
+F &amp; T \\
+\hline
+\end{array}
+\]</span></p>
+<blockquote>
+<p><em>Sanity check!</em> What is the truth table for disjunction (OR)?</p>
+</blockquote>
+<p>So far, we introduced the connectives AND, OR, and NOT. Now that we’re warmed up, let us introduce a fourth connective, which is a bit trickier but possibly the most important:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Implication (IMPLIES, <span class="math inline">\(\implies\)</span>)</strong>: <span class="math inline">\(P \implies Q\)</span> (i.e. “<span class="math inline">\(P\)</span> implies <span class="math inline">\(Q\)</span>&quot;). This is the same as “if <span class="math inline">\(P\)</span>, then <span class="math inline">\(Q\)</span>&quot;.</li>
+</ol>
+<p>Intuitively, the way you should think about implication is that it is only false when <span class="math inline">\(P\)</span> is true and <span class="math inline">\(Q\)</span> is false. Formally, here is the truth table:</p>
+<p><span class="math display">\[
+\begin{array}{|c|c||c|}
+\hline
+P &amp; Q &amp; P \implies Q \\
+\hline
+T &amp; T &amp; T \\
+T &amp; F &amp; F \\
+F &amp; T &amp; T \\
+F &amp; F &amp; T \\
+\hline
+\end{array}
+\]</span></p>
+<p>A useful fact to keep in mind is that <span class="math inline">\(P\implies Q\)</span> is equivalent to the statement <span class="math inline">\(\neg P\vee Q\)</span>.</p>
+<blockquote>
+<p><em>Sanity check!</em> Write down the truth table for <span class="math inline">\(\neg P \lor Q\)</span>. Does it match that for <span class="math inline">\(P \implies Q\)</span>, as claimed?</p>
+</blockquote>
+<h2 id="sscn:contra">The Contrapositive and Converse</h2>
+<p>Thus far, we have introduced the concept of a proposition, along with connectives AND, OR, NOT, and IMPLIES. We now explore two fundamental statements which are closely related to <span class="math inline">\(P\implies Q\)</span>. They are the contrapositive and the converse:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Contrapositive</strong>: <span class="math inline">\(\neg Q \implies \neg P\)</span>.</p></li>
+<li><p><strong>Converse</strong>: <span class="math inline">\(Q \implies P\)</span>.</p></li>
+</ol>
+<p>One of these is logically equivalent to <span class="math inline">\(P\implies Q\)</span>, and the other is not. Can you tell which is which? How would you formally <em>check</em> your guess? One way is to write down the truth tables and compare them:</p>
+<p><span class="math display">\[
+\begin{array}{|c|c|c|c||c|c|c|c|}
+\hline
+P &amp; Q &amp; \neg P &amp; \neg Q &amp; P \Longrightarrow Q &amp; Q \Longrightarrow P &amp; \neg Q \Longrightarrow \neg P \\
+\hline
+T &amp; T &amp; F &amp; F &amp; T &amp; T &amp; T \\
+T &amp; F &amp; F &amp; T &amp; F &amp; T &amp; F \\
+F &amp; T &amp; T &amp; F &amp; T &amp; F &amp; T \\
+F &amp; F &amp; T &amp; T &amp; T &amp; T &amp; T \\
+\hline
+\end{array}
+\]</span></p>
+<p>Note that the columns for <span class="math inline">\(P\implies Q\)</span> and <span class="math inline">\(\neg Q\implies \neg P\)</span> match, whereas <span class="math inline">\(Q\implies P\)</span> differs; thus, we say <span class="math inline">\(P\implies Q\)</span> is <em>logically equivalent</em> to <span class="math inline">\(\neg Q\implies \neg P\)</span> (its contrapositive). In general, to denote that statements <span class="math inline">\(R\)</span> and <span class="math inline">\(S\)</span> are equivalent, we use notation <span class="math inline">\(R\iff S\)</span>, or in English, “<span class="math inline">\(R\)</span> if and only if <span class="math inline">\(S\)</span>” (informally abbreviated as <span class="math inline">\(R\)</span> iff <span class="math inline">\(S\)</span>). (Alternatively, one can use the notation <span class="math inline">\(R\equiv S\)</span>.)</p>
+<p>Having shown that <span class="math inline">\(P\implies Q\)</span> is <em>equivalent</em> to its contrapositive, you might ask: Why are we discussing the contrapositive at all? Well, sometimes the contrapositive is easier to prove than the implication itself.</p>
+<p>Finally, where does the <em>converse</em> <span class="math inline">\(Q\implies P\)</span> fit into all this? Although it looks superficially similar to the contrapositive, the converse is <em>not</em> in general equivalent to <span class="math inline">\(P\implies Q\)</span>. Rather, the converse plays a very important role in proving the equivalence of two statements via the following identity:</p>
+<blockquote>
+<p><em>Sanity check!</em> Show that <span class="math inline">\(P \iff Q\)</span> is logically equivalent to <span class="math inline">\((P \implies Q) \land (Q \implies P)\)</span>. [<em>Hint</em>: Write down the truth tables for <span class="math inline">\(P \iff Q\)</span> and <span class="math inline">\((P \implies Q) \land (Q \implies P)\)</span>, check that they match.]</p>
+</blockquote>
+<p>In particular, this identity says that if you wish to prove equivalence of two statements, proceed by showing the implication in each direction. It will prove repeatedly useful in this course, so keep it in mind!</p>
+<h2 id="sscn:quantifiers">Quantifiers</h2>
+<p>Part of the magic of the formal proof systems we’ll discuss in this course is the fact that one can prove statements about <em>infinite</em> sets of objects with just a <em>finite</em> size proof. But wait a second, have we even learned how to formally write down a statement about infinitely many objects yet? Let’s see: How would you use propositions to express the statement “for all integers <span class="math inline">\(x\)</span>, <span class="math inline">\(x\)</span> is either even or odd”?</p>
+<p>Here’s one approach: Let <span class="math inline">\(P(x)\)</span> denote ”<span class="math inline">\(x\)</span> is even” and <span class="math inline">\(Q(x)\)</span> denote ”<span class="math inline">\(x\)</span> is odd”, and consider the propositional form <span class="math inline">\(P(x)\vee Q(x)\)</span>. Does this capture the statement we wished to make? <em>No.</em> In particular, we’ve lost something in the translation — the phrase “for all <span class="math inline">\(x\)</span>”. Thus, what we need next is language for dealing with such phrases; such tools are called <em>quantifiers</em>.</p>
+<p>Here are our two quantifiers of interest:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Universal quantifier</strong>: Denoted <span class="math inline">\(\forall\)</span>, read “for all”.</p></li>
+<li><p><strong>Existential quantifier</strong>: Denoted <span class="math inline">\(\exists\)</span>, read “there exists”.</p></li>
+</ol>
+<p>Note that the universal quantifier <span class="math inline">\(\forall\)</span> is precisely what we needed above — in particular, we can now formally write “for all integers <span class="math inline">\(x\)</span>, <span class="math inline">\(x\)</span> is either even or odd” as <span class="math inline">\((\forall x\in \mathbb{Z})\; (P(x)\vee Q(x))\)</span>. The <em>existential</em> quantifier works similarly. For example, suppose we wish to say “there is a prime integer”. Then, we could write <span class="math inline">\((\exists x\in \mathbb{Z})\;(x\text{ is prime})\)</span>. Note that both quantifiers implicitly create a notion of a “universe” <span class="math inline">\(U\)</span> over which the statement is made. In both of the examples above, this universe <span class="math inline">\(U\)</span> is just the set of integers, <span class="math inline">\(\mathbb{Z}\)</span>.</p>
+<blockquote>
+<p><em>Sanity check!</em> Use quantifiers to express the following two statements: “for all integers <span class="math inline">\(x\)</span>, <span class="math inline">\(2x + 1\)</span> is odd”, and “there exists an integer between <span class="math inline">\(2\)</span> and <span class="math inline">\(4\)</span>”.</p>
+</blockquote>
+<p>Note now that there is no reason to limit ourselves to just one quantifier per statement. To demonstrate, let’s try something a bit more advanced:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\((\forall x \in \mathbb{Z})\;(\exists y \in \mathbb{Z})\;( x &lt; y)\)</span></li>
+<li><span class="math inline">\((\exists y \in \mathbb{Z})\;( \forall x \in \mathbb{Z})\;(x &lt; y)\)</span></li>
+</ol>
+<p>Can you explain in English what the two statements are saying? The first says that, given an integer, you can always find a larger integer. The second says something very different: That there is a largest integer! (The first statement is true, the second is not.) Note that this example highlights a key point: In general, the order quantifiers are listed in <em>does</em> matter!</p>
+<h2 id="sscn:negation">Much Ado about Negation</h2>
+<p>Let us close this note with a few useful identities involving negations: Just like tricks in, say, basketball such as dribbling between your legs or behind your back, these mathematical tricks will help you put propositional puzzles involving negations to shame.</p>
+<p>The four tricks we present are the following identities involving propositions, the first two of which are known as <em>De Morgan’s Laws</em>. Let <span class="math inline">\(P(x)\)</span> denote a propositional formula with variable <span class="math inline">\(x\)</span>. Then:</p>
+<ul>
+<li><p><span class="math inline">\(\neg(P\vee Q) \iff (\neg P)\wedge (\neg Q)\)</span>.</p></li>
+<li><p><span class="math inline">\(\neg(P\wedge Q) \iff (\neg P)\vee (\neg Q)\)</span>.</p></li>
+<li><p><span class="math inline">\(\neg (\forall x\; P(x)) \iff \exists x \;\lnot P(x)\)</span>.</p></li>
+<li><p><span class="math inline">\(\neg (\exists x\; P(x)) \iff \forall x \;\neg P(x)\)</span>.</p></li>
+</ul>
+<p>To help develop intuition for these rules, let’s illustrate the third rule with an example. Let <span class="math inline">\(P(x)\)</span> denote the statement “<span class="math inline">\(x\)</span> is odd”, where we assume <span class="math inline">\(x\)</span> takes values from the universe <span class="math inline">\(U=\mathbb{Z}\)</span>. Then, since it is not true that all integers are odd, we have that <span class="math inline">\(\lnot (\forall x\; P(x))\)</span> is true. But if all integers are not odd, then there must exist an integer <span class="math inline">\(x\)</span> which is not odd — this is precisely the statement <span class="math inline">\(\exists x \;\lnot P(x)\)</span>, as desired!</p>
+<blockquote>
+<p>Sanity check! Let <span class="math inline">\(P(x, y)\)</span> be some propositional formula over some universe. Using the rules above, show that <span class="math inline">\(\neg(\forall x \; \exists y \; P(x, y))\)</span> is equivalent to <span class="math inline">\(\exists x \; \forall y \; \neg P(x, y)\)</span>. In particular, there is a simple rule this exercise should teach you — each time the negation moves past a quantifier, we “flip” that quantifier (i.e. <span class="math inline">\(\forall\)</span> is flipped to <span class="math inline">\(\exists\)</span> and vice versa).</p>
+</blockquote>
+<h1 id="scn:exercise">Exercises</h1>
+<ol style="list-style-type: decimal">
+<li><p>Although primitive at first glance, logic is key to fundamental areas of computer science such as digital circuit design. For example, below we depict logic gates used in circuits corresponding respectively to NOT, AND, and OR:</p>
+<div class="figure">
+<img src="n1-circuit.png" style="width:70.0%" />
+
+</div>
+<p>Here, the wires coming in from the left are the <em>input</em> wires, and the wires exiting from the right are the <em>output</em> wires. For example, the AND gate takes in input bits <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>, and outputs <span class="math inline">\(y=x_1\wedge x_2\)</span>. A remarkable fact regarding circuits is that the NAND gate,</p>
+<div class="figure">
+<img src="n1-nand.png" style="width:30.0%" />
+
+</div>
+<p>which computes <span class="math inline">\(y=\neg(x_1\wedge x_2)\)</span> (note the black dot on the output wire, which indicates negation), is <em>universal</em>. In other words, each of the other three gates NOT, AND, and OR, can be <em>simulated</em> using just the NAND gate! How could this be? Let’s work it out for ourselves to find out!</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Convince yourself (for example, via truth table), that the following circuit simulates the NOT gate, i.e. that <span class="math inline">\(y=\neg x\)</span>:</p>
+<div class="figure">
+<img src="n1-not.png" style="width:30.0%" />
+
+</div></li>
+<li><p>How would you simulate the AND gate? [<em>Hint</em>: Note that NAND is just AND composed with NOT, and the exercise above just demonstrated how to simulate NOT.]</p></li>
+<li><p>How would you simulate the OR gate?</p></li>
+</ol></li>
+<li><p>The rules of logic can also help us reason about <em>games</em>. For example, consider a two-player game with the following properties: There are two players, Toby and Fritz, and the game consists of two turns. First, Toby takes a turn, and then Fritz, and then one of them is declared the winner (i.e. there are no ties).</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Show that either Toby or Fritz must have a winning strategy in the following sense: The person with the winning strategy <em>always</em> wins the game. [<em>Hint</em>: Consider the case where Toby has a winning strategy. Then, we can model this via the proposition “there exists a move by Toby such that for all moves by Fritz, Toby wins.” Use the law of the excluded middle to argue that if this statement is false, then its negation must be true — what is the negation of this statement?]</p></li>
+<li><p>Which property of the game allowed us to apply the law of the excluded middle in part (a) above?</p></li>
+</ol></li>
+</ol>
+</article>
+</body>
+
+<!-- Mirrored from www.eecs70.org/static/notes/n1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:38:18 GMT -->
+</html>

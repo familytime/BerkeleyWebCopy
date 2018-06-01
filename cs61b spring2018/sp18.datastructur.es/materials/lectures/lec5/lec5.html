@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec5/lec5 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Lists3 Study Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Lists3 Study Guide</header><div class="due-date">Author: Kartik Kapur and Wayne Li</div><ul id="markdown-toc">
+  <li><a href="#lecture-code" id="markdown-toc-lecture-code">Lecture Code</a></li>
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#exercises" id="markdown-toc-exercises">Exercises</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C Level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B Level</a></li>
+      <li><a href="#a-level" id="markdown-toc-a-level">A level</a></li>
+      <li><a href="#a-level-1" id="markdown-toc-a-level-1">A+ level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="lecture-code">Lecture Code</h2>
+
+<p>Code from this lecture available at</p>
+
+<p><a href="https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/lists3">https://github.com/Berkeley-CS61B/lectureCode-sp18/tree/master/lists3</a>.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>SLList Drawbacks</strong> <code class="highlighter-rouge">addLast()</code> is slow! We can’t add to the middle of our
+list. In addition, if our list is really large, we have to start at the front,
+and loop all the way to the back of our list before adding our element.</p>
+
+<p><strong>A Naive Solution</strong> Recall that we cached the size of our list as an instance
+variable of <code class="highlighter-rouge">SLList</code>. What if we cached the <code class="highlighter-rouge">last</code> element in our list as well?
+All of a sudden, <code class="highlighter-rouge">addLast()</code> is fast again; we access the last element
+immediately, then add our element in. But <code class="highlighter-rouge">removeLast()</code> is still slow. In
+<code class="highlighter-rouge">removeLast()</code>, we have to know what our second-to-last element is, so we can
+point our cached <code class="highlighter-rouge">last</code> variable to it. We could then cache a <code class="highlighter-rouge">second-to-last</code>
+variable, but now if I ever want to remove the second-to-last element, I need
+to know where our third-to-last element is. How to solve this problem?</p>
+
+<p><strong>DLList</strong> The solution is to give each <code class="highlighter-rouge">IntNode</code> a <code class="highlighter-rouge">prev</code> pointer, pointing to
+the previous item. This creates a doubly-linked list, or <code class="highlighter-rouge">DLList</code>. With this
+modification, adding and removing from the front and back of our list becomes
+fast (although adding/removing from the middle remains slow).</p>
+
+<p><strong>Incorporating the Sentinel</strong> Recall that we added a sentinel node to our
+<code class="highlighter-rouge">SLList</code>. For <code class="highlighter-rouge">DLList</code>, we can either have two sentinels (one for the front,
+and one for the back), or we can use a circular sentinel. A <code class="highlighter-rouge">DLList</code> using a
+circular sentinel has one sentinel. The sentinel points to the first element of
+the list with <code class="highlighter-rouge">next</code> and the last element of the list with <code class="highlighter-rouge">prev</code>. In addition,
+the last element of the list’s <code class="highlighter-rouge">next</code> points to the sentinel and the first
+element of the list’s <code class="highlighter-rouge">prev</code> points to the sentinel. For an empty list, the
+sentinel points to itself in both directions.</p>
+
+<p><strong>Generic DLList</strong> How can we modify our <code class="highlighter-rouge">DLList</code> so that it can be a list of
+whatever objects we choose? Recall that our class definition looks like
+this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class DLList { ... }
+</code></pre></div></div>
+
+<p>We will change this to</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class DLList&lt;T&gt; { ... }
+</code></pre></div></div>
+
+<p>where <code class="highlighter-rouge">T</code> is a placeholder object type. Notice the angle bracket syntax. Also
+note that we don’t have to use <code class="highlighter-rouge">T</code>; any variable name is fine. In our <code class="highlighter-rouge">DLList</code>,
+our item is now of type <code class="highlighter-rouge">T</code>, and our methods now take <code class="highlighter-rouge">T</code> instances as
+parameters. We can also rename our <code class="highlighter-rouge">IntNode</code> class to <code class="highlighter-rouge">TNode</code> for accuracy.</p>
+
+<p><strong>Using Generic DLList</strong> Recall that to create a <code class="highlighter-rouge">DLList</code>, we typed:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DLList list = new DLList(10);
+</code></pre></div></div>
+
+<p>If we now want to create a <code class="highlighter-rouge">DLList</code> holding <code class="highlighter-rouge">String</code> objects, then we must
+say:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DLList&lt;String&gt; list = new DLList&lt;&gt;("bone");
+</code></pre></div></div>
+
+<p>On list creation, the compiler replaces all instances of <code class="highlighter-rouge">T</code> with <code class="highlighter-rouge">String</code>! We
+will cover generic typing in more detail in later lectures.</p>
+
+<p><strong>Arrays</strong> Recall that variables are just boxes of bits. For example, <code class="highlighter-rouge">int x;</code>
+gives us a memory box of 32 bits. Arrays are a special object which consists of
+a numbered sequence of memory boxes! To get the ith item of array <code class="highlighter-rouge">A</code>, use
+<code class="highlighter-rouge">A[i]</code>. The length of an array cannot change, and all the elements of the array
+must be of the same type (this is different from a Python list). The boxes are
+zero-indexed, meaning that for a list with N elements, the first element is at
+<code class="highlighter-rouge">A[0]</code> and the last element is at <code class="highlighter-rouge">A[N - 1]</code>. Unlike regular classes, <strong>arrays
+do not have methods!</strong> Arrays do have a <code class="highlighter-rouge">length</code> variable though.</p>
+
+<p><strong>Instantiating Arrays</strong> There are three valid notations for creating arrays.
+The first way specifies the size of the array, and fills the array with default
+values:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int[] y = new int[3];
+</code></pre></div></div>
+
+<p>The second and third ways fill up the array with specific values.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int[] x = new int[]{1, 2, 3, 4, 5};
+int[] w = {1, 2, 3, 4, 5};
+</code></pre></div></div>
+
+<p>We can set a value in an array by using array indexing. For example, we can say
+<code class="highlighter-rouge">A[3] = 4;</code>. This will access the <strong>fourth</strong> element of array <code class="highlighter-rouge">A</code> and sets the
+value at that box to 4.</p>
+
+<p><strong>Arraycopy</strong> In order to make a copy of an array, we can use
+<code class="highlighter-rouge">System.arraycopy</code>. It takes 5 parameters; the syntax is hard to memorize, so
+we suggest using various references online such as
+<a href="https://www.tutorialspoint.com/java/lang/system_arraycopy.htm">this</a>.</p>
+
+<p><strong>2D Arrays</strong> We can declare multidimensional arrays. For 2D integer arrays, we
+use the syntax:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int[][] array = new int[4][];
+</code></pre></div></div>
+
+<p>This creates an array that holds integer arrays. Note that we have to manually
+create the inner arrays like follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array[0] = new int[]{0, 1, 2, 3};
+</code></pre></div></div>
+
+<p>Java can also create multidemensional arrays with the inner arrays created
+automatically. To do this, use the syntax:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int[][] array = new int[4][4];
+</code></pre></div></div>
+
+<p>We can also use the notation:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int[][] array = new int[][]{{1}, {1, 2}, {1, 2, 3}}
+</code></pre></div></div>
+
+<p>to get arrays with specific values.</p>
+
+<p><strong>Arrays vs. Classes</strong></p>
+<ul>
+  <li>Both are used to organize a bunch of memory.</li>
+  <li>Both have a fixed number of “boxes”.</li>
+  <li>Arrays are accessed via square bracket notation. Classes are accessed via dot
+notation.</li>
+  <li>Elements in the array must be all be the same type. Elements in a class may
+be of different types.</li>
+  <li>Array indices are computed at runtime. We cannot compute class member
+variable names.</li>
+</ul>
+
+<h2 id="exercises">Exercises</h2>
+
+<h3 id="c-level">C Level</h3>
+
+<ol>
+  <li>
+    <p>Complete the exercises from the online textbook
+<a href="https://joshhug.gitbooks.io/hug61b/content/chap2/chap23.html">here</a> and
+<a href="https://joshhug.gitbooks.io/hug61b/content/chap2/chap24.html">here</a>.</p>
+  </li>
+  <li>
+    <p>Can you create a 2 dimensional array with different types? For example,
+one sub array would be composed of all Strings and another sub array would be
+made of only ints.</p>
+  </li>
+</ol>
+
+<h3 id="b-level">B Level</h3>
+
+<ol>
+  <li>
+    <p>At each step follow the instructions</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> public class Deck{
+     public static  int[] cards;
+     Deck(){
+         cards = [1, 3, 4, 10];
+     }
+ }
+</code></pre></div>    </div>
+
+    <p>Write down the contents of dingie’s array cards.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   Deck dingie = new Deck();
+   dingie.cards[3] = 3;
+</code></pre></div>    </div>
+
+    <p>Write the contents of pilates’s array and dingie’s array.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   Deck pilates = new Deck();
+   pilates.cards[1] = 2;
+</code></pre></div>    </div>
+
+    <p>Write the contents of pilates’s array and dingie’s array.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   int[] newArrWhoDis = {2, 2, 4, 1, 3};
+   dingie.cards = pilates.cards;
+   pilates.cards = newArrWhoDis;
+   newArrWhoDis = null;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Say we have a 2 dimensional DList. We want this 2-D DList to be as even
+as possible. To do this we will try to fill up rows as uniformly as possible-
+meaning that not row will have a greater size than any other row by more
+than 1 element. Write a method that will take in a sub DList and add the
+given element if it fulfills the constraints. If the constraints are not
+fulfilled, the item will be attempted to be put in the DList below the one you
+attempted to insert in originally and so forth until the bottom most DList
+is reached in which case move to the top DList.</p>
+  </li>
+</ol>
+
+<h3 id="a-level">A level</h3>
+
+<ol>
+  <li>
+    <p>Complete problem 10 from practice midterm 1 in Kartik’s <a href="http://www.kartikkapur.com/documents/mt1.pdf#page=10">textbook</a></p>
+  </li>
+  <li>
+    <p>Complete problem 7 from midterm 1 from Spring 2015 <a href="https://tbp.berkeley.edu/exams/4695/download/#page=9">here</a></p>
+  </li>
+</ol>
+
+<h3 id="a-level-1">A+ level</h3>
+
+<ol>
+  <li>
+    <p>You are a lonesome tortoise trying to find their way in the galaxy.
+Suddenly, a portal opens up in front of you and holy mackerel, it leads to a new
+galaxy! You almost leap into the new galaxy, but you are scared- after all,
+you want to be able to come home so, at some point, you can have your porridge.
+After some asking around, you realized that at certain points in a given galaxy
+you can transport to a different galaxy (though you may not be able to take
+the same point back); however, if you are in a galaxy, you can reach any point
+in that galaxy for sure.</p>
+
+    <p>You want to try to maximize the amount of galaxies that you can visit while
+ still ensuring that you can make it back home. Provide an idea of how you will
+ do this (no need to code; however, you can if you want).</p>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec5/lec5 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:15 GMT -->
+</html>

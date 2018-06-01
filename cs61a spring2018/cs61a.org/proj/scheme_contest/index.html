@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/proj/scheme_contest/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:37:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+<link href="../../assets/css/project.css" rel="stylesheet" type="text/css">
+
+
+    <title>
+Optional Contest: Scheme Art | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Optional Contest: Scheme Art
+
+        
+        <ul class="inline-block list-inline">
+          <li><a href="scheme_contest.zip" class="label label-outline">scheme_contest.zip</a></li>
+        </ul>
+        
+      </h1>
+    </header>
+    
+<div class="haiku">
+  <blockquote><cite>
+The output is art,<br>
+But what about its source code?<br>
+It's just as abstract.
+</cite></blockquote>
+</div>
+
+    
+<h2 id="instructions">Instructions</h2>
+
+
+<blockquote><p>This contest is completely optional! Winners will earn extra credit.</p></blockquote>
+
+<p>Entries are due at 11:59pm on Monday, 4/23.</p>
+
+<p>Here are the steps to enter the contest:</p>
+
+<ol>
+  <li>Download <a href="scheme_contest.zip">scheme_contest.zip</a>.</li>
+  <li><p>From your Scheme project, copy all the Python files to the scheme_contest
+  directory. This should be:</p>
+
+  <ul>
+    <li><code>buffer.py</code></li>
+    <li><code>scheme_primitives.py</code></li>
+    <li><code>scheme_reader.py</code></li>
+    <li><code>scheme_tokens.py</code></li>
+    <li><code>scheme.py</code></li>
+    <li><code>ucb.py</code></li>
+  </ul></li>
+  <li>Complete the <code>contest.scm</code> file (you can render your drawing with <code>python3
+  scheme.py contest.scm</code>). For more information on drawing graphics, you may
+  find the <a href="../../articles/scheme-primitives.html#turtle-graphics">Scheme Primitive Reference</a>
+  to be helpful.</li>
+  <li>Take a screenshot of the "Scheme Turtles" window containing your artwork.</li>
+</ol>
+
+<p>In <code>contest.scm</code>, the <code>draw</code> procedure should draw your entry and then exit on
+click.</p>
+
+<p>All entries, including their source code, will be distributed to your fellow
+students for voting. Please <strong>do not include personal info in your submission.</strong></p>
+
+<blockquote><p><strong>Important:</strong> when you are ready to submit, follow <strong>both</strong> these steps:</p>
+
+<ul>
+  <li>Run <code>python3 ok &#x2d;&#x2d;submit</code> to submit your <code>contest.scm</code> file to Ok.</li>
+  <li>Fill out <a href="https://goo.gl/forms/OC4u6lbpCutuQgXo1">the contest form</a>. Make
+  sure the information here is correct, since we'll be using it to generate
+  your entry in the Scheme art gallery.</li>
+</ul></blockquote>
+
+
+<h2 id="contest-description">Contest Description</h2>
+
+
+<p>Create a visualization of an iterative or recursive process of your choosing,
+using turtle graphics. Your implementation must be written entirely in Scheme
+using the interpreter you have built. In particular, you may not use any
+external image files. However, you may add primitive procedures to interface
+with Python's <code>turtle</code> or <code>math</code> modules. Other than that, <em>all computation must
+be done in Scheme</em>. If you do add new primitives, then make sure to submit your
+updated <code>scheme_primitives.py</code> in addition to <code>contest.scm</code>.</p>
+
+<p>We will have two categories of submissions:</p>
+
+<ul>
+  <li><em>Featherweight</em>: Fewer than 512 Scheme tokens (including parentheses)</li>
+  <li><em>Heavyweight</em>: Fewer than 4096 Scheme tokens (including parentheses)</li>
+</ul>
+
+<p><strong>Extra credit</strong> will be awarded as follows:</p>
+
+<ul>
+  <li>3 points to 1st place in each category</li>
+  <li>2 points to 2nd place in each category</li>
+  <li>1 points to 3rd place in each category</li>
+</ul>
+
+<p>You can check the number of tokens in a Scheme file called <code>contest.scm</code> by
+running the following command using the latest version of
+<a href="../scheme/scheme_tokens.py"><code>scheme_tokens.py</code></a>:</p>
+
+<pre><code>python3 scheme_tokens.py contest.scm</code></pre>
+
+<p>Entries (code and images) will be posted online, and winners will be selected
+by popular vote as part of a future homework.</p>
+
+<p>To improve your chance of success, you are welcome to include a title and
+descriptive <a href="http://en.wikipedia.org/wiki/Haiku">haiku</a> in the comments of your
+entry, which will be included in the voting.</p>
+
+<p>Entries that do not construct an image iteratively or recursively may be
+disqualified. Please don't just draw a preexisting image, even if the drawing
+function is iterative or recursive. If you're unsure, just ask.</p>
+
+
+<h2 id="past-entries">Past Entries</h2>
+
+
+<p>For inspiration, you can peruse these galleries of past entries.</p>
+
+<ul>
+  <li><a href="http://inst.eecs.berkeley.edu/~cs61a/fa17/proj/scheme_gallery/">Fall 2017</a></li>
+  <li><a href="http://inst.eecs.berkeley.edu/~cs61a/su17/proj/scheme_gallery/">Summer 2017</a></li>
+  <li><a href="http://inst.eecs.berkeley.edu/~cs61a/sp17/proj/scheme_gallery/">Spring 2017</a></li>
+  <li><a href="http://inst.eecs.berkeley.edu/~cs61a/fa16/proj/scheme_gallery/">Fall 2016</a></li>
+  <li><a href="http://inst.eecs.berkeley.edu/~cs61a/su16/proj/scheme_gallery/">Summer 2016</a></li>
+  <li><a href="http://inst.eecs.berkeley.edu/~cs61a/sp16/proj/scheme_gallery/">Spring 2016</a></li>
+  <li><a href="http://inst.eecs.berkeley.edu/~cs61a/fa15/proj/scheme_gallery/">Fall 2015</a></li>
+  <li><a href="http://inst.eecs.berkeley.edu/~cs61a/sp15/proj/scheme-gallery/">Spring 2015</a></li>
+  <li><a href="http://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme_gallery/">Fall 2014</a></li>
+  <li><a href="http://inst.eecs.berkeley.edu/~cs61a/sp14/proj/scheme_contest/scheme_contest.html">Spring 2014</a></li>
+  <li><a href="http://inst.eecs.berkeley.edu/~cs61a/fa13/proj/scheme_contest_gallery/scheme_contest_gallery.html">Fall 2013</a></li>
+  <li><a href="http://inst.eecs.berkeley.edu/~cs61a/sp13/projects/scheme_contest_gallery/scheme_contest.html">Spring 2013</a></li>
+  <li><a href="http://inst.eecs.berkeley.edu/~cs61a/fa12/projects/scheme_contest.html">Fall 2012</a></li>
+</ul>
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#instructions">Instructions</a></li>
+  <li><a href="#contest-description">Contest Description</a></li>
+  <li><a href="#past-entries">Past Entries</a></li>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+  </body>
+
+<!-- Mirrored from cs61a.org/proj/scheme_contest/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:37:59 GMT -->
+</html>

@@ -1,0 +1,182 @@
+<html>
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/3/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:53:44 GMT -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>CS61C Spring 2018 Lab 3</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<style type='text/css'>
+    .checkoff {
+      background:#eeeee0;
+      padding:1em;
+      border-radius:1em;
+      border:1px solid #ddd;
+    }
+    </style>
+</head>
+
+<body>
+<div class="header">
+    <div class="header-text">
+	<h1>CS61C Spring 2018 Lab 3 - RISC-V</h1>
+    </div>
+</div>
+
+<div class="content">
+
+Welcome to lab 3. At the end of this lab, you should have an idea of how to:
+<ul>
+	<li>Practice running and debugging RISC-V assembly code.</li>
+	<li>Write RISC-V functions with the correct function calling procedure.</li>
+	<li>Get an idea of how to translate C code to RISC-V.</li>
+</ul>
+
+<h2>Setup</h2>
+<p>Copy the lab files from the instructional servers to your lab account with</p>
+<pre class="output">$ <span class="input">cp -r ~cs61c/labs/03/ ~/labs/03/ </span>
+</pre>
+
+<p>Alternatively, secure-copy (<tt>scp</tt>) them from the instructional servers to your own laptop with</p>
+<pre class="output">$ <span class="input">scp -r cs61c-[xxx]@hive[yy].cs.berkeley.edu:~cs61c/labs/03/ ~/YOUR_FILEPATH</span>
+</pre>
+
+<p>And if you want to secure-copy them back to your class account:</p>
+<pre class="output">$ <span class="input">scp -r ~/YOUR_FILEPATH/03 cs61c-[xxx]@hive[yy].cs.berkeley.edu:~/YOUR_LABACCT_FILEPATH</span>
+</pre>
+
+<h2>Intro to Assembly with RISC-V Simulator</h2>
+
+<p>The following exercises use a RISC-V simulator developed by Keyhan Vakil (now a CS161 TA). The simulator is called Venus and can be found online <a href="https://kvakil.github.io/venus/">here</a>. 
+
+<p><b>Assembly/Venus Basics:</b></p>
+<ul>
+	<li>Enter your code in the "Editor" tab</tt>
+	<li>Programs start at the first line regardless of the label. That means that the <tt>main</tt> function must be put first.</li>
+	<li>Programs end with an <tt>ecall</tt> with argument value 10. This signals for the program to exit. The ecall instructions are analagous to "System Calls" and allow us to do things such as print to the console or request chunks of memory from the heap.</li>
+	<li>Labels end with a colon (<tt>:</tt>).</li>
+	<li>Comments start with a pound sign (<tt>#</tt>).</li>
+	<li>You CANNOT put more than one instruction per line.</li>
+	<li>When you are done editing, click the "Simulator" tab to prepare for execution.</li>
+	<li><strong>DO NOT REFRESH THE WEBPAGE.</strong> The editor does not save your code, so a refresh will delete everything in the editor.</li>
+</ul>
+
+<p><strong>For the following exercises, please save your completed code in a file on your local machine. Otherwise, we will have no proof that you completed the lab exercises.</strong></p>
+
+<h3>Checkoff Checklist:</h3>
+Have the following files open BEFORE asking for checkoff.
+<ul>
+	<li><tt>lab3_ex1.s</tt></li>
+	<li><tt>lab3_ex2_c.c</tt></li>
+	<li><tt>lab3_ex2_assembly.s</tt></li>
+	<li><tt>factorial.s</tt></li>
+	<li><tt>list_map.s</tt></li>
+</ul>
+
+<h2>Exercises</h2>
+
+<h3>Exercise 1: Familiarizing yourself with Venus</h3>
+<p>Getting started:</p>
+<ol>
+	<li>Paste the contents of <a href="lab3_ex1.html" target="_blank"><tt>lab3_ex1.s</tt></a> into the editor.</li>
+	<li>Click the "Simulator" tab. This will prepare the code you wrote for execution. If you click back to the "Editor" tab, your simulation will be reset.</li>
+	<li>In the simulator, to execute the next instruction, click the "step" button.</li>
+	<li>To undo an instruction, click the "prev" button.</li>
+	<li>To run the program to completion, click the "run" button.</li>
+	<li>To reset the program from the start, click the "reset" button.</li>
+	<li>The contents of all 32 registers are on the right-hand side, and the console output is at the bottom</li>
+	<li>To view the contents of memory, click the "Memory" tab on the right. You can nagivate to different portions of your memory using the dropdown menu at the bottom.</li>
+</ol>
+
+<p><b>Task</b>: Paste the contents of <tt>lab3_ex1.s</tt> in Venus and Record your answers to the following questions. Some of the questions will require you to run the RISC-V code using Venus' simulator tab.</p>
+<ol>
+	<li>What do the <tt>.data</tt>, <tt>.word</tt>, <tt>.text</tt> directives mean (i.e. what do you use them for)? <i>Hint</i>:
+	think about the 4 sections of memory.
+	<li>Run the program to completion. What number did the program output? What does this number represent?</li>
+	<li>At what address is <tt>n</tt> stored in memory? <b>Hint</b>: Look at the contents of the registers.</li>
+	<li>Without using the "Edit" tab, have the program calculate the 13th fib number (0-indexed) by <i>manually</i> modifying the value of a register. You may find it helpful to first step through the code. If you prefer to look at decimal values, change the "Display Settings" option at the bottom.</li>
+</ol>
+
+<div class='checkoff'>
+<h4>Checkoff [1/4]</h4>
+<ul>
+	<li>Demonstrate that you are able to run through the above steps and provide answers to the questions.</li>
+</ul>
+</div>
+
+<h3>Exercise 2: Translating from C to RISC-V</h3>
+
+<p>Open the files <a href="lab3_ex2_c.c" target="_blank"><tt>lab3_ex2_c.c</tt></a> and <a href="lab3_ex2_assembly.html" target="_blank"><tt>lab3_ex2_assembly.s</tt></a>. The assembly code provided (.s file) is a translation of the given C program into RISC-V. Your task is to find/explain the following components of this assembly file.</p>
+<ul>
+	<li>The register representing the variable <tt>k</tt>.</li>
+	<li>The registers acting as pointers to the <tt>source</tt> and <tt>dest</tt> arrays.</li>
+	<li>The assembly code for the loop found in the C code.</li>
+	<li>How the pointers are manipulated in the assembly code.</li>
+</ul>
+
+<div class='checkoff'>
+<h4>Checkoff [2/4]</h4>
+<ul>
+	<li>Find the section of code in <tt>lab3_ex2.s</tt> that corresponds to the copying loop and explain how <b>each</b> line is used in manipulating the pointer.</li>
+</ul>
+</div>
+
+<h3>Exercise 3: Factorial</h3>
+<p>In this exercise, you will be implementing a function <tt>factorial</tt> in RISC-V that has a single integer parameter <tt>n</tt> and returns <tt>n!</tt>. A stub of this function can be found in the file <a href="factorial.html" target="_blank"><tt>factorial.s</tt></a>. You will only need to add instructions under the <tt>factorial</tt> label, and the argument that is passed into the  function is configured to be located at the label <tt>n</tt>. You may solve this problem using either recursion or iteration.</p>
+
+<p>As a sanity check, you should make sure your function properly returns that <tt>3! = 6</tt>, <tt>7! = 5040</tt> and <tt>8! = 40320</tt>.</p>
+
+<div class="checkoff">
+<h4>Checkoff [3/4]</h4>
+<ul>
+	<li>Display your code for the factorial function, as well as the outputs for the test cases listed above.</li>
+</ul>
+</div>
+
+<h3>Exercise 4: RISC-V function calling with <tt>map</tt></h3>
+<p>This exercise uses the file <tt><a href="list_map.html">list_map.s</a></tt>.</p>
+
+<p>In this exercise, you will complete an implementation of <tt>map</tt> on linked-lists in RISC-V. Our function will be simplified to mutate the list in-place, rather than creating and returning a new list with the modified values.</p>
+
+<p>Our <tt>map</tt> procedure will take two parameters; the first parameter will be the address of the head node of a singly-linked list whose values are 32-bit integers. So, in C, the structure would be defined as:
+</p>
+
+<pre>
+struct node {
+  int value;
+  struct node *next;
+};
+</pre>
+<p>
+Our second parameter will be the <b>address of a function</b> that takes one int as an argument and returns an int. We'll use the <code>jalr</code> RISC-V instruction to call this function on the list node values.
+</p>
+<p>
+Our <code>map</code> function will recursively go down the list, applying the function to each value of the list and storing the value returned in that corresponding node. In C, the function would be something like this:
+</p>
+<pre>
+void map(struct node *head, int (*f)(int))
+{
+  if(!head) { return; }
+  head-&gt;value = f(head-&gt;value);
+  map(head-&gt;next,f);
+}
+</pre>
+<p> If you haven't seen the <code>int (*f)(int)</code> kind of declaration before, don't worry too much about it. Basically it means that <code>f</code> is a pointer to a function, which, in C, can then be used exactly like any other function.
+</p>
+
+<p>
+You will find it helpful to refer to the <a href="http://inst.eecs.berkeley.edu/~cs61c/fa17/img/riscvcard.pdf" target="_blank">RISC-V green card</a> to complete this exercise.
+
+<p>
+There are exactly nine (9) places (8 in <code>map</code> and 1 in <code>main</code>) in the provided code where it says &quot;YOUR_INSTRUCTION_HERE&quot;. </p>
+<p><strong>Task</strong>: replace these markers with instructions the implementation of <code>map</code>, and to provide a sample call to <code>map</code> with <code>square</code> as the function argument. There are comments in the code that explain what each instruction should accomplish. When you've filled in these instructions, running the code should provide you with the following output:
+</p>
+<pre>
+9 8 7 6 5 4 3 2 1 0
+81 64 49 36 25 16 9 4 1 0
+</pre>
+
+<p>The first line is the original list, and the second line is the modified list after the map function is applied.</p>
+
+<div class='checkoff'>
+<h4>Checkoff [4/4]</h4>
+<ul><li>Show your TA your test run.</li></ul>
+</div>

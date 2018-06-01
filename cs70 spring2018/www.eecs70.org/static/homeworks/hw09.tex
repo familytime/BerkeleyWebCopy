@@ -1,0 +1,84 @@
+\Question{Indicator Variables}
+
+\begin{Parts}
+    \Part 
+    After throwing $n$ balls into $m$ bins at random, what is the expected number of bins that contains exactly $k$ balls?
+
+    \Part
+    Alice and Bob each draw $k$ cards out of a deck of 52 distinct cards with replacement.
+    Find $k$ such that the expected number of common cards that both Alice and Bob draw is at least $1$.
+
+    \Part
+    How many people do you need in a room so that you expect that there is going to be a shared birthday on a Monday of the year (assume $52$ Mondays in a year and $365$ days in a year)?
+
+\end{Parts}
+
+
+\Question{Sinho's Dice}
+
+Sinho rolls three fair-sided dice. 
+
+\begin{enumerate}[(a)]
+
+\item Let $X$ denote the maximum of the three values rolled.   What is the distribution of $X $(that is, $\Pr[ X = x ] $ for $x =1, 2, 3,4,6$)?  You can leave your final answer in terms of ``x'. [\textit{Hint}: Let $X$ denote the maximum of the three values roled. First compute $\Pr[X \le x]$ for $x =1, 2,3,4,5,6]$.
+
+\item  Let $Y$ denote the minimum of the three values rolled.  What is the distribution of $Y$? 
+
+\end{enumerate}
+
+\Question{Linearity}
+
+Solve each of the following problems using linearity of expectation. Explain your methods clearly.
+
+\begin{Parts}
+\Part  In an arcade, you play game $A$ $10$ times and game $B$ $20$ times. Each time you play game $A$, you win with probability $1/3$ (independently of the other times), and if you win you get $3$ tickets (redeemable for prizes), and if you lose you get $0$ tickets. Game $B$ is similar, but you win with probability $1/5$, and if you win you get $4$ tickets. What is the expected total number of tickets you receive?
+\nosolspace{1cm}
+
+\Part A monkey types at a 26-letter keyboard with one key corresponding to each of the lower-case English letters. Each keystroke is chosen independently and uniformly at random from the 26 possibilities. If the monkey types 1 million letters, what is the expected number of times the sequence ``book'' appears?
+\nosolspace{1cm}
+
+\Part A building has $n$ floors numbered $1,2,\ldots,n$, plus a ground floor G. At the ground floor, $m$ people get on the elevator together, and each gets off at a uniformly random one of the $n$ floors (independently of everybody else). What is the expected number of floors the elevator stops at (not counting the ground floor)?
+\nosolspace{1cm}
+
+\Part A coin with heads probability $p$ is flipped $n$ times. A ``run'' is a maximal sequence of consecutive flips that are all the same. (Thus, for example, the sequence $HTHHHTTH$ with $n=8$ has five runs.) Show that the expected number of runs is $1+2(n-1)p(1-p)$. Justify your calculation carefully.
+\nosolspace{1cm}
+
+\end{Parts}
+
+% From Spring 2013 HW11
+
+
+\Question{Random Coloring}
+
+Consider a graph $G(V,E)$ with $m$ edges and a set of $q$ colors. Our goal is to prove that there exists a vertex-coloring of the graph using these $q$ colors  so that at most $\frac{m}{q}$ edges are monochromatic. An edge is monochromatic if both its vertices are assigned the same color.
+
+\begin{enumerate}[(a)]
+
+\item Suppose we color the graph randomly. That is, for each vertex $v \in V$ we choose a color uniformly at random and assign it to $v$. Prove that the expected number of monochromatic edges is $\frac{m}{q}$.
+
+\item Conclude that there exists a vertex-coloring of $G$ so that at most $\frac{m}{q}$ edges are monochromatic. (Hint: Suppose that every coloring of $G$ is such so that at least $\frac{m}{q} +1$ edges are monochromatic and reach a contradiction.)
+	
+\end{enumerate}
+
+\Question{Long Streaks}
+
+Suppose we flip a coin $n$ times to obtain a sequence of flips $X_1,X_2,\ldots,X_n$. A  \emph{streak} of flips is a consecutive subsequence of flips that are all the same. For example, if
+$X_3$, $X_4$, and $X_5$ are all heads, there is a streak of length $3$ starting at the third flip.
+\begin{enumerate}[(a)]
+  \item Let $n$ be a power of 2. Show that the expected number of streaks of
+        length $\log_2n+1$ is $1- \frac{\log_2 n}{n}$ and notice that for large $n$ it tends to $1$.
+
+
+
+  \item Given a sequence of flips of length $n$, suppose  we break it up into disjoint blocks of $\lfloor \log_2 n-2\log_2\log_2 n \rfloor$  consecutive flips. Show that for every block the probability that is a streak is at least $ 2\frac{(\log_2n)^2}{n}$.
+
+
+
+  \item  Show that, for sufficiently large $n$, the probability that there is no
+        streak of length at least $\lfloor \log_2 n-2\log_2\log_2 n \rfloor$ is
+        less than $1/n$. (Hint: Use the previous part. You might find useful the fact that for every $x > 0$ we have $(1- \frac{1}{x}) < \mathrm{e}^{-x} $).
+
+
+
+\end{enumerate}
+

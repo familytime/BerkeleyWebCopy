@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!--==============================================================================
+	           "GitHub HTML5 Pandoc Template" v1.2 — by Tristano Ajmone           
+	==============================================================================
+	(c) Tristano Ajmone, 2017, MIT License (MIT). Project's home repository:
+
+	- https://github.com/tajmone/pandoc-goodies
+
+	This template reuses source code taken from the following projects:
+
+	- GitHub Markdown CSS: © Sindre Sorhus, MIT License (MIT):
+	  https://github.com/sindresorhus/github-markdown-css
+
+	- Primer CSS: © 2016 GitHub Inc., MIT License (MIT):
+	  http://primercss.io/
+	==============================================================================-->
+<html>
+
+<!-- Mirrored from www.eecs70.org/static/notes/n11.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:39:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Self-Reference and Uncomputability</title>
+<style type="text/css">@font-face{font-family:octicons-link;src:url(data:font/woff;charset=utf-8;base64,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) format('woff')}.markdown-body{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;color:#24292e;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";font-size:16px;line-height:1.5;word-wrap:break-word;box-sizing:border-box;min-width:200px;max-width:980px;margin:0 auto;padding:45px}.markdown-body .octicon{display:inline-block;fill:currentColor;vertical-align:text-bottom}.markdown-body a{background-color:transparent;-webkit-text-decoration-skip:objects;color:#0366d6;text-decoration:none}.markdown-body a:active,.markdown-body a:hover{outline-width:0}.markdown-body h1{margin:.67em 0}.markdown-body img{border-style:none}.markdown-body svg:not(:root){overflow:hidden}.markdown-body code,.markdown-body kbd,.markdown-body pre{font-family:monospace,monospace}.markdown-body input{font:inherit;margin:0;overflow:visible;font-family:inherit;font-size:inherit;line-height:inherit}.markdown-body [type=checkbox]{box-sizing:border-box;padding:0}.markdown-body *{box-sizing:border-box}.markdown-body a:hover{text-decoration:underline}.markdown-body strong{font-weight:600}.markdown-body hr{box-sizing:content-box;overflow:hidden;background:0 0;border-bottom:1px solid #dfe2e5}.markdown-body hr::before{display:table;content:""}.markdown-body hr::after{display:table;clear:both;content:""}.markdown-body table{border-spacing:0;border-collapse:collapse;display:block;width:100%;overflow:auto}.markdown-body td,.markdown-body th{padding:0}.markdown-body blockquote{margin:0}.markdown-body ol ol,.markdown-body ul ol{list-style-type:lower-roman}.markdown-body ol ol ol,.markdown-body ol ul ol,.markdown-body ul ol ol,.markdown-body ul ul ol{list-style-type:lower-alpha}.markdown-body dd{margin-left:0}.markdown-body code{font-family:SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace}.markdown-body pre{font:12px SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace;word-wrap:normal}.markdown-body .pl-0{padding-left:0!important}.markdown-body .pl-1{padding-left:4px!important}.markdown-body .pl-2{padding-left:8px!important}.markdown-body .pl-3{padding-left:16px!important}.markdown-body .pl-4{padding-left:24px!important}.markdown-body .pl-5{padding-left:32px!important}.markdown-body .pl-6{padding-left:40px!important}.markdown-body::before{display:table;content:""}.markdown-body::after{display:table;clear:both;content:""}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:0}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e1e4e8;border:0}.markdown-body blockquote{padding:0 1em;color:#6a737d;border-left:.25em solid #dfe2e5}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body kbd{font-size:11px;box-shadow:inset 0 -1px 0 #959da5}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#1b1f23;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1{padding-bottom:.3em;font-size:2em;border-bottom:1px solid #eaecef}.markdown-body h2{padding-bottom:.3em;font-size:1.5em;border-bottom:1px solid #eaecef}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#6a737d}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:600}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table th{font-weight:600}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #dfe2e5}.markdown-body table tr{background-color:#fff;border-top:1px solid #c6cbd1}.markdown-body table tr:nth-child(2n){background-color:#f6f8fa}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body code{padding:.2em 0;margin:0;font-size:85%;background-color:rgba(27,31,35,.05);border-radius:3px}.markdown-body code::after,.markdown-body code::before{letter-spacing:-.2em;content:"\00a0"}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:0 0;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f6f8fa;border-radius:3px}.markdown-body pre code{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code::after,.markdown-body pre code::before{content:normal}.markdown-body .full-commit .btn-outline:not(:disabled):hover{color:#005cc5;border-color:#005cc5}.markdown-body kbd{display:inline-block;padding:3px 5px;font:11px SFMono-Regular,Consolas,"Liberation Mono",Menlo,Courier,monospace;line-height:10px;color:#444d56;vertical-align:middle;background-color:#fcfcfc;border:1px solid #c6cbd1;border-bottom-color:#959da5;border-radius:3px;box-shadow:inset 0 -1px 0 #959da5}.markdown-body :checked+.radio-label{position:relative;z-index:1;border-color:#0366d6}.markdown-body .task-list-item{list-style-type:none}.markdown-body .task-list-item+.task-list-item{margin-top:3px}.markdown-body .task-list-item input{margin:0 .2em .25em -1.6em;vertical-align:middle}.markdown-body hr{border-bottom-color:#eee}.flash{position:relative;padding:16px;color:#246;background-color:#e2eef9;border:1px solid #bac6d3;border-radius:3px}.flash p:last-child{margin-bottom:0}.flash-messages{margin-bottom:24px}.flash-warn{color:#4c4a42;background-color:#fff9ea;border-color:#dfd8c2}.flash-error{color:#911;background-color:#fcdede;border-color:#d2b2b2}.flash-success{color:#22662c;background-color:#e2f9e5;border-color:#bad3be}.flash-plain{color:#4c4a42;background-color:#f5f5f5;border-color:#c1c1c1}.figure{text-align:center;}</style>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {equationNumbers: {autoNumber: "AMS"}}
+    });
+  </script>
+  <script src="../../../cdn.mathjax.org/mathjax/latest/MathJax2ba6.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  
+</head>
+<body>
+<article class="markdown-body">
+<header>
+<h1 class="title">Self-Reference and Uncomputability</h1>
+</header>
+<nav id="TOC">
+<ul>
+<li><a href="#self-reference-and-computability">Self-Reference and Computability</a><ul>
+<li><a href="#the-liars-paradox">The Liar’s Paradox</a></li>
+<li><a href="#self-replicating-programs">Self-Replicating Programs</a><ul>
+<li><a href="#quines-and-the-recursion-theorem">Quines and the Recursion Theorem</a></li>
+</ul></li>
+<li><a href="#the-halting-problem">The Halting Problem</a><ul>
+<li><a href="#the-easy-halting-problem">The Easy Halting Problem</a></li>
+</ul></li>
+<li><a href="#godels-incompleteness-theorem">Gödel’s Incompleteness Theorem</a><ul>
+<li><a href="#sketch-of-gödels-proof">Sketch of Gödel’s Proof</a></li>
+<li><a href="#proof-via-the-halting-problem">Proof via the Halting Problem</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="self-reference-and-computability" class="unnumbered">Self-Reference and Computability</h1>
+<p>In this lecture we will explore the deep connection between proofs and computation. At the heart of this connection is the notion of self-reference, and it has far-reaching consequences to the limit of computations (the Halting Problem) and the foundation of logic in mathematics (Gödel’s incompleteness theorem).</p>
+<h2 id="the-liars-paradox" class="unnumbered">The Liar’s Paradox</h2>
+<p>Recall that propositions are statements that are either true or false. We saw before that some statements are not well defined or too imprecise to be called propositions. But here is a statement that is problematic for more subtle reasons: <span class="math display">\[``\text{All Cretans are liars,&#39;&#39;}\]</span> so said a Cretan in antiquity, thus giving rise to the so-called liar’s paradox which has amused and confounded people over the centuries. Why? Because if the statement above is true, then the Cretan was lying, which implies the statement is false. But actually the above statement isn’t really a paradox; it simply yields a contradiction if we assume it is true, but if it is false then there is no problem.</p>
+<p>A true formulation of this paradox is the following statement: <span class="math display">\[``\text{This statement is false.&#39;&#39;}\]</span> Is the statement above true? If the statement is true, then what it asserts must be true; namely that it is false. But if it is false, then it must be true. So it really is a paradox, and we see that it arises because of the self-referential nature of the statement. Around a century ago, this paradox found itself at the center of foundational questions about mathematics and computation.</p>
+<p>We will now study how this paradox relates to computation. Before doing so, let us consider another manifestation of the paradox, created by the great logician Bertrand Russell. In a village with just one barber, every man keeps himself clean-shaven. Some of the men shave themselves, while others go to the barber. The barber proclaims: <span class="math display">\[``\text{I shave all and only those men who do not shave themselves.&#39;&#39;}\]</span> It seems reasonable then to ask the question: Does the barber shave himself? Thinking more carefully about the question though, we see that we are presented with the same self-referential paradox: a logically impossible scenario. If the barber does not shave himself, then according to what he announced, he shaves himself. If the barber does shave himself, then according to his statement he does not shave himself!</p>
+<h2 id="self-replicating-programs" class="unnumbered">Self-Replicating Programs</h2>
+<p>Can we use self-reference to design a program that outputs itself? To illustrate the idea, let us consider how we can do this if we could write the program in English. Consider the following instruction:</p>
+<pre><code>Print out the following sentence:
+  &quot;Print out the following sentence:&quot;</code></pre>
+<p>If we execute the instruction above (interpreting it as a program), then we will get the following output:</p>
+<pre><code>Print out the following sentence:</code></pre>
+<p>Clearly this is not the same as the original instruction above, which consists of two lines. We can try to modify the instruction as follows:</p>
+<pre><code>Print out the following sentence twice:
+  &quot;Print out the following sentence twice:&quot;</code></pre>
+<p>Executing this modified instruction yields the output which now consists of two lines:</p>
+<pre><code>Print out the following sentence twice:
+    Print out the following sentence twice:</code></pre>
+<p>This almost works, except that we are missing the quotes in the second line. We can fix it by modifying the instruction as follows:</p>
+<pre><code>Print out the following sentence twice, the second time in quotes:
+  &quot;Print out the following sentence twice, the second time in quotes:&quot;</code></pre>
+<p>Then we see that when we execute this instruction, we get exactly the same output as the instruction itself:</p>
+<pre><code>Print out the following sentence twice, the second time in quotes:
+  &quot;Print out the following sentence twice, the second time in quotes:&quot;</code></pre>
+<h3 id="quines-and-the-recursion-theorem" class="unnumbered">Quines and the Recursion Theorem</h3>
+<p>In the above section we have seen how to write a self-replicating program in English. But can we do that in a real programming language? In general, a program that prints itself is called a <span><em>quine</em></span>,<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> and it turns out we can always write quines in any programming language.</p>
+<p>As another example, consider the following pseudocode:</p>
+<pre><code>(Quine &quot;s&quot;)
+  (s &quot;s&quot;)</code></pre>
+<p>The pseudocode above defines a program <code>Quine</code> that takes a string <code>s</code> as input, and outputs <code>(s &quot;s&quot;)</code>, which means we run the string <code>s</code> (now interpreted as a program) on itself. Now consider executing the program <code>Quine</code> with input <code>&quot;Quine&quot;</code>:</p>
+<pre><code>(Quine &quot;Quine&quot;)</code></pre>
+<p>By definition, this will output</p>
+<pre><code>(Quine &quot;Quine&quot;)</code></pre>
+<p>which is the same as the instruction that we executed!</p>
+<p>This is a simple example, but how do we construct quines in general? The answer is given by the <span><em>recursion theorem</em></span>. The recursion theorem states that given any program <span class="math inline">\(P(x,y)\)</span>, we can always convert it to another program <span class="math inline">\(Q(x)\)</span> such that <span class="math inline">\(Q(x) = P(x,Q)\)</span>, i.e., <span class="math inline">\(Q\)</span> behaves exactly as <span class="math inline">\(P\)</span> would if its second input is the description of the program <span class="math inline">\(Q\)</span>. In this sense we can think of <span class="math inline">\(Q\)</span> as the “self-aware” version of <span class="math inline">\(P\)</span>, since <span class="math inline">\(Q\)</span> essentially has access to its own description.</p>
+<h2 id="the-halting-problem" class="unnumbered">The Halting Problem</h2>
+<p>Are there tasks that a computer cannot perform? For example, we would like to ask the following basic question when compiling a program: does it go into an infinite loop? In 1936, Alan Turing showed that there is no program that can perform this test. The proof of this remarkable fact is very elegant and combines two ingredients: self-reference (as in the liar’s paradox), and the fact that we cannot separate programs from data. In computers, a program is represented by a string of bits just as integers, characters, and other data are. The only difference is in how the string of bits is interpreted.</p>
+<p>We will now examine the Halting Problem. Given the description of a program and its input, we would like to know if the program ever halts when it is executed on the given input. In other words, we would like to write a program <code>TestHalt</code> that behaves as follows: <span class="math display">\[\texttt{TestHalt}(P, x) =
+\begin{cases}
+``\text{yes&#39;&#39;}, &amp; \text{if program $P$ halts on input $x$} \\
+``\text{no&#39;&#39;}, &amp; \text{if program $P$ loops on input $x$}
+\end{cases}
+\]</span></p>
+<p>Why can’t such a program exist? First, let us use the fact that a program is just a bit string, so it can be input as data. This means that it is perfectly valid to consider the behavior of <code>TestHalt(P, P)</code>, which will output “yes&quot; if <span class="math inline">\(P\)</span> halts on <span class="math inline">\(P\)</span>, and “no&quot; if <span class="math inline">\(P\)</span> loops forever on <span class="math inline">\(P\)</span>. We now prove that such a program cannot exist.</p>
+<p><em>Proof</em>. Define the program</p>
+<pre><code>Turing(P)
+  if TestHalt(P, P) = &quot;yes&quot; then loop forever
+  else halt</code></pre>
+<p>So if the program <span class="math inline">\(P\)</span> when given <span class="math inline">\(P\)</span> as input halts, then <code>Turing(P)</code> loops forever; otherwise, <code>Turing(P)</code> halts. Assuming we have the program <code>TestHalt</code>, we can easily use it as a subroutine in the above program <code>Turing</code>.</p>
+<p>Now let us look at the behavior of <code>Turing(Turing)</code>. There are two cases: either it halts, or it does not. If <code>Turing(Turing)</code> halts, then it must be the case that <code>TestHalt(Turing, Turing)</code> returned “no.“ But by definition of <code>TestHalt</code>, that would mean that <code>Turing(Turing)</code> should not have halted. In the second case, if <code>Turing(Turing)</code> does not halt, then it must be the case that <code>TestHalt(Turing, Turing)</code> returned ”yes,&quot; which would mean that <code>Turing(Turing)</code> should have halted. In both cases, we arrive at a contradiction which must mean that our initial assumption, namely that the program <code>TestHalt</code> exists, was wrong. Thus, <code>TestHalt</code> cannot exist, so it is impossible for a program to check if any general program halts. <span class="math inline">\(\square\)</span></p>
+<p>What proof technique did we use? This was actually a proof by diagonalization, the same technique that we used in the previous lecture to show that the real numbers are uncountable. Why? Since the set of all computer programs is countable (they are, after all, just finite-length strings over some alphabet, and the set of all finite-length strings is countable), we can enumerate all programs as follows (where <span class="math inline">\(P_i\)</span> represents the <span class="math inline">\(i^{\rm th}\)</span> program):</p>
+<div class="figure">
+<img src="n11-halt-3.png" style="width:20.0%" />
+
+</div>
+<p>The <span class="math inline">\((i,j)^{\rm th}\)</span> entry in the table above is H if program <span class="math inline">\(P_i\)</span> halts on input <span class="math inline">\(P_j\)</span>, and L if it does not halt. Now if the program <code>Turing</code> exists it must occur somewhere on our list of programs, say as <span class="math inline">\(P_n\)</span>. But this cannot be, since if the <span class="math inline">\(n^{\rm th}\)</span> entry in the diagonal is H, meaning that <span class="math inline">\(P_n\)</span> halts on <span class="math inline">\(P_n\)</span>, then by its definition <code>Turing</code> loops on <span class="math inline">\(P_n\)</span>; and if the entry is L, then by definition <code>Turing</code> halts on <span class="math inline">\(P_n\)</span>. Thus the behavior of <code>Turing</code> is different from that of <span class="math inline">\(P_n\)</span>, and hence <code>Turing</code> does not appear on our list. Since the list contains all possible programs, we must conclude that the program <code>Turing</code> does not exist. And since <code>Turing</code> is constructed by a simple modification of <code>TestHalt</code>, we can conclude that <code>TestHalt</code> does not exist either. Hence the Halting Problem cannot be solved.</p>
+<p>In fact, there are many more cases of questions we would like to answer about a program, but cannot. For example, we cannot know if a program ever outputs anything or if it ever executes a specific line. We also cannot check if two programs produce the same output. We cannot even check to see if the program is a virus. These issues are explored in greater detail in the advanced course CS 172 (Computability and Complexity).</p>
+<h3 id="the-easy-halting-problem" class="unnumbered">The Easy Halting Problem</h3>
+<p>As noted above, the key idea in establishing the uncomputability of the Halting Problem is self-reference: Given a program <span class="math inline">\(P\)</span>, we want to check whether <span class="math inline">\(P(P)\)</span> halts. But in practice, how often do we want to execute a program with its own description as input? Is it possible that if we disallow this kind of self-reference, we can answer the Halting Problem?</p>
+<p>That is, given a program <span class="math inline">\(P\)</span>, what if we ask: “Does <span class="math inline">\(P\)</span> halts on input <span class="math inline">\(0\)</span>?” This looks easier than the Halting Problem (hence the name Easy Halting Problem), since we only need to check whether <span class="math inline">\(P\)</span> halts on a specific input <span class="math inline">\(0\)</span>, instead of an arbitrary given input. However, it turns out this easier problem is still uncomputable. We prove this claim by showing that if we can solve the Easy Halting Problem, then we can also solve the Halting Problem; since we know the Halting Problem is uncomputable, this implies the Easy Halting Problem must also be uncomputable.</p>
+<p>Specifically, suppose we have a program <code>TestEasyHalt</code> that answers the Easy Halting Problem:</p>
+<p><span class="math display">\[\texttt{TestEasyHalt}(P) =
+\begin{cases}
+``\text{yes&#39;&#39;}, &amp; \text{if program $P$ halts on input $0$} \\
+``\text{no&#39;&#39;}, &amp; \text{if program $P$ loops on input $0$}
+\end{cases}\]</span></p>
+<p>Then we can use <code>TestEasyHalt</code> as a subroutine in the following algorithm that solves the Halting Problem:</p>
+<pre><code>Halt(P, x)
+  define a program P&#39; that returns P(x) on input 0
+  return TestEasyHalt(P&#39;)</code></pre>
+<p>The algorithm <code>Halt</code> constructs another program <span class="math inline">\(P&#39;\)</span>, which depends on both the original program <span class="math inline">\(P\)</span> and the original input <span class="math inline">\(x\)</span>, such that when we call <span class="math inline">\(P&#39;(0)\)</span> we return <span class="math inline">\(P(x)\)</span>. An example of such a program <span class="math inline">\(P&#39;\)</span> can simply be:</p>
+<pre><code>P&#39;(y)
+  return P(x)</code></pre>
+<p>That is, the new program <span class="math inline">\(P&#39;\)</span> ignores the input <span class="math inline">\(y\)</span> and always returns <span class="math inline">\(P(x)\)</span>. Then we see that <span class="math inline">\(P&#39;(0)\)</span> halts if and only if <span class="math inline">\(P(x)\)</span> halts. Therefore, if we have such a program <code>TestEasyHalt</code>, then <code>Halt</code> will correctly answer the Halting Problem. Since we know there cannot be such a program <code>Halt</code>, we conclude <code>TestEasyHalt</code> does not exist either.</p>
+<p>The technique that we use here is called a <span><em>reduction</em></span>. Here we are reducing one problem “Does <span class="math inline">\(P\)</span> halt on <span class="math inline">\(x\)</span>?” into another problem “Does <span class="math inline">\(P&#39;\)</span> halt on <span class="math inline">\(0\)</span>?”, in the sense that if we know how to answer the second problem, then we can use that knowledge to construct an answer for the first problem. This implies that the second problem is actually as difficult as the first, despite the apparently simpler description of the second problem.</p>
+<h2 id="godels-incompleteness-theorem" class="unnumbered">Gödel’s Incompleteness Theorem</h2>
+<p>In 1900, the great mathematician David Hilbert posed the following two questions about the foundation of logic in mathematics:</p>
+<ol style="list-style-type: decimal">
+<li><p>Is arithmetic consistent?</p></li>
+<li><p>Is arithmetic complete?</p></li>
+</ol>
+<p>To understand the questions above, we recall that mathematics is a formal system based on a list of axioms (for example, Peano’s axioms of the natural numbers, axiom of choice, etc.) together with rules of inference. The axioms provide the initial list of true statements in our system, and we can apply the rules of inference to prove other true statements, which we can again use to prove other statements, and so on.</p>
+<p>The first question above asks whether it is possible to prove both a proposition <span class="math inline">\(P\)</span> and its negation <span class="math inline">\(\neg P\)</span>. If this is the case, then we say that arithmetic is <span><em>inconsistent</em></span>; otherwise, we say arithmetic is <span><em>consistent</em></span>. If arithmetic is inconsistent, meaning there are false statements that can be proved, then the entire arithmetic system will collapse because from a false statement we can deduce anything, so every statement in our system will be vacuously true.</p>
+<p>The second question above asks whether every true statement in arithmetic can be proved. If this is the case, then we say that arithmetic is <span><em>complete</em></span>. We note that given a statement, which is either true or false, it can be very difficult to prove which one it is. As a real-world example, consider the following statement, which is known as Fermat’s Last Theorem: <span class="math display">\[\forall \, n \ge 3, ~ \not\exists \: x,y,z \in \mathbb{Z}, \:~ x^n + y^n = z^n.\]</span> This theorem was first stated by Pierre de Fermat in 1637,<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> but it has eluded proofs for centuries until it was finally proved by Andrew Wiles in 1994.</p>
+<p>In 1928, Hilbert formally posed the questions above as the Entscheidungsproblem. Most people believed that the answer would be “yes”, since ideally arithmetic should be both consistent and complete. However, in 1930 Kurt Gödel proved that the answer is in fact “no”: Any formal system that is sufficiently rich to formalize computation is either inconsistent (there are false statements that can be proved) or incomplete (there are true statements that cannot be proved). Gödel proved his result by exploiting the deep connection between proofs and computation, but it was not until 1936 that Turing formalized the definition of computation via the notion of Turing machines and computability.</p>
+<p>In the rest of this note, we will first understand the essence of Gödel’s proof, and then we will provide an easier proof using the Halting Problem.</p>
+<h3 id="sketch-of-gödels-proof" class="unnumbered">Sketch of Gödel’s Proof</h3>
+<p>Suppose we have a formal system <span class="math inline">\(F\)</span>, which consists of a list of axioms and rules of inference, and assume <span class="math inline">\(F\)</span> is sufficiently expressive that we can use it to express computation. Arithmetic is an example of such a system <span class="math inline">\(F\)</span>.</p>
+<p>Now suppose we can write a sentence: <span class="math display">\[S(F) = ``\text{This sentence is not provable in $F$.&#39;&#39;}\]</span> Once we have this sentence, there are two possibilities:</p>
+<ol style="list-style-type: decimal">
+<li><p>Case 1: <span class="math inline">\(S(F)\)</span> is provable. Then the sentence <span class="math inline">\(S(F)\)</span> is true, but by inspecting the content of the sentence itself, we see that this implies <span class="math inline">\(S(F)\)</span> should not be provable. Thus, <span class="math inline">\(F\)</span> is inconsistent in this case.</p></li>
+<li><p>Case 2: <span class="math inline">\(S(F)\)</span> is not provable. By construction, this means the sentence <span class="math inline">\(S(F)\)</span> is true. Thus, <span class="math inline">\(F\)</span> is incomplete in this case, since there is a true statement (namely, <span class="math inline">\(S(F)\)</span>) that is not provable.</p></li>
+</ol>
+<p>To complete the proof, it now suffices to construct such a sentence <span class="math inline">\(S(F)\)</span>. This is the difficult part of Gödel’s proof, which requires a clever encoding (Gödel numbering) of symbols and propositions as natural numbers.</p>
+<h3 id="proof-via-the-halting-problem" class="unnumbered">Proof via the Halting Problem</h3>
+<p>Let us now see how we can prove Gödel’s result by reduction to the Halting Problem. Here we proceed by contradiction: Suppose arithmetic is both consistent and complete; we will use this assumption to solve the Easy Halting Problem, which we have seen is as difficult as the Halting Problem.</p>
+<p>Recall that in the Easy Halting Problem we want to decide whether a given program <span class="math inline">\(P\)</span> halts on input <span class="math inline">\(0\)</span>. Let <span class="math inline">\(S\)</span> denote the sentence “<span class="math inline">\(P\)</span> halts on input <span class="math inline">\(0\)</span>.” This is a sentence in arithmetic, and because we assume arithmetic is consistent and complete, we know that <span class="math inline">\(S\)</span> is either true or false, and there is a proof either way.</p>
+<p>Recall also that a proof is simply a finite binary string. How many proofs are there? There are countably many, so we can enumerate them and go through them one by one. Now define the program <span class="math inline">\(M\)</span> as follows:</p>
+<pre><code>M(P)
+  for every proof x:
+    if x is a proof that P halts on 0, then output &quot;yes&quot;
+    if x is a proof that P does not halt on 0, then output &quot;no&quot;</code></pre>
+<p>The program <span class="math inline">\(M\)</span> takes as input the program <span class="math inline">\(P\)</span>, and proceed to check every possible proof until it finds one that proves either <span class="math inline">\(P(0)\)</span> halts, or <span class="math inline">\(P(0)\)</span> does not halt. By assumption, we know there is always such a proof, so the algorithm <span class="math inline">\(M\)</span> will terminate in finite time, and it will correctly answer the Easy Halting Problem. Since we have established that there cannot be such a program <span class="math inline">\(M\)</span>, our initial assumption must be wrong, so it is not true that arithmetic is both consistent and complete.</p>
+<p>Note that here we rely on the fact that given a proof, we can have a program that mechanistically check whether it is a valid proof for our proposition, and the argument above shows how we can use this to answer questions about the limit of computability. This is a manifestation of the intimate ties between proofs and computation in a deep level.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Quine is named after the philosopher and logician Willard Van Orman Quine, as popularized in the book <span><em>“Gödel, Escher, Bach: An Eternal Golden Braid”</em></span> by Douglas Hofstadter.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Along with the famous note: “I have discovered a truly marvelous proof of this, which this margin is too narrow to contain.”<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>
+</article>
+</body>
+
+<!-- Mirrored from www.eecs70.org/static/notes/n11.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:39:57 GMT -->
+</html>

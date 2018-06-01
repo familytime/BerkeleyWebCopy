@@ -1,0 +1,184 @@
+\Question{Induction on Reals}
+
+Induction is always done over objects like natural numbers, but in some cases we can leverage induction to prove things about real numbers (with the appropriate mapping). We will attempt to prove the following by leveraging induction and finding an appropriate mapping. \\ \\
+
+Bob the Bug is on a window, trying to escape Sally the Spider. Sally has built her web from the ground to 2 inches up the window. Every second, Bob jumps 1 inch vertically up the window, then loses grip and falls to half his vertical height. \\ \\
+
+Prove that no matter how high Bob starts up the window, he will always fall into Sally's net in a finite number of seconds.
+
+
+\Question{Finite Number of Solutions}
+
+Prove that for every positive integer $k$, the following is true:\begin{quote}For every real number $r>0$, there are only finitely many solutions in positive integers to
+\begin{align*}
+\frac{1}{n_1}+\cdots+\frac{1}{n_k}=r.
+\end{align*}
+\end{quote}In other words, there exists some number $m$ (which depends on $k$ and $r$) such that there are at most $m$ ways of choosing a positive integer $n_1$, and a (possibly different) positive integer $n_2$, etc., that satisfy the equation.
+
+
+\Question{Stable Marriage}
+
+Consider a set of four men and four women with the following preferences:
+
+\begin{center}
+\begin{tabular}{|c|c||c|c|}\hline
+men&preferences&women & preferences \\
+\hline
+A& 1$>$2$>$3$>$4&1& D$>$A$>$B$>$C \\
+\hline
+B&1$>$3$>$2$>$4 &2& A$>$B$>$C$>$D  \\
+\hline
+C&1$>$3$>$2$>$4 &3& A$>$B$>$C$>$D  \\
+\hline
+D&3$>$1$>$2$>$4 &4& A$>$B$>$D$>$C  \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{Parts}
+\Part  Run on this instance the stable matching algorithm presented in class. Show each day of the algorithm, and give the resulting matching, expressed as $\{(M,W),\ldots\}$.
+
+\Part  We know that there can be no more than $n^2$ days for the algorithm to terminate, because at least one woman is deleted from at least one list on each day.  Can you construct an instance (a set of preference lists) with $n$ men and $n$ women so that at least $n^2/2$ days are required?
+
+\Part Suppose we relax the rules for the men, so that each
+unpaired man proposes to the next woman on his list at a 
+time of his choice (some men might procrastinate for several
+days, while others might propose and get rejected several times
+in a single day). Can the order of the proposals change 
+the resulting pairing? Give an example of such a change or 
+prove that the pairing that results is the same.
+
+\end{Parts}
+
+
+\Question{The Better Stable Matching}
+
+In this problem we examine a simple way to {\em merge} two different
+solutions to a stable marriage problem. 
+Let $R$, $R'$ be two distinct stable matchings.  Define the
+new matching $R \land R'$ as follows: 
+\begin{quote}
+For every man $m$, $m$'s date in $R \land R'$ is whichever is better
+(according to $m$'s preference list) of his dates in $R$ and $R'$.
+\end{quote}
+Also, we will say that a man/woman \textit{prefers} a matching $R$
+to a matching $R'$ if he/she prefers his/her date in $R$
+to his/her date in $R'$. We will use the following example:
+
+\begin{center}
+\begin{tabular}{|c|c||c|c|}\hline
+men&preferences& women & preferences \\
+\hline
+A& 1$>$2$>$3$>$4& 1 & D$>$C$>$B$>$A \\
+\hline
+B&2$>$1$>$4$>$3 & 2 & C$>$D$>$A$>$B  \\
+\hline
+C&3$>$4$>$1$>$2 & 3 & B$>$A$>$D$>$C  \\
+\hline
+D&4$>$3$>$2$>$1 & 4 & A$>$B$>$D$>$C  \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{Parts}
+\Part $R=\{(A,4),(B,3),(C,1),(D,2)\}$ and
+$R'=\{(A,3),(B,4),(C,2),(D,1)\}$ are stable matchings for the
+example given above. Calculate $R \land R'$
+and show that it is also stable.
+
+\Part Prove that, for any matchings $R,\,R'$,
+no man prefers $R$ or $R'$ to $R \land R'$.
+
+\Part  Prove that, for any stable matchings $R,\,R'$
+where $m$ and $w$ are dates in $R$ but not in $R'$, one of the following
+holds:
+\begin{quote}
+$\bullet$ $m$ prefers $R$ to $R'$ and $w$ prefers $R'$ to $R$; or\\
+$\bullet$ $m$ prefers $R'$ to $R$ and $w$ prefers $R$ to $R'$.
+\end{quote}
+[\textit{Hint}: Let $M$ and $W$ denote the sets of mens and women respectively
+that prefer $R$ to $R'$, and $M'$ and $W'$ the sets of men and women that prefer $R'$ to $R$.  Note that $|M|+|M'|=|W|+|W'|$. (Why is this?) Show that $|M| \leq |W'|$ and that $|M'| \leq |W|$.  Deduce that $|M'|=|W|$ and $|M|=|W'|$.  The claim should now follow quite easily.]
+
+(You may assume this result in subsequent parts even if you don't prove it here.)
+
+\Part Prove an interesting result: for any stable matchings $R,\,R'$, (i) $R \land R'$ is a matching [\textit{Hint}: use the results from (c)], and (ii) it is also stable.
+
+\end{Parts}
+
+
+\Question{Better Off Alone}
+
+In the stable marriage problem, suppose that some men and women have standards and would not just settle
+for anyone. In other words, in addition to the preference orderings they have,
+they prefer being alone to being with some of the lower-ranked individuals
+(in their own preference list). A pairing could ultimately have to be partial, i.e., some individuals would
+remain single.
+
+The notion of stability here should
+be adjusted a little bit. A pairing is stable if
+\begin{itemize}
+\item there is no paired individual who prefers being single over being with his/her current partner,
+\item there is no paired man and single woman (or paired woman and single man) that would both prefer to be with each other over being single or with his/her current partner,
+\item there is no paired man and paired woman that would both prefer to be with each other over their current partners, and
+\item there is no single man and single woman that would both prefer to be with each other over being single. 
+\end{itemize} 
+
+\begin{Parts}
+\Part Prove that a stable pairing still exists in the case where we allow single individuals. You can approach this by
+introducing imaginary mates that people ``marry''
+if they are single. How should you adjust the preference lists of
+people, including those of the newly introduced imaginary ones for
+this to work?
+
+\Part As you saw in the lecture, we may have different stable pairings. But
+interestingly, if a person remains single in one stable pairing, s/he
+must remain single in any other stable pairing as well (there really
+is no hope for some people!). Prove this fact by contradiction.
+
+
+\end{Parts}
+
+
+\Question{Short Answer: Graphs}
+
+\begin{Parts}
+
+\Part
+Bob removed a degree $3$ node in an $n$-vertex tree, how many connected
+components are in the resulting graph?  (An expression that may
+contain $n$.)
+
+\Part
+Given an $n$-vertex tree, Bob added 10 edges to it, then Alice removed 
+5 edges and the resulting graph has 3 connected components.
+How many edges must be removed to remove all cycles
+in the resulting graph? (An expression that may contain $n$.)
+
+\Part
+Give a gray code for 3-bit strings. (Recall that a gray code is a
+sequence of bitstrings where adjacent elements differ by one.  For
+example, the gray code of 2-bit strings is $00,01,11,10$.  Note the
+last string is considered adjacent to the first and $10$ differs in
+one bit from $00$. Answer should be sequence of three-bit strings: 8
+in all.)
+
+\Part
+For all $n \geq 3$, the complete graph on $n$ vertices, $K_n$ has more
+edges than the $d$-dimensional hypercube for $d=n$. (True or False.)
+
+
+\Part
+A complete graph with $n$ vertices where $n$ is an odd prime can have all its edges
+covered with $x$ Rudrata cycles (a Rudrata cycle is a cycle where
+each vertex appears exactly once). What is the number, $x$,  of
+such cycles required to cover the a complete graph? (Answer should be an expression that depends on $n$.)
+
+
+\Part
+Give a set of disjoint Rudrata cycles that covers the edges of $K_5$, the complete
+graph on $5$ vertices.
+(Each path should be a sequence (or list) of edges in $K_5$, where an edge is written as a pair of vertices from the set $\{0, 1, 2, 3, 4\}$ - e.g: $(0, 1), (1, 2)$.)
+
+
+\end{Parts}
+

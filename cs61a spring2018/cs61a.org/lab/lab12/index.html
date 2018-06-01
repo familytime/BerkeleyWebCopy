@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/lab/lab12/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:37:59 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../../../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/mono-blue.css">
+    <link rel="icon" href="../../assets/images/favicon.ico">
+
+    
+
+    <title>
+Lab 12: SQL | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+            <li><a href="../../resources.html">Resources</a></li>
+            <li><a href="../../articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="../../extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class='row'>
+  <div class='col-md-9'>
+    <header>
+      <h1>
+        
+Lab 12: SQL
+
+        
+        <ul class="inline-block list-inline">
+          <li><a href="lab12.zip" class="label label-outline">lab12.zip</a></li>
+        </ul>
+        
+      </h1>
+    </header>
+    
+
+<p><i>Due at 11:59pm on Friday, 04/20/2018.</i></p>
+
+
+<h2 id='starter-files'>Starter Files</h2>
+
+
+<p>Download <a href="lab12.zip">lab12.zip</a>.
+Inside the archive, you will find starter files for the questions in this lab,
+  along with a copy of the <a href="ok.zip">Ok</a> autograder.</p>
+
+
+<h2 id='submission'>Submission</h2>
+
+<p>By the end of this lab, you should have submitted the lab with
+<code>python3 ok --submit</code>. You may submit more than once before the
+deadline; only the final submission will be graded.
+Check that you have successfully submitted your code on
+<a href="https://okpy.org/">okpy.org</a>.</p>
+
+<ul>
+  <li>To receive credit for this lab, you must complete Questions 2-4 in
+  <a href="lab12.sql">lab12.sql</a>, and submit through OK.</li>
+  <li>Questions 5-6 are considered <strong>extra practice</strong>.
+  They can be found in the <a href="lab12_extra.sql">lab12_extra.sql</a> file. It is
+  recommended that you complete these when you are finished with the required
+  questions.</li>
+  <li>Questions 7-8 are also considered <strong>extra practice</strong>.
+  They can be found in the <a href="lab12_extra.sql">lab12_extra.sql</a> file. It is
+  recommended that you complete them on your own time.</li>
+</ul>
+
+
+
+    
+<h1 id="sqlite">SQLite</h1>
+
+
+
+<h2 id="setup">Setup</h2>
+
+
+<p>The simplest way to start using SQLite is to download a precompiled
+binary from the <a href="http://www.sqlite.org/download.html">SQLite website</a>.
+The latest version of SQLite at the time of writing is 3.20.0, but you
+can check for additional updates on the website.</p>
+
+
+<h3 id="windows">Windows</h3>
+
+
+<ol>
+  <li>Visit the download page linked above and navigate to the section
+  Precompiled Binaries for Windows. Click on the link
+  <strong>sqlite-tools-win32-x86-*.zip</strong> to download the binary.</li>
+  <li>Unzip the file. There should be a <code>sqlite3.exe</code> file in the
+  directory after extraction.</li>
+  <li><p>Navigate to the folder containing the <code>sqlite3.exe</code> file and check
+  that the version is at least 3.8.3:</p>
+
+<pre><code>$ cd path/to/sqlite
+$ ./sqlite3 &#x2d;&#x2d;version
+3.12.1 2016&#x2d;04&#x2d;08 15:09:49 fe7d3b75fe1bde41511b323925af8ae1b910bc4d</code></pre></li>
+</ol>
+
+
+<h3 id="macos-yosemite-10-10-or-newer">macOS Yosemite (10.10) or newer</h3>
+
+
+<p>SQLite comes pre-installed. Check that you have a version that's greater than 3.8.3:</p>
+
+<pre><code>    $ sqlite3
+    SQLite version 3.8.10.2</code></pre>
+
+
+<h3 id="mac-os-x-mavericks-10-9-or-older">Mac OS X Mavericks (10.9) or older</h3>
+
+
+<p>SQLite comes pre-installed, but it is the wrong version.</p>
+
+<ol>
+  <li>Visit the download page linked above and navigate to the section
+  <strong>Precompiled Binaries for Mac OS X (x86)</strong>. Click on
+  the link <strong>sqlite-tools-osx-x86-*.zip</strong> to download the
+  binary.</li>
+  <li>Unzip the file. There should be a <code>sqlite3</code> file in the directory
+  after extraction.</li>
+  <li><p>Navigate to the folder containing the <code>sqlite3</code> file and check that
+  the version is at least 3.8.3:</p>
+
+<pre><code>$ cd path/to/sqlite
+$ ./sqlite3 &#x2d;&#x2d;version
+3.12.1 2016&#x2d;04&#x2d;08 15:09:49 fe7d3b75fe1bde41511b323925af8ae1b910bc4d</code></pre></li>
+</ol>
+
+
+<h3 id="ubuntu">Ubuntu</h3>
+
+
+<p>The easiest way to use SQLite on Ubuntu is to install it straight from
+the native repositories (the version will be slightly behind the most
+recent release):</p>
+
+<pre><code>$ sudo apt&#x2d;get install sqlite3
+$ sqlite3 &#x2d;&#x2d;version
+3.8.6 2014&#x2d;08&#x2d;15 11:46:33 9491ba7d738528f168657adb43a198238abde19e</code></pre>
+
+
+<h2 id="usage">Usage</h2>
+
+
+<blockquote><p><em>Note:</em> If you downloaded a precompiled binary above, make sure that
+<code>sqlite3.exe</code> file is in the same directory as your
+<code>.sql</code> file. (Extract and move it out from the zip file you
+  downloaded.)</p></blockquote>
+
+<p>After writing your code in the <code>.sql</code> file, you can test and verify
+your output in Terminal or Git Bash with one of the two following
+commands.</p>
+
+<p>1.) Runs your code and then exits SQLite immediately afterwards.</p>
+
+<ul>
+  <li><p>Ubuntu / Mac OS X (Yosemite or newer)</p>
+
+<pre><code>sqlite3 &lt; lab12.sql</code></pre></li>
+  <li><p>Windows / Mac OS X (Mavericks or older)</p>
+
+<pre><code>./sqlite3 &lt; lab12.sql</code></pre></li>
+</ul>
+
+<p>2.) Runs your code and keeps SQLite open for further commands, which
+is similar to running Python code with the interactive <code>&#x2d;i</code> flag.
+You can type <code>.help</code> to see some of the commands you can run.</p>
+
+<ul>
+  <li><p>Ubuntu / Mac OS X (Yosemite or newer)</p>
+
+<pre><code>sqlite3 &#x2d;&#x2d;init lab12.sql</code></pre></li>
+  <li><p>Windows / Mac OS X (Mavericks or older)</p>
+
+<pre><code>./sqlite3 &#x2d;&#x2d;init lab12.sql</code></pre></li>
+</ul>
+
+<p>To exit out of SQLite after using the second command, type <code>.exit</code> or <code>.quit</code> or you can hit
+<code>Ctrl&#x2d;C</code>. Also if you see <code>...&gt;</code> you probably forgot a <code>;</code></p>
+
+
+<h1 id="topics">Topics</h1>
+
+
+
+<h2 id="sql-basics">SQL Basics</h2>
+
+
+
+<h3 id="creating-tables">Creating Tables</h3>
+
+
+<p>You can create SQL tables either from scratch or from existing tables.</p>
+
+<p>Below creates the table from scratch, without referencing any
+other existing tables.</p>
+
+<pre><code>CREATE TABLE [table_name] AS
+  SELECT [val1] AS [column1], [val2] AS [column2], ... UNION
+  SELECT [val3]             , [val4]             , ... UNION
+  SELECT [val5]             , [val6]             , ...;</code></pre>
+
+<blockquote><p><em>Note:</em> You do not need to repeat the <code>AS</code> keyword in subsequent
+SELECT statements when creating the table.</p></blockquote>
+
+<p>Here is an example where we construct a table with the <code>CREATE TABLE</code>
+statement. <code>UNION</code> is used here to join rows and <code>AS</code> assigns a table column to a new name.</p>
+
+<pre><code>CREATE TABLE Football AS
+  SELECT 30 AS Berkeley, 7 AS Stanford, 2002 AS Year UNION
+  SELECT 28,             16,            2003         UNION
+  SELECT 17,             38,            2014;</code></pre>
+
+<p><img class="img-responsive center-block" src="assets/football.png" alt="football"></p>
+
+<p>Here we have created a table called <code>Football</code>, which has three attributes
+(columns): <code>Berkeley</code>, <code>Stanford</code>, and <code>Year</code>. We can later access the
+values from this table by referencing the table's columns.</p>
+
+<p>To create tables from existing tables, the <code>SELECT</code> command references
+another table.</p>
+
+
+<h3 id="selecting-from-tables">Selecting From Tables</h3>
+
+<p>More commonly, we will create new tables by selecting specific columns
+that we want from existing tables. <code>SELECT</code> statements can include optional
+clauses such as:</p>
+
+<ul>
+  <li><code>FROM</code>: tells SQL which tables to select values from</li>
+  <li><code>WHERE</code>: filters by some condition</li>
+  <li><code>ORDER BY</code>: enforces an ordering by some attribute or attributes (usually a column or columns)</li>
+  <li><p><code>LIMIT</code>: limits the number of rows in the output table</p>
+
+<pre><code>SELECT [columns] FROM [tables] WHERE [condition] ORDER BY [attributes] LIMIT [limit];</code></pre></li>
+</ul>
+
+<p>Notes about the arguments:</p>
+
+<ul>
+  <li><code>[columns]</code>: a comma separated list of the columns to select, <code>*</code> can
+  be used to select all of them</li>
+  <li><code>[tables]</code>: a comma separated list of tables to select values from</li>
+  <li><code>[condition]</code>: a Boolean expression</li>
+  <li><code>[attributes]</code>: a comma separated list of attributes, which are usually
+  columns, but could also be named aggregates (which we will learn later)</li>
+  <li><code>[limit]</code>: an integer</li>
+</ul>
+
+<p>We can select all the values of an attribute from a table with the <code>SELECT</code>
+statement. In addition, we can apply a filter using the <code>WHERE</code> clause. Here,
+we filter by <code>Year &gt; 2002</code>, which makes the <code>SELECT</code> statement keep only the
+rows in the table whose <code>Year</code> value is greater than 2002.</p>
+
+<pre><code>sqlite&gt; SELECT Berkeley FROM Football WHERE Year &gt; 2002;
+17
+28</code></pre>
+
+<p>Here we selected Berkeley's score for all years after 2002.</p>
+
+
+<h3 id="expressions-in-sql">Expressions in SQL</h3>
+
+<p>Here are some fundamental operations you can perform:</p>
+
+<ul>
+  <li>comparisons: <code>=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&lt;&gt;</code> ("not equal")</li>
+  <li>booleans: <code>AND</code>, <code>OR</code></li>
+  <li>arithmetic: <code>+</code>, <code>&#x2d;</code>, <code>*</code>, <code>/</code></li>
+</ul>
+
+<p>We can also perform string concatenation using <code>||</code>, which behaves
+similarly to <code>+</code> on strings in Python.</p>
+
+<pre><code>sqlite&gt; SELECT &quot;hello&quot; || &quot; &quot; || &quot;world&quot;;
+hello world</code></pre>
+
+<p>Note we capitalize SQL syntax purely for style. It makes it much easier to read,
+though will work if you don't capitalize it.</p>
+
+<h2 id="joins">Joins</h2>
+
+
+<p>We can use <em>joins</em> to include rows from another table that satisfy the <code>WHERE</code>
+predicate. Joins can either be on different tables, or the same table if we
+include an alias. Here we are referencing the football table twice, using <code>AS</code> to bind the football table once as the alias <code>a</code> and once as the alias <code>b</code>.</p>
+
+<pre><code>sqlite&gt; SELECT b.Berkeley &#x2d; a.Berkeley, b.Stanford &#x2d; a.Stanford, a.Year, b.Year
+...&gt;        FROM Football AS a, Football AS b WHERE a.Year &lt; b.Year;
+&#x2d;11|22|2003|2014
+&#x2d;13|21|2002|2014
+&#x2d;2|9|2002|2003</code></pre>
+
+<p>What is this query asking for?</p>
+
+<p>You may notice that it does not seem like we actually performed any operations
+to do the join. However, the join is implicit in the fact that we listed more
+than one table after the FROM. In this example, we joined the table <code>Football</code>
+with itself and gave each instance of the table an alias, <code>a</code> and <code>b</code> so that
+we could distinctly refer to each table's attributes and perform selections and
+comparisons on them, such as <code>a.Year &lt; b.Year</code>.</p>
+
+<p>One way to think of a join is that it produces a cross-product between the two
+tables by matching each row from the first table with every other row in the
+second table, which creates a new, larger joined table.</p>
+
+<p>Here's an illustration of what happened in the joining process during the
+above query.</p>
+
+<p><img class="img-responsive center-block" src="assets/joins.png" alt="joins"></p>
+
+<p>From here, the select statement examines the joined table and selects the values
+it desires: <code>b.Berkeley &#x2d; a.Berkeley</code> and <code>b.Stanford &#x2d; a.Stanford</code> but only
+from the rows <code>WHERE a.Year &lt; b.Year</code>. This prevents duplicate results from
+appearing in our output and also removes rows where the years are the same.</p>
+
+
+<h1 id="required-questions">Required Questions</h1>
+
+
+
+<h2 id="getting-to-know-your-fellow-61a-students">Getting to Know Your Fellow 61A Students</h2>
+
+
+<p>This past weekend, we asked you and your fellow students to complete a brief
+online survey through Google Forms, which involved relatively random but fun
+questions. In this lab, we will interact with the results of the survey by
+using SQL queries to see if we can find interesting things in the data.</p>
+
+<p>First, take a look at <code>sp18data.sql</code> and examine the table defined in it. Note
+its structure. You will be working with:</p>
+
+<ul>
+  <li><p><code>students</code>: The main results of the survey. Each column represents a different
+  question from the survey, except for the first column, which is the time
+  of when the result was submitted. This time is a unique identifier for
+  each of the rows in the table.</p>
+
+
+  
+        <div class="table-responsive">
+          <table class="table table-bordered">
+          
+    <tr>
+      <th>Column Name</th>
+      <th>Question</th>
+    </tr>
+    <tr>
+      <td><code>time</code></td>
+      <td>The unique timestamp that identifies the submission</td>
+    </tr>
+    <tr>
+      <td><code>number</code></td>
+      <td>What's your favorite number between 1 and 100?</td>
+    </tr>
+    <tr>
+      <td><code>color</code></td>
+      <td>What is your favorite color?</td>
+    </tr>
+    <tr>
+      <td><code>seven</code></td>
+      <td>Choose the number 7 below.<br>Options: <br><ul> <li>7</li> <li>You're not the boss of me!</li> <li>Choose this option instead</li> <li>seven</li> <li>the number 7 below.</li> </ul></td>
+    </tr>
+    <tr>
+      <td><code>song</code></td>
+      <td>If you could listen to only one of these songs for the rest of your life, which would it be? <br> Options: <br><ul><li>"Smells Like Teen Spirit" by Nirvana</li><li>"The Middle" by Zedd</li><li>"Fur Elise" by Ludwig van Beethoven</li><li>"Finesse ft. Cardi B" by Bruno Mars</li><li>"God's Plan" by Drake</li><li>"Down With The Sickness" by Disturbed</li><li>"Everytime We Touch" by Cascada</li></ul></td>
+    </tr>
+    <tr>
+      <td><code>date</code></td>
+      <td>Pick a day of the year!</td>
+    </tr>
+    <tr>
+      <td><code>pet</code></td>
+      <td>If you could have any animal in the world as a pet, what would it be?</td>
+    </tr>
+    <tr>
+      <td><code>denero</code></td>
+      <td>Choose your favorite photo of John DeNero! (Options shown under Question 2)</td>
+    </tr>
+    <tr>
+      <td><code>smallest</code></td>
+      <td>Try to guess the smallest unique positive INTEGER that anyone will put!</td>
+    </tr>
+  
+          </table>
+        </div>
+        </li>
+  <li><code>checkboxes</code>: The results from the survey in which students could select more
+  than one option from the numbers listed, which ranged from 0 to 10 and included
+  2018, 9000, and 9001. Each row has a time (which is again a unique
+  identifier) and has the value <code>&#x27;True&#x27;</code> if the student selected the column or <code>&#x27;False&#x27;</code>
+  if the student did not.
+  The column names in this table are the following strings, referring to each possible
+  number: <code>&#x27;0&#x27;</code>, <code>&#x27;1&#x27;</code>, <code>&#x27;2&#x27;</code>, <code>&#x27;4&#x27;</code>, <code>&#x27;5&#x27;</code>, <code>&#x27;6&#x27;</code>, <code>&#x27;7&#x27;</code>, <code>&#x27;8&#x27;</code>, <code>&#x27;9&#x27;</code>, <code>&#x27;10&#x27;</code>,
+  <code>&#x27;2018&#x27;</code>, <code>&#x27;9000&#x27;</code>, <code>&#x27;9001&#x27;</code>.</li>
+</ul>
+
+<p>Since the survey was anonymous, we used the timestamp that a survey was
+submitted as a unique identifier.  A time in <code>students</code> matches up with a time
+in <code>checkboxes</code>. For example, the row in <code>students</code> whose <code>time</code> value is
+<code>&quot;4/13/2018 15:25:03&quot;</code> matches up with the row in <code>checkboxes</code> whose <code>time</code>
+value is <code>&quot;4/13/2018 15:25:03&quot;</code>. These entries come from the same Google form
+submission and thus belong to the same student.</p>
+
+<br>
+
+<blockquote><p><em>Note</em>: If you are looking for your personal response within the data, you may
+have noticed that some of your answers are slightly different from what you
+had input. In order to make SQLite accept our data, and to optimize for as
+many matches as possible during our joins, we did the following things to
+clean up the data:</p>
+
+<ul>
+  <li><code>color</code> and <code>pet</code>: We converted all the strings to be completely lowercase.</li>
+  <li>For some of the more "free-spirited" responses, we escaped the special
+  characters so that they could be properly parsed.</li>
+</ul></blockquote>
+
+<p>You will write all of your solutions in the starter file <code>lab12.sql</code> provided. As with other
+labs, you can test your solutions with OK. In addition, you can use either of
+the following commands. You may need to refer to the Usage section to find the
+appropriate command for your OS:</p>
+
+<pre><code>sqlite3 &lt; lab12.sql
+sqlite3 &#x2d;&#x2d;init lab12.sql</code></pre>
+
+<h3 class="question" id="q1">Q1: What Would SQL print?</h3>
+
+<p>First, load the tables into sqlite3. If you're on Windows or Mac OS X
+(Mavericks or older), use the following command:</p>
+
+<pre><code>$ ./sqlite3 &#x2d;&#x2d;init lab12.sql</code></pre>
+
+<p>If you're on Ubuntu or Mac OS X (Yosemite or newer), use:</p>
+
+<pre><code>$ sqlite3 &#x2d;&#x2d;init lab12.sql</code></pre>
+
+<p>Before we start, inspect the schema of the tables that we've created for you:</p>
+
+<pre><code>sqlite&gt; .schema</code></pre>
+
+<p>This tells you the name of each of our tables and their attributes.</p>
+
+<p>Let's also take a look at some of the entries in our table. There are a lot of
+entries though, so let's just output the first 20:</p>
+
+<pre><code>sqlite&gt; SELECT * FROM students LIMIT 20;</code></pre>
+
+<p>If you're curious about some of the answers students put into the Google form,
+open up <code>sp18data.sql</code> in your favorite text editor and take a look!</p>
+
+<p>For each of the SQL queries below, think about what the
+query is looking for, then try running the query yourself and see!</p>
+
+<pre><code>sqlite&gt; SELECT * FROM students; &#x2d;&#x2d; This is a comment. * is shorthand for all columns!
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x73;&#x65;&#x6c;&#x65;&#x63;&#x74;&#x73;&#x20;&#x61;&#x6c;&#x6c;&#x20;&#x72;&#x65;&#x63;&#x6f;&#x72;&#x64;&#x73;&#x20;&#x66;&#x72;&#x6f;&#x6d;&#x20;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#x3b;</div>
+sqlite&gt; SELECT color FROM students WHERE number = 16;
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x73;&#x65;&#x6c;&#x65;&#x63;&#x74;&#x73;&#x20;&#x74;&#x68;&#x65;&#x20;&#x63;&#x6f;&#x6c;&#x6f;&#x72;&#x20;&#x66;&#x72;&#x6f;&#x6d;&#x20;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#x20;&#x77;&#x68;&#x6f;&#x20;&#x73;&#x61;&#x69;&#x64;&#x20;&#x74;&#x68;&#x65;&#x69;&#x72;&#x20;&#x66;&#x61;&#x76;&#x6f;&#x72;&#x69;&#x74;&#x65;&#x20;&#x6e;&#x75;&#x6d;&#x62;&#x65;&#x72;&#x20;&#x77;&#x61;&#x73;&#x20;&#x31;&#x36;&#x3b;</div>
+sqlite&gt; SELECT song, pet FROM students WHERE color = &quot;blue&quot; AND date = &quot;12/25&quot;;
+<div class="alt prompt-1">______</div><div class="solution prompt-1">&#x73;&#x65;&#x6c;&#x65;&#x63;&#x74;&#x73;&#x20;&#x74;&#x68;&#x65;&#x20;&#x73;&#x6f;&#x6e;&#x67;&#x20;&#x61;&#x6e;&#x64;&#x20;&#x70;&#x65;&#x74;&#x20;&#x66;&#x72;&#x6f;&#x6d;&#x20;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#x20;&#x77;&#x68;&#x6f;&#x20;&#x73;&#x61;&#x69;&#x64;&#x20;&#x74;&#x68;&#x65;&#x69;&#x72;&#x20;&#x66;&#x61;&#x76;&#x6f;&#x72;&#x69;&#x74;&#x65;&#x20;&#x63;&#x6f;&#x6c;&#x6f;&#x72;&#x20;&#x77;&#x61;&#x73;&#x20;&#x62;&#x6c;&#x75;&#x65;&#x20;&#x61;&#x6e;&#x64;&#x20;&#x70;&#x69;&#x63;&#x6b;&#x65;&#x64;&#x20;&#x44;&#x65;&#x63;&#x65;&#x6d;&#x62;&#x65;&#x72;&#x20;&#x32;&#x35;&#x74;&#x68;&#x3b;</div></code></pre>
+        <button id='prompt-1' class='btn btn-outline btn-lg toggle prompt'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Remember, to exit out of SQLite after using the second command, type <code>.exit</code> or <code>.quit</code> or hit
+<code>Ctrl&#x2d;C</code>. Also, if you see <code>...&gt;</code> you probably forgot a <code>;</code>
+<h3 class="question" id="q2">Q2: Obedience</h3></p>
+
+<p>To warm-up, let's ask a simple question related to our data: Is there a
+correlation between whether students do as they're told and their favorite
+images of the instructor?</p>
+
+<p><img class="img-responsive center-block" src="assets/denero.png" alt="denero"></p>
+
+<p>Write an SQL query to create a table that contains the columns <code>seven</code> (this
+column representing "obedience") and <code>denero</code> (the image of Professor DeNero
+students selected) from the <code>students</code> table.</p>
+
+<p>You should get the following output:</p>
+
+<pre><code>sqlite&gt; SELECT * FROM obedience LIMIT 10;
+7|Image 1
+7|Image 5
+the number 7 below.|Image 1
+7|Image 2
+7|Image 2
+the number 7 below.|Image 1
+the number 7 below.|Image 5
+7|Image 1
+You&#x27;re not the boss of me!|Image 4
+7|Image 4</code></pre>
+
+
+
+<pre><code>CREATE TABLE obedience AS
+<div class="alt solution-1">  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+</div><div class="solution solution-1">&#x20;&#x20;&#x53;&#x45;&#x4c;&#x45;&#x43;&#x54;&#x20;&#x73;&#x65;&#x76;&#x65;&#x6e;&#x2c;&#x20;&#x64;&#x65;&#x6e;&#x65;&#x72;&#x6f;&#x20;&#x46;&#x52;&#x4f;&#x4d;&#x20;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#x3b;</div></code></pre>
+
+
+        <button id='solution-1' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q obedience</code></pre>
+<h3 class="question" id="q3">Q3: The Smallest Unique Positive Integer</h3>
+
+<p>Who successfully managed to guess the smallest unique positive integer value?
+Let's find out!</p>
+
+<p>Unfortunately we have not learned how to do aggregations in SQL, which can help
+us count the number of times a specific value was selected, just yet. As such,
+we can only hand inspect our data to determine it. However, an anonymous elf
+has informed us that the smallest unique positive value is greater than 15!</p>
+
+<p>Write an SQL query to create a table with the columns <code>time</code> and <code>smallest</code>
+that we can inspect to determine what the smallest integer value is. In order
+to make it easier for us to inspect these values, use <code>WHERE</code> to restrict the
+answers to numbers greater than 15, <code>ORDER BY</code> to sort the numerical values,
+and <code>LIMIT</code> your result to the first 20 values that are greater than the number
+15.</p>
+
+<p>The first 5 lines of your output should look like this:</p>
+
+<pre><code>sqlite&gt; SELECT * FROM smallest_int LIMIT 5;
+4/13/2018 15:16:12|16
+4/13/2018 15:22:11|16
+4/13/2018 15:15:08|17
+4/13/2018 15:18:10|17
+4/13/2018 15:21:43|17
+4/13/2018 15:22:13|17</code></pre>
+
+
+
+<pre><code>CREATE TABLE smallest_int AS
+<div class="alt solution-2">  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+</div><div class="solution solution-2">&#x20;&#x20;&#x53;&#x45;&#x4c;&#x45;&#x43;&#x54;&#x20;&#x74;&#x69;&#x6d;&#x65;&#x2c;&#x20;&#x73;&#x6d;&#x61;&#x6c;&#x6c;&#x65;&#x73;&#x74;&#x20;&#x46;&#x52;&#x4f;&#x4d;&#x20;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#x20;&#x57;&#x48;&#x45;&#x52;&#x45;&#x20;&#x73;&#x6d;&#x61;&#x6c;&#x6c;&#x65;&#x73;&#x74;&#x20;&#x3e;&#x20;&#x31;&#x35;&#x20;&#x4f;&#x52;&#x44;&#x45;&#x52;&#x20;&#x42;&#x59;&#x20;&#x73;&#x6d;&#x61;&#x6c;&#x6c;&#x65;&#x73;&#x74;&#x20;&#x4c;&#x49;&#x4d;&#x49;&#x54;&#x20;&#x32;&#x30;&#x3b;</div></code></pre>
+
+
+        <button id='solution-2' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q smallest-int</code></pre>
+
+<p>After you've successfully passed the Ok test, take a look at the table
+<code>smallest_int</code> that you just created and manually find the smallest unique
+integer value! If you're curious how to do this with aggregations, check out
+<a href="#q8">Question 8</a>.</p>
+
+<p>To do this, try the following:</p>
+
+<pre><code>$ sqlite3 &#x2d;&#x2d;init lab12.sql
+sqlite&gt; SELECT * FROM smallest_int; &#x2d;&#x2d; No LIMIT this time!</code></pre>
+
+<h3 class="question" id="q4">Q4: Matchmaker, Matchmaker</h3>
+
+<p>Did you take 61A with the hope of finding your soul mate? Well you're in luck!
+With all this data in hand, it's easy for us to find your perfect match. If two
+students want the same pet and have the same taste in music, they are clearly meant
+to be together! In order to provide some more information for the potential lovebirds
+to converse about, let's include the favorite colors of the two individuals as well!</p>
+
+<p>In order to match up students, you will have to do a join on the <code>students</code> table
+with itself. When you do a join, SQLite will match every single row with every single
+other row, so make sure you do not match anyone with themselves, or match any given pair
+twice!</p>
+
+<blockquote><p><strong>Important Note:</strong> When pairing the first and second person, make sure that
+the first person responded first (i.e. they have an earlier <code>time</code>). This is
+to ensure your output matches our tests.</p></blockquote>
+
+<!-- -->
+
+<blockquote><p><em>Hint:</em> When joining table names where column names are the same, use dot
+notation to distinguish which columns are from which table:
+<code>[table_name].[column name]</code>. This sometimes may get verbose, so it’s
+stylistically better to give tables an alias using the <code>AS</code> keyword.
+The syntax for this is as follows:</p>
+
+<pre><code>SELECT &lt;[alias1].[column name1], [alias2].[columnname2]...&gt;
+    FROM &lt;[table_name1] AS [alias1],[table_name2] AS [alias2]...&gt; ...</code></pre>
+
+<p>The query in the <a href="#joins">football example</a> from earlier uses this syntax.</p></blockquote>
+
+<p>Write a SQL query to create a table that has 4 columns:</p>
+
+<ul>
+  <li>The shared preferred <code>pet</code> of the couple</li>
+  <li>The shared favorite <code>song</code> of the couple</li>
+  <li>The favorite <code>color</code> of the first person</li>
+  <li>The favorite <code>color</code> of the second person</li>
+</ul>
+
+<p>You should get the following output:</p>
+
+<pre><code>sqlite&gt; SELECT * FROM matchmaker LIMIT 10;
+wolf|Fur Elise|green|blue
+cat|Smells Like Teen Spirit|purple|purple
+cat|Smells Like Teen Spirit|purple|green
+cat|Smells Like Teen Spirit|purple|blue
+dog|Finesse|navy|red
+dog|Finesse|navy|mint
+dog|Finesse|navy|blue
+dog|Finesse|navy|blue
+elephant|The Middle|purple|yellow
+dog|Finesse|red|mint</code></pre>
+
+
+
+<pre><code>CREATE TABLE matchmaker AS
+<div class="alt solution-3">  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+</div><div class="solution solution-3">&#x20;&#x20;&#x53;&#x45;&#x4c;&#x45;&#x43;&#x54;&#x20;&#x61;&#x2e;&#x70;&#x65;&#x74;&#x2c;&#x20;&#x61;&#x2e;&#x73;&#x6f;&#x6e;&#x67;&#x2c;&#x20;&#x61;&#x2e;&#x63;&#x6f;&#x6c;&#x6f;&#x72;&#x2c;&#x20;&#x62;&#x2e;&#x63;&#x6f;&#x6c;&#x6f;&#x72;&#x20;&#x46;&#x52;&#x4f;&#x4d;&#x20;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#x20;&#x41;&#x53;&#x20;&#x61;&#x2c;&#x20;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#x20;&#x41;&#x53;&#x20;&#x62;&#xa;&#x20;&#x20;&#x20;&#x20;&#x57;&#x48;&#x45;&#x52;&#x45;&#x20;&#x61;&#x2e;&#x74;&#x69;&#x6d;&#x65;&#x20;&#x3c;&#x20;&#x62;&#x2e;&#x74;&#x69;&#x6d;&#x65;&#x20;&#x41;&#x4e;&#x44;&#x20;&#x61;&#x2e;&#x70;&#x65;&#x74;&#x20;&#x3d;&#x20;&#x62;&#x2e;&#x70;&#x65;&#x74;&#x20;&#x41;&#x4e;&#x44;&#x20;&#x61;&#x2e;&#x73;&#x6f;&#x6e;&#x67;&#x20;&#x3d;&#x20;&#x62;&#x2e;&#x73;&#x6f;&#x6e;&#x67;&#x3b;</div></code></pre>
+
+
+        <button id='solution-3' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q matchmaker</code></pre>
+
+
+<h1 id="optional-questions">Optional Questions</h1>
+
+
+<blockquote><p>The following questions are for <strong>extra practice</strong> -- they can be found
+in the <a href="lab12_extra.sql">lab12_extra.sql</a> file. It is recommended that
+you complete these problems, but you do not need to turn them
+in for credit.</p></blockquote>
+
+<h3 class="question" id="q5">Q5: Great Students Think Alike</h3>
+
+<p>We administered a similar survey for Lab 12 last semester to 61A students (see
+the table <code>fa17students</code> in <code>fa17data.sql</code>).</p>
+
+<p>The only question that has been removed is <code>hilfinger</code>, so let's play around
+with this data using joins!</p>
+
+<p>Great students think alike. We want to print out the information of students
+that have the same favorite <code>date</code>, <code>color</code> and <code>pet</code>! How do their favorite
+<code>number</code>s differ?</p>
+
+<p>Write a SQL query to create a table that has 5 columns:</p>
+
+<ul>
+  <li>The shared favorite <code>date</code> between semesters</li>
+  <li>The shared favorite <code>color</code> between semesters</li>
+  <li>The shared favorite <code>pet</code> between semesters</li>
+  <li>The favorite <code>number</code> of this semester's student</li>
+  <li>The favorite <code>number</code> of last semester's student</li>
+</ul>
+
+<p>You should get the following output:</p>
+
+<pre><code>sqlite&gt; SELECT * FROM greatstudents;
+2/29|blue|dragon|69|12
+12/25|blue|dog|17|7
+12/25|blue|dog|17|15
+1/1|green|dog|3|7
+1/1|blue|dog|11|60
+4/20|white|sloth|11|69
+1/1|black|dog|1|1
+12/25|blue|tiger|17|21</code></pre>
+
+
+
+<pre><code>CREATE TABLE greatstudents AS
+<div class="alt solution-4">  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+</div><div class="solution solution-4">&#x20;&#x20;&#x53;&#x45;&#x4c;&#x45;&#x43;&#x54;&#x20;&#x61;&#x2e;&#x64;&#x61;&#x74;&#x65;&#x2c;&#x20;&#x61;&#x2e;&#x63;&#x6f;&#x6c;&#x6f;&#x72;&#x2c;&#x20;&#x61;&#x2e;&#x70;&#x65;&#x74;&#x2c;&#x20;&#x61;&#x2e;&#x6e;&#x75;&#x6d;&#x62;&#x65;&#x72;&#x2c;&#x20;&#x62;&#x2e;&#x6e;&#x75;&#x6d;&#x62;&#x65;&#x72;&#x20;&#x46;&#x52;&#x4f;&#x4d;&#x20;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#x20;&#x41;&#x53;&#x20;&#x61;&#x2c;&#x20;&#x66;&#x61;&#x31;&#x37;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#x20;&#x41;&#x53;&#x20;&#x62;&#xa;&#x20;&#x20;&#x20;&#x20;&#x57;&#x48;&#x45;&#x52;&#x45;&#x20;&#x61;&#x2e;&#x64;&#x61;&#x74;&#x65;&#x20;&#x3d;&#x20;&#x62;&#x2e;&#x64;&#x61;&#x74;&#x65;&#x20;&#x41;&#x4e;&#x44;&#x20;&#x61;&#x2e;&#x63;&#x6f;&#x6c;&#x6f;&#x72;&#x20;&#x3d;&#x20;&#x62;&#x2e;&#x63;&#x6f;&#x6c;&#x6f;&#x72;&#x20;&#x41;&#x4e;&#x44;&#x20;&#x61;&#x2e;&#x70;&#x65;&#x74;&#x20;&#x3d;&#x20;&#x62;&#x2e;&#x70;&#x65;&#x74;&#x3b;</div></code></pre>
+
+
+        <button id='solution-4' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q greatstudents</code></pre>
+
+<p>After you've successfully passed the Ok test, play around some more with joins
+to see what cool connections you can draw between the data from both semesters!
+<h3 class="question" id="q6">Q6: Sevens</h3></p>
+
+<p>Let's take a look at data from both of our tables, <code>students</code> and <code>checkboxes</code>,
+to find out if students that really like the number 7 also chose <code>&#x27;7&#x27;</code> for the
+obedience question. Specifically, we want to look at the students that fulfill
+the below conditions and see if they also chose <code>&#x27;7&#x27;</code> in the question that asked
+students to choose the number 7 (column <code>seven</code> in <code>students</code>).</p>
+
+<p>Conditions:</p>
+
+<ul>
+  <li>reported that their favorite number (column <code>number</code> in <code>students</code>) was 7</li>
+  <li>have <code>&#x27;True&#x27;</code> in column <code>&#x27;7&#x27;</code> in <code>checkboxes</code>, meaning they checked the number <code>7</code> during the survey</li>
+</ul>
+
+<p>In order to examine rows from both the <code>students</code> and the <code>checkboxes</code> table, we will
+need to perform a join.</p>
+
+<p>How would you specify the <code>WHERE</code> clause to make the <code>SELECT</code> statement only consider
+rows in the joined table whose values all correspond to the same student? If
+you find that your output is massive and overwhelming, then you are probably missing
+the necessary condition in your <code>WHERE</code> clause to ensure this.</p>
+
+<blockquote><p><em>Note:</em> The columns in the <code>checkboxes</code> table are strings with the associated number,
+so you must put quotes around the column name to refer to it. For example if you alias
+the table as <code>a</code>, to get the column to see if a student checked 9001, you must write
+<code>a.&#x27;9001&#x27;</code>.</p></blockquote>
+
+<p>Write a SQL query to create a table with just the column <code>seven</code> from <code>students</code>, filtering
+first for students who said their favorite number (column <code>number</code>) was 7 in the <code>students</code>
+table and who checked the box for seven (column <code>&#x27;7&#x27;</code>) in the <code>checkboxes</code> table.</p>
+
+<p>The first 10 lines of this table should look like this:</p>
+
+<pre><code>sqlite&gt; SELECT * FROM sevens LIMIT 10;
+7
+7
+7
+You&#x27;re not the boss of me!
+7
+seven
+the number 7 below.
+You&#x27;re not the boss of me!
+7
+7</code></pre>
+
+
+
+<pre><code>CREATE TABLE sevens AS
+<div class="alt solution-5">  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+</div><div class="solution solution-5">&#x20;&#x20;&#x53;&#x45;&#x4c;&#x45;&#x43;&#x54;&#x20;&#x73;&#x2e;&#x73;&#x65;&#x76;&#x65;&#x6e;&#x20;&#x46;&#x52;&#x4f;&#x4d;&#x20;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#x20;&#x41;&#x53;&#x20;&#x73;&#x2c;&#x20;&#x63;&#x68;&#x65;&#x63;&#x6b;&#x62;&#x6f;&#x78;&#x65;&#x73;&#x20;&#x41;&#x53;&#x20;&#x63;&#x20;&#x57;&#x48;&#x45;&#x52;&#x45;&#x20;&#x73;&#x2e;&#x6e;&#x75;&#x6d;&#x62;&#x65;&#x72;&#x20;&#x3d;&#x20;&#x37;&#x20;&#x41;&#x4e;&#x44;&#x20;&#x63;&#x2e;&#x27;&#x37;&#x27;&#x20;&#x3d;&#x20;&#x27;&#x54;&#x72;&#x75;&#x65;&#x27;&#x20;&#x41;&#x4e;&#x44;&#x20;&#x73;&#x2e;&#x74;&#x69;&#x6d;&#x65;&#x20;&#x3d;&#x20;&#x63;&#x2e;&#x74;&#x69;&#x6d;&#x65;&#x3b;</div></code></pre>
+
+
+        <button id='solution-5' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q sevens</code></pre>
+
+<h2 id="the-count-aggregator">The COUNT Aggregator</h2>
+
+
+<p>How many people liked each pet? What is the biggest date chosen this semester?
+How many obedient people chose Image 1 for Professor DeNero or Professor Hilfinger?
+Is there a difference between last semester's average favorite number 
+and this semester's?</p>
+
+<p>To answer these types of questions, we can bring in SQL aggregation, which
+allows us to accumulate values across rows in our SQL database!</p>
+
+<p>In order to perform SQL aggregation, we can group rows in our table by one or more attributes. Once
+we have groups, we can aggregate over the groups in our table and find things like:</p>
+
+<ul>
+  <li>the maximum value (<code>MAX</code>),</li>
+  <li>the minimum value (<code>MIN</code>),</li>
+  <li>the number of rows in the group (<code>COUNT</code>),</li>
+  <li>the average over all of the values (<code>AVG</code>),</li>
+</ul>
+
+<p>and more!
+<code>SELECT</code> statements that use aggregation are usually marked by two things: an
+aggregate function (<code>MAX</code>, <code>MIN</code>, <code>COUNT</code>, <code>AVG</code>, etc.) and a <code>GROUP BY</code> clause.
+<code>GROUP BY [column(s)]</code> groups together rows with the same value in each
+column(s).
+In this section we will only use <code>COUNT</code>, which will count the number of rows
+in each group, but feel free to check out <a href="http://www.sqlcourse2.com/agg_functions.html">this
+link</a> for more!</p>
+
+<p>For example, the following query will print out the top 10 favorite numbers with
+their respective counts:</p>
+
+<pre><code>sqlite&gt; SELECT number, COUNT(*) AS count FROM students GROUP BY number
+  ORDER BY count DESC LIMIT 10;
+  69|31
+  7|19
+  4|13
+  17|13
+  42|12
+  1|11
+  3|10
+  9|10
+  11|9
+  12|9</code></pre>
+
+<p>This <code>SELECT</code> statement first groups all of the rows in our table <code>students</code> by <code>number</code>. Then, within each
+group, we perform aggregation by <code>COUNT</code>ing all the rows. By selecting <code>number</code> and <code>COUNT(*)</code>,
+we then can see the highest <code>number</code> and how many students picked that number. We have to order by our <code>COUNT(*)</code>, which is saved in the alias <code>count</code>, by <code>DESC</code>ending order, so our highest count starts at the top, and we limit our result to the top 10.
+<br/>
+
+<h3 class="question" id="q7">Q7: Let's Count</h3>
+Let's have some fun with this! For each query below, we created its own table
+in <code>lab12_extra.sql</code>, so fill in the corresponding table and run it using Ok.
+Try working on this on your own or with a neighbor before toggling to see the
+solutions.</p>
+
+<blockquote><p><em>Hint:</em> You may find that there isn't a particular attribute you should have
+to perform the <code>COUNT</code> aggregation over. If you are only interested in
+counting the number of rows in a group, you can just say <code>COUNT(*)</code>.</p></blockquote>
+
+<p>What was the favorite number from last semester?</p>
+
+<pre><code>sqlite&gt; SELECT * FROM fa17favnum;
+69|66</code></pre>
+
+
+
+<pre><code>CREATE TABLE fa17favnum AS
+<div class="alt solution-6">  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+</div><div class="solution solution-6">&#x20;&#x20;&#x53;&#x45;&#x4c;&#x45;&#x43;&#x54;&#x20;&#x6e;&#x75;&#x6d;&#x62;&#x65;&#x72;&#x2c;&#x20;&#x43;&#x4f;&#x55;&#x4e;&#x54;&#x28;&#x2a;&#x29;&#x20;&#x41;&#x53;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x46;&#x52;&#x4f;&#x4d;&#x20;&#x66;&#x61;&#x31;&#x37;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#xa;&#x20;&#x20;&#x20;&#x20;&#x47;&#x52;&#x4f;&#x55;&#x50;&#x20;&#x42;&#x59;&#x20;&#x6e;&#x75;&#x6d;&#x62;&#x65;&#x72;&#x20;&#x4f;&#x52;&#x44;&#x45;&#x52;&#x20;&#x42;&#x59;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x44;&#x45;&#x53;&#x43;&#x20;&#x4c;&#x49;&#x4d;&#x49;&#x54;&#x20;&#x31;&#x3b;</div></code></pre>
+
+
+        <button id='solution-6' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>What were the top 10 pets last semester?</p>
+
+<pre><code>sqlite&gt; SELECT * FROM fa17favpets;
+dog|57
+cat|33
+dragon|14
+panda|14
+tiger|14
+lion|13
+penguin|12
+dolphin|10
+john denero|9
+elephant|8</code></pre>
+
+
+
+<pre><code>CREATE TABLE fa17favpets AS
+<div class="alt solution-7">  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+</div><div class="solution solution-7">&#x20;&#x20;&#x53;&#x45;&#x4c;&#x45;&#x43;&#x54;&#x20;&#x70;&#x65;&#x74;&#x2c;&#x20;&#x43;&#x4f;&#x55;&#x4e;&#x54;&#x28;&#x2a;&#x29;&#x20;&#x41;&#x53;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x46;&#x52;&#x4f;&#x4d;&#x20;&#x66;&#x61;&#x31;&#x37;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#xa;&#x20;&#x20;&#x20;&#x20;&#x47;&#x52;&#x4f;&#x55;&#x50;&#x20;&#x42;&#x59;&#x20;&#x70;&#x65;&#x74;&#x20;&#x4f;&#x52;&#x44;&#x45;&#x52;&#x20;&#x42;&#x59;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x44;&#x45;&#x53;&#x43;&#x20;&#x4c;&#x49;&#x4d;&#x49;&#x54;&#x20;&#x31;&#x30;&#x3b;</div></code></pre>
+
+
+        <button id='solution-7' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>What are the top 10 pets this semester?</p>
+
+<pre><code>sqlite&gt; SELECT * FROM sp18favpets;
+dog|47
+cat|20
+tiger|16
+panda|11
+dragon|9
+dolphin|5
+elephant|5
+hedgehog|5
+monkey|5
+capybara|4</code></pre>
+
+
+
+<pre><code>CREATE TABLE sp18favpets AS
+<div class="alt solution-8">  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+</div><div class="solution solution-8">&#x20;&#x20;&#x53;&#x45;&#x4c;&#x45;&#x43;&#x54;&#x20;&#x70;&#x65;&#x74;&#x2c;&#x20;&#x43;&#x4f;&#x55;&#x4e;&#x54;&#x28;&#x2a;&#x29;&#x20;&#x41;&#x53;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x46;&#x52;&#x4f;&#x4d;&#x20;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#xa;&#x20;&#x20;&#x20;&#x20;&#x47;&#x52;&#x4f;&#x55;&#x50;&#x20;&#x42;&#x59;&#x20;&#x70;&#x65;&#x74;&#x20;&#x4f;&#x52;&#x44;&#x45;&#x52;&#x20;&#x42;&#x59;&#x20;&#x63;&#x6f;&#x75;&#x6e;&#x74;&#x20;&#x44;&#x45;&#x53;&#x43;&#x20;&#x4c;&#x49;&#x4d;&#x49;&#x54;&#x20;&#x31;&#x30;&#x3b;</div></code></pre>
+
+
+        <button id='solution-8' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>How many people marked exactly the word 'dog' as their ideal pet this semester?</p>
+
+<pre><code>sqlite&gt; SELECT * FROM sp18dog;
+dog|47</code></pre>
+
+
+
+<pre><code>CREATE TABLE sp18dog AS
+<div class="alt solution-9">  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+</div><div class="solution solution-9">&#x20;&#x20;&#x53;&#x45;&#x4c;&#x45;&#x43;&#x54;&#x20;&#x70;&#x65;&#x74;&#x2c;&#x20;&#x43;&#x4f;&#x55;&#x4e;&#x54;&#x28;&#x2a;&#x29;&#x20;&#x46;&#x52;&#x4f;&#x4d;&#x20;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#x20;&#x57;&#x48;&#x45;&#x52;&#x45;&#x20;&#x70;&#x65;&#x74;&#x20;&#x3d;&#x20;&#x27;&#x64;&#x6f;&#x67;&#x27;&#x3b;</div></code></pre>
+
+
+        <button id='solution-9' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Although close, our query doesn't give us an entirely accurate picture of what people's favorite pets are.
+For example, <code>a dog</code> would not be counted the same as <code>dog</code>. Let's see how many people actually want
+a dog this semester by using <code>LIKE</code>, which compares substrings. We can use it inside <code>WHERE</code>, as in
+<code>WHERE [column_name] LIKE &#x27;%[word]%&#x27;</code> to find how many people would like some type of dog.</p>
+
+<pre><code>sqlite&gt; SELECT * from sp18alldogs;
+dog|55</code></pre>
+
+
+
+<pre><code>CREATE TABLE sp18alldogs AS
+<div class="alt solution-10">  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+</div><div class="solution solution-10">&#x20;&#x20;&#x53;&#x45;&#x4c;&#x45;&#x43;&#x54;&#x20;&#x70;&#x65;&#x74;&#x2c;&#x20;&#x43;&#x4f;&#x55;&#x4e;&#x54;&#x28;&#x2a;&#x29;&#x20;&#x46;&#x52;&#x4f;&#x4d;&#x20;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#x20;&#x57;&#x48;&#x45;&#x52;&#x45;&#x20;&#x70;&#x65;&#x74;&#x20;&#x4c;&#x49;&#x4b;&#x45;&#x20;&#x27;&#x25;&#x64;&#x6f;&#x67;&#x25;&#x27;&#x3b;</div></code></pre>
+
+
+        <button id='solution-10' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>We can find the student's favorite for any column (try it yourself in the
+interpreter), but let's go back to our Obedience question. Let's see how many
+obedient students this semester picked each image of Professor Denero.  We can
+do this by selecting only the rows that have <code>seven = &#x27;7&#x27;</code> then <code>GROUP BY denero</code>,
+and finally we can <code>COUNT</code> them.</p>
+
+<pre><code>sqlite&gt; SELECT * FROM obedienceimages LIMIT 5;
+7|Image 1|24
+7|Image 2|28
+7|Image 3|19
+7|Image 4|39
+7|Image 5|12</code></pre>
+
+
+
+<pre><code>CREATE TABLE obedienceimages AS
+<div class="alt solution-11">  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+</div><div class="solution solution-11">&#x20;&#x20;&#x53;&#x45;&#x4c;&#x45;&#x43;&#x54;&#x20;&#x73;&#x65;&#x76;&#x65;&#x6e;&#x2c;&#x20;&#x64;&#x65;&#x6e;&#x65;&#x72;&#x6f;&#x2c;&#x20;&#x43;&#x4f;&#x55;&#x4e;&#x54;&#x28;&#x2a;&#x29;&#x20;&#x46;&#x52;&#x4f;&#x4d;&#x20;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#x20;&#x57;&#x48;&#x45;&#x52;&#x45;&#x20;&#x73;&#x65;&#x76;&#x65;&#x6e;&#x20;&#x3d;&#x20;&#x27;&#x37;&#x27;&#xa;&#x20;&#x20;&#x20;&#x20;&#x47;&#x52;&#x4f;&#x55;&#x50;&#x20;&#x42;&#x59;&#x20;&#x64;&#x65;&#x6e;&#x65;&#x72;&#x6f;&#x3b;</div></code></pre>
+
+
+        <button id='solution-11' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>The possibilities are endless, so have fun experimenting!</p>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q lets-count</code></pre>
+<h3 class="question" id="q8">Q8: The Smallest Unique Positive Integer (Part 2)</h3>
+
+<p>Now, let's revisit the previous problem of finding the smallest positive integer that anyone chose, and take
+a closer look at the <code>COUNT</code> aggregate.</p>
+
+<p>Write a SQL query that uses the <code>COUNT</code> aggregate to create a table that pairs the attribute <code>smallest</code> with
+the number of times it was chosen by a student (this is the aggregation part).</p>
+
+<blockquote><p><em>Hint:</em> Think about what attribute you need to <code>GROUP BY</code>.</p></blockquote>
+
+<p>After you've defined your table, you should get something like:</p>
+
+<pre><code>sqlite&gt; SELECT * FROM smallest_int_count LIMIT 25;
+1|101
+2|13
+3|10
+4|9
+5|5
+6|7
+7|6
+8|3
+9|4
+10|6
+11|5
+12|7
+13|5
+14|3
+15|2
+16|2
+17|11
+18|1
+19|3
+20|1
+21|2
+22|6
+23|12
+24|1
+25|3</code></pre>
+
+
+
+<pre><code>CREATE TABLE smallest_int_count AS
+<div class="alt solution-12">  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+</div><div class="solution solution-12">&#x20;&#x20;&#x53;&#x45;&#x4c;&#x45;&#x43;&#x54;&#x20;&#x73;&#x6d;&#x61;&#x6c;&#x6c;&#x65;&#x73;&#x74;&#x2c;&#x20;&#x43;&#x4f;&#x55;&#x4e;&#x54;&#x28;&#x2a;&#x29;&#x20;&#x46;&#x52;&#x4f;&#x4d;&#x20;&#x73;&#x74;&#x75;&#x64;&#x65;&#x6e;&#x74;&#x73;&#x20;&#x47;&#x52;&#x4f;&#x55;&#x50;&#x20;&#x42;&#x59;&#x20;&#x73;&#x6d;&#x61;&#x6c;&#x6c;&#x65;&#x73;&#x74;&#x3b;</div></code></pre>
+
+
+        <button id='solution-12' class='btn btn-outline btn-lg toggle solution'>
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q smallest-int-count</code></pre>
+
+<p>It looks like the number <code>18</code> only had one person choose it! Were you the lucky
+student that put it down?</p>
+
+  </div>
+
+  <div class='col-md-3 sticky'>
+    <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+      <ul>
+  <li><a href="#sqlite">SQLite</a></li>
+  <ul>
+    <li><a href="#setup">Setup</a></li>
+    <ul>
+      <li><a href="#windows">Windows</a></li>
+      <li><a href="#macos-yosemite-10-10-or-newer">macOS Yosemite (10.10) or newer</a></li>
+      <li><a href="#mac-os-x-mavericks-10-9-or-older">Mac OS X Mavericks (10.9) or older</a></li>
+      <li><a href="#ubuntu">Ubuntu</a></li>
+    </ul>
+    <li><a href="#usage">Usage</a></li>
+  </ul>
+  <li><a href="#topics">Topics</a></li>
+  <ul>
+    <li><a href="#sql-basics">SQL Basics</a></li>
+    <ul>
+      <li><a href="#creating-tables">Creating Tables</a></li>
+      <li><a href="#selecting-from-tables">Selecting From Tables</a></li>
+      <li><a href="#expressions-in-sql">Expressions in SQL</a></li>
+    </ul>
+    <li><a href="#joins">Joins</a></li>
+  </ul>
+  <li><a href="#required-questions">Required Questions</a></li>
+  <ul>
+    <li><a href="#getting-to-know-your-fellow-61a-students">Getting to Know Your Fellow 61A Students</a></li>
+    <ul>
+      <li><a href="#q1">Q1: What Would SQL print?</a></li>
+      <li><a href="#q2">Q2: Obedience</a></li>
+      <li><a href="#q3">Q3: The Smallest Unique Positive Integer</a></li>
+      <li><a href="#q4">Q4: Matchmaker, Matchmaker</a></li>
+    </ul>
+  </ul>
+  <li><a href="#optional-questions">Optional Questions</a></li>
+  <ul>
+    <li><a href="#q5">Q5: Great Students Think Alike</a></li>
+    <li><a href="#q6">Q6: Sevens</a></li>
+  </ul>
+  <ul>
+    <li><a href="#the-count-aggregator">The COUNT Aggregator</a></li>
+    <ul>
+      <li><a href="#q7">Q7: Let's Count</a></li>
+      <li><a href="#q8">Q8: The Smallest Unique Positive Integer (Part 2)</a></li>
+    </ul>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="../../index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../weekly.html">Weekly Schedule</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/studying.html">Studying Guide</a></li>
+            <li><a href="../../articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="../../articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="../../articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="../../articles/about.html#assignments">Assignments</a></li>
+            <li><a href="../../articles/about.html#exams">Exams</a></li>
+            <li><a href="../../articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+
+<script type="text/javascript" src="../../assets/js/config.js"></script>
+<script>
+  $(function() {
+    var staging_domains = ['staging.cs61a.org', 'solutions.cs61a.org', 'localhost', '127.0.0.1'];
+    var host = window.location.hostname;
+    var staging = staging_domains.indexOf(host) != -1;
+    staging = staging || (host.endsWith('.pullrequests.cs61a.org') && !host.startsWith('last-build.'));
+
+    var after_due_date = new Date("04/21/2018") < new Date();
+    var before_end_date = new Date() <= new Date(endDate);
+    var release_solutions = (staging || after_due_date) && before_end_date;
+
+    if (release_solutions) {
+      $('.toggle').css('display', 'inline-block');
+      $('.toggle').click(function() {
+        var solution_id = $(this).attr('id');
+        $('div.' + solution_id).slideToggle(600);
+      });
+    }
+  });
+</script>
+
+
+  </body>
+
+<!-- Mirrored from cs61a.org/lab/lab12/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:38:03 GMT -->
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/guides/intellij-wtfs by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:21:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>IntelliJ WTFS | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../assets/css/lab.css">
+    
+
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../assets/js/script.js"></script>
+    <script src="../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">IntelliJ WTFS</header><div class="due-date">Author: Brandon Lee</div><ul id="markdown-toc">
+  <li><a href="#i-cant-run-my-java-filefiles-dont-show-up-as-java-files" id="markdown-toc-i-cant-run-my-java-filefiles-dont-show-up-as-java-files">I can’t run my Java file/Files don’t show up as java files</a></li>
+  <li><a href="#variables-show-up-as-red-in-intellij" id="markdown-toc-variables-show-up-as-red-in-intellij">Variables show up as red in IntelliJ</a></li>
+  <li><a href="#everything-looks-right-but-it-still-doesnt-work" id="markdown-toc-everything-looks-right-but-it-still-doesnt-work">Everything looks right but it still doesn’t work!</a></li>
+</ul>
+
+<p>This document is intended to help you through frequently encountered weird
+technical failure scenarios (WTFS) in IntelliJ. It will be populated as questions
+arise.</p>
+
+<h2 id="i-cant-run-my-java-filefiles-dont-show-up-as-java-files">I can’t run my Java file/Files don’t show up as java files</h2>
+
+<p><img src="img/intellij-import-error.png" alt="IntelliJ Import Error" /></p>
+
+<p>If your files look like this then you haven’t properly imported the project. 
+When starting an assignment for the first time, you must IMPORT the project
+instead of OPEN. To fix this, simply close the project (“File” -&gt; “Close Project”). 
+And then click “Import Project”. See <a href="../lab/lab2setup/lab2setup-2.html#project-setup">Lab 2 Setup</a> 
+for additional instructions on importing a new project.</p>
+
+<h2 id="variables-show-up-as-red-in-intellij">Variables show up as red in IntelliJ</h2>
+
+<p><img src="img/intellij-missing-javalib.png" alt="IntelliJ Missing Javalib" /></p>
+
+<p>This means that you forgot to add the CS61B javalib as a library for this project! 
+Every time you start a new assignment (unfortunately, EVERY TIME) you must readd
+the javalib. To do this, simply go to “File” -&gt; “Project Structure” -&gt; “Libraries” 
+and add the javalib inside your repo. See <a href="../lab/lab2setup/lab2setup-2.html#getting-java-libraries">Lab 2 Setup</a> 
+for additional instructions on adding Java libraries.</p>
+
+<h2 id="everything-looks-right-but-it-still-doesnt-work">Everything looks right but it still doesn’t work!</h2>
+
+<p>Sometimes the easiest thing is to simply do it all over again. Even if you know you
+just did everything correctly, starting over very often just fixes the problem.
+First close the project (“File” -&gt; “Close Project”) and then reimport the project
+from the beginning.</p>
+
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/guides/intellij-wtfs by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:21:09 GMT -->
+</html>

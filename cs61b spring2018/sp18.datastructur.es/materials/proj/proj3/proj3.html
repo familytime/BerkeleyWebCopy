@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/proj/proj3/proj3 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Project 3: Bear Maps, version 3.0 | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Project 3: Bear Maps, version 3.0</header><ul id="markdown-toc">
+  <li><a href="#table-of-contents" id="markdown-toc-table-of-contents">Table of Contents</a></li>
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a>    <ul>
+      <li><a href="#meta-advice" id="markdown-toc-meta-advice">Meta Advice</a></li>
+    </ul>
+  </li>
+  <li><a href="#getting-the-skeleton-files" id="markdown-toc-getting-the-skeleton-files">Getting the Skeleton Files</a></li>
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a>    <ul>
+      <li><a href="#application-structure" id="markdown-toc-application-structure">Application Structure</a></li>
+      <li><a href="#assignment-overview" id="markdown-toc-assignment-overview">Assignment Overview</a></li>
+      <li><a href="#testing" id="markdown-toc-testing">Testing</a></li>
+    </ul>
+  </li>
+  <li><a href="#map-rastering-part-i-overview" id="markdown-toc-map-rastering-part-i-overview">Map Rastering (Part I Overview)</a></li>
+  <li><a href="#image-file-layout-and-bounding-boxes" id="markdown-toc-image-file-layout-and-bounding-boxes">Image File Layout and “Bounding Boxes”</a></li>
+  <li><a href="#map-rastering-api" id="markdown-toc-map-rastering-api">Map Rastering (API)</a>    <ul>
+      <li><a href="#extra-details-and-corner-cases" id="markdown-toc-extra-details-and-corner-cases">Extra Details and Corner Cases</a>        <ul>
+          <li><a href="#runtime" id="markdown-toc-runtime">Runtime</a></li>
+          <li><a href="#warning" id="markdown-toc-warning">Warning</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#routing--location-data-part-ii" id="markdown-toc-routing--location-data-part-ii">Routing &amp; Location Data (Part II)</a></li>
+  <li><a href="#route-search-part-iii" id="markdown-toc-route-search-part-iii">Route Search (Part III)</a>    <ul>
+      <li><a href="#runtime--a" id="markdown-toc-runtime--a">Runtime &amp; A*</a></li>
+      <li><a href="#turn-by-turn-navigation" id="markdown-toc-turn-by-turn-navigation">Turn-by-turn Navigation</a></li>
+      <li><a href="#supplemental-information" id="markdown-toc-supplemental-information">Supplemental Information</a></li>
+    </ul>
+  </li>
+  <li><a href="#autocompletion-and-search-12-gold-points" id="markdown-toc-autocompletion-and-search-12-gold-points">Autocompletion and Search (12 gold points)</a>    <ul>
+      <li><a href="#locations" id="markdown-toc-locations">Locations</a></li>
+      <li><a href="#autocomplete" id="markdown-toc-autocomplete">Autocomplete</a>        <ul>
+          <li><a href="#runtime-1" id="markdown-toc-runtime-1">Runtime</a></li>
+        </ul>
+      </li>
+      <li><a href="#search" id="markdown-toc-search">Search</a>        <ul>
+          <li><a href="#runtime-2" id="markdown-toc-runtime-2">Runtime</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#possible-extensions-optional" id="markdown-toc-possible-extensions-optional">Possible Extensions (optional)</a>    <ul>
+      <li><a href="#front-end-integration" id="markdown-toc-front-end-integration">Front-end Integration</a></li>
+      <li><a href="#vectored-tiles" id="markdown-toc-vectored-tiles">Vectored Tiles</a></li>
+    </ul>
+  </li>
+  <li><a href="#heroku-deployment" id="markdown-toc-heroku-deployment">Heroku Deployment</a></li>
+  <li><a href="#faq" id="markdown-toc-faq">FAQ</a>    <ul>
+      <li><a href="#i-provided-the-correct-string-output-but-it-doesnt-show-up" id="markdown-toc-i-provided-the-correct-string-output-but-it-doesnt-show-up">I provided the correct String[][] output but it doesn’t show up!</a></li>
+      <li><a href="#i-checked-every-element-of-map-i-return-with-getmapraster-and-theyre-all-correct-but-still-nothing-is-appearing" id="markdown-toc-i-checked-every-element-of-map-i-return-with-getmapraster-and-theyre-all-correct-but-still-nothing-is-appearing">I checked every element of map I return with getMapRaster and they’re all correct, but still nothing is appearing.</a></li>
+      <li><a href="#my-initial-map-doesnt-fill-up-the-screen" id="markdown-toc-my-initial-map-doesnt-fill-up-the-screen">My initial map doesn’t fill up the screen!</a></li>
+      <li><a href="#in-the-browser-zooming-out-only-appears-to-shift-the-map-and-im-confident-my-rastering-code-is-correct" id="markdown-toc-in-the-browser-zooming-out-only-appears-to-shift-the-map-and-im-confident-my-rastering-code-is-correct">In the browser, zooming out only appears to shift the map, and I’m confident my rastering code is correct</a></li>
+      <li><a href="#i-dont-draw-the-entire-query-box-on-some-inputs-because-i-dont-intersect-enough-tiles" id="markdown-toc-i-dont-draw-the-entire-query-box-on-some-inputs-because-i-dont-intersect-enough-tiles">I don’t draw the entire query box on some inputs because I don’t intersect enough tiles.</a></li>
+      <li><a href="#im-getting-funky-behavior-with-moving-the-map-around-my-image-isnt-large-enough-at-initial-load-after-the-initial-load-i-cant-move-the-map-or-after-the-initial-load-i-start-getting-nan-as-input-params" id="markdown-toc-im-getting-funky-behavior-with-moving-the-map-around-my-image-isnt-large-enough-at-initial-load-after-the-initial-load-i-cant-move-the-map-or-after-the-initial-load-i-start-getting-nan-as-input-params">I’m getting funky behavior with moving the map around, my image isn’t large enough at initial load, after the initial load, I can’t move the map, or after the initial load, I start getting NaN as input params.</a></li>
+      <li><a href="#i-sometimes-pass-the-timing-tests-when-i-submit-but-not-consistently" id="markdown-toc-i-sometimes-pass-the-timing-tests-when-i-submit-but-not-consistently">I sometimes pass the timing tests when I submit, but not consistently.</a></li>
+      <li><a href="#how-do-query-boxes-or-bounding-boxes-make-sense-on-a-round-world" id="markdown-toc-how-do-query-boxes-or-bounding-boxes-make-sense-on-a-round-world">How do query boxes or bounding boxes make sense on a round world?</a></li>
+      <li><a href="#why-cant-i-use-java-9-features" id="markdown-toc-why-cant-i-use-java-9-features">Why can’t I use Java 9 features?</a></li>
+      <li><a href="#im-suddenly-having-compilation-issues" id="markdown-toc-im-suddenly-having-compilation-issues">I’m suddenly having compilation issues.</a></li>
+      <li><a href="#im-missing-xml-files-andor-library-sp18-is-not-updated" id="markdown-toc-im-missing-xml-files-andor-library-sp18-is-not-updated">I’m missing xml files and/or library-sp18 is not updated.</a></li>
+    </ul>
+  </li>
+  <li><a href="#common-bugs" id="markdown-toc-common-bugs">Common Bugs</a></li>
+  <li><a href="#office-hours" id="markdown-toc-office-hours">Office Hours</a></li>
+  <li><a href="#submission" id="markdown-toc-submission">Submission</a></li>
+  <li><a href="#acknowledgements" id="markdown-toc-acknowledgements">Acknowledgements</a></li>
+</ul>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#overview">Overview</a></li>
+  <li><a href="#map-rastering-part-i-overview">Map Rastering (Part I Overview)</a></li>
+  <li><a href="#routing--location-data-part-ii">Routing &amp; Location Data (Part II)</a></li>
+  <li><a href="#route-search-part-iii">Route Search (Part III)</a></li>
+  <li><a href="#autocompletion-and-search-12-gold-points">Autocompletion and Search (12 gold points)</a></li>
+  <li><a href="#possible-extensions-optional">Possible Extension (optional)</a></li>
+  <li><a href="#faq">Frequently Asked Questions</a></li>
+  <li><a href="#common-bugs">Common Bugs</a></li>
+  <li><a href="#office-hours">Office Hours</a></li>
+  <li><a href="#submission">Submission</a></li>
+  <li><a href="#acknowledgements">Acknowledgements</a></li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>This project was originally created by former TA <a href="https://www.linkedin.com/in/alanyao">Alan Yao</a> (now at AirBNB). It is a web mapping application inspired by Alan’s time on the Google Maps team and the <a href="http://www.openstreetmap.org/">OpenStreetMap</a> project, from which the tile images and map feature data was downloaded. You are working with real-world mapping data here that is freely available - after you’ve finished this project, you can even extend your code to support a wider range of features. You will be writing the back end - the web server that powers the API that the front end makes requests to. The <a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD6xsQBRCY5Su-vbkf0X4gq8">project 3 video playlist</a> starts with an introductory video that should help you get started. The slides that will be used in the project 3 video playlist are <a href="https://docs.google.com/presentation/d/1ggqEZJdNX4Rif99997PqwwOYnfzEe6NUa6qg76joC3w/edit?usp=sharing">available here</a>.</p>
+
+<p>This project is a <strong>solo project</strong>. You should not work with a partner. One of our biggest goals for 61B is to develop your independence as a programmer, and this project is a great milestone for you to complete on your own before you go on to bigger and better things. Please make sure to review the <a href="../../../about.html#policy-on-collaboration-and-cheating">course collaboration policy</a>, as this is the project that tends to generate the most issues with academic dishonesty. You should NOT be working very closely with a group on this entire project, though it is OK to discuss with others in ways that obey the collaboration policy.</p>
+
+<p>The point breakdown for this 150 point project are as follows: 75 points for Part I. 75 points for Parts II and III (exact distribution TBA). You can also earn 6 extra credit points for submitting to the extra credit autograder by Friday 4/13/2018, which will cover only Part I. 12 gold points can be earned for completing Autocomplete.</p>
+
+<p>By the end of this project, with some extra work, you can even host your application as a web app. More details will be provided at the end of this spec.</p>
+
+<p>There is a reference version of the spring 17 version of the project that you can try out at <a href="http://grigomaps.herokuapp.com/map.html">http://grigomaps.herokuapp.com/map.html</a>. It will probably be quite slow given that lots of people will be using it. We will be updating this with a spring 18 version soon.</p>
+
+<!-- There is a reference version of the project solution running on Amazon AWS here **TODO: LINK SOLUTION INSTANCE**.-->
+
+<h4 id="meta-advice">Meta Advice</h4>
+
+<p><em>This spec is not meant to be a comprehensive explanation of exactly how to complete the project.</em> Many design decisions are left to you, although suggestions are provided. Many implementation details are not given; you are expected to browse through the entirety of the skeleton (which is well-commented or self-explanatory) and the javadoc comments to determine how to proceed. You will especially want to take careful note of the constants defined, such as <code class="highlighter-rouge">ROOT_ULLAT</code>.</p>
+
+<p>However, the spec is written in a way so that you can proceed linearly down - that is, while each feature is partially dependent on the previous one, your design decisions, as long as they are generally reasonable, should not obstruct how you think about implementing the following parts. You <strong>are required to read the entire spec section before asking questions</strong>. If your question is answered in the spec, we will only direct you to the spec.</p>
+
+<h2 id="getting-the-skeleton-files">Getting the Skeleton Files</h2>
+
+<p>Pull the skeleton using the command <code class="highlighter-rouge">git pull skeleton master</code>. You’ll also need to update the <code class="highlighter-rouge">library-sp18</code> folder. You can update it by running <code class="highlighter-rouge">git pull origin master</code> inside the <code class="highlighter-rouge">library-sp18</code> directory, and if everything works as it should, you should see a collection of thousands of png files appear in the <code class="highlighter-rouge">library-sp18/data</code> folder.</p>
+
+<p>Project 3 uses <a href="https://maven.apache.org/">Apache Maven</a> as its build system; it integrates with IntelliJ. You will want to create a new IntelliJ project for project 3. In IntelliJ, go to New -&gt; Project from Existing Sources. Then:</p>
+<ol>
+  <li>Select your proj3 folder, press next, and make sure to select “Import project from external model” and select Maven. Press next.</li>
+  <li>At the Import Project window, check: “Import Maven projects automatically”.</li>
+  <li>Press next until the end. If your operating system asks if IntelliJ can have permission to access your network connection, say yes.</li>
+  <li>It is possible that IntelliJ will not “mark” your folders correctly: Make sure to mark, if not done so already, the<code class="highlighter-rouge"> src/main/java</code> directory as a sources root, the <code class="highlighter-rouge">src/static</code> directory as a sources root, and the <code class="highlighter-rouge">src/test/java</code> directory as a test sources root. To do this, right click on the folder in the explorer window (the tab on the left), and towards the bottom of the options you’ll see “Mark Directory As”.</li>
+  <li>Make sure the course javalib is not included in your project or SDK, i.e. make sure it’s not trying to use algs4.jar, etc. You will not need any of these libraries and keeping them may cause conflicts with JUnit. This also means that <strong>you cannot use any libraries outside the Java standard library and the ones already included in the project</strong>. Doing so may cause a compilation error on the autograder. Notably, we are not accommodating usage of the Princeton libraries as they are unnecessary. This project uses real world stuff only!</li>
+</ol>
+
+<p>In case you’re curious, we’re using Maven because there are a large number of library dependencies. Rather than providing them as .jar files to you with GitHub, Maven will automatically download the libraries from the internet.</p>
+
+<p>If you want to use the terminal rather than IntelliJ, please see the description of how to do so in the Spring 2017 spec under the heading “Addendum for Terminal Users”. We will not provide official support for working from the terminal on this project.</p>
+
+<p>Build the project, run <code class="highlighter-rouge">MapServer.java</code> and navigate your browser (Chrome preferred; errors in other browsers will not be supported) to <code class="highlighter-rouge">localhost:4567</code>. This should load up <code class="highlighter-rouge">map.html</code>; by default, there should be a blank map. If you get a “404 Not found” error, you can open <code class="highlighter-rouge">src/static/page/map.html</code> manually by right clicking and going to Open In Browser in IntelliJ. Once you’ve opened map.html, you should see something like the window below, where the front end is patiently waiting on your back end to provide image data. Since you haven’t implemented the back end, this data will never arrive. Sad for your web browser.</p>
+
+<p><img src="startup.png" alt="startup" /></p>
+
+<p>If you get a 404 error, make sure you have marked your folders as described in step 4 above.</p>
+
+<p><strong>Absolutely make sure to end your instance of <code class="highlighter-rouge">MapServer</code> before re-running or starting another up.</strong> Not doing so will cause a <code class="highlighter-rouge">java.net.BindException: Address already in use</code>. If you end up getting into a situation where you computer insists the address is already in use, either figure out how to kill all java processes running on your machine (using Stack Overflow or similar) or just reboot your computer.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>For a video introduction to this assignment, see <a href="https://www.youtube.com/playlist?list=PL8FaHk7qbOD6xsQBRCY5Su-vbkf0X4gq8">this playlist</a>. These videos are completely optional, but give some tips and visual motivation for some of the things you’re doing in this assignment. The getting started slides for these videos are available <a href="https://docs.google.com/presentation/d/1ggqEZJdNX4Rif99997PqwwOYnfzEe6NUa6qg76joC3w/edit?usp=sharing">at this link</a>.</p>
+
+<h3 id="application-structure">Application Structure</h3>
+
+<p>Your job for this project is to implement the back end of a web server. To use your program, a user will open an html file in their web browser that displays a map of the city of Berkeley, and the interface will support scrolling, zooming, and route finding (similar to Google Maps). We’ve provided all of the <a href="https://en.wikipedia.org/wiki/Front_and_back_ends">“front end”</a> code. Your code will be the “back end” which does all the hard work of figuring out what data to display in the web browser.</p>
+
+<!--
+Let's look at a quick example:
+
+![endpoint](endpoint.PNG)-->
+
+<p>At its heart, the project works like this: The user’s web browser provides a URL to your Java program, and your Java program will take this URL and generate the appropriate output, which will displayed in the browser. For example, suppose your program were running at bloopblorpmaps.com, the URL might be:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bloopblorpmaps.com/raster&amp;ullat=37.89&amp;ullon=-122.29&amp;lrlat=37.83&amp;lrlon=-122.22&amp;w=700&amp;h=300
+</code></pre></div></div>
+
+<p>The job of the back end server (i.e. your code) is take this URL and generate an image corresponding to a map of the region specified inside the URL (more on how regions are specified later). This image will be passed back to the front end for display in the web browser.</p>
+
+<!--You'll notice the web address is strange, starting with localhost:4365 instead of something like www.eecs.berkeley.edu. localhost means that the website is on your own computer, and the "4365" refers to a port number, something that you'll learn about in a future class.-->
+
+<p>We’ll not only be providing the front end (in the form of .html and javascript files), but we’ll also provide a great deal of starter code (in the form of .java files) for the back end. This starter code will handle all URL parsing and communication for the front end. This code uses the <a href="http://sparkjava.com/documentation.html#getting-started">Java Spark</a> as the server framework. You don’t need to worry about the internals of this as our code handles all the messy translation between web browser and your Java programs.</p>
+
+<!--
+We are also providing you with a file, `map.html`, in `src/static/page`, which implements a basic front-end user interface. This basic Javascript application makes the necessary API calls to render a map that can be navigated around and can show routes and locations. -->
+
+<h3 id="assignment-overview">Assignment Overview</h3>
+
+<p>You will implement three required classes for this project, in addition to any helper classes that you decide to create. These three classes are <code class="highlighter-rouge">Rasterer</code>, <code class="highlighter-rouge">GraphDB</code>, and <code class="highlighter-rouge">Router</code>. They are described very briefly below. More verbose descriptions follow.</p>
+
+<p>The <code class="highlighter-rouge">Rasterer</code> class will take as input an upper left latitude and longitude, a lower right latitude and longitude, a window width, and a window height. Using these six numbers, it will produce a 2D array of filenames corresponding to the files to be rendered. Historically, this has been the hardest task to fully comprehend and most time consuming part of the project.</p>
+
+<p>The <code class="highlighter-rouge">GraphDB</code> class will read in the Open Street Map dataset and store it as a graph. Each node in the graph will represent a single intersection, and each edge will represent a road. How you store your graph is up to you. This will be the strangest part of the project, since it involves using complex real world libraries to process complex real world data.</p>
+
+<p>The <code class="highlighter-rouge">Router</code> class will take as input a <code class="highlighter-rouge">GraphDB</code>, a starting latitude and longitude, and a destination latitude and longitude, and it will produce a list of nodes (i.e. intersections) that you get from the start point to the end point. This part will be similar to the PuzzleSolver assignment, since you’ll be implementing A* again, but now with an explicit graph object (that you build in <code class="highlighter-rouge">GraphDB</code>). As an additional feature, you will be taking that list to generate a sequence of driving instructions that the server will then be able display.</p>
+
+<p>We’ve provided a nice set of html <a href="doc/package-summary.html">javadocs</a> that you can use to browse and understand the API for the classes you’ll be modifying.</p>
+
+<p>Warning: Unlike prior assignments in your CS classes, we’ll be working with somewhat messy real world data. This is going to be frustrating at times, but it’s an important skill and something that we think will serve you well moving forwards. If you’re someone who thinks of yourself as a weaker programmer, make sure to start ASAP.</p>
+
+<p>The biggest challenges in this assignment will be understanding what rastering is supposed to do, as well as figuring out how to parse XML files for <code class="highlighter-rouge">GraphDB</code>.</p>
+
+<p>In the <code class="highlighter-rouge">src/test/java</code> folder, we’ve provided some client side JUnit tests that you can run for each part. Make sure to use this to drive your development process.</p>
+
+<h3 id="testing">Testing</h3>
+
+<p>The <code class="highlighter-rouge">src/test/java</code> file contains six test files. These tests are to help save you time. In an ideal world, we’d have more time to get you to write theese tests yourself so that you’d deeply understand them, but we’re giving them to you for free. You should avoid leaning too heavily on these tests unless you really understand them! The staff will not explain individual test failures that are covered elsewhere in the spec, and you are expected to be able to resolve test failures using the skills you’ve been learning all semester to effectively debug.</p>
+
+<p>Ineffective/inappropriate strategies for debugging: running the JUnit tests over and over again while making small changes each time, staring at the error messages and then posting on piazza asking what they mean rather than carefully reading the message and working to understand it.</p>
+
+<p>Effective strategies include: using the debugger; reproducing the buggy inputs in a simpler file that you write yourself; <a href="https://en.wikipedia.org/wiki/Rubber_duck_debugging">rubber ducky debugging</a>, etc.</p>
+
+<p>You can feel free to modify these files however you want. We will not be testing your code on the same data as is given to you for your local testing - thus, if you pass all the tests in this file, you are not guaranteed to pass all the tests on the actual autograder.</p>
+
+<p>These tests should be mostly self-explanatory. If you’re failing routing tests, make sure you’re passing all graph building tests, since your router will almost certainly fail if your graph is not working.</p>
+
+<p>The tiny versions of the graph builder test and router test are on a graph so small that you can draw it out by hand and even compute the results of the routing queries by eye. This graph is depicted below (lat and lon not show). Each edge in the image represents a different way (colors picked such that they should appear distinct, so long as you are not 100% achromatopsic). See tiny-clean.osm.xml for the full details.
+<img src="tiny-graph.png" alt="Console" /></p>
+
+<p>We’ve also provided html test files, <code class="highlighter-rouge">test.html</code>, <code class="highlighter-rouge">testTwelveImages.html</code>, and <code class="highlighter-rouge">test1234.html</code> that you can use to test your project without using the front-end. These files make a /raster API call and draws the result. You can modify the query parameters in these files. These files allow you to make a specific call easily.</p>
+
+<p>If you want to debug using <code class="highlighter-rouge">map.html</code>, you may find your browser’s Javascript console handy: on Windows, in Chrome you can press F12 to open up the developer tools, click the network tab, and all calls to your MapServer should be listed under type xhr, and if you mouse-over one of these xhr lines, you should see the full query appear, for example (click for higher resolution):
+<a href="js_console_network_tab.png"><img src="js_console_network_tab.png" alt="Console" /></a></p>
+
+<p>You can also see the replies from your MapServer in the console tab, e.g. (click for higher resolution)
+<a href="js_console_console_tab.png"><img src="js_console_console_tab.png" alt="Console" /></a></p>
+
+<p>We’re not 100% sure that the <code class="highlighter-rouge">TestDirections</code> tests work correctly. If you find any bugs, let us know. Don’t sweat it if you’re failing these. This part of the project is not for a grade.</p>
+
+<h2 id="map-rastering-part-i-overview">Map Rastering (Part I Overview)</h2>
+
+<p>Rastering is the job of converting information into a pixel-by-pixel image. In the <code class="highlighter-rouge">Rasterer</code> class you will take a user’s desired viewing rectangle and generate an image for them.</p>
+
+<p>The user’s desired input will be provided to you as a <code class="highlighter-rouge">Map&lt;String, Double&gt; params</code>, and the main goal of your rastering code will be to create a <code class="highlighter-rouge">String[][]</code> that corresponds to the files that should be displayed in response to this query.</p>
+
+<p>As a specific example (given as “testTwelveImages.html” in the skeleton files), the user might specify that they want the following information:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{lrlon=-122.2104604264636, ullon=-122.30410170759153, w=1085.0, h=566.0, ullat=37.870213571328854, lrlat=37.8318576119893}
+</code></pre></div></div>
+
+<p>This means that the user wants the area of earth delineated by the rectangle between longitudes <strong>-122.2104604264636</strong> and <strong>-122.30410170759153</strong> and latitudes <strong>37.870213571328854</strong> and <strong>37.8318576119893</strong>, and that they’d like them displayed in a window roughly <strong>1085</strong> x <strong>566</strong> pixels in size (width x height). We call the user’s desired display location on earth the <strong>query box</strong>.</p>
+
+<p>To display the requested information, you need street map pictures, which we have provided in <code class="highlighter-rouge">library-sp18</code>. All of the images provided are 256 x 256 pixels. Each image is at various levels of zoom. For example, the file <code class="highlighter-rouge">d0_x0_y0.png</code> is the entire map, and covers the entire region. The files <code class="highlighter-rouge">d1_x0_y0.png</code>, <code class="highlighter-rouge">d1_x0_y1.png</code>, <code class="highlighter-rouge">d1_x1_y0.png</code>, and <code class="highlighter-rouge">d1_x1_y1.png</code> are also the entire map, but at double the resolution, i.e. <code class="highlighter-rouge">d1_x0_y0</code> is the northwest corner of the map, <code class="highlighter-rouge">d1_x1_y0</code> is the northeast corner, <code class="highlighter-rouge">d1_x0_y1</code> is the southwest corner, and <code class="highlighter-rouge">d1_x1_y1</code> is the southeast corner.</p>
+
+<p>More generally, at the Dth level of zoom, there are 4^D images, with names ranging from <code class="highlighter-rouge">dD_x0_y0</code> to <code class="highlighter-rouge">dD_xk_yk</code>, where k is 2^D - 1. As x increases from 0 to k, we move eastwards, and as y increases from 0 to k, we move southwards.</p>
+
+<p>The job of your rasterer class is decide, given a user’s query, which files to serve up. For the example above, your code should return the following 2D array of strings:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[[d2_x0_y1.png, d2_x1_y1.png, d2_x2_y1.png, d2_x3_y1.png],
+[d2_x0_y2.png, d2_x1_y2.png, d2_x2_y2.png, d2_x3_y2.png],
+[d2_x0_y3.png, d2_x1_y3.png, d2_x2_y3.png, d2_x3_y3.png]]
+</code></pre></div></div>
+
+<p>This means that the browser should display <code class="highlighter-rouge">d2_x0_y1.png</code> in the top left, then <code class="highlighter-rouge">d2_x1_y1.png</code> to the right of <code class="highlighter-rouge">d2_x0_y1.png</code>, and so forth. Thus our “rastered” image is actually a combination of 12 images arranged in 3 rows of 4 images each.</p>
+
+<p>Our <code class="highlighter-rouge">MapServer</code> code will take your 2D array of strings and display the appropriate image in the browser. If you’re curious how this works, see <code class="highlighter-rouge">writeImagesToOutputStream</code>.</p>
+
+<p>Since each image is 256 x 256 pixels, the overall image given above will be 1024 x 768 pixels. There are many combinations of images that cover the query box. For example, we could instead use higher resolution images of the exact same areas of Berkeley. For example, instead of using <code class="highlighter-rouge">d2_x0_y1.png</code>, we could have used <code class="highlighter-rouge">d3_x0_y2.png</code>, <code class="highlighter-rouge">d3_x1_y2.png</code>, <code class="highlighter-rouge">d3_x0_y3.png</code>, <code class="highlighter-rouge">d3_x1_y3.png</code> while also substituting <code class="highlighter-rouge">d2_x1_y1.png</code> by <code class="highlighter-rouge">d3_x2_y2.png</code>, <code class="highlighter-rouge">d3_x3_y2.png</code>, etc. The result would be total of 48 images arranged in 6 rows of 8 images each (make sure this makes sense!). This would result in a 2048 x 1536 pixel image.</p>
+
+<p>You might be tempted to say that a 2048 x 1536 image is more appropriate than 1024 x 768. After all, the user requested 1085 x 556 pixels and 1024 x 768 is too small to cover the request in the width direction. However, pixel counts are not the way that we decide which images to use.</p>
+
+<p>Instead, to rigorously determine which images to use, we will define the <strong>longitudinal distance per pixel (LonDPP)</strong> as follows: Given a query box or image, the LonDPP of that box or image is</p>
+
+<p>$\text{LonDPP} = \frac{\text{lower right longitude} - \text{upper left longitude}}{\text{width of the image (or box) in pixels}}$</p>
+
+<p>For example, for the query box in the example in this section, the LonDPP is (-122.2104604264636 + 122.30410170759153) / (1085) or 0.00008630532 units of longitude per pixel. At Berkeley’s latitude, this is very roughly 25 feet of distance per pixel.</p>
+
+<p>Note that the longitudinal (horizontal) distance per pixel is not the same as the latidudinal (vertical) distance per pixel. This is because the earth is curved. If you use latDPP, you will have incorrect results.</p>
+
+<p>The images that you return as a <code class="highlighter-rouge">String[][]</code> when rastering must be those that:</p>
+<ul>
+  <li>Include any region of the query box.</li>
+  <li>Have the greatest LonDPP that is less than or equal to the LonDPP of the query box (as zoomed out as possible). If the requested LonDPP is less than what is available in the data files, you should use the lowest LonDPP available instead (i.e. depth 7 images).</li>
+</ul>
+
+<p>For image depth 1 (e.g. <code class="highlighter-rouge">d1_x0_y0</code>), every tile has LonDPP equal to <code class="highlighter-rouge">0.000171661376953125</code> (for an explanation of why, see the next section) which is greater than the LonDPP of the query box, and is thus unusable. This makes intuitive sense: If the user wants an image which covers roughly 25 feet per pixel, we shouldn’t use an image that covers ~50 feet per pixel because the resolution is too poor. For image depth 2 (e.g. <code class="highlighter-rouge">d2_x0_y1</code>), the LonDPP is 0.0000858306884765625, which is better (i.e. smaller) than the user requested, so this is fine to use. For depth 3 tiles (e.g. <code class="highlighter-rouge">d3_x0_y2.png</code>), the LonDPP is 0.00004291534423828125. This is also smaller than the desired LonDPP, but using it is overkill since depth 2 tiles (e.g. <code class="highlighter-rouge">d2_x0_y1</code>) are already good enough. In my head, I find it useful to think of LonDPP as “blurriness”, i.e. the <code class="highlighter-rouge">d0</code> image is the blurriest (most zoomed out/highest LonDPP), and the <code class="highlighter-rouge">d7</code> images are the sharpest (most zoomed in, lowest LonDPP).</p>
+
+<p>As an example of an intersection query, consider the image below, which summarizes key parameter names and concepts. In this example search, the query box intersects 9 of the 16 tiles at depth 2.</p>
+
+<p><img src="rastering_example.png" alt="rastering_example" /></p>
+
+<p>For an interactive demo of how the provided images are arranged, see this <a href="FileDisplayDemo.html">FileDisplayDemo</a>. Try typing in a filename (.png extension is optional), and it will show what region of the map this file corresponds to, as well as the exact coordinates of its corners, in addition to the LonDPP in both longitude units per pixel and feet per pixel.</p>
+
+<p>CLARIFICATION (4/10/2018): You do not need to take into account the curvature of the earth for rastering. The effect is too small to matter. You WILL need to take into account the curvature of the earth for routing, since in that case, it can have a small effect.</p>
+
+<p>One natural question is: Why not use the best quality images available (i.e. smallest LonDPP, e.g. depth 7 images like <code class="highlighter-rouge">d7_x0_y0.png</code>)? The answer is that the front end doesn’t do any rescaling, so if we used ultra low LonDPPs for all queries, we’d end up with absolutely gigantic images displayed in our web browser.</p>
+
+<h2 id="image-file-layout-and-bounding-boxes">Image File Layout and “Bounding Boxes”</h2>
+
+<p>There are four constants that define the coordinates of the world map, all given in <code class="highlighter-rouge">MapServer.java</code>. The first is <code class="highlighter-rouge">ROOT_ULLAT</code>, which tells us the latitude of the upper left corner of the map. The second is <code class="highlighter-rouge">ROOT_ULLON</code>, which tells us the longitude of the upper left corner of the map. Similarly, <code class="highlighter-rouge">ROOT_LRLAT</code> and <code class="highlighter-rouge">ROOT_LRLON</code> give the latitude and longitude of the lower right corner of the map. All of the coordinates covered by a given tile are called the “bounding box” of that tile. So for example, the single depth 0 image <code class="highlighter-rouge">d0_x0_y0</code> covers the coordinates given by <code class="highlighter-rouge">ROOT_ULLAT</code>, <code class="highlighter-rouge">ROOT_ULLON</code>, <code class="highlighter-rouge">ROOT_LRLAT</code>, and <code class="highlighter-rouge">ROOT_LRLON</code>.</p>
+
+<p>Recommended exercise: Try opening <code class="highlighter-rouge">d0_x0_y0.png</code>. Then try using Google Maps to show the point given by <code class="highlighter-rouge">ROOT_ULLAT</code>, <code class="highlighter-rouge">ROOT_ULLON</code>. You should see that this point is the same as the top left corner of <code class="highlighter-rouge">d0_x0_y0.png</code>.</p>
+
+<p>Another important constant in <code class="highlighter-rouge">MapServer.java</code> is <code class="highlighter-rouge">TILE_SIZE</code>. This is important because we need this to compute the LonDPP of an image file. For the depth 0 tile, the LonDPP is just <code class="highlighter-rouge">(ROOT_LRLON - ROOT_ULLON)/TILE_SIZE</code>, i.e. the number of units of longitude divided by the number of pixels.</p>
+
+<p>All levels in the image library cover the exact same area. So for example, <code class="highlighter-rouge">d1_x0_y0.png</code>, <code class="highlighter-rouge">d1_x1_y0.png</code>, <code class="highlighter-rouge">d1_x0_y1.png</code>, and <code class="highlighter-rouge">d1_x1_y1.png</code> comprise the northwest, northeast, southwest, and southeast corners of the entire world map with coordinates given by the <code class="highlighter-rouge">ROOT_ULLAT</code>, <code class="highlighter-rouge">ROOT_ULLON</code>, <code class="highlighter-rouge">ROOT_LRLAT</code>, and <code class="highlighter-rouge">ROOT_LRLON</code> parameters.</p>
+
+<p>The bounding box given by an image can be mathematically computed using the information above. For example, suppose we want to know the region of the world that <code class="highlighter-rouge">d1_x1_y1.png</code> covers. We take advantage of the fact that we know that <code class="highlighter-rouge">d0_x0_y0.png</code> covers the region between longitudes <strong>-122.29980468</strong> and <strong>-122.21191406</strong> and between latitudes <strong>37.82280243</strong> and <strong>37.89219554</strong>. Since <code class="highlighter-rouge">d1_x1_y1.png</code> is just the southeastern quarter of this region, we know that it covers the region between longitudes <strong>-122.25585937</strong> and <strong>-122.21191406</strong> and between latitudes <strong>37.82280243</strong> and <strong>37.85749898</strong>.</p>
+
+<p>Similarly, we can compute the LonDPP in a similar way. Since <code class="highlighter-rouge">d1_x1_y1.png</code> is 256 x 256 pixels (as are all image tiles), the LonDPP is <code class="highlighter-rouge">(-122.21191406 - -122.25585937)/256</code> or 0.00017166.</p>
+
+<p>If you’ve fully digested the information described in the spec so far, you now know enough to figure out which files to provide given a particular query box. See the project 3 slides and video for more hints if you’re stuck.</p>
+
+<p>Note: If someone is helping you who took 61B in the past, they might suggest using a Quadtree, which was the previously recommended way of solving the tile identification problem. You’re welcome to attempt this approach, but the project has changed enough that Quadtrees are no longer necessary nor desirable as a solution.</p>
+
+<h2 id="map-rastering-api">Map Rastering (API)</h2>
+
+<p>In Java, you will implement the <code class="highlighter-rouge">Rasterer</code> by filling in a single method:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public Map&lt;String, Object&gt; getMapRaster(Map&lt;String, Double&gt; params)
+</code></pre></div></div>
+
+<p>The given params are described in the skeleton code. An example is provided in the “Map Rastering (Overview)” section above, and you can always try opening up one of our provided html files and simply printing out <code class="highlighter-rouge">params</code> when this method is called to see what you’re given.</p>
+
+<p>Your code should return a <code class="highlighter-rouge">Map&lt;String, Object&gt;</code> as described in the Javadocs (the /** */ comments in the skeleton code). We do this as a way to hack around the fact that Java methods can only return one value. This map includes not just the two dimensional array of strings, but also a variety of other useful information that will be used by your web browser to display the image nicely (e.g. “raster_width” and “raster_height”). See the Javadocs for more details.</p>
+
+<h3 id="extra-details-and-corner-cases">Extra Details and Corner Cases</h3>
+
+<p>When the client makes a call to <code class="highlighter-rouge">/raster</code> with the required parameters, the request handler will validate that all the required parameters are present (as declared in <code class="highlighter-rouge">REQUIRED_RASTER_REQUEST_PARAMS</code>. Then, in the Map <code class="highlighter-rouge">params</code>, those parameters are keys that you will be able to get the value of: for example, if I wanted to know the upper left point’s longitude of the query rectangle, I could call <code class="highlighter-rouge">params.get("ullon")</code>.</p>
+
+<p>The query window shown above corresponds to the viewing window in the client. Although you are returning a full image, it will be translated (with parts off the window) appropriately by the client.</p>
+
+<!-- There is one edge case that you may want to consider (although if you write your code naturally, it may not need to be explicitly handled): your query window in pixels may not be perfectly proportional to your query window in world-space distance (lat and lon). However, you only care about the pixels for dpp and lat and lon for intersection. -->
+
+<p>You may end up with an image, for some queries, that ends up not filling the query box and that is okay - this arises when your latitude and longitude query do not intersect enough tiles to fit the query box. You can imagine this happening with a query very near the edge (in which case you just don’t collect tiles that go off the edge); a query window that is very large, larger than the entire dataset itself; or a query window in lat and lon that is not proportional to its size in pixels (as an example of a query window whose width/height is not proportional to lat/lon, see the example on <a href="https://docs.google.com/presentation/d/1ggqEZJdNX4Rif99997PqwwOYnfzEe6NUa6qg76joC3w/edit#slide=id.g12a010f126_0_372">this slide</a>).</p>
+
+<p>You can also imagine that the user might drag the query box to a location that is completely outside of the root longitude/latitudes. In this case, there is nothing to raster, <code class="highlighter-rouge">raster_ul_lon</code>, <code class="highlighter-rouge">raster_ul_lat</code>, etc. are arbitrary, and you should set <code class="highlighter-rouge">query_success: false</code>. If the server receives a query box that doesn’t make any sense, eg. <code class="highlighter-rouge">ullon, ullat</code> is located to the right of <code class="highlighter-rouge">lrlon, lrlat</code>, you should also ensure <code class="highlighter-rouge">query_success</code> is set to false.</p>
+
+<h4 id="runtime">Runtime</h4>
+<p>Your constructor should take time linear in the number of tiles that match the query.</p>
+
+<p>You may not iterate through / explore all tiles to search for intersections. Suppose there are <strong>k</strong> tiles intersecting a query box, and <strong>n</strong> tiles total. Your entire query should run in <strong>O(k)</strong> time. Your algorithm should not run in <strong>Θ(n)</strong> time. This is not for performance reasons, since n is going to be pretty small in the real world (less than tens of thousands), but rather because the Θ(n) algorithm is inelegant.</p>
+
+<p>The autograder is not smart enough to tell the difference, so if you really insist, you can do the <strong>Θ(n)</strong> algorithm. But we encourage you to try to figure out something better.</p>
+
+<h4 id="warning">Warning</h4>
+
+<p>You will very likely get latitude and longitude or x and y mixed up at least once. You will also likely mix up which way is up vs. down for y. Make sure to check for that!</p>
+
+<h2 id="routing--location-data-part-ii">Routing &amp; Location Data (Part II)</h2>
+
+<p>In this part of the project, you’ll use a real world dataset combined with an industrial strength dataset parser to construct a graph. This is similar to tasks you’ll find yourself doing in the real world, where you are given a specific tool and a dataset to use, and you have to figure out how they go together. It’ll feel shaky at first, but once you understand what’s going on it won’t be so bad.</p>
+
+<p>Routing and location data is provided to you in the <code class="highlighter-rouge">berkeley.osm</code> file. This is a subset of the full planet’s routing and location data, pulled from <a href="http://download.bbbike.org/osm/">here</a>. The data is presented in the <a href="http://wiki.openstreetmap.org/wiki/OSM_XML">OSM XML file format</a>.</p>
+
+<p>XML is a markup language for encoding data in a document. Open up the <code class="highlighter-rouge">berkeley.osm</code> file for an example of how it looks. Each element looks like an HTML tag, but for the OSM XML format, the content enclosed is (optionally), more elements. Each element has attributes, which give information about that element, and sub-elements, which can give additional information and whose name tell you what kind of information is given.</p>
+
+<p>The first step of this part of the project is to build a graph representation of the contents of <code class="highlighter-rouge">berkeley.osm</code>. We have chosen to use a SAX parser, which is an “event-driven online algorithm for parsing XML documents”. It works by iterating through the elements of the XML file. At the beginning and end of each element, it calls the <code class="highlighter-rouge">startElement</code> and <code class="highlighter-rouge">endElement</code> callback methods with the appropriate parameters.</p>
+
+<p>Your job will be to override the <code class="highlighter-rouge">startElement</code> and <code class="highlighter-rouge">endElement</code> methods so that when the SAX parser has completed, you have built a graph. Understanding how the SAX parser works is going to be tricky.</p>
+
+<p>You will find the Javadocs for <a href="doc/GraphDB.html">GraphDB</a> and <a href="doc/GraphBuildingHandler.html">GraphBuildingHandler</a> helpful, as well as the example code in <code class="highlighter-rouge">GraphBuildingHandler.java</code>, which gives a basic parsing skeleton example. There is an example of a completed handler in the <code class="highlighter-rouge">src/main/java/example</code> folder called <code class="highlighter-rouge">CSCourseDBHandler.java</code> that you might find helpful to look at.</p>
+
+<p>Read through the OSM wiki documentation on the various relevant elements: the <a href="http://wiki.openstreetmap.org/wiki/Tags">idea of a tag</a>, the <a href="http://wiki.openstreetmap.org/wiki/Key:highway">highway key</a>, <a href="http://wiki.openstreetmap.org/wiki/Way">the way element</a>, and <a href="http://wiki.openstreetmap.org/wiki/Node">the node element</a>. You will need to use all of these elements, along with their attribute’s values, to construct your graph for routing.</p>
+
+<p><img src="node_xml.jpg" alt="node" /></p>
+
+<p>The <code class="highlighter-rouge">node</code>, pictured above, comprises the backbone of the map; the lat, lon, and id are required attributes of each node. They may be anything from locations to points on a road. If a node is a location, a tag element, with key “name” will tell you what location it is - above, we see an example.</p>
+
+<p><img src="way_xml.jpg" alt="way" />
+The <code class="highlighter-rouge">way</code>, pictured above, is a road or path and defines a list of <code class="highlighter-rouge">node</code>s, with name <code class="highlighter-rouge">nd</code> and the attribute <code class="highlighter-rouge">ref</code> referring to the node id, all of which are connected in linear order. Tags in the <code class="highlighter-rouge">way</code> will tell you what kind of road it is - if it has a key of “highway”, then the value corresponds to the road type. See the Javadoc on <code class="highlighter-rouge">ALLOWED_HIGHWAY_TYPES</code> for restrictions on which roads we care about. <strong>You should ignore all one-way tags and pretend all roads are two-way</strong> (this means your directions are not safe to use, but there are some inaccuracies in the OSM data anyway).</p>
+
+<p>Part of your job will be decide how to store the graph itself in your <code class="highlighter-rouge">GraphDB</code> class. Note that the final step of graph construction is to “clean” the graph, i.e. to destroy all nodes that are disconnected. Unlike the Princeton graph implementation, your <code class="highlighter-rouge">GraphDB</code> will need to permit the insertion and deletion of nodes.</p>
+
+<p>Note: You don’t need to actually store the <code class="highlighter-rouge">maxSpeed</code> anywhere since we ignore the speed limits when calculating the route in part III. We’ve provided this in the skeleton in case you want to play around with this, but unfortunately the provided data set is missing a bunch of speed limits so didn’t turn out to be particularly useful.</p>
+
+<h2 id="route-search-part-iii">Route Search (Part III)</h2>
+
+<p>The <code class="highlighter-rouge">/route</code> endpoint (kinda like a method in web programming) receives four values for input: the start point’s longitude and latitude, and the end point’s longitude and latitude. Implement <code class="highlighter-rouge">shortestPath</code> in your <code class="highlighter-rouge">Router</code> class so that it satisfies the requirements in the Javadoc.</p>
+
+<p>Your route should be the shortest path that starts from the closest connected node to the start point and ends at the closest connected node to the endpoint. Distance between two nodes is defined as the <a href="https://en.wikipedia.org/wiki/Great-circle_distance">great-circle distance</a> between their two points (lon1, lat1) and (lon2, lat2). The length of a path is the sum of the distances between the ordered nodes on the path. We do not take into account driving time (speed limits).</p>
+
+<p>Your routing algorithm should take into account the fact that latitude and longitude are in slightly different scales (at our latitude, 1 degree of latitude is ~364,000 feet and 1 degree of longitude is ~288,000 feet), and should also take into account that as you move north or south, these two scales change slightly. We’ve already created a <code class="highlighter-rouge">distance</code> method for you that you can use that automatically computes the distance. You should not try to write your own distance method that does something like <code class="highlighter-rouge">sqrt(londiff^2 + latdiff^2)</code>.</p>
+
+<h4 id="runtime--a">Runtime &amp; A*</h4>
+
+<p>Let <code class="highlighter-rouge">d</code> be the distance between the start and end node. You cannot explore all nodes within distance <code class="highlighter-rouge">d</code> from the start node and expect to pass the autograder (for long paths, this could be more than half the nodes in the map).</p>
+
+<p>While Dijkstra’s algorithm for finding shortest paths works well, in practice if we can, we use A* search. Dijkstra’s is a Uniform-Cost search algorithm - you visit all nodes at a distance <code class="highlighter-rouge">d</code> or less from the start node. However, in cases like this, where we know the direction that we should be searching in, we can employ that information as a heuristic.</p>
+
+<p>Let <code class="highlighter-rouge">n</code> be some node on the search fringe (a min priority queue), <code class="highlighter-rouge">s</code> be the start node, and <code class="highlighter-rouge">t</code> be the destination node. A* differs from Dijkstra’s in that it uses a heuristic <code class="highlighter-rouge">h(n)</code> for each node <code class="highlighter-rouge">n</code> that tells us how close it is to <code class="highlighter-rouge">t</code>. The priority associated with <code class="highlighter-rouge">n</code> should be <code class="highlighter-rouge">f(n) = g(n) + h(n)</code>, where <code class="highlighter-rouge">g(n)</code> is the shortest known path distance from <code class="highlighter-rouge">s</code> and <code class="highlighter-rouge">h(n)</code> is the heuristic distance, the great-circle distance from <code class="highlighter-rouge">n</code> to <code class="highlighter-rouge">t</code>, and thus the value of <code class="highlighter-rouge">h(n)</code> should shrink as <code class="highlighter-rouge">n</code> gets closer to <code class="highlighter-rouge">t</code>. This helps prevent Dijkstra’s from exploring too far in the wrong direction.</p>
+
+<p>This amounts to only a small change in code from the Dijkstra’s version (for us, one line).</p>
+
+<h4 id="turn-by-turn-navigation">Turn-by-turn Navigation</h4>
+
+<p>As an optional feature, you can use your A* search route to generate a sequence of navigation instructions that the server will then be able to display when you
+create a route. To do this, implement the additional method <code class="highlighter-rouge">routeDirections</code> in your <code class="highlighter-rouge">Router</code> class. This part of the project is not worth any points (even gold points), but it is awfully cool.</p>
+
+<p>How we will represent these navigation directions will be with the NavigationDirection object defined within <code class="highlighter-rouge">Router.java</code>. A direction will follow the format of “DIRECTION on WAY for DISTANCE miles”. Note that DIRECTION is an <code class="highlighter-rouge">int</code> that will correspond to a defined <code class="highlighter-rouge">String</code> direction in the <code class="highlighter-rouge">directions</code> map, which has 8 possible options:</p>
+
+<ul>
+  <li>“Start”</li>
+  <li>“Continue straight”</li>
+  <li>“Slight left/right”</li>
+  <li>“Turn left/right”</li>
+  <li>“Sharp left/right”</li>
+</ul>
+
+<p>To minimize the amount of String matching you will need to do to pass the autograder, we have formatted the representation for you. You will simply have to set the correct DIRECTION, WAY, and DISTANCE values for the given direction you want when creating a NavigationDirection.</p>
+
+<p>What direction a given NavigationDirection should have will be dependent on your previous node and your current node along the computed route. Specifically, the direction will
+depend on the <a href="https://en.wikipedia.org/wiki/Bearing_(navigation)">relative bearing</a> between the previous node and the current node, and should be as followed:</p>
+
+<ul>
+  <li>Between -15 and 15 degrees the direction should be “Continue straight”.</li>
+  <li>Beyond -15 and 15 degrees but between -30 and 30 degrees the direction should be “Slight left/right”.</li>
+  <li>Beyond -30 and 30 degrees but between -100 and 100 degrees the direction should be “Turn left/right”.</li>
+  <li>Beyond -100 and 100 degrees the direction should be “Sharp left/right”.</li>
+</ul>
+
+<p>The navigation will be a bit complicated due to the fact that the previous and current node at a given point on your route may not necessarily represent a change in way. As a result, what you will need to do as you iterate through your route is determine when you do happen to change ways, and if so generate the correct distance for the NavigationDirection representing the way you were previously on, add it to the list, and continue. If you happen to change ways to one without a name, it’s way should be set to the constant “unknown road”.</p>
+
+<p>As an example, suppose when calling <code class="highlighter-rouge">routeDirections</code> for a given route, the first node you remove is on the way “Shattuck Avenue”. You should create a NavigationDirection where the direction corresponds to “Start”, and as you iterate through the rest of the nodes, keep track of the distance along this way you travel.
+When you finally get to a node that is not on “Shattuck Avenue”, you should make sure NavigationDirection should have the correct total distance travelled along the previous way to get there (suppose this is 0.5 miles).
+As a result, the very first NavigationDirection in your returned list should represent the direction “Start on Shattuck Avenue for 0.5 miles.”. From there, your next NavigationDirection should have the name of the way your current node is on, the direction should be calculated via the relative bearing, and you should continue calculating its distance like the first one.</p>
+
+<p>After you have implemented this properly you should be able to view your directions on the server by plotting a route and clicking on the button on the top right corner of the screen.</p>
+
+<p><img src="navigation.png" alt="Navigation" /></p>
+
+<h4 id="supplemental-information">Supplemental Information</h4>
+
+<p>To aid you with the calculations of relative bearing and great-circle distance, we have provided those as methods the <code class="highlighter-rouge">GraphDB</code> class implements.</p>
+
+<p>To help you out with making a good A* implementation, see the project 3 videos and slides.</p>
+
+<h2 id="autocompletion-and-search-12-gold-points">Autocompletion and Search (12 gold points)</h2>
+
+<p>These gold points are all-or-nothing. You must pass both the timing and correctness parts to get credit. Tests will be available by 4/14/2018.</p>
+
+<h3 id="locations">Locations</h3>
+
+<p>In the <code class="highlighter-rouge">berkeley.osm</code> file, we consider all nodes with a name tag a location. This name is not necessarily unique and may contain things like road intersections.</p>
+
+<h3 id="autocomplete">Autocomplete</h3>
+
+<p>We would like to implement an Autocomplete system where a user types in a partial query string, like “Mont”, and is returned a list of locations that have “Mont” as a prefix. To do this, implement <code class="highlighter-rouge">getLocationsByPrefix</code>, where the prefix is the partial query string. The prefix will be a <em>cleaned</em> name for search that is: (1) everything except characters A through Z and spaces removed, and (2) everything is lowercased. The method will return a list containing the <em>full names</em> of all locations whose cleaned names share the cleaned query string prefix, without duplicates.</p>
+
+<p><img src="autocomplete.png" alt="Autocomplete" /></p>
+
+<p>I recommend using a <a href="http://www.wikiwand.com/en/Trie">Trie</a>. You can traverse to the node that matches the prefix (if it exists) and then collect all valid words that are a descendant of that node. We’ll discuss Tries in the class later, but this Gold points opportunity assumes you’ll either find resources or online or read ahead in the class (by looking at the Spring 2017 website).</p>
+
+<h5 id="runtime-1">Runtime</h5>
+
+<p>Assuming that the lengths of the names are bounded by some constant, querying for prefix of length <code class="highlighter-rouge">s</code> should take <code class="highlighter-rouge">O(k)</code> time where <code class="highlighter-rouge">k</code> is the number of words sharing the prefix.</p>
+
+<h3 id="search">Search</h3>
+
+<p>The user should also be able to search for places of interest. Implement <code class="highlighter-rouge">getLocations</code> which collects a <code class="highlighter-rouge">List</code> of <code class="highlighter-rouge">Map</code>s containing information about the matching locations - that is, locations whose cleaned name match the cleaned query string exactly. This is <em>not</em> a unique list and should contain duplicates if multiple locations share the same name (i.e. Top Dog, Bongo Burger). See the Javadocs for the information each <code class="highlighter-rouge">Map</code> should contain.</p>
+
+<p><img src="selection.png" alt="Selection" /></p>
+
+<p>Implementing this method correctly will allow the web application to draw red dot markers on each of the matching locations. Note that because the location data is not very accurate, the markers may be a bit off from their real location. For example, the west side top dog is on the wrong side of the street!</p>
+
+<h5 id="runtime-2">Runtime</h5>
+
+<p>Suppose there are <code class="highlighter-rouge">k</code> results. Your query should run in <code class="highlighter-rouge">O(k)</code>.</p>
+
+<h2 id="possible-extensions-optional">Possible Extensions (optional)</h2>
+
+<p>There are some inefficiencies with the current design of this project that set it apart from conventional mapping applications like Google Maps.</p>
+
+<h4 id="front-end-integration">Front-end Integration</h4>
+
+<p>Currently, you raster the entire image and then pass it to the front end for display, and re-raster every call. A better approach, and the one that popular rastering mapping applications nowadays take, would be to simply pass each tile’s raster to the front end, and allow the front-end to assemble them on the page dynamically. This way, the front-end can make the requests for the image assets and cache them, vastly reducing repetitive work when drawing queries, especially if they use tiles that have already been drawn before.</p>
+
+<p>Likewise, the front end could handle route drawing as all the back-end needs to pass to the front-end are the points along the route.</p>
+
+<p>However, this poses a major problem to the project’s design - it overly simplifies the amount of work you need to do and moves a large amount of the interesting work to the front-end, so for this small project you implement a simplified version.</p>
+
+<h4 id="vectored-tiles">Vectored Tiles</h4>
+
+<p>While for this project we’ve provided the mapping data in the form of images per tile, in reality these images are rastered from the underlying vector geometry - the roads, lines, filled areas, buildings and so on that make up the tile. These can all be drawn as triangles using a rendering API like OpenGL or WebGL; this speeds up the process even more, as much of the work is now passed on to the GPU which can handle this far more efficiently than the CPU. This data is all available from <a href="http://wiki.openstreetmap.org/wiki/Vector_tiles">OpenStreetMap</a> if you want to pursue this route of action. However, doing so is far beyond the scope of CS61B and more along the lines of CS184.</p>
+
+<h2 id="heroku-deployment">Heroku Deployment</h2>
+
+<p>Coming soon.</p>
+
+<h2 id="faq">FAQ</h2>
+
+<h4 id="i-provided-the-correct-string-output-but-it-doesnt-show-up">I provided the correct String[][] output but it doesn’t show up!</h4>
+
+<p>In order for something to show up on test.html, you need to set query_success to true, and in order for something to show up on map.html all the parameters must be set.</p>
+
+<h4 id="i-checked-every-element-of-map-i-return-with-getmapraster-and-theyre-all-correct-but-still-nothing-is-appearing">I checked every element of map I return with getMapRaster and they’re all correct, but still nothing is appearing.</h4>
+
+<p>If you’re using notation that you learned somewhere that looks like {{}} to initialize your map, you should not be doing so. Double-braces notation is an unintended “feature” of Java that is actually a terrible plan <a href="https://blog.jooq.org/2014/12/08/dont-be-clever-the-double-curly-braces-anti-pattern/">for a number of reasons</a>.</p>
+
+<h4 id="my-initial-map-doesnt-fill-up-the-screen">My initial map doesn’t fill up the screen!</h4>
+
+<p>If your monitor resolution is high &amp; the window is fullscreen, this can happen. Refer to the reference solution to see if yours looks similar.</p>
+
+<h4 id="in-the-browser-zooming-out-only-appears-to-shift-the-map-and-im-confident-my-rastering-code-is-correct">In the browser, zooming out only appears to shift the map, and I’m confident my rastering code is correct</h4>
+
+<p>If you click on the gear icon, check the box for “Constrain map dimensions”. This issue is due to the window size being too large which sometimes causes the front-end to handle zooming out poorly. Alternately, try making your browser window smaller. Also make sure you’re allowing all the rastering to finish (sometimes the front-end calls raster a couple more times to get the result of the zoom just right).</p>
+
+<h4 id="i-dont-draw-the-entire-query-box-on-some-inputs-because-i-dont-intersect-enough-tiles">I don’t draw the entire query box on some inputs because I don’t intersect enough tiles.</h4>
+
+<p>That’s fine, that’ll happen when you go way to the edge of the map. For example, if you go too far west, you’ll never reach the bay because it does not exist.</p>
+
+<h4 id="im-getting-funky-behavior-with-moving-the-map-around-my-image-isnt-large-enough-at-initial-load-after-the-initial-load-i-cant-move-the-map-or-after-the-initial-load-i-start-getting-nan-as-input-params">I’m getting funky behavior with moving the map around, my image isn’t large enough at initial load, after the initial load, I can’t move the map, or after the initial load, I start getting NaN as input params.</h4>
+
+<p>These all have to do with your returned parameters being incorrect. Make sure you’re returning the exact parameters as given in the project 3 slides or the test html files.</p>
+
+<h4 id="i-sometimes-pass-the-timing-tests-when-i-submit-but-not-consistently">I sometimes pass the timing tests when I submit, but not consistently.</h4>
+
+<p>If you have a efficient solution: it will always pass. I have yet to fail the timing test with either my solution or any of the other staff’s solutions over a lot of attempts to check for timing volatility.</p>
+
+<p>If you have a borderline-efficient solution:  it will sometimes pass. That’s just how it is, and there really isn’t any way around this if we want the autograder to run in a reasonable amount of time.</p>
+
+<h4 id="how-do-query-boxes-or-bounding-boxes-make-sense-on-a-round-world">How do query boxes or bounding boxes make sense on a round world?</h4>
+
+<p>For the rastering part of the project, we assume the world is effectively flat on the scale of the map you’re looking at. In truth, each image doesn’t cover a rectangular area, but rather a “spherical cap”.</p>
+
+<h4 id="why-cant-i-use-java-9-features">Why can’t I use Java 9 features?</h4>
+
+<p>You’d have to edit pom.xml to replace 1.8 with 1.9. You’re welcome to do so, but be warned that our code assumes that the Map that your getMapRaster method returns is mutable (and <code class="highlighter-rouge">Map.of</code> maps are immutable).</p>
+
+<h4 id="im-suddenly-having-compilation-issues">I’m suddenly having compilation issues.</h4>
+<p>First, make sure you haven’t imported any of the usual libraries. <strong>If you have algs4.jar or any of the usual javalib stuff in your project, things can go terribly wrong with error messages that are totally useless.</strong> If that still doesn’t work, try out the suggestion in <a href="https://piazza.com/class/j9j0udrxjjp758?cid=3887">this post</a>.</p>
+
+<h4 id="im-missing-xml-files-andor-library-sp18-is-not-updated">I’m missing xml files and/or library-sp18 is not updated.</h4>
+
+<p>Go into the library-sp18 directory and try the commands <code class="highlighter-rouge">git submodule update --init</code> followed by <code class="highlighter-rouge">git checkout master</code>.</p>
+
+<h2 id="common-bugs">Common Bugs</h2>
+
+<p><b> I pass all the local tests, but I’m getting a NoSuchElementException in the autograder:</b> The autograder uses randomized sources and targets. Some targets may not be reachable from all sources. In these cases, you can do anything you want (e.g. return an empty list of longs) except let your program crash.</p>
+
+<p><b> My router isn’t working and I’m having a really hard time debugging. Do you have any suggestions? </b> Debugging routing is very tough since you only see the end result of the entire process and don’t have a good sense of what got enqueued.
+Some common issues include:</p>
+<ul>
+  <li>Not handling the case where the target isn’t reachable (see above).</li>
+  <li>Not using the provided distance function in GraphDB. You should <strong>not</strong> be writing your own distance function of any sort.</li>
+  <li>Casting priorities as integers.</li>
+  <li>Setting distTo values that stick around between calls to shortestPath.</li>
+  <li>Using static variables where instance or local variables are more appropriate. There is no reason to have any static variables.</li>
+  <li>“Marking” nodes when you add them to the fringe (using <a href="https://docs.google.com/presentation/d/1ggqEZJdNX4Rif99997PqwwOYnfzEe6NUa6qg76joC3w/edit#slide=id.g1dd12bbfa5_262_7">student approach #2 or #3</a>). You should only mark nodes when you take them out.</li>
+  <li>Broken comparators that don’t handle cases like where two items are equal.</li>
+  <li>Not overriding hashCode and/or equals for custom objects stored in a collection like a Map, Set, or List.</li>
+  <li>If all else fails, start this part again from scratch. Debugging 30 lines of code for 10 hours is not a good use of your time, and subtle bugs can be very tough to detect. Might be easier to do a clean restart, especially if you think you have a solid understanding of A*. If you don’t have a strong understanding of A*, it’s probably best to review the demo from the shortest paths lecture.</li>
+  <li>Try the Code Inspection feature in IntelliJ. Click Analysis-&gt;Inspect Code, then click OK. Look under “Probable Bugs”. This is a list of pieces of code that IntelliJ considers to be possible buggy. IntelliJ is not that smart, however, and not all of these will be actual bugs. However, we hope the list will give you a few places to look. You can make the “Inspect Code” feature even more powerful by downloading and importing <a href="inspections.xml">this file</a> using File -&gt; Import Settings.</li>
+  <li>Don’t use recursion for A*. Java doesn’t do any sort of tail call optimization, and thus can’t handle deep recursion.</li>
+</ul>
+
+<!--
+We've created a list of common bugs [at this link](https://docs.google.com/document/d/1rQfdunoIhJjPy6HCg2jWMfjH8trqXOu56XE6OO3GnJk/edit). These are far from comprehensive. -->
+
+<h2 id="office-hours">Office Hours</h2>
+<p>For office hours debugging, we will be implementing a procedure similar to that seen in proj2.</p>
+<ul>
+  <li>
+    <p>Course staff will spend at most ~10 minutes per student.</p>
+  </li>
+  <li>
+    <p>You must provide a useful description of your question, or the staff may choose to help another
+person on the queue that does have one.</p>
+  </li>
+  <li>
+    <p>Your code must be well documented,
+ including all methods you write, according to the
+ <a href="../../guides/style-guide.html#comments">style guide</a>.
+ This is to minimize time spent verbally explaining what each method does.</p>
+  </li>
+  <li>
+    <p>If your question is for debugging help, you must be prepared to explain the error that is being caused
+and have a test or input that can easily reproduce
+the bug for ease of debugging. If you come to us saying something does not work, but have not written any tests or attempted to use the debugger, we will not help you.</p>
+  </li>
+  <li>
+    <p>When we do provide debugging help, it may be at a high level, where we suggest ways to
+ reorganize your code in order to make clarity and debugging easier. It is not a good use of
+ your time or the TAs’ time to try to find bugs in something that is disorganized and brittle.</p>
+  </li>
+</ul>
+
+<h2 id="submission">Submission</h2>
+<p>You need only submit the <code class="highlighter-rouge">src</code> folder. It should retain the structure given in the skeleton. <strong>DO NOT submit or upload to git your osm or test files</strong>. Attempting to do so will eat your internet bandwidth and hang your computer, and will waste a submission.</p>
+
+<p>Do not make your program have any maven dependencies other than the ones already provided. Doing so may fail the autograder.</p>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>Data made available by OSM under the <a href="www.openstreetmap.org/copyright.html">Open Database License</a>.
+JavaSpark web framework and Google Gson library.</p>
+
+<p>Alan Yao for creating the original version of this project.</p>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/proj/proj3/proj3 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:43 GMT -->
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from cs61a.org/extra.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:33:47 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta name="description" content ="CS 61A: Structure and Interpretation of Computer Programs" />
+    <meta name="keywords" content ="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS" />
+    <meta name="author" content ="John DeNero" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width">
+
+    <script src="../cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/mono-blue.css">
+    <link rel="icon" href="assets/images/favicon.ico">
+
+    
+
+    <title>
+Extra Lecture Series | CS 61A Spring 2018
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="weekly.html">Weekly Schedule</a></li>
+            <li><a href="office-hours.html">Office Hours</a></li>
+            <li><a href="staff.html">Staff</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="articles/about.html">Policies</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+            <li><a href="https://piazza.com/berkeley/spring2018/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="extra.html">Extra</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+
+<h1>CS 98: Additional Topics on the Structure and Interpretation of Computer Programs</h1>
+<h2>Information</h2>
+
+<p>These extra lectures are completely optional and open to everyone enrolled in
+61A. They are held 4:00pm-5:00pm Wednesdays in 60 Evans. 61A students can also
+enroll for one unit of P/NP credit in CS 198, Additional Topics on the
+Structure and Interpretation of Computer Programs using CCN 42698. To pass this
+course, you need to attend at least 7 lectures and complete all of the extra
+homework assignments.
+
+<!--
+<p>If you enroll, you should join the <a
+href="https://piazza.com/class/it0xsdo321c182">Piazza</a>.
+
+<p>A logic interpreter is provided <a
+href="http://inst.eecs.berkeley.edu/~cs61a/book/examples/logic/logic.py">here</a>,
+this interpreter is not complete, add it to the folder containing your scheme
+interpreter for it to work.
+-->
+
+<h2>Extra Lecture Calendar</h2>
+
+<table id="calendar" class="table" cellpadding="5px">
+<tr>
+<th>Week</th>
+<th>Date</th>
+<th>Lecture</th>
+<th>Homework</th>
+</tr>
+<tr class="odd">
+<td rowspan="1" class="weeknum odd">1</td>
+<td>Wed 1/24</td>
+<td>
+<div class="assignment-text">
+  Newton's Method
+</div>
+
+<ul class="list-inline">
+  <li><a href="assets/slides/e01-Newtons_Method_full.pdf" class="label label-outline">full</a></li>
+<li><a href="assets/slides/e01-Newtons_Method_1pp.pdf" class="label label-outline">1pp</a></li>
+<li><a href="assets/slides/e01-Newtons_Method_8pp.pdf" class="label label-outline">8pp</a></li>
+<li><a href="assets/slides/e01.py" class="label label-outline">e01.py</a></li>
+</ul>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td rowspan="1" class="weeknum even">2</td>
+<td>Wed 1/31</td>
+<td>
+<div class="assignment-text">
+  Decisions
+</div>
+
+<ul class="list-inline">
+  <li><a href="assets/slides/e02-Decisions_full.pdf" class="label label-outline">full</a></li>
+<li><a href="assets/slides/e02-Decisions_1pp.pdf" class="label label-outline">1pp</a></li>
+<li><a href="assets/slides/e02-Decisions_8pp.pdf" class="label label-outline">8pp</a></li>
+<li><a href="assets/slides/e02.py" class="label label-outline">e02.py</a></li>
+</ul>
+</td>
+<td>
+<a href="extra/extra01/index.html">Extra Homework 1</a>
+<div class="badge due">
+  <i class="glyphicon glyphicon-time"></i>
+  Wed 2/14
+</div>
+
+
+</td>
+</tr>
+<tr class="odd">
+<td rowspan="1" class="weeknum odd">3</td>
+<td>Wed 2/7</td>
+<td>No Lecture: Midterm 1 is the next day</td>
+<td></td>
+</tr>
+<tr class="even">
+<td rowspan="1" class="weeknum even">4</td>
+<td>Wed 2/14</td>
+<td>
+<div class="assignment-text">
+  Lambda Calculus
+</div>
+
+<ul class="list-inline">
+  <li><a href="assets/slides/e03-Lambda_Calculus_full.pdf" class="label label-outline">full</a></li>
+<li><a href="assets/slides/e03-Lambda_Calculus_1pp.pdf" class="label label-outline">1pp</a></li>
+<li><a href="assets/slides/e03-Lambda_Calculus_8pp.pdf" class="label label-outline">8pp</a></li>
+<li><a href="assets/slides/e03.py" class="label label-outline">e03.py</a></li>
+</ul>
+</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td rowspan="1" class="weeknum odd">5</td>
+<td>Wed 2/21</td>
+<td>
+<div class="assignment-text">
+  Huffman Codes
+</div>
+
+<ul class="list-inline">
+  <li><a href="assets/slides/e04-Huffman_Codes_full.pdf" class="label label-outline">full</a></li>
+<li><a href="assets/slides/e04-Huffman_Codes_1pp.pdf" class="label label-outline">1pp</a></li>
+<li><a href="assets/slides/e04-Huffman_Codes_8pp.pdf" class="label label-outline">8pp</a></li>
+<li><a href="assets/slides/e04.py" class="label label-outline">e04.py</a></li>
+</ul>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td rowspan="1" class="weeknum even">6</td>
+<td>Wed 2/28</td>
+<td>
+<div class="assignment-text">
+  Containers
+</div>
+
+<ul class="list-inline">
+  <li><a href="assets/slides/e05-Containers_full.pdf" class="label label-outline">full</a></li>
+<li><a href="assets/slides/e05-Containers_1pp.pdf" class="label label-outline">1pp</a></li>
+<li><a href="assets/slides/e05-Containers_8pp.pdf" class="label label-outline">8pp</a></li>
+<li><a href="assets/slides/e05.py" class="label label-outline">e05.py</a></li>
+</ul>
+</td>
+<td>
+<a href="extra/extra02/index.html">Extra Homework 2</a>
+<div class="badge due">
+  <i class="glyphicon glyphicon-time"></i>
+  Wed 4/4
+</div>
+
+
+</td>
+</tr>
+<tr class="odd">
+<td rowspan="1" class="weeknum odd">7</td>
+<td>Wed 3/7</td>
+<td>
+<div class="assignment-text">
+  Implementing Objects
+</div>
+
+<ul class="list-inline">
+  <li><a href="assets/slides/e06-Implementing_Objects_full.pdf" class="label label-outline">full</a></li>
+<li><a href="assets/slides/e06-Implementing_Objects_1pp.pdf" class="label label-outline">1pp</a></li>
+<li><a href="assets/slides/e06-Implementing_Objects_8pp.pdf" class="label label-outline">8pp</a></li>
+</ul>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td rowspan="1" class="weeknum even">8</td>
+<td>Wed 3/14</td>
+<td>No Lecture: Midterm 2 is the next day</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td rowspan="1" class="weeknum odd">9</td>
+<td>Wed 3/21</td>
+<td>
+<div class="assignment-text">
+  Parallelism
+</div>
+
+<ul class="list-inline">
+  <li><a href="assets/slides/e07-Parallelism_full.pdf" class="label label-outline">full</a></li>
+<li><a href="assets/slides/e07-Parallelism_1pp.pdf" class="label label-outline">1pp</a></li>
+<li><a href="assets/slides/e07-Parallelism_8pp.pdf" class="label label-outline">8pp</a></li>
+<li><a href="assets/slides/e07.zip" class="label label-outline">e07.zip</a></li>
+</ul>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td rowspan="1" class="weeknum even">10</td>
+<td>Wed 3/28</td>
+<td>No Lecture: Spring Break</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td rowspan="1" class="weeknum odd">11</td>
+<td>Wed 4/4</td>
+<td>
+<div class="assignment-text">
+  Ray Tracing
+</div>
+
+<ul class="list-inline">
+  <li><a href="assets/slides/e08-Ray_Tracing_full.pdf" class="label label-outline">full</a></li>
+<li><a href="assets/slides/e08-Ray_Tracing_1pp.pdf" class="label label-outline">1pp</a></li>
+<li><a href="assets/slides/e08-Ray_Tracing_8pp.pdf" class="label label-outline">8pp</a></li>
+<li><a href="assets/slides/e08.py" class="label label-outline">e08.py</a></li>
+</ul>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td rowspan="1" class="weeknum even">12</td>
+<td>Wed 4/11</td>
+<td>
+<div class="assignment-text">
+  Lazy Evaluation
+</div>
+
+<ul class="list-inline">
+  <li><a href="assets/slides/e09-Lazy_Evaluation_full.pdf" class="label label-outline">full</a></li>
+<li><a href="assets/slides/e09-Lazy_Evaluation_1pp.pdf" class="label label-outline">1pp</a></li>
+<li><a href="assets/slides/e09-Lazy_Evaluation_8pp.pdf" class="label label-outline">8pp</a></li>
+</ul>
+</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td rowspan="1" class="weeknum odd">13</td>
+<td>Wed 4/18</td>
+<td>
+<div class="assignment-text">
+  Logic Programming
+</div>
+
+<ul class="list-inline">
+  <li><span class="label label-outline">full</span></li>
+<li><a href="assets/slides/e10-Logic_Programming_1pp.pdf" class="label label-outline">1pp</a></li>
+<li><a href="assets/slides/e10-Logic_Programming_8pp.pdf" class="label label-outline">8pp</a></li>
+<li><a href="assets/slides/e10.py" class="label label-outline">e10.py</a></li>
+<li><a href="assets/slides/e10.logic" class="label label-outline">e10.logic</a></li>
+</ul>
+</td>
+<td></td>
+</tr>
+<tr class="even">
+<td rowspan="1" class="weeknum even">14</td>
+<td>Wed 4/25</td>
+<td>
+<div class="assignment-text">
+  Machine Learning
+</div>
+
+<ul class="list-inline">
+  <li><a href="assets/slides/e11-Machine_Learning_full.pdf" class="label label-outline">full</a></li>
+<li><a href="assets/slides/e11-Machine_Learning_1pp.pdf" class="label label-outline">1pp</a></li>
+<li><a href="assets/slides/e11-Machine_Learning_8pp.pdf" class="label label-outline">8pp</a></li>
+<li><a href="assets/slides/e11.ipynb" class="label label-outline">e11.ipynb</a></li>
+<li><a href="assets/slides/e11.csv" class="label label-outline">e11.csv</a></li>
+</ul>
+</td>
+<td>
+<a href="extra/extra03/index.html">Extra Homework 3</a>
+<div class="badge due">
+  <i class="glyphicon glyphicon-time"></i>
+  Wed 5/2
+</div>
+
+
+</td>
+</tr>
+</table>
+
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="index.html">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="weekly.html">Weekly Schedule</a></li>
+            <li><a href="office-hours.html">Office Hours</a></li>
+            <li><a href="staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="articles/studying.html">Studying Guide</a></li>
+            <li><a href="articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="articles/about.html#assignments">Assignments</a></li>
+            <li><a href="articles/about.html#exams">Exams</a></li>
+            <li><a href="articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+  </body>
+
+<!-- Mirrored from cs61a.org/extra.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:34:09 GMT -->
+</html>

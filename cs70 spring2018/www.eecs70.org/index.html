@@ -1,0 +1,4804 @@
+
+<!--
+redirect_from: /
+Course Website Design
+@author Alvin Wan
+@site alvinwan.com
+@license MIT
+-->
+
+<html lang="en">
+    
+<!-- Mirrored from www.eecs70.org/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:46:00 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+        <meta charset="UTF-8">
+        <title>CS 70</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="../code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css?family=Nothing+You+Could+Do|Raleway:300|Work+Sans:400,500" rel="stylesheet">
+        <link rel="stylesheet" href="../maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <script src="../cdn.jsdelivr.net/jquery.marquee/1.4.0/jquery.marquee.min.js" type="text/javascript"></script>
+
+        <link href="css/style.min.css" rel="stylesheet">
+        <script src="js/script.min.js"></script>
+        
+        
+    </head>
+    <body>
+        
+<div class="live-bar" id="events-upcoming" data-duplicated='true'></div>
+
+<header class="wrap-container">
+    <div class="wrap">
+        <h1 class="header-title col-md-3 col-xs-3"><a href="index.html">CS70</a></h1>
+        <nav class="col-md-9 col-xs-9">
+            <ul class="hidden-sm hidden-xs">
+                <li><a href="calendar/index.html">Calendar</a></li>
+                <li><a href="resources/index.html">Resources</a></li>
+                <li><a href="syllabus/index.html">Syllabus</a></li>
+                <li><a href="staff/index.html">Staff</a></li>
+                <li><a class="menu">Menu
+                    <span class="bars">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </span>
+                </a></li>
+            </ul>
+            <ul class="hidden-xs hidden-md hidden-lg">
+                <li><a href="calendar/index.html">Calendar</a></li>
+                <li><a href="resources/index.html">Resources</a></li>
+                <li><a class="menu">Menu
+                    <span class="bars">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </span>
+                </a></li>
+            </ul>
+            <ul class="hidden-sm hidden-md hidden-lg">
+                <li><a href="resources/index.html">Resources</a></li>
+                <li><a class="menu">Menu
+                    <span class="bars">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </span>
+                </a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<aside class="animate-5 drawer wrap-container">
+    <div class="wrap">
+        <div class="col-md-12 x-container">
+            <div class="animate-3 x">
+                <span class="outer bar"><span class="bar inner"></span></span>
+            </div>
+        </div>
+                <div class="col col-md-3">
+            <h3><a href="calendar/index.html">Calendar</a></h3>
+        </div>
+        <div class="col col-md-3">
+            <h3><a href="resources/index.html">Resources</a></h3>
+            <ul class="lists">
+                <li><a href="resources/index.html#videos">Videos</a></li>
+                <li><a href="resources/index.html#latex">LaTeX</a></li>
+                <li><a href="resources/index.html#tips">Tips</a></li>
+            </ul>
+        </div>
+        <div class="col col-md-3">
+            <h3><a href="syllabus/index.html">Syllabus</a></h3>
+            <ul class="lists">
+                <li><a href="syllabus/index.html#technology">Technology</a></li>
+                <li><a href="syllabus/index.html#exams">Exams</a></li>
+                <li><a href="syllabus/index.html#materials">Materials</a></li>
+                <li><a href="syllabus/index.html#cheating">Cheating</a></li>
+                <li><a href="syllabus/index.html#collaboration">Collaboration</a></li>
+                <li><a href="syllabus/index.html#grading">Grading</a></li>
+                <li><a href="syllabus/index.html#piazza-etiquette">Piazza
+                    Etiquette</a></li>
+            </ul>
+        </div>
+        <div class="col col-md-3">
+            <h3>Meta</h3>
+            <ul class="lists">
+                <li><a href="staff/index.html">Staff</a></li>
+                <li><a href="http://practice.eecs70.org/">Practice Problems</a></li>
+            </ul>
+        </div>
+    </div>
+</aside>
+        
+<main class="index-page">
+    <section class="page-head wrap-container">
+        <div class="wrap">
+            <div class="head-decor">
+                <p class="head-subtitle">CS 70 at UC Berkeley</p>
+                <h1 class="head-title">Discrete Mathematics and Probability
+                    Theory</h1>
+                <p class="head-subtitle">Lectures: TuTh 12:30-2 pm, 150 Wheeler</p>
+            </div>
+            <div class="head-people">
+                
+                <div class="person col-md-6 col-sm-12 col-xs-12">
+                    <div class="person-thumbnail">
+                        <div class="person-avatar">
+                            <span class="person-image"
+                                  style="background: url('static/images/ayazifar.jpg'); background-size:cover;"></span>
+                        </div>
+                    </div>
+                    <div class="person-text">
+                        <h2 class="person-name">Professor
+                            <a href="https://www2.eecs.berkeley.edu/Faculty/Homepages/ayazifar.html">Babak Ayazifar</a>
+                        </h2>
+                        <p><span>ayazifar (at) berkeley (dot) edu</span></p>
+                        <p>Office Hours: Th 3:30-5 pm, 400 Cory</p>
+                    </div>
+                </div>
+                
+                <div class="person col-md-6 col-sm-12 col-xs-12">
+                    <div class="person-thumbnail">
+                        <div class="person-avatar">
+                            <span class="person-image"
+                                  style="background: url('static/images/rao.jpg'); background-size:cover;"></span>
+                        </div>
+                    </div>
+                    <div class="person-text">
+                        <h2 class="person-name">Professor
+                            <a href="https://people.eecs.berkeley.edu/~satishr/">Satish Rao</a>
+                        </h2>
+                        <p><span>satishr (at) cs.berkeley (dot) edu</span></p>
+                        <p>Office Hours: M 3-4 pm, Tu 4-5 pm, 687 Soda</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+        
+    <section class="highlighted-text week-overview wrap-container inactive" data-number="0">
+        <div class="wrap">
+            <h3 class="highlighted-subtitle">Week 0
+                Overview</h3>
+            <h2 class="highlighted-title">Propositional Logic, Proofs</h2>
+            <p class="highlighted-byline">Tuesday, January 16 - Friday, January 19</p>
+            <span class="dividing-bar"></span>
+            <ul class="lists two-col">
+            
+                
+            
+                
+            
+                
+            
+            
+                
+                    
+                <li><a href="static/notes/n0.pdf">Note
+                0 : Review of Sets, Notation</a></li>
+                    
+                
+            
+                
+                    
+                <li><a href="static/notes/n1.pdf">Note
+                1 : Propositional Logic</a></li>
+                    
+                
+            
+                
+                    
+                <li><a href="static/notes/n2.pdf">Note
+                2 : Proofs</a></li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+                    
+                    <li><a href="static/discussions/dis00a.pdf">Discussion 00a</a> (<a href="static/discussions/dis00a-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis00b.pdf">Discussion 00b</a> (<a href="static/discussions/dis00b-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+                    
+                    <li><a href="static/homeworks/hw00.pdf">Homework 00</a> (<a href="static/homeworks/hw00.tex">TeX</a>) (<a href="static/homeworks/hw00-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+                    
+                    <li> 
+                    
+                        <a href="static/slides/lec-1-handout.pdf">Lecture 1</a> (<a href="static/slides/lec-1.pdf">full</a>) (<a href="static/slides/lec-1-6up.pdf">6up</a>) 
+                    
+                     (<a href="https://www.youtube.com/watch?v=Z5C9u_tu6is">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+                    
+                    <li> 
+                    
+                        <a href="static/slides/lec-2-handout.pdf">Lecture 2</a> (<a href="static/slides/lec-2.pdf">full</a>) (<a href="static/slides/lec-2-6up.pdf">6up</a>) 
+                    
+                     (<a href="https://www.youtube.com/watch?v=W-76MxqpePA">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            </ul>
+            
+            
+            <i class="fa fa-angle-right next animate-3 next-week-overview"></i>
+            
+        </div>
+    </section>
+        
+    
+        
+    <section class="highlighted-text week-overview wrap-container inactive" data-number="1">
+        <div class="wrap">
+            <h3 class="highlighted-subtitle">Week 1
+                Overview</h3>
+            <h2 class="highlighted-title">Induction, Stable Marriage</h2>
+            <p class="highlighted-byline">Monday, January 22 - Friday, January 26</p>
+            <span class="dividing-bar"></span>
+            <ul class="lists two-col">
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n3.pdf">Note
+                3 : Induction</a></li>
+                    
+                
+            
+                
+                    
+                <li><a href="static/notes/n4.pdf">Note
+                4 : Stable Marriage</a></li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis01a.pdf">Discussion 01a</a> (<a href="static/discussions/dis01a-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis01b.pdf">Discussion 01b</a> (<a href="static/discussions/dis01b-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+                    
+                    <li><a href="static/homeworks/hw01.pdf">Homework 01</a> (<a href="static/homeworks/hw01.tex">TeX</a>) (<a href="static/homeworks/hw01-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+                    
+                    <li> 
+                    
+                        <a href="static/slides/lec-3-handout.pdf">Lecture 3</a> (<a href="static/slides/lec-3.pdf">full</a>) (<a href="static/slides/lec-3-6up.pdf">6up</a>) 
+                    
+                     (<a href="https://www.youtube.com/watch?v=bLegWRJRBo4">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+                    
+                    <li> 
+                    
+                        <a href="static/slides/lec-4-handout.pdf">Lecture 4</a> (<a href="static/slides/lec-4.pdf">full</a>) (<a href="static/slides/lec-4-6up.pdf">6up</a>) 
+                    
+                     (<a href="https://www.youtube.com/watch?v=eHASQMII_Cc">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            </ul>
+            
+            <i class="fa fa-angle-left prev animate-3 prev-week-overview"></i>
+            
+            
+            <i class="fa fa-angle-right next animate-3 next-week-overview"></i>
+            
+        </div>
+    </section>
+        
+    
+        
+    <section class="highlighted-text week-overview wrap-container inactive" data-number="2">
+        <div class="wrap">
+            <h3 class="highlighted-subtitle">Week 2
+                Overview</h3>
+            <h2 class="highlighted-title">Graph Theory</h2>
+            <p class="highlighted-byline">Monday, January 29 - Friday, February 2</p>
+            <span class="dividing-bar"></span>
+            <ul class="lists two-col">
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n5.pdf">Note
+                5 : Graph Theory</a></li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis02a.pdf">Discussion 02a</a> (<a href="static/discussions/dis02a-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis02b.pdf">Discussion 02b</a> (<a href="static/discussions/dis02b-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/homeworks/hw02.pdf">Homework 02</a> (<a href="static/homeworks/hw02.tex">TeX</a>) (<a href="static/homeworks/hw02-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li> 
+                    
+                        <a href="static/slides/lec-5-handout.pdf">Lecture 5</a> (<a href="static/slides/lec-5.pdf">full</a>) (<a href="static/slides/lec-5-6up.pdf">6up</a>) 
+                    
+                     (<a href="https://www.youtube.com/watch?v=Ox7Qrpkbqb0">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+                    
+                    <li> 
+                    
+                        <a href="static/slides/lec-6-handout.pdf">Lecture 6</a> (<a href="static/slides/lec-6.pdf">full</a>) (<a href="static/slides/lec-6-6up.pdf">6up</a>) 
+                    
+                     (<a href="https://www.youtube.com/watch?v=89l6kzxZlUA">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            </ul>
+            
+            <i class="fa fa-angle-left prev animate-3 prev-week-overview"></i>
+            
+            
+            <i class="fa fa-angle-right next animate-3 next-week-overview"></i>
+            
+        </div>
+    </section>
+        
+    
+        
+    <section class="highlighted-text week-overview wrap-container inactive" data-number="3">
+        <div class="wrap">
+            <h3 class="highlighted-subtitle">Week 3
+                Overview</h3>
+            <h2 class="highlighted-title">Modular Arithmetic</h2>
+            <p class="highlighted-byline">Monday, February 5 - Friday, February 9</p>
+            <span class="dividing-bar"></span>
+            <ul class="lists two-col">
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n6.pdf">Note
+                6 : Modular Arithmetic</a></li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis03a.pdf">Discussion 03a</a> (<a href="static/discussions/dis03a-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis03b.pdf">Discussion 03b</a> (<a href="static/discussions/dis03b-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/homeworks/hw03.pdf">Homework 03</a> (<a href="static/homeworks/hw03.tex">TeX</a>) (<a href="static/homeworks/hw03-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+                    
+                    <li><a href="static/homeworks/hw04.pdf">Homework 04</a> (<a href="static/homeworks/hw04.tex">TeX</a>) (<a href="static/homeworks/hw04-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li> 
+                    
+                        <a href="static/slides/lec-7-handout.pdf">Lecture 7</a> (<a href="static/slides/lec-7.pdf">full</a>) (<a href="static/slides/lec-7-6up.pdf">6up</a>) 
+                    
+                     (<a href="https://www.youtube.com/watch?v=-sW_nQjNbi4">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+                    
+                    <li> 
+                    
+                        <a href="static/slides/lec-8-handout.pdf">Lecture 8</a> (<a href="static/slides/lec-8.pdf">full</a>) (<a href="static/slides/lec-8-6up.pdf">6up</a>) 
+                    
+                     (<a href="https://www.youtube.com/watch?v=fnoSLu8JeAw">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            </ul>
+            
+            <i class="fa fa-angle-left prev animate-3 prev-week-overview"></i>
+            
+            
+            <i class="fa fa-angle-right next animate-3 next-week-overview"></i>
+            
+        </div>
+    </section>
+        
+    
+        
+    <section class="highlighted-text week-overview wrap-container inactive" data-number="4">
+        <div class="wrap">
+            <h3 class="highlighted-subtitle">Week 4
+                Overview</h3>
+            <h2 class="highlighted-title">Midterm 1, RSA</h2>
+            <p class="highlighted-byline">Monday, February 12 - Friday, February 16</p>
+            <span class="dividing-bar"></span>
+            <ul class="lists two-col">
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n6.pdf">Note
+                6 : Modular Arithmetic</a></li>
+                    
+                
+            
+                
+                    
+                <li><a href="static/notes/n7.pdf">Note
+                7 : Bijections and RSA</a></li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis04b.pdf">Discussion 04b</a> (<a href="static/discussions/dis04b-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/homeworks/hw04.pdf">Homework 04</a> (<a href="static/homeworks/hw04.tex">TeX</a>) (<a href="static/homeworks/hw04-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li> 
+                    
+                        <a href="static/slides/lec-9-handout.pdf">Lecture 9</a> (<a href="static/slides/lec-9.pdf">full</a>) (<a href="static/slides/lec-9-6up.pdf">6up</a>) 
+                    
+                     (<a href="https://www.youtube.com/watch?v=dPOJdckIyTg">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            </ul>
+            
+            <i class="fa fa-angle-left prev animate-3 prev-week-overview"></i>
+            
+            
+            <i class="fa fa-angle-right next animate-3 next-week-overview"></i>
+            
+        </div>
+    </section>
+        
+    
+        
+    <section class="highlighted-text week-overview wrap-container inactive" data-number="5">
+        <div class="wrap">
+            <h3 class="highlighted-subtitle">Week 5
+                Overview</h3>
+            <h2 class="highlighted-title">Polynomials, Error Correcting Codes</h2>
+            <p class="highlighted-byline">Monday, February 19 - Friday, February 23</p>
+            <span class="dividing-bar"></span>
+            <ul class="lists two-col">
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n8.pdf">Note
+                8 : Polynomials</a></li>
+                    
+                
+            
+                
+                    
+                <li><a href="static/notes/n9.pdf">Note
+                9 : Error Correcting Codes</a></li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis05a.pdf">Discussion 05a</a> (<a href="static/discussions/dis05a-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis05b.pdf">Discussion 05b</a> (<a href="static/discussions/dis05b-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/homeworks/hw05.pdf">Homework 05</a> (<a href="static/homeworks/hw05.tex">TeX</a>) (<a href="static/homeworks/hw05-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li> 
+                    
+                        <a href="static/slides/lec-10-handout.pdf">Lecture 10</a> (<a href="static/slides/lec-10.pdf">full</a>) (<a href="static/slides/lec-10-6up.pdf">6up</a>) 
+                    
+                     (<a href="https://www.youtube.com/watch?v=IkKv0Yap0SE">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+                    
+                    <li> 
+                    
+                        <a href="static/slides/lec-11-handout.pdf">Lecture 11</a> (<a href="static/slides/lec-11.pdf">full</a>) (<a href="static/slides/lec-11-6up.pdf">6up</a>) 
+                    
+                     (<a href="https://www.youtube.com/watch?v=NieZA02Yxmc">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            </ul>
+            
+            <i class="fa fa-angle-left prev animate-3 prev-week-overview"></i>
+            
+            
+            <i class="fa fa-angle-right next animate-3 next-week-overview"></i>
+            
+        </div>
+    </section>
+        
+    
+        
+    <section class="highlighted-text week-overview wrap-container inactive" data-number="6">
+        <div class="wrap">
+            <h3 class="highlighted-subtitle">Week 6
+                Overview</h3>
+            <h2 class="highlighted-title">Uncountability, Uncomputability, Counting</h2>
+            <p class="highlighted-byline">Monday, February 26 - Friday, March 2</p>
+            <span class="dividing-bar"></span>
+            <ul class="lists two-col">
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n10.pdf">Note
+                10 : Infinity and Uncountability</a></li>
+                    
+                
+            
+                
+                    
+                <li><a href="static/notes/n11.pdf">Note
+                11 : Self-Reference and Uncomputability</a></li>
+                    
+                
+            
+                
+                    
+                <li><a href="static/notes/n12.pdf">Note
+                12 : Counting</a></li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis06a.pdf">Discussion 06a</a> (<a href="static/discussions/dis06a-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis06b.pdf">Discussion 06b</a> (<a href="static/discussions/dis06b-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/homeworks/hw06.pdf">Homework 06</a> (<a href="static/homeworks/hw06.tex">TeX</a>) (<a href="static/homeworks/hw06-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li> 
+                    
+                        <a href="static/slides/lec-12-handout.pdf">Lecture 12</a> (<a href="static/slides/lec-12.pdf">full</a>) (<a href="static/slides/lec-12-6up.pdf">6up</a>) 
+                    
+                     (<a href="https://www.youtube.com/watch?v=KonFL932KzI">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+                    
+                    <li> 
+                    
+                        <a href="static/slides/lec-13-handout.pdf">Lecture 13</a> (<a href="static/slides/lec-13.pdf">full</a>) (<a href="static/slides/lec-13-6up.pdf">6up</a>) 
+                    
+                     (<a href="https://www.youtube.com/watch?v=itZnBiSMxPw">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            </ul>
+            
+            <i class="fa fa-angle-left prev animate-3 prev-week-overview"></i>
+            
+            
+            <i class="fa fa-angle-right next animate-3 next-week-overview"></i>
+            
+        </div>
+    </section>
+        
+    
+        
+    <section class="highlighted-text week-overview wrap-container inactive" data-number="7">
+        <div class="wrap">
+            <h3 class="highlighted-subtitle">Week 7
+                Overview</h3>
+            <h2 class="highlighted-title">Probability Spaces, Conditional Probability</h2>
+            <p class="highlighted-byline">Monday, March 5 - Friday, March 9</p>
+            <span class="dividing-bar"></span>
+            <ul class="lists two-col">
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n12.pdf">Note
+                12 : Counting</a></li>
+                    
+                
+            
+                
+                    
+                <li><a href="static/notes/n13.pdf">Note
+                13 : Introduction to Discrete Probability</a></li>
+                    
+                
+            
+                
+                    
+                <li><a href="static/notes/n14.pdf">Note
+                14 : Conditional Probability</a></li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis07a.pdf">Discussion 07a</a> (<a href="static/discussions/dis07a-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis07b.pdf">Discussion 07b</a> (<a href="static/discussions/dis07b-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/homeworks/hw07.pdf">Homework 07</a> (<a href="static/homeworks/hw07.tex">TeX</a>) (<a href="static/homeworks/hw07-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li> 
+                    
+                        <a href="static/slides/lec-14-handout.pdf">Lecture 14</a> (<a href="static/slides/lec-14.pdf">full</a>) (<a href="static/slides/lec-14-6up.pdf">6up</a>) 
+                    
+                     (<a href="https://www.youtube.com/watch?v=LcF0Jm_YMCE">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+                    
+                    <li> 
+                    
+                        <a href="static/slides/lec-15-handout.pdf">Lecture 15</a> (<a href="static/slides/lec-15.pdf">full</a>) (<a href="static/slides/lec-15-6up.pdf">6up</a>) 
+                    
+                     (<a href="https://www.youtube.com/watch?v=OhoNS2Z_-i4">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            </ul>
+            
+            <i class="fa fa-angle-left prev animate-3 prev-week-overview"></i>
+            
+            
+            <i class="fa fa-angle-right next animate-3 next-week-overview"></i>
+            
+        </div>
+    </section>
+        
+    
+        
+    <section class="highlighted-text week-overview wrap-container inactive" data-number="8">
+        <div class="wrap">
+            <h3 class="highlighted-subtitle">Week 8
+                Overview</h3>
+            <h2 class="highlighted-title">Random Variables, Distributions</h2>
+            <p class="highlighted-byline">Monday, March 12 - Friday, March 16</p>
+            <span class="dividing-bar"></span>
+            <ul class="lists two-col">
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n14.pdf">Note
+                14 : Conditional Probability</a></li>
+                    
+                
+            
+                
+                    
+                <li><a href="static/notes/n15.pdf">Note
+                15 : Two Killer Applications</a></li>
+                    
+                
+            
+                
+                    
+                <li><a href="static/notes/n16.pdf">Note
+                16 : Random Variables: Distribution and Expectation</a></li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis08a.pdf">Discussion 08a</a> (<a href="static/discussions/dis08a-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis08b.pdf">Discussion 08b</a> (<a href="static/discussions/dis08b-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/homeworks/hw08.pdf">Homework 08</a> (<a href="static/homeworks/hw08.tex">TeX</a>) (<a href="static/homeworks/hw08-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li> 
+                    
+                        Lecture 16
+                    
+                     (<a href="https://www.youtube.com/watch?v=kmxwK9XMQG4">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+                    
+                    <li> 
+                    
+                        Lecture 17
+                    
+                     (<a href="https://www.youtube.com/watch?v=GbTLQOdFGo4">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            </ul>
+            
+            <i class="fa fa-angle-left prev animate-3 prev-week-overview"></i>
+            
+            
+            <i class="fa fa-angle-right next animate-3 next-week-overview"></i>
+            
+        </div>
+    </section>
+        
+    
+        
+    <section class="highlighted-text week-overview wrap-container inactive" data-number="9">
+        <div class="wrap">
+            <h3 class="highlighted-subtitle">Week 9
+                Overview</h3>
+            <h2 class="highlighted-title">Joint Distributions, Linearity of Expectation, Variance</h2>
+            <p class="highlighted-byline">Monday, March 19 - Friday, March 23</p>
+            <span class="dividing-bar"></span>
+            <ul class="lists two-col">
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n16.pdf">Note
+                16 : Random Variables: Distribution and Expectation</a></li>
+                    
+                
+            
+                
+                    
+                <li><a href="static/notes/n17.pdf">Note
+                17 : Variance</a></li>
+                    
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n19.pdf">Note
+                19 : Some Important Distributions</a></li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis09a.pdf">Discussion 09a</a> (<a href="static/discussions/dis09a-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis09b.pdf">Discussion 09b</a> (<a href="static/discussions/dis09b-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/homeworks/hw09.pdf">Homework 09</a> (<a href="static/homeworks/hw09.tex">TeX</a>) (<a href="static/homeworks/hw09-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li> 
+                    
+                        Lecture 18
+                    
+                     (<a href="https://www.youtube.com/watch?v=Lo7br5u7ncc">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+                    
+                    <li> 
+                    
+                        Lecture 19
+                    
+                     (<a href="https://www.youtube.com/watch?v=-JUsp1s2T5g">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            </ul>
+            
+            <i class="fa fa-angle-left prev animate-3 prev-week-overview"></i>
+            
+            
+            <i class="fa fa-angle-right next animate-3 next-week-overview"></i>
+            
+        </div>
+    </section>
+        
+    
+        
+    <section class="highlighted-text week-overview wrap-container inactive" data-number="10">
+        <div class="wrap">
+            <h3 class="highlighted-subtitle">Week 10
+                Overview</h3>
+            <h2 class="highlighted-title">Joint Distributions, Continuous Probability</h2>
+            <p class="highlighted-byline">Monday, April 2 - Friday, April 6</p>
+            <span class="dividing-bar"></span>
+            <ul class="lists two-col">
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n20.pdf">Note
+                20 : Continuous Probability</a></li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis10a.pdf">Discussion 10a</a> (<a href="static/discussions/dis10a-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis10b.pdf">Discussion 10b</a> (<a href="static/discussions/dis10b-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/homeworks/hw10.pdf">Homework 10</a> (<a href="static/homeworks/hw10.tex">TeX</a>) (<a href="static/homeworks/hw10-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li> 
+                    
+                        Lecture 20
+                    
+                     (<a href="https://www.youtube.com/watch?v=PTMKyJdaMg4">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+                    
+                    <li> 
+                    
+                        Lecture 21
+                    
+                     (<a href="https://www.youtube.com/watch?v=P1kHhJn5eGI">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            </ul>
+            
+            <i class="fa fa-angle-left prev animate-3 prev-week-overview"></i>
+            
+            
+            <i class="fa fa-angle-right next animate-3 next-week-overview"></i>
+            
+        </div>
+    </section>
+        
+    
+        
+    <section class="highlighted-text week-overview wrap-container inactive" data-number="11">
+        <div class="wrap">
+            <h3 class="highlighted-subtitle">Week 11
+                Overview</h3>
+            <h2 class="highlighted-title">Continuous Distributions, Gaussians</h2>
+            <p class="highlighted-byline">Monday, April 9 - Friday, April 13</p>
+            <span class="dividing-bar"></span>
+            <ul class="lists two-col">
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n20.pdf">Note
+                20 : Continuous Probability</a></li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis11a.pdf">Discussion 11a</a> (<a href="static/discussions/dis11a-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis11b.pdf">Discussion 11b</a> (<a href="static/discussions/dis11b-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/homeworks/hw11.pdf">Homework 11</a> (<a href="static/homeworks/hw11.tex">TeX</a>) (<a href="static/homeworks/hw11-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li> 
+                    
+                        Lecture 22
+                    
+                     (<a href="https://www.youtube.com/watch?v=l7_d2gClbwQ">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+                    
+                    <li> 
+                    
+                        Lecture 23
+                    
+                     (<a href="https://www.youtube.com/watch?v=NJQSZPIS2Ak">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            </ul>
+            
+            <i class="fa fa-angle-left prev animate-3 prev-week-overview"></i>
+            
+            
+            <i class="fa fa-angle-right next animate-3 next-week-overview"></i>
+            
+        </div>
+    </section>
+        
+    
+        
+    <section class="highlighted-text week-overview wrap-container inactive" data-number="12">
+        <div class="wrap">
+            <h3 class="highlighted-subtitle">Week 12
+                Overview</h3>
+            <h2 class="highlighted-title">Inequalities, Confidence Intervals, Estimation</h2>
+            <p class="highlighted-byline">Monday, April 16 - Friday, April 20</p>
+            <span class="dividing-bar"></span>
+            <ul class="lists two-col">
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n18.pdf">Note
+                18 : Chebyshev's Inequality</a></li>
+                    
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n20.pdf">Note
+                20 : Continuous Probability</a></li>
+                    
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n26.pdf">Note
+                26 : Estimation</a></li>
+                    
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis12a.pdf">Discussion 12a</a> (<a href="static/discussions/dis12a-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis12b.pdf">Discussion 12b</a> (<a href="static/discussions/dis12b-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/homeworks/hw12.pdf">Homework 12</a> (<a href="static/homeworks/hw12.tex">TeX</a>) (<a href="static/homeworks/hw12-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li> 
+                    
+                        Lecture 24
+                    
+                     (<a href="https://www.youtube.com/watch?v=5NBi_aQU-5U">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+                    
+                    <li> 
+                    
+                        Lecture 25
+                    
+                     (<a href="https://www.youtube.com/watch?v=Ywj9l_aZb80">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+            
+                
+            
+            </ul>
+            
+            <i class="fa fa-angle-left prev animate-3 prev-week-overview"></i>
+            
+            
+            <i class="fa fa-angle-right next animate-3 next-week-overview"></i>
+            
+        </div>
+    </section>
+        
+    
+        
+    <section class="highlighted-text week-overview wrap-container inactive" data-number="13">
+        <div class="wrap">
+            <h3 class="highlighted-subtitle">Week 13
+                Overview</h3>
+            <h2 class="highlighted-title">Markov Chains</h2>
+            <p class="highlighted-byline">Monday, April 23 - Friday, April 27</p>
+            <span class="dividing-bar"></span>
+            <ul class="lists two-col">
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n24.pdf">Note
+                24 : Markov Chains</a></li>
+                    
+                
+            
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n26.pdf">Note
+                26 : Estimation</a></li>
+                    
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis13a.pdf">Discussion 13a</a> (<a href="static/discussions/dis13a-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+                    
+                    <li><a href="static/discussions/dis13b.pdf">Discussion 13b</a> (<a href="static/discussions/dis13b-sol.pdf">solution</a>)</li>
+                    
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/homeworks/hw13.pdf">Homework 13</a> (<a href="static/homeworks/hw13.tex">TeX</a>) (<a href="static/homeworks/hw13-sol.pdf">solution</a>)</li>
+                    
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li> 
+                    
+                        Lecture 26
+                    
+                     (<a href="https://www.youtube.com/watch?v=v2amQoFAoSE">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+                
+                    
+                    <li> 
+                    
+                        Lecture 27
+                    
+                     (<a href="https://www.youtube.com/watch?v=gAHwIRCWIko">webcast</a>)  
+                    
+                    </li>
+                    
+                
+            
+            </ul>
+            
+            <i class="fa fa-angle-left prev animate-3 prev-week-overview"></i>
+            
+            
+            <i class="fa fa-angle-right next animate-3 next-week-overview"></i>
+            
+        </div>
+    </section>
+        
+    
+        
+    <section class="highlighted-text week-overview wrap-container" data-number="14">
+        <div class="wrap">
+            <h3 class="highlighted-subtitle">Week 14
+                Overview</h3>
+            <h2 class="highlighted-title">Final Review</h2>
+            <p class="highlighted-byline">Monday, April 30 - Monday, May 4</p>
+            <span class="dividing-bar"></span>
+            <ul class="lists two-col">
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                <li><a href="static/notes/n25a.pdf">Note
+                25a : Review of Probability</a></li>
+                    
+                
+            
+                
+                    
+                <li><a href="static/notes/n25b.pdf">Note
+                25b : Probability: An Overview</a></li>
+                    
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                    <li><a href="static/homeworks/hw14.pdf">Homework 14</a> (<a href="static/homeworks/hw14.tex">TeX</a>) (<a href="static/homeworks/hw14-sol.pdf">solution</a>)</li>
+                    
+                
+            
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            </ul>
+            
+            <i class="fa fa-angle-left prev animate-3 prev-week-overview"></i>
+            
+            
+        </div>
+    </section>
+        
+    
+        
+    
+    <section class="standard-text wrap-container">
+        <div class="wrap">
+            <h2 class="standard-title" id="notes">Notes</h2>
+            <p>There is no textbook for this class. Instead, there is a set of fairly comprehensive lecture notes. Make sure you revisit the notes after lecture. Each note may be covered in one or more lectures. See <a href="syllabus/index.html#materials">Syllabus</a> for more information.</p>
+            <ul class="lists two-col animate-3" resource="notes">
+            
+                <li><a href="static/notes/n0.html">Note 0: Review of Sets, Notation</a>
+                    <a href="static/notes/n0.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n1.html">Note 1: Propositional Logic</a>
+                    <a href="static/notes/n1.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n2.html">Note 2: Proofs</a>
+                    <a href="static/notes/n2.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n3.html">Note 3: Induction</a>
+                    <a href="static/notes/n3.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n4.html">Note 4: Stable Marriage</a>
+                    <a href="static/notes/n4.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n5.html">Note 5: Graph Theory</a>
+                    <a href="static/notes/n5.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n6.html">Note 6: Modular Arithmetic</a>
+                    <a href="static/notes/n6.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n7.html">Note 7: Bijections and RSA</a>
+                    <a href="static/notes/n7.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n8.html">Note 8: Polynomials</a>
+                    <a href="static/notes/n8.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n9.html">Note 9: Error Correcting Codes</a>
+                    <a href="static/notes/n9.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n10.html">Note 10: Infinity and Uncountability</a>
+                    <a href="static/notes/n10.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n11.html">Note 11: Self-Reference and Uncomputability</a>
+                    <a href="static/notes/n11.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n12.html">Note 12: Counting</a>
+                    <a href="static/notes/n12.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n13.html">Note 13: Introduction to Discrete Probability</a>
+                    <a href="static/notes/n13.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n14.html">Note 14: Conditional Probability</a>
+                    <a href="static/notes/n14.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n15.html">Note 15: Two Killer Applications</a>
+                    <a href="static/notes/n15.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n16.html">Note 16: Random Variables: Distribution and Expectation</a>
+                    <a href="static/notes/n16.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n17.html">Note 17: Variance</a>
+                    <a href="static/notes/n17.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n18.html">Note 18: Chebyshev's Inequality</a>
+                    <a href="static/notes/n18.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n19.html">Note 19: Some Important Distributions</a>
+                    <a href="static/notes/n19.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n20.html">Note 20: Continuous Probability</a>
+                    <a href="static/notes/n20.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n24.html">Note 24: Markov Chains</a>
+                    <a href="static/notes/n24.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n25a.html">Note 25a: Review of Probability</a>
+                    <a href="static/notes/n25a.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n25b.html">Note 25b: Probability: An Overview</a>
+                    <a href="static/notes/n25b.pdf">(PDF)</a></li>
+            
+                <li><a href="static/notes/n26.html">Note 26: Estimation</a>
+                    <a href="static/notes/n26.pdf">(PDF)</a></li>
+            
+            </ul>
+            <div class="trigger" resource="notes">Expand</div>
+        </div>
+    </section>
+    <section class="standard-text wrap-container">
+        <div class="wrap">
+            <h2 class="standard-title">Discussions</h2>
+            <p>The discussion sections will not cover new material, but rather will give you additional practice solving problems. You can attend any discussion section you like. However, if there are fewer desks than students, then students who are officially enrolled in that section will get seating priority. See <a href="syllabus/index.html#materials">Syllabus</a> for more information.</p>
+            <ul class="lists two-col animate-3" resource="discussions">
+            
+                
+                
+                
+                <li><a href="static/discussions/dis00a.pdf">Discussion 00a: Propositional Logic</a> (<a href="static/discussions/dis00a-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis00b.pdf">Discussion 00b: Proofs</a> (<a href="static/discussions/dis00b-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis01a.pdf">Discussion 01a: Induction</a> (<a href="static/discussions/dis01a-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis01b.pdf">Discussion 01b: Stable Marriage</a> (<a href="static/discussions/dis01b-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis02a.pdf">Discussion 02a: Graph Theory I</a> (<a href="static/discussions/dis02a-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis02b.pdf">Discussion 02b: Graph Theory II</a> (<a href="static/discussions/dis02b-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis03a.pdf">Discussion 03a: Modular Arithmetic I</a> (<a href="static/discussions/dis03a-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis03b.pdf">Discussion 03b: Modular Arithmetic II, Bijections</a> (<a href="static/discussions/dis03b-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis04b.pdf">Discussion 04b: RSA</a> (<a href="static/discussions/dis04b-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis05a.pdf">Discussion 05a: Polynomials, Secret Sharing</a> (<a href="static/discussions/dis05a-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis05b.pdf">Discussion 05b: Error-Correcting Codes, Berlekamp Welch</a> (<a href="static/discussions/dis05b-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis06a.pdf">Discussion 06a: Countability, Computability</a> (<a href="static/discussions/dis06a-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis06b.pdf">Discussion 06b: Counting</a> (<a href="static/discussions/dis06b-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis07a.pdf">Discussion 07a: Probability Spaces</a> (<a href="static/discussions/dis07a-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis07b.pdf">Discussion 07b: Conditional Probability</a> (<a href="static/discussions/dis07b-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis08a.pdf">Discussion 08a: Union Bound, Inclusion-Exclusion</a> (<a href="static/discussions/dis08a-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis08b.pdf">Discussion 08b: Random Variables</a> (<a href="static/discussions/dis08b-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis09a.pdf">Discussion 09a: Expectation, Linearity</a> (<a href="static/discussions/dis09a-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis09b.pdf">Discussion 09b: Geometric, Poisson, Variance</a> (<a href="static/discussions/dis09b-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis10a.pdf">Discussion 10a: Variance, Joint Distributions</a> (<a href="static/discussions/dis10a-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis10b.pdf">Discussion 10b: Joint Distributions, Continuous Probability I</a> (<a href="static/discussions/dis10b-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis11a.pdf">Discussion 11a: Joint Continuous Distributions, Uniform/Exponential</a> (<a href="static/discussions/dis11a-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis11b.pdf">Discussion 11b: Gaussian Distributions</a> (<a href="static/discussions/dis11b-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis12a.pdf">Discussion 12a: Markov's/Chebyshev's Inequalities, WLLN</a> (<a href="static/discussions/dis12a-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis12b.pdf">Discussion 12b: LLSE, MMSE</a> (<a href="static/discussions/dis12b-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis13a.pdf">Discussion 13a: Continuous Estimation, Markov Chains</a> (<a href="static/discussions/dis13a-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/discussions/dis13b.pdf">Discussion 13b: Markov Chains II, Fun</a> (<a href="static/discussions/dis13b-sol.pdf">solution</a>)</li>
+                
+            
+            </ul>
+            <div class="trigger" resource="discussions">Expand</div>
+        </div>
+    </section>
+    <section class="standard-text wrap-container">
+        <div class="wrap">
+            <h2 class="standard-title">Homeworks</h2>
+            <p>All homeworks are graded for accuracy and it is highly-recommended that you do them. Your lowest <b>two</b> homework scores will be dropped, but these drops should be reserved for emergencies. <b>The TeX files we provide are not meant to be compiled. They are just provided as a reference.</b> See <a href="syllabus/index.html#materials">Syllabus</a> for more information.</p>
+            <ul class="lists two-col animate-3" resource="homeworks">
+            
+                
+                
+                
+                <li><a href="static/homeworks/hw00.pdf">Homework 00: Course Logistics</a> (<a href="static/homeworks/hw00.tex">TeX</a>) (<a href="static/homeworks/hw00-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/homeworks/hw01.pdf">Homework 01: Propositional Logic, Proofs, Induction</a> (<a href="static/homeworks/hw01.tex">TeX</a>) (<a href="static/homeworks/hw01-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/homeworks/hw02.pdf">Homework 02: Induction, Stable Marriage, Graph Theory</a> (<a href="static/homeworks/hw02.tex">TeX</a>) (<a href="static/homeworks/hw02-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/homeworks/hw03.pdf">Homework 03: Graph Theory, Modular Arithmetic</a> (<a href="static/homeworks/hw03.tex">TeX</a>) (<a href="static/homeworks/hw03-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/homeworks/hw04.pdf">Homework 04: Modular Arithmetic</a> (<a href="static/homeworks/hw04.tex">TeX</a>) (<a href="static/homeworks/hw04-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/homeworks/hw05.pdf">Homework 05: RSA, Polynomials</a> (<a href="static/homeworks/hw05.tex">TeX</a>) (<a href="static/homeworks/hw05-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/homeworks/hw06.pdf">Homework 06: Secret Sharing, Error Correcting, Countability</a> (<a href="static/homeworks/hw06.tex">TeX</a>) (<a href="static/homeworks/hw06-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/homeworks/hw07.pdf">Homework 07: Countability, Computability, Counting</a> (<a href="static/homeworks/hw07.tex">TeX</a>) (<a href="static/homeworks/hw07-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/homeworks/hw08.pdf">Homework 08: Combinatorial Proofs, Probability</a> (<a href="static/homeworks/hw08.tex">TeX</a>) (<a href="static/homeworks/hw08-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/homeworks/hw09.pdf">Homework 09: Random Variables, Distributions</a> (<a href="static/homeworks/hw09.tex">TeX</a>) (<a href="static/homeworks/hw09-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/homeworks/hw10.pdf">Homework 10: Geometric, Poisson, Variance, Joint Distributions</a> (<a href="static/homeworks/hw10.tex">TeX</a>) (<a href="static/homeworks/hw10-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/homeworks/hw11.pdf">Homework 11: Joint Distributions, Continuous Probability</a> (<a href="static/homeworks/hw11.tex">TeX</a>) (<a href="static/homeworks/hw11-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/homeworks/hw12.pdf">Homework 12: Conditional Continuous Distributions, Gaussians, Markov's/Chebyshev's Inequalities</a> (<a href="static/homeworks/hw12.tex">TeX</a>) (<a href="static/homeworks/hw12-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/homeworks/hw13.pdf">Homework 13: Estimation, Markov Chains</a> (<a href="static/homeworks/hw13.tex">TeX</a>) (<a href="static/homeworks/hw13-sol.pdf">solution</a>)</li>
+                
+            
+                
+                
+                
+                <li><a href="static/homeworks/hw14.pdf">Homework 14: Markov Chains Practice (Optional)</a> (<a href="static/homeworks/hw14.tex">TeX</a>) (<a href="static/homeworks/hw14-sol.pdf">solution</a>)</li>
+                
+            
+            </ul>
+            <div class="trigger" resource="homeworks">Expand</div>
+        </div>
+    </section>
+    <section class="standard-text wrap-container">
+        <div class="wrap">
+            <h2 class="standard-title">Lecture Slides</h2>
+            <ul class="lists two-col animate-3" resource="slides">
+            
+                
+                
+                
+                    <li> 
+                    
+                        <a href="static/slides/lec-1-handout.pdf">Lecture 1</a>: Introduction, Propositional Logic (<a href="static/slides/lec-1.pdf">full</a>) (<a href="static/slides/lec-1-6up.pdf">6up</a>) 
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=Z5C9u_tu6is">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        <a href="static/slides/lec-2-handout.pdf">Lecture 2</a>: Proofs/Induction (<a href="static/slides/lec-2.pdf">full</a>) (<a href="static/slides/lec-2-6up.pdf">6up</a>) 
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=W-76MxqpePA">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        <a href="static/slides/lec-3-handout.pdf">Lecture 3</a>: Induction. (<a href="static/slides/lec-3.pdf">full</a>) (<a href="static/slides/lec-3-6up.pdf">6up</a>) 
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=bLegWRJRBo4">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        <a href="static/slides/lec-4-handout.pdf">Lecture 4</a>: Induction/Stable Marriage (<a href="static/slides/lec-4.pdf">full</a>) (<a href="static/slides/lec-4-6up.pdf">6up</a>) 
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=eHASQMII_Cc">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        <a href="static/slides/lec-5-handout.pdf">Lecture 5</a>: Graphs (<a href="static/slides/lec-5.pdf">full</a>) (<a href="static/slides/lec-5-6up.pdf">6up</a>) 
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=Ox7Qrpkbqb0">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        <a href="static/slides/lec-6-handout.pdf">Lecture 6</a>: More Graphs (<a href="static/slides/lec-6.pdf">full</a>) (<a href="static/slides/lec-6-6up.pdf">6up</a>) 
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=89l6kzxZlUA">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        <a href="static/slides/lec-7-handout.pdf">Lecture 7</a>: Modular Arithmetic (<a href="static/slides/lec-7.pdf">full</a>) (<a href="static/slides/lec-7-6up.pdf">6up</a>) 
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=-sW_nQjNbi4">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        <a href="static/slides/lec-8-handout.pdf">Lecture 8</a>: Euclid/CRT/MT Review (<a href="static/slides/lec-8.pdf">full</a>) (<a href="static/slides/lec-8-6up.pdf">6up</a>) 
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=fnoSLu8JeAw">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        <a href="static/slides/lec-9-handout.pdf">Lecture 9</a>: RSA (<a href="static/slides/lec-9.pdf">full</a>) (<a href="static/slides/lec-9-6up.pdf">6up</a>) 
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=dPOJdckIyTg">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        <a href="static/slides/lec-10-handout.pdf">Lecture 10</a>: Secrets and Errors (<a href="static/slides/lec-10.pdf">full</a>) (<a href="static/slides/lec-10-6up.pdf">6up</a>) 
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=IkKv0Yap0SE">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        <a href="static/slides/lec-11-handout.pdf">Lecture 11</a>: Corruptions (<a href="static/slides/lec-11.pdf">full</a>) (<a href="static/slides/lec-11-6up.pdf">6up</a>) 
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=NieZA02Yxmc">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        <a href="static/slides/lec-12-handout.pdf">Lecture 12</a>: Countability/Undecidability (<a href="static/slides/lec-12.pdf">full</a>) (<a href="static/slides/lec-12-6up.pdf">6up</a>) 
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=KonFL932KzI">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        <a href="static/slides/lec-13-handout.pdf">Lecture 13</a>: Counting (<a href="static/slides/lec-13.pdf">full</a>) (<a href="static/slides/lec-13-6up.pdf">6up</a>) 
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=itZnBiSMxPw">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        <a href="static/slides/lec-14-handout.pdf">Lecture 14</a>: Probability (<a href="static/slides/lec-14.pdf">full</a>) (<a href="static/slides/lec-14-6up.pdf">6up</a>) 
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=LcF0Jm_YMCE">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        <a href="static/slides/lec-15-handout.pdf">Lecture 15</a>: Conditional Probability, Bayes (<a href="static/slides/lec-15.pdf">full</a>) (<a href="static/slides/lec-15-6up.pdf">6up</a>) 
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=OhoNS2Z_-i4">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        Lecture 16: Probability, Union Bound
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=kmxwK9XMQG4">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        Lecture 17: Conditional Probability, Binomial Distribution
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=GbTLQOdFGo4">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        Lecture 18: Random Variables, Expectation, Geomtric Distribution
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=Lo7br5u7ncc">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        Lecture 19: Geometric/Poisson Distributions, Variance
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=-JUsp1s2T5g">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        Lecture 20: Joint/Conditional Distributions, Intro to Continuous Probability
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=PTMKyJdaMg4">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        Lecture 21: Continuous PDFs/CDFs, Uniform/Exponential Distributions
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=P1kHhJn5eGI">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        Lecture 22: Exponential Distributions, Joint Continuous Distributions
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=l7_d2gClbwQ">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        Lecture 23: Conditional Continuous Distributions, Gaussians
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=NJQSZPIS2Ak">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        Lecture 24: Gaussians, Markov's/Chebyshev's Inequalities
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=5NBi_aQU-5U">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        Lecture 25: LLSE
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=Ywj9l_aZb80">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        Lecture 26: Conditional Expectation, Markov Chains
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=v2amQoFAoSE">webcast</a>)  
+                    
+                    </li>
+                
+            
+                
+                
+                
+                    <li> 
+                    
+                        Lecture 27: Markov Chains
+                    
+                    
+                     (<a href="https://www.youtube.com/watch?v=gAHwIRCWIko">webcast</a>)  
+                    
+                    </li>
+                
+            
+            </ul>
+            <div class="trigger" resource="slides">Expand</div>
+        </div>
+    </section>
+</main>
+
+        <footer class="footer-links wrap-container">
+    <div class="wrap">
+                <div class="col col-md-3">
+            <h3><a href="calendar/index.html">Calendar</a></h3>
+        </div>
+        <div class="col col-md-3">
+            <h3><a href="resources/index.html">Resources</a></h3>
+            <ul class="lists">
+                <li><a href="resources/index.html#videos">Videos</a></li>
+                <li><a href="resources/index.html#latex">LaTeX</a></li>
+                <li><a href="resources/index.html#tips">Tips</a></li>
+            </ul>
+        </div>
+        <div class="col col-md-3">
+            <h3><a href="syllabus/index.html">Syllabus</a></h3>
+            <ul class="lists">
+                <li><a href="syllabus/index.html#technology">Technology</a></li>
+                <li><a href="syllabus/index.html#exams">Exams</a></li>
+                <li><a href="syllabus/index.html#materials">Materials</a></li>
+                <li><a href="syllabus/index.html#cheating">Cheating</a></li>
+                <li><a href="syllabus/index.html#collaboration">Collaboration</a></li>
+                <li><a href="syllabus/index.html#grading">Grading</a></li>
+                <li><a href="syllabus/index.html#piazza-etiquette">Piazza
+                    Etiquette</a></li>
+            </ul>
+        </div>
+        <div class="col col-md-3">
+            <h3>Meta</h3>
+            <ul class="lists">
+                <li><a href="staff/index.html">Staff</a></li>
+                <li><a href="http://practice.eecs70.org/">Practice Problems</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+    </body>
+
+<!-- Mirrored from www.eecs70.org/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:10:50 GMT -->
+</html>

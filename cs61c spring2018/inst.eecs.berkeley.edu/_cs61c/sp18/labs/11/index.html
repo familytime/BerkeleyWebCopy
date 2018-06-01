@@ -1,0 +1,283 @@
+<html>
+
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/11/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:54:14 GMT -->
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+	<title>CS61C Spring 2018 Lab 11</title>
+	<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+<div class="header">
+    <div class='header-text'>
+	<h1>CS61C Spring 2018 Lab 11 - Thread-Level Parallelism with OpenMP</h1>
+    </div>
+</div>
+
+<div class="content">
+
+	<div class="section" id="goals">
+		<h2><a name="goals">Goals</a></h2>
+		<p>This semester, you have been developing on the new Dell Optiplex 9020 Workstations in 330 Soda, colloquially known as the "Hive Machines." These are equipped with an Intel 3.4GHz i7 quad-core cpu with 32GB RAM (4x8GB) and 8 threads. Today, you will finally get a chance to take advantage of the multiple cores and threads. 
+		</p>
+	</div>
+
+	<div class="section" id="reading">
+		<h2><a name="reading">Additional Reference</a></h2>
+		<ul class="simple">
+			<li><a href="http://openmp.org/mp-documents/omp-hands-on-SC08.pdf">
+
+				Hands On Introduction to OpenMP</a></li>
+			<li><a href="http://openmp.org/wp/resources/#Tutorials">
+				Official OpenMP Tutorial Listing</a></li>
+		</ul>
+	</div>
+
+	<h2>The Lab Files</h2>
+<p>Copy the lab files from the instructional servers to your lab account with</p>
+  <pre class="output">$ <span class="input">cp -r ~cs61c/labs/11/ ~/labs/11/</span></pre>
+
+<br>
+<div class="document" id="cs61c-lab-14">
+	<h2><a name="intro">Introduction to OpenMP</a></h2>
+	<div class="section" id="intro">
+		<h3><a name="basics">Basics</a></h3>
+    <br>
+    <b>Please read, we will test you on this.</b>
+		<p> OpenMP is a parallel programming framework for C/C++ and Fortran. It has gained quite
+	a bit of traction in recent years, primarily due to its simplicity and
+	good performance. In this lab we will be taking a quick peek at a small
+	fraction of its features, but the links in the Additional Reference section
+	can provide more information and tutorials for the interested.</p>
+
+		<p>There are many types of parallelism and patterns for exploiting it.
+    OpenMP chooses to use a nested fork-join model. By default, an OpenMP
+    program is a normal sequential program, except for regions that the
+    programmer explicitly declares to be executed in parallel. In the parallel
+    region, the framework creates (forks) a set number of threads. Typically
+    these threads all execute the same instructions, just on different
+    portions of the data. At the end of the parallel region, the framework
+    waits for all threads to complete (join) before it leaves that region and
+    continues sequentially.</p>
+
+		<center><img src="forkjoin.jpg"></center>
+
+		<p>OpenMP uses <em>shared memory</em>, meaning all threads can access the
+    same address space. The alternative to this is <em>distributed
+    memory</em>, which is prevalent on clusters where data must be explicitly
+    moved between address spaces. Many programmers find shared memory easier
+    to program since they do not have to worry about moving their data, but it
+    is usually harder to implement in hardware in a scalable way. Later in the
+    lab we will declare some memory to be "thread local" (accessible only by the
+    thread that created it) for performance reasons, but the programming
+    framework provides the flexibility for threads to share memory without
+    programmer effort.</p>
+	</div>
+
+	<div class="section" id="hello1">
+		<h3><a name="hello1">Hello World Example</a></h3>
+		<p>For this lab, we will use C to leverage our prior programming 
+		experience with it. OpenMP is a framework with a C interface, and it is 
+		not a built-in part of the language. Most OpenMP features are actually 
+		directives to the compiler. Consider the following implementation of 
+		Hello World (<code>hello.c</code>):
+		<pre class="literal-block">
+int main() {
+  #pragma omp parallel
+  {
+    int thread_ID = omp_get_thread_num();
+    printf(" hello world %d\n", thread_ID);
+  }
+}</pre>
+
+		<p>This program will fork off the default number of threads and each
+    thread will print out "hello world" in addition to which thread number it
+    is. You can change the number of OpenMP threads by setting the environment variable OMP_NUM_THREADS or by using the <a href="https://gcc.gnu.org/onlinedocs/libgomp/omp_005fset_005fnum_005fthreads.html"><code>omp_set_num_threads</code></a> function in your program. The <code>#pragma</code> tells the compiler that the rest of the line
+    is a directive, and in this case it is <code>omp parallel</code>.
+    <code>omp</code> declares that it is for OpenMP and <code>parallel</code>
+    says the following code block (what is contained in { }) can be executed
+    in parallel. Give it a try:</p>
+
+		<pre class="output">
+$ <span clas/s='input'>make hello</span>
+$ <span class='input'>./hello</span></pre>
+
+		<p><b>Task</b>: Run the command <tt>./hello</tt> a few times.
+		<b>Notice</b> how the numbers are not necessarily in numerical order and not
+    in the same order <b>if you run <code>hello</code> multiple times!!</b> This is
+    because within a <code>omp parallel</code> region, the programmer
+    guarantees that the operations can be done in parallel, and there is no
+    ordering between the threads. It is also worth noting that the variable
+    <code>thread_ID</code> is <b>local</b> to each thread. In general with OpenMP,
+    variables declared outside an <code>omp parallel</code> block have only one
+    copy and are shared amongst all threads, while variables declared within a
+    <code>omp parallel</code> block have a private copy for each thread.</p>
+
+    
+	</div>
+</div>
+
+
+<div class="section" id="exercises">
+	<h2>Exercises</h2>
+	<div class="section" id="exercise-1-v_add">
+		<h3><a name="exercise-1-v_add">Exercise 1: Vector Addition</a></h3>
+		<p>Vector addition is a naturally parallel computation, so it makes for a good 
+		first exercise. The <code>v_add</code> function inside 
+		<code>v_add.c</code> will return the array that is the cell-by-cell 
+		addition of its inputs <code>x</code> and <code>y</code>. A first attempt 
+		at this might look like:</p>
+
+		
+		<pre class="literal-block">
+void v_add(double* x, double* y, double* z) {
+  #pragma omp parallel
+  {
+    for(int i=0; i&#60;ARRAY_SIZE; i++)
+      z[i] = x[i] + y[i];
+  }
+}</pre>
+
+		<p>You can run this (<code>make v_add</code> followed by
+    <code>./v_add</code>) and the testing framework will automatically time it
+    and vary the number of threads. You will see that this actually seems to
+    do worse as we increase the number of threads. The <b>issue</b> is that each
+    thread is executing <b>all</b> of the code within the <code>omp parallel</code>
+    block, meaning if we have 8 threads, we will actually be adding the
+    vectors 8 times. <b>DON'T DO THIS!</b> To get speedup when increasing the number of threads, we
+    need each thread to do less work, not the same amount as before.</p>
+
+		<center><img src="decomp.jpg"></center>
+		
+		<p>Your task is to modify <code>v_add.c</code> so there is some speedup (speedup may plateau as the number of threads continues to increase). <b>The best way to do this is to decrease the amount of work each thread does.</b>
+To aid you in this process, two useful OpenMP functions are:</p>
+	
+		<pre class="literal-block">
+int omp_get_num_threads();
+int omp_get_thread_num();</pre>
+
+		<p>The function <code>omp_get_num_threads()</code> will return how many
+    threads there are in a <code>omp parallel</code> block, and
+    <code>omp_get_thread_num()</code> will return the thread ID.</p>
+<p>
+Divide up the work for each thread through two different methods (write different code for each of these methods):
+<ul>
+	<li>First task, <b>slicing</b>: have each thread handle adjacent sums: i.e. Thread 0 will add the 		elements at indices <tt>i</tt> such that <tt>i % omp_get_num_threads()</tt> is <tt>0</tt>, Thread 1 will add the elements where <tt>i % omp_get_num_threads()</tt> is <tt>1</tt>, etc. <b>Note</b>: This 	method will not be very efficient. It will encounter the problem known 	as <a
+    href="http://en.wikipedia.org/wiki/False_sharing">false sharing</a>.</li>
+	<li>Second task, <b>chunking</b>: if there are N threads, break the vectors into N contiguous chunks, and have each thread only add that chunk (like the figure above).</li>
+</ul>
+</p>
+<p><b>Hint</b>: Use the two functions we listed above somehow in the for loop to choose which elements
+each thread handles.</p>
+<p><b>Hint2</b>: You may need a special case to prevent going out of bounds for <tt>v_add_optimized_chunks</tt>. <b>Don't</b> be afraid
+to write one.</p>
+
+		<p><b>Fact</b>: For this exercise, we are asking you to manually split the work amongst
+    threads. Since this is such a common pattern for software, the designers
+    of OpenMP actually made the <code>for</code> directive to automatically split up
+    independent work. Here is the function rewritten using it. <strong>You may NOT use
+    this directive in your solution to this exercise</strong>.</p>
+		
+		<pre class="literal-block">
+void v_add(double* x, double* y, double* z) {
+  #pragma omp parallel
+  {
+    #pragma omp for
+    for(int i=0; i&#60;ARRAY_SIZE; i++)
+      z[i] = x[i] + y[i];
+  }
+}</pre>
+    <b> If your optimized versions of v_add is surprisingly slow, it's probably due to the hive machine being overloaded. Use 'who' command to see how many users you are sharing your hive machine with. </b>
+		<div class="section" id="ex1">
+        <div class='checkoff'>
+			<h4><a name="id1">Checkoff [1/2]</a></h4>
+			<ul>
+				<li>Show the TA your code for both optimized versions of <code>v_add</code> that manually splits up 
+					the work. </li>
+				<li>Run your code to show that it gets parallel speedup</li>
+				<li>Why does the <tt>chunks</tt> version outperform the <tt>adjacent</tt> version?</li>
+			</ul>
+        </div>
+		</div>
+	</div>
+
+
+  	<div class="section" id="exercise-2-dotp">
+		<h3><a name="exercise-2-dotp">Exercise 2: Dot Product</a></h3>
+		<p>The next interesting computation we want to compute is the <a
+    href="http://en.wikipedia.org/wiki/Dot_product">dot product</a> of two
+    vectors. At first glance, implementing this might seem not too different
+    from <code>v_add</code>, but the challenge is how to sum up all of the
+    products into the same variable (reduction). A sloppy handling of reduction
+	may lead to <b>data races</b>: all the threads are trying to read and write to
+	 the same address simultaneously. One solution is to use a <b>critical section</b>. The code in
+	a critical section can only be executed by a single thread at any given time. 
+	Thus, having a critical section naturally prevents multiple threads from
+	reading and writing to the same data, a problem that would otherwise lead
+	 to data races. A naive implementation would
+    protect the sum with a critical section, like 
+    (<code>dotp.c</code>):</p>
+
+	
+		<pre class="literal-block">
+double dotp(double* x, double* y) {
+  double global_sum = 0.0;
+  #pragma omp parallel
+  {
+    #pragma omp for
+    for(int i=0; i&#60;ARRAY_SIZE; i++)
+      #pragma omp critical
+        global_sum += x[i] * y[i];
+  }
+  return global_sum;
+}</pre>
+
+		<p>Try out the code (<code>make dotp</code> and <code>./dotp</code>).
+    Notice how the performance gets <em>much</em> worse as the number of
+    threads goes up? By putting all of the work of reduction in a critical section, we have 
+    flattened the parallelism and made it so only one thread can do useful work 
+    at a time (not exactly the idea behind thread-level parallelism). 
+	This <em>contention</em> is problematic; each thread is constantly fighting
+	for the critical section and only one is making any progress at any given time. As the number of
+    threads goes up, so does the contention, and the performance pays the
+    price. Can you fix this performance bottleneck? <b>Hint</b>: REDUCE the number of times
+    that each thread needs to use a critical section!</p>
+
+		<p>First <b>task</b>: try fixing this code <b>without using the OpenMP Reduction 
+    keyword</b>. Hint: Try reducing the number of times a thread must
+    add to the shared <code>global_sum</code> variable.</p>
+    
+    <p>Second <b>task</b>: fix the problem <b>using OpenMP's built-in Reduction keyword</b> (Google for more information on it).
+    Is your performance any better than in the case of the manual fix? Why or why not?</p>
+
+    <p><b>Note</b>: The exact syntax for using these directives can be kind of confusing. Here's what I've noticed:
+    <ul>
+    	<li>A <tt>#pragma omp parallel</tt> section can be specified with curly braces around the block of code to be parallelized.</li>
+    	<li>A <tt>#pragma omp for</tt> section should not be accompanied with extra curly braces. Just stick that directive directly above
+    	a <tt>for</tt> loop.</li>
+    </ul>
+    <p><b>Hint</b>: You'll need to type the '+' operator somewhere when using <tt>reduction</tt>.
+    <p><b>Sanity check</b>: If you've used the <tt>reduction</tt> keyword correctly, you shouldn't have a critical section
+    anymore.</p>
+
+		<div class="section" id="ex2">
+        <div class='checkoff'>
+			<h4><a name="id2">Checkoff [2/2]</a></h4>
+			<ul>
+			<li>Show the TA your manual fix to <code>dotp.c</code> that gets speedup 
+            over the single threaded case.</li>
+        	<li>Show the TA your Reduction keyword fix for <code>dotp.c</code>,
+        	and explain the difference in performance, if there is any.</li>
+        	<li>Run your code to show the speedup.</li>
+          </ul>
+		</div>
+        </div>
+	</div>
+
+	
+</div>
+</div>
+</body>
+
+<!-- Mirrored from inst.eecs.berkeley.edu/~cs61c/sp18/labs/11/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 May 2018 00:54:15 GMT -->
+</html>

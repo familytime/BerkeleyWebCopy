@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec37/lec37 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:47 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Tries Guide | CS 61B Spring 2018</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Computer Science 61B: Data Structures">
+    <meta name="keywords" content="CS61B, Computer Science, CS, 61B, Data Structures, Josh Hug, Berkeley, EECS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../assets/images/josh4.html">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/sunburst.css">
+    
+    
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/lab.css">
+    
+
+    <script src="../../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../assets/js/script.js"></script>
+    <script src="../../../assets/js/cheet.min.js"></script>
+    
+</head>
+
+<body>
+<div id="navbar" class="navbar-top">
+	<div id="navitems">
+        <a href="../../../index-2.html"><div class="navitem">Main</div></a>
+        <a href="../../../about.html"><div class="navitem">Course Info</div></a>
+        <a href="../../../staff.html"><div class="navitem">Staff</div></a>
+        <a href="../../../resources.html"><div class="navitem">Resources</div></a>
+        <a href="https://piazza.com/berkeley/spring2018/cs61b" target="_blank"><div class="navitem">Piazza</div></a>
+        <a href="https://oh.datastructur.es/" target="_blank"><div class="navitem">OH Queue</div></a>
+    </div>
+</div>
+
+    <div id="content-container" class="content-spacer">
+        <main id="content">
+            <header class="title">Tries Guide</header><div class="due-date">Author: Josh Hug</div><ul id="markdown-toc">
+  <li><a href="#overview" id="markdown-toc-overview">Overview</a></li>
+  <li><a href="#recommended-problems" id="markdown-toc-recommended-problems">Recommended Problems</a>    <ul>
+      <li><a href="#c-level" id="markdown-toc-c-level">C level</a></li>
+      <li><a href="#b-level" id="markdown-toc-b-level">B level</a></li>
+      <li><a href="#a-level" id="markdown-toc-a-level">A level</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="overview">Overview</h2>
+
+<p><strong>Summary.</strong> The sort problem is to take a sequence of objects and put them into
+the correct order. The search problem is to store a collection of objects such
+that they can be rapidly retrieved (i.e. how do we implement a Map or Set). We
+made the obersvation that BST maps are roughly analagous to comparison based
+sorting, and hash maps are roughly analagous to counting based (a.k.a. integer)
+sorting. We observed that we have a 3rd type of sort, which involves sorting by
+digit, which raised the question: What sort of data structure is analogous to
+LSD or MSD sort?</p>
+
+<p><strong>Terminology.</strong></p>
+
+<ul>
+  <li>Length of string key usually represented by L.</li>
+  <li>Alphabet size usually represented by R.</li>
+</ul>
+
+<p><strong>Tries.</strong> Analogous to LSD sort. Know how to insert and search for an item in a
+Trie. Know that Trie nodes typically do not contain letters, and that instead
+letters are stored implicitly on edge links. Know that there are many ways of
+storing these links, and that the fastest but most memory hungry way is with an
+array of size R. We call such tries R-way tries.</p>
+
+<p><strong>TSTs.</strong> Instead of R links, a TST node has only 3 links. Know how to insert
+and search for an item in a ternary search trie. Be aware that TSTs can become
+unbalanced. (As an aside that we won’t cover in class, TSTs are analgous to a
+sort known as 3-way radix quicksort, which is just quicksort applied digit by
+digit). Each node typically contains a character, except the root, which
+contains no character.</p>
+
+<p><strong>Advantages of Tries and TSTs.</strong> Both flavors of tries have very fast lookup
+times, as we only ever look at as many characters as they are in the data we’re
+trying to retrieve. However, their chief advantage is the ability to efficiently
+support various operations not supported by other map/set implementations
+including:</p>
+<ul>
+  <li>longestPrefixOf</li>
+  <li>prefixMatches</li>
+  <li>spell checking</li>
+</ul>
+
+<!--**Speed migitag.** The speedup for tries is diminished in impact by the fact that retrieving digits one-by-one in a language like Java is likely to be a lot slower than retrieval all at one (as we might imagine a built in comparison function).
+
+Another not-so-important note: Another potential advantage of a trie over other datatypes is a more efficient use of space, given that the same letter may be shared by many strings. However, in practice, tries tend to require more memory than a naive String implementation because of the high cost of storing a bunch of links and the fact that strings don't tend to overlap THAT much. -->
+
+<!--You should be able to build either an R-way Trie and TST. You should be able to search in either a R-way Trie and TST. You should be able to delete from an R-way trie. You should appreciate how a TST can become unbalanced with inserts.
+Given a graphical depiction of either an R-way trie or TST, you should be able to tell which keys are in the trie.
+Hash Tables and LLRBs with String keys
+With String keys, we don't want to think about counting compareTo() or hashCode() and equals() calls. Why? What do we think about instead?
+Know (but you do not have to prove) that LLRBs take order of growth lg2 N charAt() calls to compare random strings. Based on this, a hit is order L + lg2 N.
+Understand why hash tables are L charAt() calls on a hit or miss (assuming no collisions!)
+Tries
+Special structure such that you only look at each letter one time. Trivially, misses and hits have a maximum run time of L.
+Be aware that for random inputs, search misses only take an average of logR N.
+Why do R-way tries use such a huge amount of memory? How much memory in terms of L and R?
+What are the two ways of determining that a key does not exist in a trie?
+TSTS
+When looking for a single character, why is it possible to follow as many as R links before you complete the search for that character?
+If the TST is balanced, typical case inserts and hits cost L + lg N character compares, and typical misses cost lg N character compares.
+If the TST is not balanced, worst case hits, misses, and inserts all include H, where H is the height of the tree.-->
+
+<h2 id="recommended-problems">Recommended Problems</h2>
+
+<p>Throughout, we define R as the size of the alphabet, and N as the number of
+items in a trie.</p>
+
+<h3 id="c-level">C level</h3>
+
+<ol>
+  <li>
+    <p>Problem 5 from <a href="http://www.cs.princeton.edu/courses/archive/spring15/cos226/exams/fin-s08.pdf">Princeton’s Spring 2008 final</a>.</p>
+  </li>
+  <li>
+    <p>Problem 8 from <a href="http://www.cs.princeton.edu/courses/archive/spring15/cos226/exams/fin-f11.pdf">Princeton’s Spring 2011 final</a>.</p>
+  </li>
+  <li>
+    <p>Problem 8 from <a href="http://www.cs.princeton.edu/courses/archive/spring15/cos226/exams/fin-f12.pdf">Princeton’s Spring 2012 final</a>.</p>
+  </li>
+  <li>
+    <p>Draw the R-way trie and TST that result after inserting the strings: sam,
+sad, sap, same, a, awls.</p>
+  </li>
+</ol>
+
+<h3 id="b-level">B level</h3>
+
+<ol>
+  <li>
+    <p>When looking for a single character string in a Trie, what is the worst case
+time to find that string in terms of R and N? In a TST?</p>
+  </li>
+  <li>
+    <p>Problem 5 from <a href="http://www.cs.princeton.edu/courses/archive/spring15/cos226/exams/fin-f09.pdf">Princeton’s Fall 2009 final</a>.</p>
+  </li>
+  <li>
+    <p>Problem 9 from <a href="http://www.cs.princeton.edu/courses/archive/spring15/cos226/exams/fin-s12.pdf">Princeton’s Fall 2012 final</a>.</p>
+  </li>
+  <li>
+    <p>Problem 1 from <a href="http://www.cs.princeton.edu/courses/archive/fall13/cos226/exams/fin-f13.pdf">my Fall 2013 final</a>.</p>
+  </li>
+  <li>
+    <p>Give an example of an input that causes a TST to be unbalanced, and thus slow.</p>
+  </li>
+  <li>
+    <p>True or false: The number of character compares required to construct an
+R-way trie is always less than or equal to the number required to construct
+an LLRB.</p>
+  </li>
+  <li>
+    <p>True or false: The number of character compares required to construct an
+R-way trie is always less than or equal to the number of character accesses
+needed to construct a hash table.</p>
+  </li>
+</ol>
+
+<h3 id="a-level">A level</h3>
+
+<ol>
+  <li>
+    <p>What is the worst case runtime to find a single character string in a
+perfectly balanced TST in terms of R and N?</p>
+  </li>
+  <li>
+    <p>There are many different data structures that we can use to store the
+children of an R-way trie node. The simplest but most memory hungry choice is
+to create an array of length R, with one link per character in the trie. A
+second choice is to have each node contain a TreeMap that maps a given
+character to the appropriate node. A third choice is to use HashMaps instead
+of TreeMaps. is to have each node contain a TreeMaps, some of you used R-way
+trie nodes that contained HashMaps, and some of you used TST nodes. For the
+“average” node, which of these three choices is likely to use the most
+memory? Why does this mean that this type of node takes longer to construct?</p>
+  </li>
+  <li>
+    <p>Suppose we use an R-way trie to implement a set. For each of the three
+implementations of an R-way trie node described in problem 2, what are the
+best and worst case key lookup times in terms of R an N?</p>
+  </li>
+  <li>
+    <p>Problem 9 from <a href="http://datastructur.es/sp16/materials/exam/CS61B_Fall2014_MT2.pdf">my Fall 2014 midterm
+2</a>.</p>
+  </li>
+</ol>
+</main>
+    </div>
+</body>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"]]}
+  });
+</script>
+<script type="text/javascript"
+   src="../../../../cdn.mathjax.org/mathjax/latest/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  $("#markdown-toc").insertBefore("#content");
+</script>
+
+<!-- Mirrored from sp18.datastructur.es/materials/lectures/lec37/lec37 by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 May 2018 23:20:47 GMT -->
+</html>

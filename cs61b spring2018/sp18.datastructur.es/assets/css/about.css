@@ -1,0 +1,88 @@
+table {
+    margin: auto;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 700px;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+td {
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 300;
+    text-align: center;
+    min-width: 100px;
+}
+#grading-bins td {
+    min-width: 0px;
+}
+#grade-breakdown > tbody > tr:nth-child(2n+1) {
+    background-color: #EEE;
+}
+
+#letter-grades td {
+    min-width: 0px;
+}
+.redtext {
+    color: red;
+}
+
+pre, ol, ul {
+    max-width: 700px;
+    margin: auto;
+}
+
+/* Credit: https://codepen.io/desirecode/pen/MJPJqV */
+#scroll {
+  position:fixed;
+  right:30px;
+  bottom:20px;
+  cursor:pointer;
+  width:50px;
+  height:50px;
+  background-color:#2F86EB;
+  text-indent:-9999px;
+  display:none;
+  -webkit-border-radius:60px;
+  -moz-border-radius:60px;
+  border-radius:60px
+}
+
+#scroll span {
+  position:absolute;
+  top:50%;
+  left:50%;
+  margin-left:-8px;
+  margin-top:-12px;
+  height:0;
+  width:0;
+  border:8px solid transparent;
+  border-bottom-color:#ffffff;
+}
+
+#scroll:hover {
+  background-color:#2065C4;
+  opacity:1;filter:"alpha(opacity=100)";
+  -ms-filter:"alpha(opacity=100)";
+}
+
+.about {
+  max-width: 750px;
+  margin: 15px auto !important;
+  padding: 15px;
+}
+
+#markdown-toc {
+  font-weight: 300;
+  font-size: 15px;
+}
+
+.about > p {
+  font-size: 15px;
+}
+
+.blue {
+  color: #2F86EB;
+}
